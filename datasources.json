@@ -1,0 +1,12 @@
+{
+  "datasources": [
+    {
+      "name" :  "mainDatasource",
+      "username" : "user",
+      "password" : "password",
+    }
+  ],
+  "packageDefinition" : {
+
+  }
+}
