@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Typings>
+    <Typing name="kwd_class" value="class"/>
+    <Typing name="class_definition">
+        <![CDATA[
+        @kwd_class@ %class_name% @kwd_extends@ %parent_class% @kwd_implements@ %implementation_class% @begin_class@
+
+        @class_attributes@
+        @class_methods@
+        @getters@
+        @setters@
+
+        @end_class@
+        ]]>
+    </Typing>
+</Typings>

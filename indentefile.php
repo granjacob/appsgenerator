@@ -28,13 +28,13 @@ $s->end_function();
 
 $s->declare_class( "BaseClass" );
 $s->begin_class();
-$s->public_attribute( "String", "nombre" );
+/*$s->public_attribute( "String", "nombre" );
 $s->public_attribute( "String", "telefono" );
 $s->public_attribute( "String", "numeroIdentificacion" );
 $s->public_attribute( "Integer", "nroAfiliados" );
-$s->public_attribute( "Double", "saldo" );
+$s->public_attribute( "Double", "saldo" );*/
 
-$s->public_attribute   ( "String", "nombre" )->
+$s->private_attribute  ( "String", "nombre" )->
                     ___( "String", "telefono" )->
                     ___( "String", "numeroIdentificacion" )->
                     ___( "Integer", "nroAfiliados" )->

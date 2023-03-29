@@ -16,12 +16,15 @@ class ScriptFile extends File {
     private $typingLevel;
     private $innerValue;
 
+    private $lastTypingExecuted;
+
 
 
     public function __construct()
     {
         $this->typingLevel = 0;
         $this->innerValue = false;
+        $this->lastTypingExecuted = null;
 
     }
 
@@ -58,14 +61,20 @@ class ScriptFile extends File {
         else {
             $this->innerValue = false;
             $typingName = $method;
+
+            if ($method === "___") {
+                $typingName = $this->lastTypingExecuted;
+               /* return call_array_user_func(
+                    array( $this, $this->lastTypingExecuted ), $args );*/
+            }
+            else
             if (strpos( $method, "__" ) === 0) {
                 $this->innerValue = true;
                 $typingName = substr( $method, 2, strlen( $method ) - 2  );
             }
 
-
-
             if ($this->typingExists($typingName)) {
+                $this->lastTypingExecuted = $typingName;
                 return $this->typeToFileContent($typingName, $args);
             }
 
@@ -99,9 +108,12 @@ class ScriptFile extends File {
 
             if (!$this->innerValue)
                 $this->fileContent .= $finalTyping;
+            else
+                return $finalTyping;
         }
 
-        return $finalTyping;
+        return $this;
+
         //return ($finalTyping == null ? "" : $finalTyping);
 
     }
