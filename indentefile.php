@@ -55,6 +55,14 @@ $s->end_class();
 
 $s->endTyping();
 
+
+$s->class_definition()->
+    _param("class_name", "NombreClase")->
+    _param("parent_class", "ClasePadre")->
+    _param("interface_name", "InterfaceName")->
+    __getters( "nombre,direccion,telefono,apellidos" )->
+    __setters( "nombre,direccion,telefono,apellidos" );
+
 // echo "\$nombreVariable = 'Hola mundo!';";
 
 // echo "\$nombreVariable = 'Hola mundo!';";

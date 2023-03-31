@@ -1,16 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Typings>
-    <Typing name="kwd_class" value="class"/>
-    <Typing name="class_definition">
-        <![CDATA[
-        @kwd_class@ %class_name% @kwd_extends@ %parent_class% @kwd_implements@ %implementation_class% @begin_class@
+<LanguageDefinition>
+    <TypingDefinitions>
+        <TypingDefinition name="access_modifier" value="public,private,protected"></TypingDefinition>
+        <TypingDefinition name="code_line" value="*"></TypingDefinition>
+    </TypingDefinitions>
+    <Typings>
 
-        @class_attributes@
-        @class_methods@
-        @getters@
-        @setters@
+        <Typing name="constructor_parameters" value="@method_parameters@"></Typing>
 
-        @end_class@
-        ]]>
-    </Typing>
-</Typings>
+        <Typing name="end_instruction" value=";"></Typing>
+        <Typing name="data_type" value="%data_type%[<%Type%>]"></Typing>
+        <Typing name="declare_variable" value="@data_type@ %variable_name%"></Typing>
+        <Typing name="new_variable" value="new @data_type@(@constructor_parameters@)"></Typing>
+        <Typing name="assign_variable" value="%variable_name% = %variable_value%"></Typing>
+
+        <Typing name="for_clause">
+            <![CDATA[
+            for (@declare_variable,@ ; %for_condition%; @for_count@) @for_begin@
+                @for_body@
+            @for_end@
+            ]]>
+        </Typing>
+
+        <Typing name="while_clause">
+            <![CDATA[
+            while (%while_condition%) @while_begin@
+                @while_body@
+            @while_end@
+            ]]>
+        </Typing>
+
+        <Typing name="do_while">
+            <![CDATA[
+            do (%do_while_condition%) @do_while_begin@
+                @do_while_body@
+            @do_while_end@
+            ]]>
+        </Typing>
+
+        <Typing name="switch_case">
+            <![CDATA[
+            switch (%case_value%) @switch_begin@
+                @switch_cases@
+                @switch_default@
+            @switch_end@
+            ]]>
+        </Typing>
+
+        <Typing name="declare_class" value="%access_modifier% class @class_name@"></Typing>
+        <Typing name="class_name" value="%className%[<%Type%>]"></Typing>
+        <Typing name="class_extends" value="extends @class_name@"></Typing>
+        <Typing name="class_attributes" value="@class_attribute,@"></Typing>
+        <Typing name="class_attribute" value="%access_modifier% %attribute_name%;"></Typing>
+        <Typing name="class_methods" value="@class_method\n@"></Typing>
+
+        <Typing name="method_parameters" value="@method_parameter,@"></Typing>
+        <Typing name="method_parameter" value="%data_type% %parameter_name%"></Typing>
+        <Typing name="method_body,for_body,while_body,do_while_body" value="@code_line\n@"/>
+
+        <Typing name="class_method">
+            <![CDATA[
+            %access_modifier% %return_type% %method_name%( @method_parameters@ ) @begin_method@
+                @method_body@
+            @end_method@
+            ]]>
+        </Typing>
+        <Typing name="constructors" value="">
+            <![CDATA[
+            %access_modifier% %class_name%( @method_parameters@ ) @begin_method@
+                @constructor_body@
+            @end_constructor@
+            ]]>
+        </Typing>
+        <Typing name="class_implements" value="implements @class_name,@"></Typing>
+
+        <Typing name="class_definition">
+            <![CDATA[
+            @declare_class@ [@class_extends@] [@class_implements@] @begin_class@
+
+                [@class_attributes@]
+                [@class_methods@]
+                [@constructors@]
+                [@getters@]
+                [@setters@]
+
+            @end_class@
+            ]]>
+        </Typing>
+
+        <Typing name="method_call" value="%method_name%( @method_parameters@ )"></Typing>
+    </Typings>
+</LanguageDefinition>
