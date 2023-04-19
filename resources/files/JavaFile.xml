@@ -14,9 +14,12 @@
         <Typing name="new_variable" value="new @data_type@(@constructor_parameters@)"></Typing>
         <Typing name="assign_variable" value="%variable_name% = %variable_value%"></Typing>
 
+
+        <Typing name="for_declaration" value="@declare_variable,@"/>
+        <Typing name="for_condition" value=""
         <Typing name="for_clause">
             <![CDATA[
-            for (@declare_variable,@ ; %for_condition%; @for_count@) @for_begin@
+            for (@for_declaration,@ ; %for_condition%; @for_count@) @for_begin@
                 @for_body@
             @for_end@
             ]]>
@@ -72,11 +75,11 @@
             @end_constructor@
             ]]>
         </Typing>
-        <Typing name="class_implements" value="implements @class_name,@"></Typing>
+        <Typing name="implements_class" value="implements @class_name,@"></Typing>
 
         <Typing name="class_definition">
             <![CDATA[
-            @declare_class@ [@class_extends@] [@class_implements@] @begin_class@
+            @declare_class@ [@class_extends@] [@implements_class@] @begin_class@
 
                 [@class_attributes@]
                 [@class_methods@]
