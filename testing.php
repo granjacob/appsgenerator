@@ -1,5 +1,9 @@
 <?php
 
+$v = "hola!";
+
+echo "hola";
+
 function funcCall( $param )
 {
     return "Hello world! $param";

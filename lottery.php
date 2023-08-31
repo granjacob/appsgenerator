@@ -1,14 +1,5 @@
 <?php
-$BET = 1000;
-for ($i = 0; $i < 28; $i++) {
 
-    $number = str_pad(rand(0,10000), 4, "0", STR_PAD_LEFT);
-    $day = $i + 1;
-    $PRICE = ($BET*$day);
-    echo $day . " : " . $number . ":" . $PRICE . "<br/>";
-}
-
-exit;
 
 // 0 = WHITE
 // 1 = BLACK
@@ -59,7 +50,21 @@ $letterColors = array("a" => "#Cbefd0",
 "w" => "#A6c911",
 "x" => "#000000",
 "y" => "#380473",
-"z" => "#Ffcf83", " " => "#ffffff" );
+"z" => "#Ffcf83", " " => "#ffffff",
+
+"0" => "#ffffff",
+"1" => "#000000",
+"2" => "#FFFF00",
+"3" => "#1BB7FF",
+"4" => "#9E3700",
+"5" => "#FFA500",
+"6" => "#0A5100",
+"7" => "#028A0F",
+"8" => "#FF0000",
+"9" => "#341200"
+
+
+);
 
 class Numbelor {
     private $number;
@@ -157,7 +162,7 @@ $numcolors = array();
     }
 }*/
 
-$numbers = array( "windows", "facebook", "sandra", "cristian", "jacob", "avianca", "hongkong", "feliza", "psl","monica", "ivanka trump", "zeus", "amazon", "color", "donald trump", "europa", "united states",
+$numbers = array( "8271", "5315140", "5328363","3728276", "windows", "facebook", "sandra", "cristian", "jacob", "avianca", "hongkong", "feliza", "psl","monica", "ivanka trump", "zeus", "amazon", "color", "donald trump", "europa", "united states",
     "australia","computer","manzana", "tomate", "grow", "cristian david jimenez duarte", "napoleon bonaparte", "similar items", "empresa", "business", "gustavo", "loco", "mama","octopus","camaron","bill gates");
 
 for ($i = 0; $i < count( $numbers ); $i++) {

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project name="D:\Repos\appsgenerator\appsgenerator.clpprj">
+ <settings>
+  <PM_URL><![CDATA[http://localhost/D:/Repos/appsgenerator]]></PM_URL>
+  <PM_HOME_URL><![CDATA[http://localhost/D:/Repos/appsgenerator]]></PM_HOME_URL>
+  <PM_LIBS><![CDATA[]]></PM_LIBS>
+  <PM_FTP_CONNECTION><![CDATA[]]></PM_FTP_CONNECTION>
+  <PM_FTP_DIR><![CDATA[]]></PM_FTP_DIR>
+  <PM_FTP_UPLOAD_ON_SAVE><![CDATA[INT:0]]></PM_FTP_UPLOAD_ON_SAVE>
+  <PM_LANGUAGE><![CDATA[]]></PM_LANGUAGE>
+ </settings>
+ <removed value=";"/>
+ <added value=""/>
+ <lastopfiles>
+  <file name="D:\Repos\appsgenerator\index.php"/>
+  <file name="D:\Repos\appsgenerator\test.php"/>
+  <file name="D:\Repos\appsgenerator\testing.php"/>
+  <lastactivefile name=""/>
+ </lastopfiles>
+ <errors version="1.12.0">
+  <errfile name="D:\Repos\appsgenerator\test.php">
+   <error val="0;64;0;64;0;1;PHP Parse error:  syntax error, unexpected token &quot;}&quot;"/>
+  </errfile>
+ </errors>
+ <cakedata/>
+ <dplmenupath/>
+ <laravael/>
+ <smartyassings/>
+ <twigtemplate/>
+ <yiidata/>
+ <todoblock/>
+ <dbgurls/>
+ <lasttime value="1689553337"/>
+</project>

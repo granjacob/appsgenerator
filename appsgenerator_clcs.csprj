@@ -1,0 +1,693 @@
+
+<codestructure version="2.1.0">
+<phptree>
+<treenode node="Application;PHP:NameSpace Use;189174691;f3;4;23;4;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k\system\Application;;l;;n">
+</treenode>
+<treenode node="DataSource;PHP:NameSpace Use;1815002808;f3;4;27;4;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k\system\data\DataSource;;l;;n">
+</treenode>
+<treenode node="DatabaseSchema;PHP:NameSpace Use;115477859;f3;6;30;6;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\DatabaseSchema;;l;;n">
+</treenode>
+<treenode node="DatasourceAlreadyExistsException;PHP:NameSpace Use;1815002808;f3;5;53;5;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\exception\DatasourceAlreadyExistsException;;l;;n">
+</treenode>
+<treenode node="FileAlreadyOpenedException;PHP:NameSpace Use;1545832893;f3;5;47;5;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\exception\FileAlreadyOpenedException;;l;;n">
+</treenode>
+<treenode node="IEntity;PHP:NameSpace Use;2041119142;f3;4;34;4;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\interfaces\IEntity;;l;;n">
+</treenode>
+<treenode node="IExampleEntity;PHP:Interface Name;2278318485;f0;2;1;4;;;;vpos;;v;;aIEntity;;c;;r;;d41,2;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="IExampleRepository;PHP:Interface Name;2278318485;f0;53;1;55;;;;vpos;;v;;aIRepository;;c;;r;;d49,53;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="buscarId;PHP:Function Name;2278318485;f11;54;30;54;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="IRepository;PHP:NameSpace Use;834677809;f3;4;49;4;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\repository\interfaces\IRepository;;l;;n">
+</treenode>
+<treenode node="PDO;PHP:NameSpace Use;242219093;f3;4;7;4;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;kPDO;;l;;n">
+</treenode>
+<treenode node="PHPFile;PHP:NameSpace Use;115477859;f3;9;24;9;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\files\PHPFile;;l;;n">
+</treenode>
+<treenode node="Repository;PHP:NameSpace Use;2808522908;f3;2;43;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\repository\model\Repository;;l;;n">
+</treenode>
+<treenode node="SystemException;PHP:NameSpace Use;3154730371;f3;5;36;5;;2746444037;f3;5;36;5;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\exception\SystemException;;l;;n">
+</treenode>
+<treenode node="SystemItem;PHP:NameSpace Use;1545832893;f3;6;21;6;;1888967187;f3;4;21;4;;3566604322;f3;5;21;5;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\SystemItem;;l;;n">
+</treenode>
+<treenode node="SytemItem;PHP:NameSpace Use;1815002808;f3;6;21;6;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k\system\SytemItem;;l;;n">
+</treenode>
+<treenode node="Table;PHP:NameSpace Use;115477859;f3;7;21;7;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\Table;;l;;n">
+</treenode>
+<treenode node="TableColumn;PHP:NameSpace Use;115477859;f3;8;27;8;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;ksystem\data\TableColumn;;l;;n">
+</treenode>
+<treenode node="core.php;PHP:PHP Include;2762596236;f9;2;17;2;;1433025941;f14;2;22;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="exception;PHP:NameSpace Use;435860371;f3;3;13;3;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;kexception;;l;;n">
+</treenode>
+<treenode node="max_lotteries;PHP:PHP Word;4081560574;f8;343;21;343;;;;vpos;;v;;a;;r17;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="mysqli;PHP:NameSpace Use;115477859;f3;5;10;5;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;kmysqli;;l;;n">
+</treenode>
+<treenode node="BethHouse;PHP:Class Name;4081560574;f0;490;1;524;;;;vpos;;v;;a;;r;;d16,490;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;4081560574;f11;493;5;501;;;;vpos;;v;;a;;r;;d4,494;;b1,0;;m0;;e0;;i0;;o;;k;;lmaxLotteries;;p;;x;;n">
+</treenode>
+<treenode node="play;PHP:Function Name;4081560574;f11;503;5;511;;;;vpos;;v;;a;;r;;d4,504;;b1,0;;m0;;e0;;i0;;o;;k;;llotteryPlayer;;pLotteryPlayer;;x;;n">
+</treenode>
+<treenode node="print;PHP:Function Name;4081560574;f11;513;5;522;;;;vpos;;v;;a;;r;;d4,514;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$lotteries;PHP:Var Name;4081560574;f11;491;21;491;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="ChanceNumber;PHP:Class Name;4081560574;f0;373;1;378;;;;vpos;;v;;aRandomNumber;;c;;r;;d40,373;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;4081560574;f11;374;5;377;;;;vpos;;v;;a;;r;;d4,375;;b1,0;;m0;;e0;;i0;;o;;k;;lmaxNumber;;psetAsNumber;;p;;x;;x;;n">
+</treenode>
+</treenode>
+<treenode node="Digit;PHP:Class Name;4081560574;f0;201;1;204;;;;vpos;;v;;a;;r;;d12,201;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="$digit;PHP:Var Name;4081560574;f12;203;18;203;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$id;PHP:Var Name;4081560574;f12;202;15;202;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Example;PHP:Class Name;2278318485;f0;21;1;45;;;;vpos;;v;;aExampleEntity;;c;;r;;d36,21;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="columnOfName;PHP:Function Name;2278318485;f11;41;5;44;;;;vpos;;v;;a;;r;;d4,42;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getName;PHP:Function Name;2278318485;f11;28;5;31;;;;vpos;;v;;amixed;;r&#10;&lt;b&gt;Definition&lt;/b&gt;&#10;    getName()&#10;;;d4,29;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setName;PHP:Function Name;2278318485;f11;36;5;39;;;;vpos;;v;;a;;r&#10;&lt;b&gt;Definition&lt;/b&gt;&#10;    setName($name)&#10;&#10;&#10;&lt;b&gt;Parameters:&lt;/b&gt;&#10;    mixed &lt;b&gt;$name&lt;/b&gt;;;d4,37;;b1,0;;m0;;e0;;i0;;o;;k;;l $name;;p;;x;;n">
+</treenode>
+<treenode node="$name;PHP:Var Name;2278318485;f14;23;19;23;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="ExampleEntity;PHP:Class Name;2278318485;f0;7;1;19;;;;vpos;;v;;aEntity;;cIExampleEntity;;c;;r;;d61,7;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getTableDefinition;PHP:Function Name;2278318485;f11;9;5;18;;;;vpos;;v;;a;;r;;d4,10;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTableName;PHP:Function Name;2278318485;f11;8;56;8;;;;vpos;;v;;a;;r;;d35,8;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="ExampleRepository;PHP:Class Name;2278318485;f0;58;1;65;;;;vpos;;v;;aIExampleRepository;;cRepository;;c;;r;;d73,58;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="QUERY_BUSCAR_ID;PHP:PHP Word;2278318485;f9;60;25;60;;;;vpos;;v;;a;;r(&quot;SELECT * FROM T WHERE ID=:ID&quot;);;d-1,-1;;b0,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="buscarId;PHP:Function Name;2278318485;f11;61;5;64;;;;vpos;;v;;a;;r;;d4,62;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Lettelor;PHP:Class Name;4081560574;f0;127;1;129;;;;vpos;;v;;aNumbelor;;c;;r;;d32,127;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="Lottery;PHP:Class Name;4081560574;f0;471;1;487;;;;vpos;;v;;aLotteryPlayer;;c;;r;;d36,471;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="doMatch;PHP:Function Name;4081560574;f11;473;5;486;;;;vpos;;v;;a;;r;;d4,474;;b1,0;;m0;;e0;;i0;;o;;k;;lplayer;;pLotteryPlayer;;x;;n">
+</treenode>
+</treenode>
+<treenode node="LotteryMatches;PHP:Class Name;4081560574;f0;464;1;469;;;;vpos;;v;;aLotteryPlayer;;c;;r;;d43,464;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="hasMatches;PHP:Function Name;4081560574;f11;465;5;468;;;;vpos;;v;;a;;r;;d4,466;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="LotteryNumber;PHP:Class Name;4081560574;f0;380;1;394;;;;vpos;;v;;a;;r;;d20,380;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;4081560574;f11;384;5;388;;;;vpos;;v;;a;;r;;d4,385;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="print;PHP:Function Name;4081560574;f11;390;5;393;;;;vpos;;v;;a;;r;;d4,391;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$number;PHP:Var Name;4081560574;f11;381;18;381;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$serial;PHP:Var Name;4081560574;f11;382;18;382;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="LotteryPlayer;PHP:Class Name;4081560574;f0;396;1;462;;;;vpos;;v;;a;;r;;d20,396;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;4081560574;f11;400;5;418;;;;vpos;;v;;a;;r;;d4,401;;b1,0;;m0;;e0;;i0;;o;;k;;lmaxNumbers;;p;;x;;n">
+</treenode>
+<treenode node="addNumber;PHP:Function Name;4081560574;f11;420;5;423;;;;vpos;;v;;a;;r;;d4,421;;b1,0;;m0;;e0;;i0;;o;;k;;lnewNumber;;p;;x;;n">
+</treenode>
+<treenode node="findCombined;PHP:Function Name;4081560574;f11;441;5;448;;;;vpos;;v;;a;;r;;d4,442;;b1,0;;m0;;e0;;i0;;o;;k;;lnumber;;p;;x;;n">
+</treenode>
+<treenode node="findNumber;PHP:Function Name;4081560574;f11;450;5;461;;;;vpos;;v;;a;;r;;d4,451;;b1,0;;m0;;e0;;i0;;o;;k;;lnumber;;p;;x;;n">
+</treenode>
+<treenode node="getAllCombinations;PHP:Function Name;4081560574;f11;434;5;439;;;;vpos;;v;;a;;r;;d4,435;;b1,0;;m0;;e0;;i0;;o;;k;;lnumber;;p;;x;;n">
+</treenode>
+<treenode node="print;PHP:Function Name;4081560574;f11;425;5;432;;;;vpos;;v;;a;;r;;d4,426;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$name;PHP:Var Name;4081560574;f11;397;16;397;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$numbersList;PHP:Var Name;4081560574;f11;398;23;398;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Numbelor;PHP:Class Name;4081560574;f0;54;5;122;;;;vpos;;v;;a;;r;;d15,54;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construt;PHP:Function Name;4081560574;f11;58;5;61;;;;vpos;;v;;a;;r;;d4,59;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getColor;PHP:Function Name;4081560574;f11;85;5;88;;;;vpos;;v;;amixed;;r&#10;&lt;b&gt;Definition&lt;/b&gt;&#10;    getColor()&#10;;;d4,86;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getNumber;PHP:Function Name;4081560574;f11;65;5;68;;;;vpos;;v;;amixed;;r&#10;&lt;b&gt;Definition&lt;/b&gt;&#10;    getNumber()&#10;;;d4,66;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="printNpectrumColor;PHP:Function Name;4081560574;f11;109;219;117;;;;vpos;;v;;a;;r;;d4,110;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="printNumberWithColor;PHP:Function Name;4081560574;f11;91;5;106;;;;vpos;;v;;a;;r;;d4,92;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setNumber;PHP:Function Name;4081560574;f11;73;5;80;;;;vpos;;v;;a;;r&#10;&lt;b&gt;Definition&lt;/b&gt;&#10;    setNumber($number): void&#10;&#10;&#10;&lt;b&gt;Parameters:&lt;/b&gt;&#10;    mixed &lt;b&gt;$number&lt;/b&gt;;;d4,74;;b1,0;;m0;;e0;;i0;;o;;k;;l $number;;p;;x;;n">
+</treenode>
+<treenode node="$color;PHP:Var Name;4081560574;f12;56;18;56;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$number;PHP:Var Name;4081560574;f12;55;19;55;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Number;PHP:Class Name;4081560574;f0;206;1;208;;;;vpos;;v;;a;;r;;d13,206;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="$digitsLists;PHP:Var Name;4081560574;f11;207;23;207;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="RandomNumber;PHP:Class Name;4081560574;f0;345;1;371;;;;vpos;;v;;a;;r;;d19,345;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;4081560574;f11;350;5;355;;;;vpos;;v;;a;;r;;d4,351;;b1,0;;m0;;e0;;i0;;o;;k;;lmaxNumber;;psetAsNumber;;p;;x;;x;;n">
+</treenode>
+<treenode node="generate;PHP:Function Name;4081560574;f11;357;5;364;;;;vpos;;v;;a;;r;;d4,358;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="print;PHP:Function Name;4081560574;f11;366;5;369;;;;vpos;;v;;a;;r;;d4,367;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$maxNumber;PHP:Var Name;4081560574;f11;347;21;347;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$number;PHP:Var Name;4081560574;f11;346;18;346;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$setAsNumber;PHP:Var Name;4081560574;f11;348;23;348;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="apps;PHP:NameSpace Name;189174691;f9;2;24;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="examples;PHP:NameSpace Name;189174691;f9;2;24;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="ExampleApplication;PHP:Class Name;189174691;f0;6;1;8;;;;vpos;;v;;aApplication;;c;;r;;d53,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+<treenode node="system;PHP:NameSpace Name;127612770;f9;2;23;2;;2450279389;f9;2;23;2;;2867231697;f9;2;23;2;;1722727222;f9;2;23;2;;1545832893;f9;2;23;2;;435860371;f9;2;27;2;;3154730371;f9;3;27;3;;2746444037;f9;3;27;3;;834677809;f9;2;39;2;;2841585457;f9;2;44;2;;2041119142;f9;2;28;2;;847743646;f9;2;28;2;;1964183142;f9;2;33;2;;2264439054;f9;1;22;1;;967025288;f9;2;22;2;;1888967187;f9;2;22;2;;3566604322;f9;2;22;2;;242219093;f9;2;22;2;;4054135914;f9;2;17;2;;178724225;f9;2;17;2;;115477859;f9;2;17;2;;1815002808;f9;2;17;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="IApplicationConfiguration;PHP:Interface Name;178724225;f0;5;1;8;;;;vpos;;v;;a;;r;;d36,5;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="setApplicationConfiguration;PHP:Function Name;178724225;f11;7;49;7;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Application;PHP:Class Name;1815002808;f9;8;1;35;;;;vpos;;v;;aSystemItem;;cIApplicationConfiguration;;c;;r;;d83,8;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;1815002808;f11;12;5;15;;;;vpos;;v;;a;;r;;d4,13;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="addDatasource;PHP:Function Name;1815002808;f11;21;5;28;;;;vpos;;v;;a;;r;;d4,22;;b1,0;;m0;;e0;;i0;;o;;k;;ldatasource;;pDataSource;;x;;n">
+</treenode>
+<treenode node="generate;PHP:Function Name;1815002808;f20;19;39;19;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDatasource;PHP:Function Name;1815002808;f11;30;5;33;;;;vpos;;v;;a;;r;;d4,31;;b1,0;;m0;;e0;;i0;;o;;k;;ldatasourceName;;p;;x;;n">
+</treenode>
+<treenode node="run;PHP:Function Name;1815002808;f20;17;34;17;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$datasources;PHP:Var Name;1815002808;f12;10;24;10;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="AppsGenerator;PHP:Class Name;115477859;f0;11;1;126;;;;vpos;;v;;aApplication;;cIApplicationConfiguration;;c;;r;;d77,11;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="generate;PHP:Function Name;115477859;f11;33;5;125;;;;vpos;;v;;a;;r;;d4,34;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="run;PHP:Function Name;115477859;f11;12;5;16;;;;vpos;;v;;a;;r;;d4,13;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setApplicationConfiguration;PHP:Function Name;115477859;f11;18;5;31;;;;vpos;;v;;a;;r;;d4,19;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="SystemItem;PHP:Class Name;4054135914;f0;4;1;109;;;;vpos;;v;;a;;r;;d17,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getAlias;PHP:Function Name;4054135914;f11;31;5;34;;;;vpos;;v;;a;;r;;d4,32;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDateCreated;PHP:Function Name;4054135914;f11;63;5;66;;;;vpos;;v;;a;;r;;d4,64;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDateDeleted;PHP:Function Name;4054135914;f11;95;5;98;;;;vpos;;v;;a;;r;;d4,96;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDateModified;PHP:Function Name;4054135914;f11;79;5;82;;;;vpos;;v;;a;;r;;d4,80;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDescription;PHP:Function Name;4054135914;f11;47;5;50;;;;vpos;;v;;a;;r;;d4,48;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getName;PHP:Function Name;4054135914;f11;15;5;18;;;;vpos;;v;;a;;r;;d4,16;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setAlias;PHP:Function Name;4054135914;f11;39;5;42;;;;vpos;;v;;a;;r;;d4,40;;b1,0;;m0;;e0;;i0;;o;;k;;lalias;;p;;x;;n">
+</treenode>
+<treenode node="setDateCreated;PHP:Function Name;4054135914;f11;71;5;74;;;;vpos;;v;;a;;r;;d4,72;;b1,0;;m0;;e0;;i0;;o;;k;;ldateCreated;;p;;x;;n">
+</treenode>
+<treenode node="setDateDeleted;PHP:Function Name;4054135914;f11;103;5;106;;;;vpos;;v;;a;;r;;d4,104;;b1,0;;m0;;e0;;i0;;o;;k;;ldateDeleted;;p;;x;;n">
+</treenode>
+<treenode node="setDateModified;PHP:Function Name;4054135914;f11;87;5;90;;;;vpos;;v;;a;;r;;d4,88;;b1,0;;m0;;e0;;i0;;o;;k;;ldateModified;;p;;x;;n">
+</treenode>
+<treenode node="setDescription;PHP:Function Name;4054135914;f11;55;5;58;;;;vpos;;v;;a;;r;;d4,56;;b1,0;;m0;;e0;;i0;;o;;k;;ldescription;;p;;x;;n">
+</treenode>
+<treenode node="setName;PHP:Function Name;4054135914;f11;23;5;26;;;;vpos;;v;;a;;r;;d4,24;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;p;;x;;n">
+</treenode>
+<treenode node="$alias;PHP:Var Name;4054135914;f14;6;20;6;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$dateCreated;PHP:Var Name;4054135914;f14;8;26;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$dateDeleted;PHP:Var Name;4054135914;f14;10;26;10;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$dateModified;PHP:Var Name;4054135914;f14;9;27;9;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$description;PHP:Var Name;4054135914;f14;7;26;7;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$name;PHP:Var Name;4054135914;f14;5;19;5;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="data;PHP:NameSpace Name;834677809;f9;2;39;2;;2841585457;f9;2;44;2;;2041119142;f9;2;28;2;;847743646;f9;2;28;2;;1964183142;f9;2;33;2;;2264439054;f9;1;22;1;;967025288;f9;2;22;2;;1888967187;f9;2;22;2;;3566604322;f9;2;22;2;;242219093;f9;2;22;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="DataSource;PHP:Class Name;1888967187;f0;6;1;204;;;;vpos;;v;;aSystemItem;;c;;r;;d36,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;1888967187;f11;18;5;23;;;;vpos;;v;;a;;r;;d4,19;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="addApplicationPackage;PHP:Function Name;1888967187;f11;177;5;180;;;;vpos;;v;;a;;r;;d4,178;;b1,0;;m0;;e0;;i0;;o;;k;;lpackage;;p;;x;;n">
+</treenode>
+<treenode node="buildDSN;PHP:Function Name;1888967187;f11;121;5;127;;;;vpos;;v;;a;;r;;d4,122;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getApplicationPackages;PHP:Function Name;1888967187;f11;164;5;167;;;;vpos;;v;;a;;r;;d4,165;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getCharset;PHP:Function Name;1888967187;f11;132;5;135;;;;vpos;;v;;a;;r;;d4,133;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDatabaseName;PHP:Function Name;1888967187;f11;92;5;95;;;;vpos;;v;;a;;r;;d4,93;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getDsn;PHP:Function Name;1888967187;f11;108;5;111;;;;vpos;;v;;a;;r;;d4,109;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getHost;PHP:Function Name;1888967187;f11;60;5;63;;;;vpos;;v;;a;;r;;d4,61;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getIsDefault;PHP:Function Name;1888967187;f11;190;5;193;;;;vpos;;v;;a;;r;;d4,191;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getOptions;PHP:Function Name;1888967187;f11;148;5;151;;;;vpos;;v;;a;;r;;d4,149;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getPassword;PHP:Function Name;1888967187;f11;44;5;47;;;;vpos;;v;;a;;r;;d4,45;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getPort;PHP:Function Name;1888967187;f11;76;5;79;;;;vpos;;v;;a;;r;;d4,77;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getUsername;PHP:Function Name;1888967187;f11;28;5;31;;;;vpos;;v;;a;;r;;d4,29;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="hasPackage;PHP:Function Name;1888967187;f11;182;5;185;;;;vpos;;v;;a;;r;;d4,183;;b1,0;;m0;;e0;;i0;;o;;k;;lpackage;;p;;x;;n">
+</treenode>
+<treenode node="setApplicationPackages;PHP:Function Name;1888967187;f11;172;5;175;;;;vpos;;v;;a;;r;;d4,173;;b1,0;;m0;;e0;;i0;;o;;k;;lapplicationPackages;;p;;x;;n">
+</treenode>
+<treenode node="setCharset;PHP:Function Name;1888967187;f11;140;5;143;;;;vpos;;v;;a;;r;;d4,141;;b1,0;;m0;;e0;;i0;;o;;k;;lcharset;;p;;x;;n">
+</treenode>
+<treenode node="setDatabaseName;PHP:Function Name;1888967187;f11;100;5;103;;;;vpos;;v;;a;;r;;d4,101;;b1,0;;m0;;e0;;i0;;o;;k;;ldatabaseName;;p;;x;;n">
+</treenode>
+<treenode node="setDsn;PHP:Function Name;1888967187;f11;116;5;119;;;;vpos;;v;;a;;r;;d4,117;;b1,0;;m0;;e0;;i0;;o;;k;;ldsn;;p;;x;;n">
+</treenode>
+<treenode node="setHost;PHP:Function Name;1888967187;f11;68;5;71;;;;vpos;;v;;a;;r;;d4,69;;b1,0;;m0;;e0;;i0;;o;;k;;lhost;;p;;x;;n">
+</treenode>
+<treenode node="setIsDefault;PHP:Function Name;1888967187;f11;198;5;201;;;;vpos;;v;;a;;r;;d4,199;;b1,0;;m0;;e0;;i0;;o;;k;;lisDefault;;p;;x;;n">
+</treenode>
+<treenode node="setOptions;PHP:Function Name;1888967187;f11;156;5;159;;;;vpos;;v;;a;;r;;d4,157;;b1,0;;m0;;e0;;i0;;o;;k;;loptions;;p;;x;;n">
+</treenode>
+<treenode node="setPassword;PHP:Function Name;1888967187;f11;52;5;55;;;;vpos;;v;;a;;r;;d4,53;;b1,0;;m0;;e0;;i0;;o;;k;;lpassword;;p;;x;;n">
+</treenode>
+<treenode node="setPort;PHP:Function Name;1888967187;f11;84;5;87;;;;vpos;;v;;a;;r;;d4,85;;b1,0;;m0;;e0;;i0;;o;;k;;lport;;p;;x;;n">
+</treenode>
+<treenode node="setUsername;PHP:Function Name;1888967187;f11;36;5;39;;;;vpos;;v;;a;;r;;d4,37;;b1,0;;m0;;e0;;i0;;o;;k;;lusername;;p;;x;;n">
+</treenode>
+<treenode node="$applicationPackages;PHP:Var Name;1888967187;f14;15;34;15;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$charset;PHP:Var Name;1888967187;f14;13;22;13;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$databaseName;PHP:Var Name;1888967187;f14;11;27;11;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$dsn;PHP:Var Name;1888967187;f14;12;18;12;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$host;PHP:Var Name;1888967187;f14;9;19;9;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$isDefault;PHP:Var Name;1888967187;f14;16;24;16;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$options;PHP:Var Name;1888967187;f14;14;22;14;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$password;PHP:Var Name;1888967187;f14;8;23;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$port;PHP:Var Name;1888967187;f14;10;19;10;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$username;PHP:Var Name;1888967187;f14;7;23;7;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="DatabaseConnection;PHP:Class Name;242219093;f0;6;1;65;;;;vpos;;v;;aPDO;;c;;r;;d37,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;242219093;f11;12;5;31;;;;vpos;;v;;a;;r;;d4,15;;b1,0;;m0;;e0;;i0;;o;;k;;ldatasource;;pDataSource;;x;;n">
+</treenode>
+<treenode node="getDatasource;PHP:Function Name;242219093;f11;52;5;55;;;;vpos;;v;;a;;r;;d4,53;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getOptions;PHP:Function Name;242219093;f11;36;5;39;;;;vpos;;v;;a;;r;;d4,37;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setDatasource;PHP:Function Name;242219093;f11;60;5;63;;;;vpos;;v;;a;;r;;d4,61;;b1,0;;m0;;e0;;i0;;o;;k;;ldatasource;;p;;x;;n">
+</treenode>
+<treenode node="setOptions;PHP:Function Name;242219093;f11;44;5;47;;;;vpos;;v;;a;;r;;d4,45;;b1,0;;m0;;e0;;i0;;o;;k;;loptions;;p;;x;;n">
+</treenode>
+<treenode node="$datasource;PHP:Var Name;242219093;f14;9;25;9;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$options;PHP:Var Name;242219093;f14;8;22;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="DatabaseSchema;PHP:Class Name;3566604322;f0;7;1;38;;;;vpos;;v;;aSystemItem;;c;;r;;d40,7;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;3566604322;f4;11;5;14;;;;vpos;;v;;a;;r;;d4,12;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="addTable;PHP:Function Name;3566604322;f11;16;5;19;;;;vpos;;v;;a;;r;;d4,17;;b1,0;;m0;;e0;;i0;;o;;k;;ltable;;pTable;;x;;n">
+</treenode>
+<treenode node="getTables;PHP:Function Name;3566604322;f11;24;5;27;;;;vpos;;v;;a;;r;;d4,25;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setTables;PHP:Function Name;3566604322;f11;32;5;35;;;;vpos;;v;;a;;r;;d4,33;;b1,0;;m0;;e0;;i0;;o;;k;;ltables;;p;;x;;n">
+</treenode>
+<treenode node="$tables;PHP:Var Name;3566604322;f14;9;21;9;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Table;PHP:Class Name;967025288;f0;4;1;69;;;;vpos;;v;;a;;r;;d0,5;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;967025288;f11;10;5;13;;;;vpos;;v;;a;;r;;d4,11;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="addColumn;PHP:Function Name;967025288;f11;15;5;18;;;;vpos;;v;;a;;r;;d4,16;;b1,0;;m0;;e0;;i0;;o;;k;;lcolumn;;p;;x;;n">
+</treenode>
+<treenode node="getColumns;PHP:Function Name;967025288;f11;39;5;42;;;;vpos;;v;;a;;r;;d4,40;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getConstraints;PHP:Function Name;967025288;f11;55;5;58;;;;vpos;;v;;a;;r;;d4,56;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getName;PHP:Function Name;967025288;f11;23;5;26;;;;vpos;;v;;a;;r;;d4,24;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setColumns;PHP:Function Name;967025288;f11;47;5;50;;;;vpos;;v;;a;;r;;d4,48;;b1,0;;m0;;e0;;i0;;o;;k;;lcolumns;;p;;x;;n">
+</treenode>
+<treenode node="setConstraints;PHP:Function Name;967025288;f11;63;5;66;;;;vpos;;v;;a;;r;;d4,64;;b1,0;;m0;;e0;;i0;;o;;k;;lconstraints;;p;;x;;n">
+</treenode>
+<treenode node="setName;PHP:Function Name;967025288;f11;31;5;34;;;;vpos;;v;;a;;r;;d4,32;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;p;;x;;n">
+</treenode>
+<treenode node="$columns;PHP:Var Name;967025288;f14;7;22;7;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$constraints;PHP:Var Name;967025288;f14;8;26;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$name;PHP:Var Name;967025288;f14;6;19;6;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="TableColumn;PHP:Class Name;2264439054;f0;3;1;108;;;;vpos;;v;;a;;r;;d18,3;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getDescription;PHP:Function Name;2264439054;f11;94;5;97;;;;vpos;;v;;a;;r;;d4,95;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getKey;PHP:Function Name;2264439054;f11;62;5;65;;;;vpos;;v;;a;;r;;d4,63;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getLength;PHP:Function Name;2264439054;f11;78;5;81;;;;vpos;;v;;a;;r;;d4,79;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getName;PHP:Function Name;2264439054;f11;14;5;17;;;;vpos;;v;;a;;r;;d4,15;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getNullable;PHP:Function Name;2264439054;f11;46;5;49;;;;vpos;;v;;a;;r;;d4,47;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getType;PHP:Function Name;2264439054;f11;30;5;33;;;;vpos;;v;;a;;r;;d4,31;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setDescription;PHP:Function Name;2264439054;f11;102;5;105;;;;vpos;;v;;a;;r;;d4,103;;b1,0;;m0;;e0;;i0;;o;;k;;ldescription;;p;;x;;n">
+</treenode>
+<treenode node="setKey;PHP:Function Name;2264439054;f11;70;5;73;;;;vpos;;v;;a;;r;;d4,71;;b1,0;;m0;;e0;;i0;;o;;k;;lkey;;p;;x;;n">
+</treenode>
+<treenode node="setLength;PHP:Function Name;2264439054;f11;86;5;89;;;;vpos;;v;;a;;r;;d4,87;;b1,0;;m0;;e0;;i0;;o;;k;;llength;;p;;x;;n">
+</treenode>
+<treenode node="setName;PHP:Function Name;2264439054;f11;22;5;25;;;;vpos;;v;;a;;r;;d4,23;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;p;;x;;n">
+</treenode>
+<treenode node="setNullable;PHP:Function Name;2264439054;f11;54;5;57;;;;vpos;;v;;a;;r;;d4,55;;b1,0;;m0;;e0;;i0;;o;;k;;lnullable;;p;;x;;n">
+</treenode>
+<treenode node="setType;PHP:Function Name;2264439054;f11;38;5;41;;;;vpos;;v;;a;;r;;d4,39;;b1,0;;m0;;e0;;i0;;o;;k;;ltype;;p;;x;;n">
+</treenode>
+<treenode node="$description;PHP:Var Name;2264439054;f14;5;26;5;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$key;PHP:Var Name;2264439054;f14;8;18;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$length;PHP:Var Name;2264439054;f14;9;21;9;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$name;PHP:Var Name;2264439054;f14;4;19;4;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$nullable;PHP:Var Name;2264439054;f14;7;23;7;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$type;PHP:Var Name;2264439054;f14;6;19;6;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="interfaces;PHP:NameSpace Name;1964183142;f9;2;33;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="IEntity;PHP:Interface Name;1964183142;f0;4;1;7;;;;vpos;;v;;a;;r;;d18,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getTableDefinition;PHP:Function Name;1964183142;f11;6;40;6;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTableName;PHP:Function Name;1964183142;f11;5;34;5;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+<treenode node="model;PHP:NameSpace Name;2041119142;f9;2;28;2;;847743646;f9;2;28;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="ColumnDefinition;PHP:Class Name;847743646;f0;4;2;30;;;;vpos;;v;;a;;r;;d23,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;847743646;f11;8;5;12;;;;vpos;;v;;a;;r;;d4,9;;b1,0;;m0;;e0;;i0;;o;;k;;lattributeName;;preferedColumn;;p;;x;;x;;n">
+</treenode>
+<treenode node="getAttributeName;PHP:Function Name;847743646;f11;14;5;16;;;;vpos;;v;;a;;r;;d39,14;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getReferedColumn;PHP:Function Name;847743646;f11;18;5;20;;;;vpos;;v;;a;;r;;d39,18;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setAttributeName;PHP:Function Name;847743646;f11;22;5;24;;;;vpos;;v;;a void;;r;;d59,22;;b1,0;;m0;;e0;;i0;;o;;k;;lattributeName;;p;;x;;n">
+</treenode>
+<treenode node="setReferedColumn;PHP:Function Name;847743646;f11;26;5;28;;;;vpos;;v;;a void;;r;;d59,26;;b1,0;;m0;;e0;;i0;;o;;k;;lreferedColumn;;p;;x;;n">
+</treenode>
+<treenode node="$attributeName;PHP:Var Name;847743646;f14;5;28;5;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$referedColumn;PHP:Var Name;847743646;f14;6;28;6;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="Entity;PHP:Class Name;2041119142;f9;6;1;8;;;;vpos;;v;;aIEntity;;c;;r;;d41,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getEntityName;PHP:Function Name;2041119142;f20;7;44;7;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+<treenode node="repository;PHP:NameSpace Name;834677809;f9;2;39;2;;2841585457;f9;2;44;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="interfaces;PHP:NameSpace Name;2841585457;f9;2;44;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="IRepository;PHP:Interface Name;2841585457;f0;4;1;15;;;;vpos;;v;;a;;r;;d22,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="alterTableAdd;PHP:Function Name;2841585457;f11;12;35;12;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="alterTableDrop;PHP:Function Name;2841585457;f11;13;36;13;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="alterTableModify;PHP:Function Name;2841585457;f11;14;38;14;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="createTable;PHP:Function Name;2841585457;f11;10;33;10;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="delete;PHP:Function Name;2841585457;f11;7;28;7;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="dropTable;PHP:Function Name;2841585457;f11;11;31;11;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="find;PHP:Function Name;2841585457;f11;5;26;5;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="findAll;PHP:Function Name;2841585457;f11;6;29;6;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="modify;PHP:Function Name;2841585457;f11;8;28;8;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="save;PHP:Function Name;2841585457;f11;9;26;9;;;;vpos;;v;;a;;r;;d-1,-1;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+<treenode node="model;PHP:NameSpace Name;834677809;f9;2;39;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="Repository;PHP:Class Name;834677809;f0;6;1;66;;;;vpos;;v;;aIRepository;;c;;r;;d40,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="alterTableAdd;PHP:Function Name;834677809;f11;62;6;63;;;;vpos;;v;;a;;r;;d4,63;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="alterTableDrop;PHP:Function Name;834677809;f11;53;6;54;;;;vpos;;v;;a;;r;;d4,54;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="alterTableModify;PHP:Function Name;834677809;f11;56;6;57;;;;vpos;;v;;a;;r;;d4,57;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="createTable;PHP:Function Name;834677809;f11;50;6;51;;;;vpos;;v;;a;;r;;d4,51;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="delete;PHP:Function Name;834677809;f11;20;5;23;;;;vpos;;v;;a;;r;;d4,21;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="dropTable;PHP:Function Name;834677809;f11;59;6;60;;;;vpos;;v;;a;;r;;d4,60;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="find;PHP:Function Name;834677809;f11;10;5;13;;;;vpos;;v;;a;;r;;d4,11;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="findAll;PHP:Function Name;834677809;f11;15;5;18;;;;vpos;;v;;a;;r;;d4,16;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getEntity;PHP:Function Name;834677809;f11;38;5;41;;;;vpos;;v;;a;;r;;d4,39;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="modify;PHP:Function Name;834677809;f11;25;5;28;;;;vpos;;v;;a;;r;;d4,26;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="save;PHP:Function Name;834677809;f11;30;5;33;;;;vpos;;v;;a;;r;;d4,31;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setEntity;PHP:Function Name;834677809;f11;46;5;49;;;;vpos;;v;;a;;r;;d4,47;;b1,0;;m0;;e0;;i0;;o;;k;;lentity;;p;;x;;n">
+</treenode>
+<treenode node="$entity;PHP:Var Name;834677809;f14;8;21;8;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+</treenode>
+</treenode>
+<treenode node="exception;PHP:NameSpace Name;435860371;f9;2;27;2;;3154730371;f9;3;27;3;;2746444037;f9;3;27;3;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="DatasourceAlreadyExistsException;PHP:Class Name;2746444037;f0;8;1;13;;;;vpos;;v;;aSystemException;;c;;r;;d63,8;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getExceptionMessage;PHP:Function Name;2746444037;f11;9;5;12;;;;vpos;;v;;a;;r;;d4,10;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="FileAlreadyOpenedException;PHP:Class Name;3154730371;f0;8;1;13;;;;vpos;;v;;aSystemException;;c;;r;;d57,8;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getExceptionMessage;PHP:Function Name;3154730371;f11;9;5;12;;;;vpos;;v;;a;;r;;d4,10;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="SystemException;PHP:Class Name;435860371;f9;6;1;9;;;;vpos;;v;;aException;;c;;r;;d49,6;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="getExceptionMessage;PHP:Function Name;435860371;f13;8;43;8;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+<treenode node="files;PHP:NameSpace Name;127612770;f9;2;23;2;;2450279389;f9;2;23;2;;2867231697;f9;2;23;2;;1722727222;f9;2;23;2;;1545832893;f9;2;23;2;;;;vpos;;v;;a;;r;;d-1,-1;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="File;PHP:Class Name;1545832893;f0;8;1;81;;;;vpos;;v;;aSystemItem;;c;;r;;d30,8;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;1545832893;f11;14;5;17;;;;vpos;;v;;a;;r;;d4,15;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="append;PHP:Function Name;1545832893;f11;64;5;67;;;;vpos;;v;;a;;r;;d4,65;;b1,0;;m0;;e0;;i0;;o;;k;;lcontent;;p;;x;;n">
+</treenode>
+<treenode node="appendLine;PHP:Function Name;1545832893;f11;59;5;62;;;;vpos;;v;;a;;r;;d4,60;;b1,0;;m0;;e0;;i0;;o;;k;;lline;;p;;x;;n">
+</treenode>
+<treenode node="getFileContent;PHP:Function Name;1545832893;f11;46;5;49;;;;vpos;;v;;a;;r;;d4,47;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getFilePath;PHP:Function Name;1545832893;f11;27;5;30;;;;vpos;;v;;a;;r;;d4,28;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="load;PHP:Function Name;1545832893;f11;19;5;22;;;;vpos;;v;;a;;r;;d4,20;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="open;PHP:Function Name;1545832893;f4;69;5;72;;;;vpos;;v;;a;;r;;d4,70;;b0,0;;m0;;e0;;i0;;o;;k;;lmode;;p;;x;;n">
+</treenode>
+<treenode node="setFileContent;PHP:Function Name;1545832893;f11;54;5;57;;;;vpos;;v;;a;;r;;d4,55;;b1,0;;m0;;e0;;i0;;o;;k;;lfileContent;;p;;x;;n">
+</treenode>
+<treenode node="setFilePath;PHP:Function Name;1545832893;f11;35;5;41;;;;vpos;;v;;a;;r;;d4,36;;b1,0;;m0;;e0;;i0;;o;;k;;lfilePath;;p;;x;;n">
+</treenode>
+<treenode node="write;PHP:Function Name;1545832893;f4;74;5;77;;;;vpos;;v;;a;;r;;d4,75;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$fileContent;PHP:Var Name;1545832893;f14;12;26;12;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$filePath;PHP:Var Name;1545832893;f14;11;23;11;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="FileManager;PHP:Class Name;1722727222;f0;4;1;47;;;;vpos;;v;;a;;r;;d18,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;1722727222;f11;9;5;12;;;;vpos;;v;;a;;r;;d4,10;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getFileContent;PHP:Function Name;1722727222;f11;33;5;36;;;;vpos;;v;;a;;r;;d4,34;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getFilePath;PHP:Function Name;1722727222;f11;17;5;20;;;;vpos;;v;;a;;r;;d4,18;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="setFileContent;PHP:Function Name;1722727222;f11;41;5;44;;;;vpos;;v;;a;;r;;d4,42;;b1,0;;m0;;e0;;i0;;o;;k;;lfileContent;;p;;x;;n">
+</treenode>
+<treenode node="setFilePath;PHP:Function Name;1722727222;f11;25;5;28;;;;vpos;;v;;a;;r;;d4,26;;b1,0;;m0;;e0;;i0;;o;;k;;lfilePath;;p;;x;;n">
+</treenode>
+<treenode node="$fileContent;PHP:Var Name;1722727222;f14;7;26;7;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$filePath;PHP:Var Name;1722727222;f14;6;23;6;;;;vpos;;v;;a;;r;;d-1,-1;;b2,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="JavaFile;PHP:Class Name;2867231697;f0;4;1;65;;;;vpos;;v;;aScriptFile;;c;;r;;d34,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;2867231697;f11;6;5;62;;;;vpos;;v;;a;;r;;d4,7;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="PhpFile;PHP:Class Name;2450279389;f0;4;1;69;;;;vpos;;v;;aScriptFile;;c;;r;;d33,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__construct;PHP:Function Name;2450279389;f11;7;5;65;;;;vpos;;v;;a;;r;;d4,8;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+<treenode node="ScriptFile;PHP:Class Name;127612770;f0;4;1;361;;;;vpos;;v;;aFile;;c;;r;;d30,4;;b0,0;;m0;;e0;;i0;;o;;k;;l;;n">
+<treenode node="__call;PHP:Function Name;127612770;f11;54;5;82;;;;vpos;;v;;a;;r;;d4,55;;b1,0;;m0;;e0;;i0;;o;;k;;lmethod;;pargs;;p;;x;;x;;n">
+</treenode>
+<treenode node="__construct;PHP:Function Name;127612770;f11;22;5;28;;;;vpos;;v;;a;;r;;d4,23;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="addTyping;PHP:Function Name;127612770;f11;31;5;41;;;;vpos;;v;;a;;r;;d4,32;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;pvalue;;p;;x;;x;;n">
+</treenode>
+<treenode node="assign;PHP:Function Name;127612770;f18;240;5;243;;;;vpos;;v;;a;;r;;d4,241;;b1,5;;m0;;e0;;i0;;o;;k;;lleftVar;;prightVar;;p;;x;;x;;n">
+</treenode>
+<treenode node="backTab;PHP:Function Name;127612770;f11;138;5;141;;;;vpos;;v;;a;;r;;d4,139;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="doAutoTab;PHP:Function Name;127612770;f11;127;5;131;;;;vpos;;v;;a;;r;;d4,128;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="doTab;PHP:Function Name;127612770;f11;133;5;136;;;;vpos;;v;;a;;r;;d4,134;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getAutoIndent;PHP:Function Name;127612770;f11;167;5;170;;;;vpos;;v;;a;;r;;d4,168;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getMethodBodyAsString;PHP:Function Name;127612770;f18;264;5;271;;;;vpos;;v;;a;;r;;d4,265;;b1,5;;m0;;e0;;i0;;o;;k;;lbody;;p;;x;;n">
+</treenode>
+<treenode node="getParametersAsString;PHP:Function Name;127612770;f18;255;5;262;;;;vpos;;v;;a;;r;;d4,256;;b1,5;;m0;;e0;;i0;;o;;k;;lparameters;;p;;x;;n">
+</treenode>
+<treenode node="getTabAsSpaces;PHP:Function Name;127612770;f11;184;5;187;;;;vpos;;v;;a;;r;;d4,185;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTabControl;PHP:Function Name;127612770;f11;151;5;154;;;;vpos;;v;;a;;r;;d4,152;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTabControlled;PHP:Function Name;127612770;f11;143;5;146;;;;vpos;;v;;a;;r;;d4,144;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTabLength;PHP:Function Name;127612770;f11;200;5;203;;;;vpos;;v;;a;;r;;d4,201;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="getTyping;PHP:Function Name;127612770;f11;43;5;47;;;;vpos;;v;;a;;r;;d4,44;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;p;;x;;n">
+</treenode>
+<treenode node="isTypingFile;PHP:Function Name;127612770;f11;121;5;124;;;;vpos;;v;;a;;r;;d4,122;;b1,0;;m0;;e0;;i0;;o;;k;;lmethod;;p;;x;;n">
+</treenode>
+<treenode node="nl;PHP:Function Name;127612770;f18;215;5;218;;;;vpos;;v;;a;;r;;d4,216;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="phpCloseTag;PHP:Function Name;127612770;f18;250;5;253;;;;vpos;;v;;a;;r;;d4,251;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="phpDeclareAttribute;PHP:Function Name;127612770;f18;291;5;294;;;;vpos;;v;;a;;r;;d4,292;;b1,5;;m0;;e0;;i0;;o;;k;;lattributeName;;paccessControl;;p;;x;;x;;n">
+</treenode>
+<treenode node="phpDeclareClass;PHP:Function Name;127612770;f18;278;5;284;;;;vpos;;v;;a;;r;;d4,279;;b1,5;;m0;;e0;;i0;;o;;k;;lclassName;;pextensionClass;;p;;x;;x;;n">
+</treenode>
+<treenode node="phpDeclareConstructor;PHP:Function Name;127612770;f18;345;5;350;;;;vpos;;v;;a;;r;;d4,346;;b1,5;;m0;;e0;;i0;;o;;k;;lparameters;;pbody;;p;;x;;x;;n">
+</treenode>
+<treenode node="phpDeclareMethod;PHP:Function Name;127612770;f18;311;5;319;;;;vpos;;v;;a;;r;;d4,313;;b1,5;;m0;;e0;;i0;;o;;k;;lmethodName;;paccessControl;;pparameters;;pbody;;p;;x;;x;;x;;x;;n">
+</treenode>
+<treenode node="phpEndClassDeclaration;PHP:Function Name;127612770;f18;286;5;289;;;;vpos;;v;;a;;r;;d4,287;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="phpInstruction;PHP:Function Name;127612770;f18;352;5;355;;;;vpos;;v;;a;;r;;d4,353;;b1,5;;m0;;e0;;i0;;o;;k;;linstruction;;p;;x;;n">
+</treenode>
+<treenode node="phpNamespace;PHP:Function Name;127612770;f18;273;5;276;;;;vpos;;v;;a;;r;;d4,274;;b1,5;;m0;;e0;;i0;;o;;k;;lnamespace;;p;;x;;n">
+</treenode>
+<treenode node="phpOpenTag;PHP:Function Name;127612770;f18;245;5;248;;;;vpos;;v;;a;;r;;d4,246;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="phpPrivateAttribute;PHP:Function Name;127612770;f18;301;5;304;;;;vpos;;v;;a;;r;;d4,302;;b1,5;;m0;;e0;;i0;;o;;k;;lattributeName;;p;;x;;n">
+</treenode>
+<treenode node="phpPrivateMethod;PHP:Function Name;127612770;f18;329;5;335;;;;vpos;;v;;a;;r;;d4,331;;b1,5;;m0;;e0;;i0;;o;;k;;lmethodName;;pparameters;;pbody;;p;;x;;x;;x;;n">
+</treenode>
+<treenode node="phpProtectedAttribute;PHP:Function Name;127612770;f18;306;5;309;;;;vpos;;v;;a;;r;;d4,307;;b1,5;;m0;;e0;;i0;;o;;k;;lattributeName;;p;;x;;n">
+</treenode>
+<treenode node="phpProtectedMethod;PHP:Function Name;127612770;f18;337;5;343;;;;vpos;;v;;a;;r;;d4,339;;b1,5;;m0;;e0;;i0;;o;;k;;lmethodName;;pparameters;;pbody;;p;;x;;x;;x;;n">
+</treenode>
+<treenode node="phpPublicAttribute;PHP:Function Name;127612770;f18;296;5;299;;;;vpos;;v;;a;;r;;d4,297;;b1,5;;m0;;e0;;i0;;o;;k;;lattributeName;;p;;x;;n">
+</treenode>
+<treenode node="phpPublicMethod;PHP:Function Name;127612770;f18;321;5;327;;;;vpos;;v;;a;;r;;d4,323;;b1,5;;m0;;e0;;i0;;o;;k;;lmethodName;;pparameters;;pbody;;p;;x;;x;;x;;n">
+</treenode>
+<treenode node="returnSomething;PHP:Function Name;127612770;f18;235;5;238;;;;vpos;;v;;a;;r;;d4,236;;b1,5;;m0;;e0;;i0;;o;;k;;lreturnValue;;p;;x;;n">
+</treenode>
+<treenode node="setAutoIndent;PHP:Function Name;127612770;f11;175;5;178;;;;vpos;;v;;a void;;r;;d4,176;;b1,0;;m0;;e0;;i0;;o;;k;;lautoIndent;;p;;x;;n">
+</treenode>
+<treenode node="setTabAsSpaces;PHP:Function Name;127612770;f11;192;5;195;;;;vpos;;v;;a void;;r;;d4,193;;b1,0;;m0;;e0;;i0;;o;;k;;ltabAsSpaces;;p;;x;;n">
+</treenode>
+<treenode node="setTabControl;PHP:Function Name;127612770;f11;159;5;162;;;;vpos;;v;;a void;;r;;d4,160;;b1,0;;m0;;e0;;i0;;o;;k;;ltabControl;;p;;x;;n">
+</treenode>
+<treenode node="setTabLength;PHP:Function Name;127612770;f11;208;5;211;;;;vpos;;v;;a void;;r;;d4,209;;b1,0;;m0;;e0;;i0;;o;;k;;ltabLength;;p;;x;;n">
+</treenode>
+<treenode node="tab;PHP:Function Name;127612770;f18;220;5;223;;;;vpos;;v;;a;;r;;d4,221;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="thisRef;PHP:Function Name;127612770;f18;225;5;228;;;;vpos;;v;;a;;r;;d4,226;;b1,5;;m0;;e0;;i0;;o;;k;;lmember;;p;;x;;n">
+</treenode>
+<treenode node="typeToFileContent;PHP:Function Name;127612770;f11;84;5;118;;;;vpos;;v;;a;;r;;d4,85;;b1,0;;m0;;e0;;i0;;o;;k;;ltypingName;;pargs;;plevel;;p;;x;;x;;x;;n">
+</treenode>
+<treenode node="typingExists;PHP:Function Name;127612770;f11;48;5;51;;;;vpos;;v;;a;;r;;d4,49;;b1,0;;m0;;e0;;i0;;o;;k;;lname;;p;;x;;n">
+</treenode>
+<treenode node="varRef;PHP:Function Name;127612770;f18;230;5;233;;;;vpos;;v;;a;;r;;d4,231;;b1,5;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="write;PHP:Function Name;127612770;f11;357;5;360;;;;vpos;;v;;a;;r;;d4,358;;b1,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$autoIndent;PHP:Var Name;127612770;f12;9;23;9;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$innerValue;PHP:Var Name;127612770;f12;16;23;16;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$lastTypingExecuted;PHP:Var Name;127612770;f12;18;31;18;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$tabAsSpaces;PHP:Var Name;127612770;f12;10;24;10;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$tabControl;PHP:Var Name;127612770;f12;8;23;8;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$tabLength;PHP:Var Name;127612770;f12;11;22;11;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$typingLevel;PHP:Var Name;127612770;f12;15;24;15;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+<treenode node="$typings;PHP:Var Name;127612770;f12;13;20;13;;;;vpos;;v;;a;;r;;d-1,-1;;b3,0;;m0;;e0;;i0;;o;;k;;l;;n">
+</treenode>
+</treenode>
+</treenode>
+</treenode>
+<treenode node="IO_boldString;PHP:Function Name;2461871312;f0;22;1;25;;;;vpos;;v;;a;;r;;d0,23;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_printLine;PHP:Function Name;2461871312;f0;17;1;20;;;;vpos;;v;;a;;r;;d0,18;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_print_r;PHP:Function Name;2461871312;f0;3;1;8;;;;vpos;;v;;a;;r;;d0,4;;b0,0;;m0;;e0;;i0;;o;;k;;lobject;;p;;x;;n">
+</treenode>
+<treenode node="IO_toCamelCase;PHP:Function Name;2461871312;f0;27;1;41;;;;vpos;;v;;a;;r;;d0,28;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;pcapitalizeFirstCharacter;;p;;x;;x;;n">
+</treenode>
+<treenode node="IO_toClassName;PHP:Function Name;2461871312;f0;48;1;51;;;;vpos;;v;;a;;r;;d0,49;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_toFunctionName;PHP:Function Name;2461871312;f0;53;1;56;;;;vpos;;v;;a;;r;;d0,54;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_toMethodName;PHP:Function Name;2461871312;f0;43;1;46;;;;vpos;;v;;a;;r;;d0,44;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_toVariableName;PHP:Function Name;2461871312;f0;58;1;61;;;;vpos;;v;;a;;r;;d0,59;;b0,0;;m0;;e0;;i0;;o;;k;;lstring;;p;;x;;n">
+</treenode>
+<treenode node="IO_xmpString;PHP:Function Name;2461871312;f0;10;1;15;;;;vpos;;v;;a;;r;;d0,11;;b0,0;;m0;;e0;;i0;;o;;k;;ltext;;p;;x;;n">
+</treenode>
+<treenode node="combineUniqueDigits;PHP:Function Name;4081560574;f0;286;1;309;;;;vpos;;v;;a;;r;;d0,287;;b0,0;;m0;;e0;;i0;;o;;k;;lcharsAsString;;psize;;p;;x;;x;;n">
+</treenode>
+<treenode node="exceptions_error_handler;PHP:Function Name;2461871312;f0;69;1;81;;;;vpos;;v;;a;;r;;d48,69;;b0,0;;m0;;e0;;i0;;o;;k;;lexception;;p;;x;;n">
+</treenode>
+<treenode node="funcCall;PHP:Function Name;2678208221;f0;6;1;9;;;;vpos;;v;;a;;r;;d0,7;;b0,0;;m0;;e0;;i0;;o;;k;;lparam;;p;;x;;n">
+</treenode>
+<treenode node="generateUniqueDigitsNumber;PHP:Function Name;4081560574;f0;311;1;326;;;;vpos;;v;;a;;r;;d0,312;;b0,0;;m0;;e0;;i0;;o;;k;;lmaxDigits;;p;;x;;n">
+</treenode>
+<treenode node="numpad;PHP:Function Name;4081560574;f0;253;1;259;;;;vpos;;v;;a;;r;;d0,254;;b0,0;;m0;;e0;;i0;;o;;k;;lnum;;pmaxFill;;p;;x;;x;;n">
+</treenode>
+<treenode node="reverseRotateNumber;PHP:Function Name;4081560574;f0;221;1;230;;;;vpos;;v;;a;;r;;d0,222;;b0,0;;m0;;e0;;i0;;o;;k;;lnum;;protationsLength;;p;;x;;x;;n">
+</treenode>
+<treenode node="rotateNumber;PHP:Function Name;4081560574;f0;211;1;219;;;;vpos;;v;;a;;r;;d0,212;;b0,0;;m0;;e0;;i0;;o;;k;;lnum;;protationsLength;;p;;x;;x;;n">
+</treenode>
+<treenode node="sampling;PHP:Function Name;4081560574;f0;262;1;283;;;;vpos;;v;;a;;r;;d58,262;;b0,0;;m0;;e0;;i0;;o;;k;;lchars;;psize;;pcombinations;;p;;x;;x;;x;;n">
+</treenode>
+</phptree>
+<jstree>
+</jstree>
+<pythontree>
+</pythontree>
+</codestructure>
