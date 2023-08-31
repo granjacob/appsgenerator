@@ -2,17 +2,28 @@
 <html>
     <head>
         <style type="text/css">
+
+            body {
+                font-family:Tahoma;
+            }
             .row {
                 display:block;
                 width: 100%;
                 padding:7px;
+                border: 1px solid #ccc;
+                border-radius:3px;
+                overflow: hidden;
+                margin-top:10px;
+                margin-left:10px;
             }
 
             .row .propName {
-                background-color:#ccc;
+                /*background-color:#ccc;*/
                 font-weight:bold;
                 width: 50%;
                 text-transform: capitalize;
+                background: rgb(216,239,255);
+                background: linear-gradient(90deg, rgba(216,239,255,1) 0%, rgba(217,217,217,0) 52%);
             }
 
             .row .fieldName {
@@ -38,8 +49,33 @@
             }
 
             .row .propValue {
-                font-style: italic;
+                /*font-style: italic;*/
                 width:50%;
+            }
+
+            .dataInfo div {
+                padding: 7px;
+            }
+
+            .propValue.main .dataInfo .row {
+                display:block;
+                float:left;
+                clear:none;
+                width:auto ;
+            }
+
+            .row.main {
+                clear:both;
+                height:auto;
+                width:100%;
+            }
+
+            .row.main .propName, .row.main .propValue {
+                width:100%;
+            }
+
+            .resultRequest {
+                width:90%;
             }
 
         </style>
@@ -86,21 +122,23 @@
                 setVariable( 'currentConnection', databaseConnections[selectedConnection].text );
             }
 
-            function showArrayInformation( data )
+            function showArrayInformation( data, format )
             {
                 console.log( data );
                 var result = "<div class='dataInfo'>";
                 for (var property in data) {
-                    result = result + "<div class='row'><div class='propName'>";
+                    result = result + "<div class='row " + (!isNaN( property ) ? 'main' : property) + "'><div class='propName'>";
                     result = result + property;
                     result = result + "</div>";
                     
-                    result = result + "<div class='propValue'>";
-                    result = result + data[property];
+                    result = result + "<div class='propValue "  + (!isNaN( property ) ? 'main' : property) + "'>";
 
                     var currentObject = data[property];
                     if (typeof currentObject === 'object') {
                         result = result + showArrayInformation( currentObject );
+                    } else {
+                        result = result + data[property];
+
                     }
 
                     result = result + "</div></div>";
@@ -242,7 +280,39 @@ echo "hola!";
             if (xhr.readyState == 4 && xhr.status == 200) {
                 const data = xhr.response;
                 //console.log(data);
-                document.getElementById('resultRequest').innerHTML = showArrayInformation( data );
+                document.getElementById('resultRequest').innerHTML = showArrayInformation( 
+                    [
+	{
+		color: "red",
+		value: "#f00"
+	},
+	{
+		color: "green",
+		value: "#0f0"
+	},
+	{
+		color: "blue",
+		value: "#00f"
+	},
+	{
+		color: "cyan",
+		value: "#0ff"
+	},
+	{
+		color: "magenta",
+		value: "#f0f"
+	},
+	{
+		color: "yellow",
+		value: "#ff0"
+	},
+	{
+		color: "black",
+		value: "#000"
+	}
+]
+                    
+                    , "vertical,horizontal" );
             } else {
                 console.log(`Error: ${xhr.status}`);
             }
