@@ -1119,10 +1119,14 @@
                     if (parts.length > 1) {
                         if (data[parts[0]]) {
                             var parentKey = parts[0];
-                            parts.splice(1,1);
+                            parts.splice(0,1);
                             return this.fetchDataByKey( parts.join('.'), data[parentKey] );
                         }
+                        else {
+                            return 'N/A';
+                        }
                     }
+                   
                 }
 
                 this.writeListData = function( data )
@@ -1138,7 +1142,7 @@
                         result = result + "</tr>";
                     }
 
-                    return '<thead><tr>' + result + '</tr></thead>'
+                    return '<tbody><tr>' + result + '</tr></tbody>'
                 }
 
                 this.writeList = function( attributes )
@@ -1269,6 +1273,19 @@
 
         table.ListaElements th {
             background-color:#ccc;
+            text-transform: capitalize;
+        }
+
+        table tbody tr td:hover {
+            background-color:thistle;
+        }
+
+        table tbody tr:hover  {
+            background-color:#eee;
+        }
+
+        table tbody tr  {
+            border-bottom:1px solid #ccc;
         }
         </style>
     </head>
