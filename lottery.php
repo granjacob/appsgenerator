@@ -1,5 +1,139 @@
 <?php
 
+$numbersString = "1476
+1876
+6741
+2088
+8022
+20
+82
+126
+178
+199
+237
+462
+751
+772
+957
+1019
+1183
+1284
+1370
+1629
+1772
+1824
+1830
+1842
+2111
+2234
+2432
+2519
+3033
+3075
+3244
+3299
+3445
+3468
+3508
+3760
+3775
+3807
+3876
+3973
+4001
+4127
+4268
+4272
+4688
+4701
+4744
+5049
+5112
+5197
+5279
+5657
+5763
+5871
+5908
+6035
+6078
+6129
+6193
+6207
+6326
+6503
+6590
+6632
+6675
+6824
+6842
+6949
+6978
+7200
+7368
+7450
+7476
+7517
+7602
+7820
+7910
+7941
+7997
+8000
+8094
+8147
+8165
+8291
+8302
+8340
+8524
+8536
+8595
+8612
+8640
+8693
+8745
+8781
+8912
+9127
+9180
+9223
+9562
+9596
+9640
+9643
+9731
+9896
+9979";
+
+$numbersArray = explode( "\n", $numbersString );
+
+function applyit( $number, $qfactor, $qfa, $qfb )
+{
+    $result = abs( $number ) * 3 - $qfactor + ($qfa*$qfb) / 2;
+    return $result;
+}
+
+
+function unapplyit( $number, $qfactor, $qfa, $qfb )
+{
+    return (($number - ($qfa*$qfb) / 2) + $qfactor) / 3;
+}
+
+$qfactor = 1019;
+$qfa = 10;
+$qfb = 19;
+
+foreach ($numbersArray as $num) {
+
+    $applied = applyit( $num, $qfactor, $qfa, $qfb );
+    $reapply = applyit( $applied, $qfactor, $qfa, $qfb );
+    echo "El numero original de " . $num . " -----> " . $applied . " and reapply = " . $reapply . "<br/>"; 
+
+}
+
+exit;
+
 
 // 0 = WHITE
 // 1 = BLACK
@@ -41,7 +175,7 @@ $letterColors = array("a" => "#Cbefd0",
 "n" => "#D47a44",
 "o" => "#F0F59E",
 "p" => "#A86d0d",
-"q" => "#D4730d",
+"q" => "#D4730d", 
 "r" => "#7D7D7C",
 "s" => "#EAEAC2",
 "t" => "#9191a4",
