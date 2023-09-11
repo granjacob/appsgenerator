@@ -1058,12 +1058,13 @@
 
             function Lista( data )
             {
+                this.name = "";
                 this.data = data;
-                this.columnas = [];
+                this.columns = [];
                 this.write = function()
                 {
-                    for (var col in this.columnas) {
-                        alert(this.columnas[col]);
+                    for (var col in this.columns) {
+                        alert(this.columns[col]);
                     }
                 }
 
@@ -1088,7 +1089,7 @@
                         else {
                    
                             var newColumn = prefix + key;
-                            this.columnas[newColumn] = newColumn;
+                            this.columns[newColumn] = newColumn;
                         }
                     }
                     
@@ -1096,11 +1097,32 @@
                 this.writeColumns = function( columns )
                 {
                     var result = "";
-                    for (var col in this.columns) {
-                        result = result + '<th>' + this.col + '</th>';
+                    if (columns == null)
+                        columns = this.columns;
+                    for (var col in columns) {
+                        result = result + '<th>' + col + '</th>';
                     }
 
                     return '<thead><tr>' + result + '</tr></thead>'
+                }
+
+                this.fetchDataByKey = function( key, data )
+                {
+                    console.log( key );
+                    if (data == null)
+                        data = this.data;
+                    
+                    if (data[key]) {
+                        return data[key];
+                    }
+                    var parts = key.split('.');
+                    if (parts.length > 1) {
+                        if (data[parts[0]]) {
+                            var parentKey = parts[0];
+                            parts.splice(1,1);
+                            return this.fetchDataByKey( parts.join('.'), data[parentKey] );
+                        }
+                    }
                 }
 
                 this.writeListData = function( data )
@@ -1109,20 +1131,22 @@
                         data = this.data;
                     var result = "";
                     for (var row in data) {
-                        for (var key in data[row]) {
-                            result = result + '<td>' + data[row] + '</td>';
+                        result = result + "<tr>";
+                        for (var key in this.columns) {
+                            result = result + '<td>' + this.fetchDataByKey( key, data[row] ) + '</td>';
                         }
+                        result = result + "</tr>";
                     }
 
                     return '<thead><tr>' + result + '</tr></thead>'
                 }
 
-                this.writeList = function()
+                this.writeList = function( attributes )
                 {
                     var result = 
-                        '<table>' + 
-                            this.writeColumns() + /*+ 
-                            this.writeListData()*/
+                        '<table class="' + this.name + '">' + 
+                            this.writeColumns() + 
+                            this.writeListData()
                         '</table>';
                     return result;
                 }                
@@ -1234,6 +1258,18 @@
         .propName {
             font-weight: bold;
         }
+
+        table.ListaElements {
+            width:100%;
+        }
+
+        table.ListaElements td, table.ListaElements th {
+            padding:7px;
+        }
+
+        table.ListaElements th {
+            background-color:#ccc;
+        }
         </style>
     </head>
     <body>
@@ -1344,9 +1380,9 @@ echo "hola!";
             if (xhr.readyState == 4 && xhr.status == 200) {
                 const data = xhr.response;
                 //console.log(data);
-                document.getElementById('resultRequest').innerHTML = showArrayInformation( 
+       /*         document.getElementById('resultRequest').innerHTML = showArrayInformation( 
                     sampleData
-                    , null, 0 );
+                    , null, 0 );*/
             } else {
                 console.log(`Error: ${xhr.status}`);
             }
@@ -1365,8 +1401,9 @@ echo "hola!";
 
         send();
 
+        lista.name = "ListaElements";
         lista.calculateColumns();
-        lista.writeList();
+        document.getElementById('resultRequest').innerHTML = lista.writeList();
     </script>
 
     
