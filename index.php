@@ -7,7 +7,111 @@
         <script type="text/javascript">
 
 
-            var sampleData = [
+            var sampleData = 
+
+          [  {
+    "uid": 240375,
+    "dkey": "d00450c191d217ccd01a681320994e83",
+    "updated_at": 1694489025,
+    "version": "11.5.124",
+    "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
+    "hud": {
+        "host": "https://hud.crazyegg.com",
+        "script_url": "https://script.crazyegg.com/scripts/hud",
+        "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
+        "launch_origins": [
+            "https://core.crazyegg.com",  "https://core.crazyegg.com"
+        ]
+    }}]
+        /*    [
+  {
+    _id: "5b21ca3eeb7f6fbccd471815",
+    title: "Terminator",
+    genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+    numberInStock: 6,
+    dailyRentalRate: 2.5,
+        publishDate: "2018-01-03T19:04:28.809Z",
+    liked: true,
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd471816",
+    title: "Die Hard",
+    genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+    numberInStock: 5,
+    dailyRentalRate: 2.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd471817",
+    title: "Get Out",
+    genre: { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" },
+    numberInStock: 8,
+    dailyRentalRate: 3.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd471819",
+    title: "Trip to Italy",
+    genre: { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
+    numberInStock: 7,
+    dailyRentalRate: 3.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd47181a",
+    title: "Airplane",
+    genre: { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
+    numberInStock: 7,
+    dailyRentalRate: 3.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd47181b",
+    title: "Wedding Crashers",
+    genre: { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
+    numberInStock: 7,
+    dailyRentalRate: 3.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd47181e",
+    title: "Gone Girl",
+    genre: { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" },
+    numberInStock: 7,
+    dailyRentalRate: 4.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd47181f",
+    title: "The Sixth Sense",
+    genre: { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" },
+    numberInStock: 4,
+    dailyRentalRate: 3.5
+  },
+  {
+    _id: "5b21ca3eeb7f6fbccd471821",
+    title: "The Avengers",
+    genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+    numberInStock: 7,
+    dailyRentalRate: 3.5
+  }
+];
+        /*    
+            [
+  {
+    "name": "Molecule Man",
+    "age": 29,
+    "secretIdentity": "Dan Jukes",
+    "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+  },
+  {
+    "name": "Madame Uppercut",
+    "age": 39,
+    "secretIdentity": "Jane Wilson",
+    "powers": [
+      "Million tonne punch",
+      "Damage resistance",
+      "Superhuman reflexes"
+    ]
+  }
+];*/
+
+/*
+            [
   {
     "author": "Chinua Achebe",
     "country": "Nigeria",
@@ -1013,7 +1117,7 @@
     "title": "Memoirs of Hadrian",
     "year": 1951
   }
-];
+];*/
 
             var appVariables = [];
 
@@ -1094,6 +1198,27 @@
                     }
                     
                 }
+
+                this.writeRowCheckColumn = function( text )
+                {
+                    return "<th>" + '<input type="checkbox"/>' +  "</th>";
+                }
+
+                this.writeRowCheck = function( rowNum )
+                {
+                    return "<td>" + '<input type="checkbox"/>' + "</td>";      
+                }
+
+                this.writeRowNumColumn = function( text )
+                {
+                    return "<th>" + text + "&nbsp;" + "</th>";
+                }
+
+                this.writeRowNumColumnValue = function( rowNum )
+                {
+                    return "<td><span>" + rowNum + "</span>&nbsp;" + "</td>";      
+                }
+
                 this.writeColumns = function( columns )
                 {
                     var result = "";
@@ -1103,7 +1228,7 @@
                         result = result + '<th>' + col + '</th>';
                     }
 
-                    return '<thead><tr>' + result + '</tr></thead>'
+                    return '<thead><tr>' + this.writeRowCheckColumn() + this.writeRowNumColumn("") + result + '</tr></thead>'
                 }
 
                 this.fetchDataByKey = function( key, data )
@@ -1123,7 +1248,7 @@
                             return this.fetchDataByKey( parts.join('.'), data[parentKey] );
                         }
                         else {
-                            return 'N/A';
+                            return '<span class="navalue">N/A</span>';
                         }
                     }
                    
@@ -1135,7 +1260,7 @@
                         data = this.data;
                     var result = "";
                     for (var row in data) {
-                        result = result + "<tr>";
+                        result = result + "<tr>" + this.writeRowCheck() + this.writeRowNumColumnValue( row + 1 ) ;
                         for (var key in this.columns) {
                             result = result + '<td>' + this.fetchDataByKey( key, data[row] ) + '</td>';
                         }
@@ -1148,10 +1273,10 @@
                 this.writeList = function( attributes )
                 {
                     var result = 
-                        '<table class="' + this.name + '">' + 
+                        '<div class="container-fluid"><div class="tableMain overflow-auto"><table class="' + this.name + '">' + 
                             this.writeColumns() + 
                             this.writeListData()
-                        '</table>';
+                        '</table></div></div>';
                     return result;
                 }                
 
@@ -1268,7 +1393,7 @@
         }
 
         table.ListaElements td, table.ListaElements th {
-            padding:7px;
+            padding:3px;
         }
 
         table.ListaElements th {
@@ -1286,6 +1411,24 @@
 
         table tbody tr  {
             border-bottom:1px solid #ccc;
+        }
+
+        table thead th:hover  {
+            cursor: pointer;
+            color:blue;
+            text-decoration: underline;
+            background-color: #ddd;
+        }
+
+        div.tableMain {
+            border: 1px solid #ccc;
+            border-radius:3px;
+        }
+
+
+        .navalue {
+            color:gainsboro;
+            
         }
         </style>
     </head>
