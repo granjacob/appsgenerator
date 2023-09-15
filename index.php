@@ -6,13 +6,25 @@
 
         <script type="text/javascript">
 
+          var myErrors = [];
+          startTrackingErrors = true;
+
+          window.onerror = function (errorMessage, url, lineNumber) {
+              if (!startTrackingErrors) { return false; }
+              myErrors.push({
+                errorMessage : errorMessage,
+                url : url,
+                lineNumber : lineNumber
+              });
+              return true;
+          };
+
 
             var sampleData = 
-
-          [  {
+         [   {
     "uid": 240375,
     "dkey": "d00450c191d217ccd01a681320994e83",
-    "updated_at": 1694489025,
+    "updated_at": 1694727177,
     "version": "11.5.124",
     "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
     "hud": {
@@ -20,10 +32,468 @@
         "script_url": "https://script.crazyegg.com/scripts/hud",
         "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
         "launch_origins": [
-            "https://core.crazyegg.com",  "https://core.crazyegg.com"
-        ]
-    }}]
-        /*    [
+            "https://core.crazyegg.com"
+        ] 
+        },
+    "survey_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "survey_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "addon_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "addon_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "ce_app_url": "https://app.crazyegg.com",
+    "clock_url": "https://tracking.crazyegg.com/clock",
+    "common_script_url": "https://script.crazyegg.com/pages/versioned/common-scripts/7ec30fa91eaf9eb1ccdde76b548095fc.js",
+    "status": "ok",
+    "counters_dest": "https://tracking.crazyegg.com/metrics",
+    "data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/www.gana.com.co.json",
+    "sampling_data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/sampling/www.gana.com.co.json",
+    "tracking_script_url": "https://script.crazyegg.com/pages/versioned/tracking-scripts/661bb7e9d0e0abee5d7403d3d65553a1.js",
+    "trackingpagestate_script_url": "https://script.crazyegg.com/pages/versioned/trackingpagestate-scripts/d9b6b28e3d84db3e4c966a5cf73af402.js",
+    "thirdparty_script_url": "https://script.crazyegg.com/pages/versioned/thirdparty-scripts/e6e66928c3ae3f7da5bec831f77b7a6b.js",
+   // "sites": "%8&4!}%|%]!}$<$4$9$1$1$3$;$,!}&%%?&$%^!}$<!}%`%?&%%?$.%[&&&$$.%[&&!}$,!}&+%^&+&+%|&&&%%.%^%[&&&*%]%|&%%`!}$<&,&*&-%^$,!}&*%^%[&&&*%]%|&%%`%0%^&,&,%|&%%`&+!}$<&4!}&(%?%`%^%1%?&*%`%^&,%|&%%`$|&%%?%@&!%^%]!}$<%_%?&!&+%^$,!}&(%?%`%^%1%?&*%`%^&,%|&%%`%2&*&!&+!}$<%8%;$,!}&*&-&!%^&+!}$<%8%;$,!}&$%?&+%~$|&!%^&$%^&%&,&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,&*%?&,%^%`&2!}$<!}&-&%%|%_&&&*&$!}$,!}&+%?&$&(&!%|&%%`%*&-&$%.%^%[&&&*%]%|&%%`&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%2&(%]%?&,%^%]$^&,!}$<&%&-&!&!$,!}%^&%%]%0%^&+&+%|&&&%%+&%$_&!&&%[%~%^%]%2&*&!!}$<%_%?&!&+%^$,!}%@&!&&%[%~%^%]%2&*&!&+!}$<%8%;$,!}%@&!&&%[%~%^%]%.&-&!%^&+!}$<%8%;$,!}&(&*%^$`%?%[%{%^%$&$%?%`%^&+!}$<%_%?&!&+%^$,!}&*%^%[&&&*%]%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}%{%|%]%^%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}&+%?&$&(&!%|&%%`$`&&&$&(&!%^&,%^%]$^&,!}$<$2$7$;$4$5$;$6$6$4$6&6$,!}&*%^%[&&&*%]%|&%%`%=&*%?&,%|&&!}$<$3$3$5$9&6%;",
+    "global_ip_block_list": "",
+    "is_using_ip_blocking": false,
+    "page_views_limit_reached": null,
+    "v11_tracking_dest": "https://tracking.crazyegg.com/v11",
+    "recordings_dest": "https://recording.crazyegg.com",
+    "recordings_sampling_dest": "https://sample-api-v2.crazyegg.com",
+    "ratio_v2_dest": "https://sampling-ratio.crazyegg.com/ratio/v2",
+    "page_states_tracking_url": "https://pagestates-tracking.crazyegg.com",
+    "assets_tracking_url": "https://assets-tracking.crazyegg.com",
+    "disable_recordings_masking": false,
+    "disable_recordings_email_masking": false,
+    "disable_recordings_mobile": false,
+    "recordings_number": 500,
+    "recordings_activation": null,
+    "asset_collector_ignore": [
+        "bat.bing.com",
+        "www.facebook.com/tr",
+        "www.google.",
+        "www.google-analytics.",
+        "ssl.google-analytics.",
+        "www.googletagmanager.",
+        "googleads.g",
+        "googlesyndication.com",
+        "fonts.googleapis.com",
+        "allfont.net",
+        "adservice.google",
+        "sp.analytics.yahoo.",
+        "analytics.yahoo.com",
+        "heapanalytics.com",
+        "dev.visualwebsiteoptimizer.",
+        "b.6sc.co",
+        "hn.inspectlet.",
+        "d.adroll.",
+        "secure.adnxs.",
+        "match.adsrvr.",
+        "ads.travelaudience.",
+        "www.linkconnector.",
+        "px.ads.linkedin.",
+        "cdn.bizible.",
+        "ih.adscale.",
+        "rtb-csync.smartadserver.",
+        "x.bidswitch.net/sync",
+        "ad.doubleclick.",
+        "pixel.anyclip.com",
+        "tr.brand-display.com",
+        "d.adroll.com",
+        "mabping.chartbeat.net",
+        "ping.chartbeat.net",
+        "sb.scorecardresearch.com",
+        "cds.taboola.com",
+        "sync.richaudience.com",
+        "searchunify.com"
+    ],
+    "features": [],
+    "dnt": true,
+    "auto_identity": false,
+    "addons": [],
+    "tracking_key": "a5b5ff5e73322b4a9c06f11f3e6e4dbe"
+},
+{
+    "uid": 240375,
+    "dkey": "d00450c191d217ccd01a681320994e83",
+    "updated_at": 1694727177,
+    "version": "11.5.124",
+    "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
+    "hud": {
+        "host": "https://hud.crazyegg.com",
+        "script_url": "https://script.crazyegg.com/scripts/hud",
+        "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
+        "launch_origins": [
+            "https://core.crazyegg.com"
+        ] 
+        },
+    "survey_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "survey_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "addon_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "addon_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "ce_app_url": "https://app.crazyegg.com",
+    "clock_url": "https://tracking.crazyegg.com/clock",
+    "common_script_url": "https://script.crazyegg.com/pages/versioned/common-scripts/7ec30fa91eaf9eb1ccdde76b548095fc.js",
+    "status": "ok",
+    "counters_dest": "https://tracking.crazyegg.com/metrics",
+    "data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/www.gana.com.co.json",
+    "sampling_data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/sampling/www.gana.com.co.json",
+    "tracking_script_url": "https://script.crazyegg.com/pages/versioned/tracking-scripts/661bb7e9d0e0abee5d7403d3d65553a1.js",
+    "trackingpagestate_script_url": "https://script.crazyegg.com/pages/versioned/trackingpagestate-scripts/d9b6b28e3d84db3e4c966a5cf73af402.js",
+    "thirdparty_script_url": "https://script.crazyegg.com/pages/versioned/thirdparty-scripts/e6e66928c3ae3f7da5bec831f77b7a6b.js",
+   // "sites": "%8&4!}%|%]!}$<$4$9$1$1$3$;$,!}&%%?&$%^!}$<!}%`%?&%%?$.%[&&&$$.%[&&!}$,!}&+%^&+&+%|&&&%%.%^%[&&&*%]%|&%%`!}$<&,&*&-%^$,!}&*%^%[&&&*%]%|&%%`%0%^&,&,%|&%%`&+!}$<&4!}&(%?%`%^%1%?&*%`%^&,%|&%%`$|&%%?%@&!%^%]!}$<%_%?&!&+%^$,!}&(%?%`%^%1%?&*%`%^&,%|&%%`%2&*&!&+!}$<%8%;$,!}&*&-&!%^&+!}$<%8%;$,!}&$%?&+%~$|&!%^&$%^&%&,&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,&*%?&,%^%`&2!}$<!}&-&%%|%_&&&*&$!}$,!}&+%?&$&(&!%|&%%`%*&-&$%.%^%[&&&*%]%|&%%`&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%2&(%]%?&,%^%]$^&,!}$<&%&-&!&!$,!}%^&%%]%0%^&+&+%|&&&%%+&%$_&!&&%[%~%^%]%2&*&!!}$<%_%?&!&+%^$,!}%@&!&&%[%~%^%]%2&*&!&+!}$<%8%;$,!}%@&!&&%[%~%^%]%.&-&!%^&+!}$<%8%;$,!}&(&*%^$`%?%[%{%^%$&$%?%`%^&+!}$<%_%?&!&+%^$,!}&*%^%[&&&*%]%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}%{%|%]%^%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}&+%?&$&(&!%|&%%`$`&&&$&(&!%^&,%^%]$^&,!}$<$2$7$;$4$5$;$6$6$4$6&6$,!}&*%^%[&&&*%]%|&%%`%=&*%?&,%|&&!}$<$3$3$5$9&6%;",
+    "global_ip_block_list": "",
+    "is_using_ip_blocking": false,
+    "page_views_limit_reached": null,
+    "v11_tracking_dest": "https://tracking.crazyegg.com/v11",
+    "recordings_dest": "https://recording.crazyegg.com",
+    "recordings_sampling_dest": "https://sample-api-v2.crazyegg.com",
+    "ratio_v2_dest": "https://sampling-ratio.crazyegg.com/ratio/v2",
+    "page_states_tracking_url": "https://pagestates-tracking.crazyegg.com",
+    "assets_tracking_url": "https://assets-tracking.crazyegg.com",
+    "disable_recordings_masking": false,
+    "disable_recordings_email_masking": false,
+    "disable_recordings_mobile": false,
+    "recordings_number": 500,
+    "recordings_activation": null,
+    "asset_collector_ignore": [
+        "bat.bing.com",
+        "www.facebook.com/tr",
+        "www.google.",
+        "www.google-analytics.",
+        "ssl.google-analytics.",
+        "www.googletagmanager.",
+        "googleads.g",
+        "googlesyndication.com",
+        "fonts.googleapis.com",
+        "allfont.net",
+        "adservice.google",
+        "sp.analytics.yahoo.",
+        "analytics.yahoo.com",
+        "heapanalytics.com",
+        "dev.visualwebsiteoptimizer.",
+        "b.6sc.co",
+        "hn.inspectlet.",
+        "d.adroll.",
+        "secure.adnxs.",
+        "match.adsrvr.",
+        "ads.travelaudience.",
+        "www.linkconnector.",
+        "px.ads.linkedin.",
+        "cdn.bizible.",
+        "ih.adscale.",
+        "rtb-csync.smartadserver.",
+        "x.bidswitch.net/sync",
+        "ad.doubleclick.",
+        "pixel.anyclip.com",
+        "tr.brand-display.com",
+        "d.adroll.com",
+        "mabping.chartbeat.net",
+        "ping.chartbeat.net",
+        "sb.scorecardresearch.com",
+        "cds.taboola.com",
+        "sync.richaudience.com",
+        "searchunify.com"
+    ],
+    "features": [],
+    "dnt": true,
+    "auto_identity": false,
+    "addons": [],
+    "tracking_key": "a5b5ff5e73322b4a9c06f11f3e6e4dbe"
+},
+{
+    "uid": 240375,
+    "dkey": "d00450c191d217ccd01a681320994e83",
+    "updated_at": 1694727177,
+    "version": "11.5.124",
+    "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
+    "hud": {
+        "host": "https://hud.crazyegg.com",
+        "script_url": "https://script.crazyegg.com/scripts/hud",
+        "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
+        "launch_origins": [
+            "https://core.crazyegg.com"
+        ] 
+        },
+    "survey_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "survey_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "addon_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "addon_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "ce_app_url": "https://app.crazyegg.com",
+    "clock_url": "https://tracking.crazyegg.com/clock",
+    "common_script_url": "https://script.crazyegg.com/pages/versioned/common-scripts/7ec30fa91eaf9eb1ccdde76b548095fc.js",
+    "status": "ok",
+    "counters_dest": "https://tracking.crazyegg.com/metrics",
+    "data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/www.gana.com.co.json",
+    "sampling_data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/sampling/www.gana.com.co.json",
+    "tracking_script_url": "https://script.crazyegg.com/pages/versioned/tracking-scripts/661bb7e9d0e0abee5d7403d3d65553a1.js",
+    "trackingpagestate_script_url": "https://script.crazyegg.com/pages/versioned/trackingpagestate-scripts/d9b6b28e3d84db3e4c966a5cf73af402.js",
+    "thirdparty_script_url": "https://script.crazyegg.com/pages/versioned/thirdparty-scripts/e6e66928c3ae3f7da5bec831f77b7a6b.js",
+   // "sites": "%8&4!}%|%]!}$<$4$9$1$1$3$;$,!}&%%?&$%^!}$<!}%`%?&%%?$.%[&&&$$.%[&&!}$,!}&+%^&+&+%|&&&%%.%^%[&&&*%]%|&%%`!}$<&,&*&-%^$,!}&*%^%[&&&*%]%|&%%`%0%^&,&,%|&%%`&+!}$<&4!}&(%?%`%^%1%?&*%`%^&,%|&%%`$|&%%?%@&!%^%]!}$<%_%?&!&+%^$,!}&(%?%`%^%1%?&*%`%^&,%|&%%`%2&*&!&+!}$<%8%;$,!}&*&-&!%^&+!}$<%8%;$,!}&$%?&+%~$|&!%^&$%^&%&,&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,&*%?&,%^%`&2!}$<!}&-&%%|%_&&&*&$!}$,!}&+%?&$&(&!%|&%%`%*&-&$%.%^%[&&&*%]%|&%%`&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%2&(%]%?&,%^%]$^&,!}$<&%&-&!&!$,!}%^&%%]%0%^&+&+%|&&&%%+&%$_&!&&%[%~%^%]%2&*&!!}$<%_%?&!&+%^$,!}%@&!&&%[%~%^%]%2&*&!&+!}$<%8%;$,!}%@&!&&%[%~%^%]%.&-&!%^&+!}$<%8%;$,!}&(&*%^$`%?%[%{%^%$&$%?%`%^&+!}$<%_%?&!&+%^$,!}&*%^%[&&&*%]%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}%{%|%]%^%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}&+%?&$&(&!%|&%%`$`&&&$&(&!%^&,%^%]$^&,!}$<$2$7$;$4$5$;$6$6$4$6&6$,!}&*%^%[&&&*%]%|&%%`%=&*%?&,%|&&!}$<$3$3$5$9&6%;",
+    "global_ip_block_list": "",
+    "is_using_ip_blocking": false,
+    "page_views_limit_reached": null,
+    "v11_tracking_dest": "https://tracking.crazyegg.com/v11",
+    "recordings_dest": "https://recording.crazyegg.com",
+    "recordings_sampling_dest": "https://sample-api-v2.crazyegg.com",
+    "ratio_v2_dest": "https://sampling-ratio.crazyegg.com/ratio/v2",
+    "page_states_tracking_url": "https://pagestates-tracking.crazyegg.com",
+    "assets_tracking_url": "https://assets-tracking.crazyegg.com",
+    "disable_recordings_masking": false,
+    "disable_recordings_email_masking": false,
+    "disable_recordings_mobile": false,
+    "recordings_number": 500,
+    "recordings_activation": null,
+    "asset_collector_ignore": [
+        "bat.bing.com",
+        "www.facebook.com/tr",
+        "www.google.",
+        "www.google-analytics.",
+        "ssl.google-analytics.",
+        "www.googletagmanager.",
+        "googleads.g",
+        "googlesyndication.com",
+        "fonts.googleapis.com",
+        "allfont.net",
+        "adservice.google",
+        "sp.analytics.yahoo.",
+        "analytics.yahoo.com",
+        "heapanalytics.com",
+        "dev.visualwebsiteoptimizer.",
+        "b.6sc.co",
+        "hn.inspectlet.",
+        "d.adroll.",
+        "secure.adnxs.",
+        "match.adsrvr.",
+        "ads.travelaudience.",
+        "www.linkconnector.",
+        "px.ads.linkedin.",
+        "cdn.bizible.",
+        "ih.adscale.",
+        "rtb-csync.smartadserver.",
+        "x.bidswitch.net/sync",
+        "ad.doubleclick.",
+        "pixel.anyclip.com",
+        "tr.brand-display.com",
+        "d.adroll.com",
+        "mabping.chartbeat.net",
+        "ping.chartbeat.net",
+        "sb.scorecardresearch.com",
+        "cds.taboola.com",
+        "sync.richaudience.com",
+        "searchunify.com"
+    ],
+    "features": [],
+    "dnt": true,
+    "auto_identity": false,
+    "addons": [],
+    "tracking_key": "a5b5ff5e73322b4a9c06f11f3e6e4dbe"
+},
+{
+    "uid": 240375,
+    "dkey": "d00450c191d217ccd01a681320994e83",
+    "updated_at": 1694727177,
+    "version": "11.5.124",
+    "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
+    "hud": {
+        "host": "https://hud.crazyegg.com",
+        "script_url": "https://script.crazyegg.com/scripts/hud",
+        "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
+        "launch_origins": [
+            "https://core.crazyegg.com"
+        ] 
+        },
+    "survey_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "survey_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "addon_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "addon_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "ce_app_url": "https://app.crazyegg.com",
+    "clock_url": "https://tracking.crazyegg.com/clock",
+    "common_script_url": "https://script.crazyegg.com/pages/versioned/common-scripts/7ec30fa91eaf9eb1ccdde76b548095fc.js",
+    "status": "ok",
+    "counters_dest": "https://tracking.crazyegg.com/metrics",
+    "data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/www.gana.com.co.json",
+    "sampling_data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/sampling/www.gana.com.co.json",
+    "tracking_script_url": "https://script.crazyegg.com/pages/versioned/tracking-scripts/661bb7e9d0e0abee5d7403d3d65553a1.js",
+    "trackingpagestate_script_url": "https://script.crazyegg.com/pages/versioned/trackingpagestate-scripts/d9b6b28e3d84db3e4c966a5cf73af402.js",
+    "thirdparty_script_url": "https://script.crazyegg.com/pages/versioned/thirdparty-scripts/e6e66928c3ae3f7da5bec831f77b7a6b.js",
+   // "sites": "%8&4!}%|%]!}$<$4$9$1$1$3$;$,!}&%%?&$%^!}$<!}%`%?&%%?$.%[&&&$$.%[&&!}$,!}&+%^&+&+%|&&&%%.%^%[&&&*%]%|&%%`!}$<&,&*&-%^$,!}&*%^%[&&&*%]%|&%%`%0%^&,&,%|&%%`&+!}$<&4!}&(%?%`%^%1%?&*%`%^&,%|&%%`$|&%%?%@&!%^%]!}$<%_%?&!&+%^$,!}&(%?%`%^%1%?&*%`%^&,%|&%%`%2&*&!&+!}$<%8%;$,!}&*&-&!%^&+!}$<%8%;$,!}&$%?&+%~$|&!%^&$%^&%&,&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,&*%?&,%^%`&2!}$<!}&-&%%|%_&&&*&$!}$,!}&+%?&$&(&!%|&%%`%*&-&$%.%^%[&&&*%]%|&%%`&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%2&(%]%?&,%^%]$^&,!}$<&%&-&!&!$,!}%^&%%]%0%^&+&+%|&&&%%+&%$_&!&&%[%~%^%]%2&*&!!}$<%_%?&!&+%^$,!}%@&!&&%[%~%^%]%2&*&!&+!}$<%8%;$,!}%@&!&&%[%~%^%]%.&-&!%^&+!}$<%8%;$,!}&(&*%^$`%?%[%{%^%$&$%?%`%^&+!}$<%_%?&!&+%^$,!}&*%^%[&&&*%]%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}%{%|%]%^%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}&+%?&$&(&!%|&%%`$`&&&$&(&!%^&,%^%]$^&,!}$<$2$7$;$4$5$;$6$6$4$6&6$,!}&*%^%[&&&*%]%|&%%`%=&*%?&,%|&&!}$<$3$3$5$9&6%;",
+    "global_ip_block_list": "",
+    "is_using_ip_blocking": false,
+    "page_views_limit_reached": null,
+    "v11_tracking_dest": "https://tracking.crazyegg.com/v11",
+    "recordings_dest": "https://recording.crazyegg.com",
+    "recordings_sampling_dest": "https://sample-api-v2.crazyegg.com",
+    "ratio_v2_dest": "https://sampling-ratio.crazyegg.com/ratio/v2",
+    "page_states_tracking_url": "https://pagestates-tracking.crazyegg.com",
+    "assets_tracking_url": "https://assets-tracking.crazyegg.com",
+    "disable_recordings_masking": false,
+    "disable_recordings_email_masking": false,
+    "disable_recordings_mobile": false,
+    "recordings_number": 500,
+    "recordings_activation": null,
+    "asset_collector_ignore": [
+        "bat.bing.com",
+        "www.facebook.com/tr",
+        "www.google.",
+        "www.google-analytics.",
+        "ssl.google-analytics.",
+        "www.googletagmanager.",
+        "googleads.g",
+        "googlesyndication.com",
+        "fonts.googleapis.com",
+        "allfont.net",
+        "adservice.google",
+        "sp.analytics.yahoo.",
+        "analytics.yahoo.com",
+        "heapanalytics.com",
+        "dev.visualwebsiteoptimizer.",
+        "b.6sc.co",
+        "hn.inspectlet.",
+        "d.adroll.",
+        "secure.adnxs.",
+        "match.adsrvr.",
+        "ads.travelaudience.",
+        "www.linkconnector.",
+        "px.ads.linkedin.",
+        "cdn.bizible.",
+        "ih.adscale.",
+        "rtb-csync.smartadserver.",
+        "x.bidswitch.net/sync",
+        "ad.doubleclick.",
+        "pixel.anyclip.com",
+        "tr.brand-display.com",
+        "d.adroll.com",
+        "mabping.chartbeat.net",
+        "ping.chartbeat.net",
+        "sb.scorecardresearch.com",
+        "cds.taboola.com",
+        "sync.richaudience.com",
+        "searchunify.com"
+    ],
+    "features": [],
+    "dnt": true,
+    "auto_identity": false,
+    "addons": [],
+    "tracking_key": "a5b5ff5e73322b4a9c06f11f3e6e4dbe"
+},
+{
+    "uid": 240375,
+    "dkey": "d00450c191d217ccd01a681320994e83",
+    "updated_at": 1694727177,
+    "version": "11.5.124",
+    "site_data_url_template": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/SITENAME.json",
+    "hud": {
+        "host": "https://hud.crazyegg.com",
+        "script_url": "https://script.crazyegg.com/scripts/hud",
+        "core_api_auth_key": "82f9260b5932ebe2eb85d4c8ac7687fb13b5dcf9fbdc2bb6c4e2d1abb726b207",
+        "launch_origins": [
+            "https://core.crazyegg.com"
+        ] 
+        },
+    "survey_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "survey_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "addon_preview_dest": "https://api.crazyegg.com/surveys/preview",
+    "addon_launch_origins": [
+        "https://app.crazyegg.com",
+        "https://core.crazyegg.com"
+    ],
+    "ce_app_url": "https://app.crazyegg.com",
+    "clock_url": "https://tracking.crazyegg.com/clock",
+    "common_script_url": "https://script.crazyegg.com/pages/versioned/common-scripts/7ec30fa91eaf9eb1ccdde76b548095fc.js",
+    "status": "ok",
+    "counters_dest": "https://tracking.crazyegg.com/metrics",
+    "data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/site/www.gana.com.co.json",
+    "sampling_data_url": "https://script.crazyegg.com/pages/data-scripts/0024/0375/sampling/www.gana.com.co.json",
+    "tracking_script_url": "https://script.crazyegg.com/pages/versioned/tracking-scripts/661bb7e9d0e0abee5d7403d3d65553a1.js",
+    "trackingpagestate_script_url": "https://script.crazyegg.com/pages/versioned/trackingpagestate-scripts/d9b6b28e3d84db3e4c966a5cf73af402.js",
+    "thirdparty_script_url": "https://script.crazyegg.com/pages/versioned/thirdparty-scripts/e6e66928c3ae3f7da5bec831f77b7a6b.js",
+   // "sites": "%8&4!}%|%]!}$<$4$9$1$1$3$;$,!}&%%?&$%^!}$<!}%`%?&%%?$.%[&&&$$.%[&&!}$,!}&+%^&+&+%|&&&%%.%^%[&&&*%]%|&%%`!}$<&,&*&-%^$,!}&*%^%[&&&*%]%|&%%`%0%^&,&,%|&%%`&+!}$<&4!}&(%?%`%^%1%?&*%`%^&,%|&%%`$|&%%?%@&!%^%]!}$<%_%?&!&+%^$,!}&(%?%`%^%1%?&*%`%^&,%|&%%`%2&*&!&+!}$<%8%;$,!}&*&-&!%^&+!}$<%8%;$,!}&$%?&+%~$|&!%^&$%^&%&,&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,&*%?&,%^%`&2!}$<!}&-&%%|%_&&&*&$!}$,!}&+%?&$&(&!%|&%%`%*&-&$%.%^%[&&&*%]%|&%%`&+!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%0&,%?&*&,${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`$|&%%]${%?&,%^%2&%%|&1!}$<&%&-&!&!$,!}&+%?&$&(&!%|&%%`%2&(%]%?&,%^%]$^&,!}$<&%&-&!&!$,!}%^&%%]%0%^&+&+%|&&&%%+&%$_&!&&%[%~%^%]%2&*&!!}$<%_%?&!&+%^$,!}%@&!&&%[%~%^%]%2&*&!&+!}$<%8%;$,!}%@&!&&%[%~%^%]%.&-&!%^&+!}$<%8%;$,!}&(&*%^$`%?%[%{%^%$&$%?%`%^&+!}$<%_%?&!&+%^$,!}&*%^%[&&&*%]%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}%{%|%]%^%$%_&*%?&$%^&+!}$<%_%?&!&+%^$,!}&+%?&$&(&!%|&%%`$`&&&$&(&!%^&,%^%]$^&,!}$<$2$7$;$4$5$;$6$6$4$6&6$,!}&*%^%[&&&*%]%|&%%`%=&*%?&,%|&&!}$<$3$3$5$9&6%;",
+    "global_ip_block_list": "",
+    "is_using_ip_blocking": false,
+    "page_views_limit_reached": null,
+    "v11_tracking_dest": "https://tracking.crazyegg.com/v11",
+    "recordings_dest": "https://recording.crazyegg.com",
+    "recordings_sampling_dest": "https://sample-api-v2.crazyegg.com",
+    "ratio_v2_dest": "https://sampling-ratio.crazyegg.com/ratio/v2",
+    "page_states_tracking_url": "https://pagestates-tracking.crazyegg.com",
+    "assets_tracking_url": "https://assets-tracking.crazyegg.com",
+    "disable_recordings_masking": false,
+    "disable_recordings_email_masking": false,
+    "disable_recordings_mobile": false,
+    "recordings_number": 500,
+    "recordings_activation": null,
+    "asset_collector_ignore": [
+        "bat.bing.com",
+        "www.facebook.com/tr",
+        "www.google.",
+        "www.google-analytics.",
+        "ssl.google-analytics.",
+        "www.googletagmanager.",
+        "googleads.g",
+        "googlesyndication.com",
+        "fonts.googleapis.com",
+        "allfont.net",
+        "adservice.google",
+        "sp.analytics.yahoo.",
+        "analytics.yahoo.com",
+        "heapanalytics.com",
+        "dev.visualwebsiteoptimizer.",
+        "b.6sc.co",
+        "hn.inspectlet.",
+        "d.adroll.",
+        "secure.adnxs.",
+        "match.adsrvr.",
+        "ads.travelaudience.",
+        "www.linkconnector.",
+        "px.ads.linkedin.",
+        "cdn.bizible.",
+        "ih.adscale.",
+        "rtb-csync.smartadserver.",
+        "x.bidswitch.net/sync",
+        "ad.doubleclick.",
+        "pixel.anyclip.com",
+        "tr.brand-display.com",
+        "d.adroll.com",
+        "mabping.chartbeat.net",
+        "ping.chartbeat.net",
+        "sb.scorecardresearch.com",
+        "cds.taboola.com",
+        "sync.richaudience.com",
+        "searchunify.com"
+    ],
+    "features": [],
+    "dnt": true,
+    "auto_identity": false,
+    "addons": [],
+    "tracking_key": "a5b5ff5e73322b4a9c06f11f3e6e4dbe"
+}];
+
+            /*
+    [
   {
     _id: "5b21ca3eeb7f6fbccd471815",
     title: "Terminator",
@@ -1186,7 +1656,7 @@
                                 '' );             
                     for (var key in data) {
                 
-                        if (typeof data[key] === 'object') {
+                        if (typeof data[key] === 'object' && data[key]) {
                          
                             this.calculateColumns( data[key], prefix + key );
                         }
@@ -1399,6 +1869,7 @@
         table.ListaElements th {
             background-color:#ccc;
             text-transform: capitalize;
+            cursor:grab/pointer;
         }
 
         table tbody tr td:hover {
@@ -1425,6 +1896,10 @@
             border-radius:3px;
         }
 
+        body {
+          font-size:12px;
+          font-family: 'Consolas';
+        }
 
         .navalue {
             color:gainsboro;
