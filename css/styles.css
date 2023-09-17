@@ -1,0 +1,183 @@
+.dataInfo .row.dl0 {
+    margin-top: 10px;
+}
+
+.row.main>.propName {
+    background-color: burlywood;
+
+}
+
+.row.dl0,
+.propName {
+    /* border: 1px solid #ccc;*/
+}
+
+.propName {
+    background-color: #eee;
+}
+
+.dataInfo .propName.dl0 {
+    display: none;
+}
+
+.dataInfo .propName.dl0 {
+    display: none;
+}
+
+.propName {
+    font-weight: bold;
+}
+
+table.TableElements {
+    width: 100%;
+}
+
+table.TableElements td,
+table.TableElements th {
+    padding: 2px;
+}
+
+table.TableElements th {
+    background-image: linear-gradient(to right top, #c6c6c6, #cccbcc, #d3d1d2, #dad6d7, #e1dbdb);
+    text-transform: capitalize;
+    cursor: grab/pointer;
+}
+
+table.TableElements th:hover {
+    background-image: linear-gradient(to right top, #c6c6c6, #d0d0d0, #dadada, #e4e4e4, #eeeeee);
+}
+
+table tbody tr td:hover {
+    background-image: linear-gradient(to right top, #c6c6c6, #d0d0d0, #dadada, #e4e4e4, #eeeeee);
+}
+
+table tbody tr:hover {
+    background-color: #eee;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+table thead th:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    background-color: #ddd;
+}
+
+div.tableMain {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+body {
+    font-size: 12px;
+    font-family: 'Arial';
+}
+
+.navalue {
+    color: gainsboro;
+
+}
+
+.actionButton,
+.searchPlugin button {
+    background-image: linear-gradient(to right top, #c6c6c6, #cccbcc, #d3d1d2, #dad6d7, #e1dbdb);
+
+    padding: 8px;
+    display: inline-block;
+    clear: none;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.actionButton {
+
+    border: 1px solid inset;
+    margin-left: 3px;
+
+}
+
+.searchPlugin {
+    display: inline-block;
+}
+
+.searchPlugin button {
+    border: 1px solid #ccc;
+}
+
+.searchPlugin button:hover {
+    background-image: linear-gradient(to right top, #c6c6c6, #d0d0d0, #dadada, #e4e4e4, #eeeeee);
+    text-decoration: underline;
+    color: blueviolet;
+}
+
+.searchPlugin button:active {
+    background-image: linear-gradient(to right top, #999999, #cccbcc, #d3d1d2, #dad6d7, #e1dbdb);
+}
+
+.actionButton:hover {
+    background-image: linear-gradient(to right top, #c6c6c6, #d0d0d0, #dadada, #e4e4e4, #eeeeee);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.actionButton:active {
+    border: 1px solid outset;
+    background-image: linear-gradient(to right top, #999999, #cccbcc, #d3d1d2, #dad6d7, #e1dbdb);
+
+}
+
+ul.actionButtons,
+ul.pageIndexes,
+ul.groupOptions {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+ul.actionButtons li,
+ul.groupOptions li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.searchPlugin input[type=text] {
+    border-radius: 3px;
+    border: 1px #ccc solid;
+    padding: 7px;
+    margin: 2px;
+    display: inline-block;
+    outline: none;
+}
+
+.searchPlugin input[type=text]::placeholder {
+    color: #ccc;
+}
+
+select.pageNumbers,
+select.actionButtons,
+ul.actionButtons select {
+    padding: 7px;
+    margin-left: 3px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+}
+
+.managementBar {
+    background-color: #eeeeee;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border-radius: 3px;
+}
+
+span.ListTitle {
+    font-weight: bold;
+    font-size:23px;
+    padding:10px;
+}
