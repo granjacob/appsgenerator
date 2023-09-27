@@ -50,7 +50,14 @@ function selectConnection() {
     setVariable('currentConnection', databaseConnections[selectedConnection].text);
 }
 
+function Action()
+  {
+    this.name = "";
+    this.text = "";
+    this.service = "";
+  }
 
+/*
 class Gobject
 {
     constructor()
@@ -91,7 +98,7 @@ class GobjectList
     }
 }
 
-class List extends 
+
 
 class ActionLink extends Gobject {
     write()
@@ -118,7 +125,7 @@ class ActionButton extends Gobject {
 class ActionList extends GobjectList {
 
 }
-
+*/
 function Container() {
     this.name = "";
     this.order = "auto";
@@ -374,6 +381,30 @@ function Lista(data) {
     }
 
     this.writeGroupOptions = function () {
+        var ul = document.createElement("ul");
+        ul.className = 'groupOptions';
+
+
+        var aGroupBy =  document.createElement("a");
+        aGroupBy.textContent = 'Group by';
+        aGroupBy.className = 'actionButton';
+        var liGroupBy = document.createElement("li");
+        liGroupBy.appendChild( aGroupBy );
+        
+
+        var aColumns =  document.createElement("a");
+        aColumns.textContent = 'Columns';
+        aColumns.className = 'actionButton';
+        var liColumns = document.createElement("li");
+        liColumns.appendChild( aColumns );
+        
+
+        ul.appendChild( liGroupBy );
+        ul.appendChild( liColumns );
+
+        return ul.outerHTML.toString();
+
+
         var result =
             '<ul class="groupOptions"><li><a class="actionButton" href="#">Group by</a></li><li><a class="actionButton" href="#">Columns</a></li></ul>';
         return result;
