@@ -34,7 +34,7 @@ table.TableElements {
 
 table.TableElements td,
 table.TableElements th {
-    padding: 2px;
+    padding: 7px; 
 }
 
 table.TableElements th {
@@ -72,8 +72,8 @@ div.tableMain {
 }
 
 body {
-    font-size: 12px;
-    font-family: 'Arial';
+    font-size: 14px;
+    font-family: 'Tahoma';
 }
 
 .navalue {

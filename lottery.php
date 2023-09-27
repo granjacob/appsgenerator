@@ -133,7 +133,7 @@ $letterColors = array("a" => "#Cbefd0",
 
 );
 
-class Numbelor {
+class Numbelor { 
     private $number;
     private $color;
 

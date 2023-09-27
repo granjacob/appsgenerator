@@ -4,35 +4,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
         <script type="text/javascript" src="json-data/data.json"></script>
-        <link type="text/css" rel="stylesheet" href="css/styles.css"/>
+        <link type="text/css" rel="stylesheet" href="css/styles.css?update=<?php echo uniqid(); ?>"/>
 
         <style type="text/css">
 
         </style>
     </head>
     <body>
+ 
 
-    <div class="container text-center">
-  <div class="row">
-    <div class="col">
-      1 of 2
-    </div>
-    <div class="col">
-      2 of 2
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      1 of 3
-    </div>
-    <div class="col">
-      2 of 3
-    </div>
-    <div class="col">
-      3 of 3
-    </div>
-  </div>
-</div>
 
     <p>
         Database connection
@@ -52,7 +32,7 @@
 <?php
 echo "hola!";
 ?>
-        <script type="text/javascript" src="scripts/lab.js"></script>
+        <script type="text/javascript" src="scripts/lab.js?update=<?php echo uniqid(); ?>"></script>
     <script>
         var databaseConnections = [
             {   "value": "conn1", 
@@ -143,8 +123,14 @@ echo "hola!";
         send();
 
 
-        var lista = new Lista( sampleData ); 
+        var lista = new Lista( sampleData );
         
+        lista.createContainer('actions', 'top' );
+        lista.createContainer('container1', 'top' );
+        lista.createContainer('container2', 'top' );
+        lista.createContainer('container3', 'top' );
+        lista.createContainer('container4', 'top' );
+        lista.createContainer('paginator','both');
 
             lista.calculateColumns();
 
@@ -169,7 +155,7 @@ echo "hola!";
         lista.addAction( action );
         document.getElementById('resultSampleData').innerHTML = lista.writeList();
 
-
+/*
         var lista = new Lista( cars ); 
         
 
@@ -194,7 +180,7 @@ echo "hola!";
         action.name = "some-service";
         action.text = "Some service";
         lista.addAction( action );
-        document.getElementById('resultCars').innerHTML = lista.writeList();
+        document.getElementById('resultCars').innerHTML = lista.writeListAsHTML();*/
     </script>
 
     
