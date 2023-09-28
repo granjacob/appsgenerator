@@ -43,10 +43,10 @@ var selectedConnection = 0;
 function selectConnection() {
     selectedConnection =
         document.getElementById('databaseConnections').selectedIndex;
-    console.log(selectedConnection);
+   // console.log(selectedConnection);
     document.getElementById('databaseInformation').innerHTML =
         showArrayInformation(databaseConnections[selectedConnection]);
-    console.log(databaseConnections[selectedConnection].text);
+    //console.log(databaseConnections[selectedConnection].text);
     setVariable('currentConnection', databaseConnections[selectedConnection].text);
 }
 
@@ -57,13 +57,16 @@ function Action()
     this.service = "";
   }
 
-/*
+
 class Gobject
 {
     constructor()
     {
+        this.id = "";
         this.name = "";
+        this.description = "";
         this.text = "";
+        this.link = "";
         this.service = "";
     }
 
@@ -98,7 +101,7 @@ class GobjectList
     }
 }
 
-
+/*
 
 class ActionLink extends Gobject {
     write()
@@ -127,6 +130,7 @@ class ActionList extends GobjectList {
 }
 */
 function Container() {
+    this.id = "";
     this.name = "";
     this.order = "auto";
     this.position = "top";
@@ -155,12 +159,45 @@ function Container() {
     }
 }
 
+class Paginator extends Gobject {
+    
+    constructor( totalItems )
+    {
+        super();
+        this.homeButton = 0;
+        this.previousButton = 0;
+        this.nextButton = 0;
+        this.endButton = 0;
+        this.totalItems = 0;
+        this.currentPage = 0;
+    }
+
+    write()
+    {
+
+    }
+
+    getPageLink()
+    {
+
+    }
+
+    
+}
+
+var paginator = new Paginator();
+paginator.totalItems = 100;
+
+console.log( paginator );
+
 function Lista(data) {
     this.name = "";
     this.data = data;
     this.columns = [];
     this.actions = [];
     this.containers = [];
+    this.rowsPerPage = 10;
+    this.maxVisiblePageIndexes = 4;
 
 
     this.createContainer = function (containerName, containerPosition) {
@@ -266,7 +303,7 @@ function Lista(data) {
     }
 
     this.fetchDataByKey = function (key, data) {
-        console.log(key);
+        //console.log(key);
         if (data == null)
             data = this.data;
 
@@ -356,6 +393,7 @@ function Lista(data) {
     }
 
     this.writeNavigationButtons = function () {
+
         var result = '<ul class="actionButtons">';
         //for (var action in this.actions) {
         result = result + '<li data-action="back-home"><a class="actionButton" href="#">Home</a></li>';

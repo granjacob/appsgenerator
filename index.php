@@ -132,6 +132,8 @@ echo "hola!";
         lista.createContainer('container4', 'top' );
         lista.createContainer('paginator','both');
 
+        lista.containers['paginator'].content = lista.writeNavigationButtons();
+
             lista.calculateColumns();
 
         lista.name = "ListaElements";
