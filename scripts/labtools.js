@@ -26,7 +26,7 @@ class Variable {
 }
 
 class MethodParameter extends Variable {
-    constructor( name, type )
+    constructor( name )
     {
         super(name);   
     }
@@ -40,6 +40,12 @@ class ClassAttribute extends Variable {
     }
 }
 
+class Function extends Variable {
+    constructor( name )
+    {
+        super( name );
+    }
+}
 
 
 class ClassMethod {
@@ -50,11 +56,17 @@ class ClassMethod {
         this.body = "";
         this.readonly = false;
     }
+
+    addParameter( parameter )
+    {
+        this.parameters.push( parameter );
+    }
 }
 
 class ClassSummary {
     constructor()
     {
+        this.package = "";
         this.className = "";
         this.classExtension = "";
         this.attributes = [];
@@ -85,7 +97,9 @@ class ClassSummary {
     {
         var finalName = capitalizeFirstLetter( camelize( attributeName ) );
         this.methods.push( new ClassMethod( "get" + finalName  ) );
-        this.methods.push( new ClassMethod( "set" + finalName  ) );
+        var setMethod = new ClassMethod( "set" + finalName  );
+        setMethod.addParameter( new MethodParameter( attributeName ) );
+        this.methods.push( setMethod );
     }
 
     clearAttributes()
@@ -112,9 +126,21 @@ class ClassSummary {
     {
         var result = "<ul>";
         for (var method in this.methods) {
-            result = result + "<li>" + this.methods[method].name + "</li>"
+            result = result + '<li><a class="amethodName" href="#">' + 
+            this.methods[method].name + '</a><div>(<ul class="methodParameters">'+
+            this.writeMethodParameters( this.methods[method] )
+            +'</ul>)</div></li>';
         }
-        result = result +"</ul>";
+        result = result + "</ul>";
+        return result;
+    }
+
+    writeMethodParameters( method )
+    {
+        var result = '';
+        for (var i in method.parameters) {
+            result = result + '<li class="methodParameter">' + method.parameters[i].name + '</li>';
+        }
         return result;
     }
 }
@@ -124,11 +150,7 @@ classSummary = new ClassSummary();
 
 function refreshSummary()
 {
-    document.getElementById('classAttributes').innerHTML = classSummary.writeAttributes();
-    document.getElementById('classMethods').innerHTML = classSummary.writeMethods();
-}
 
-textareaAttributes.addEventListener("keyup", function(event) {
     classSummary.clearAttributes();
     classSummary.clearMethods();
     var mytext = textareaAttributes.value;
@@ -137,16 +159,28 @@ textareaAttributes.addEventListener("keyup", function(event) {
         classSummary.addAttribute( lines[l] );
         classSummary.addGetterSetter( lines[l] );
     }
+
+
+    var mytext = textareaMethods.value;
+    var lines = mytext.split('\n');
+    for (var l in lines) {
+        if (lines[l].length > 0)
+        classSummary.addMethod( lines[l] );
+    }
+
+    document.getElementById('classAttributes').innerHTML = classSummary.writeAttributes();
+    document.getElementById('classMethods').innerHTML = classSummary.writeMethods();
+    console.log( classSummary );
+
+}
+
+textareaAttributes.addEventListener("keyup", function(event) {
+
     refreshSummary();
 });
 
 
 textareaMethods.addEventListener("keyup", function(event) {
-    classSummary.clearMethods();
-    var mytext = textareaMethods.value;
-    var lines = mytext.split('\n');
-    for (var l in lines) {
-        classSummary.addMethod( lines[l] );
-    }
+
     refreshSummary();
 });

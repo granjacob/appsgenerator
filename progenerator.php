@@ -42,6 +42,22 @@
         .objectSummary h1 {
             border-bottom: 4px solid #666;
         }
+
+        .objectSummary li, .objectSummary ul {
+            list-style-type: none;
+            margin:0;
+            padding:0;
+        }
+
+        .methodParameters {
+            display: inline-block;
+        }
+
+        .amethodName {
+            display: inline-block;
+            clear:none;
+            float:left;
+        }
     </style>
 </head>
 
@@ -52,28 +68,58 @@
                 <div class="col-sm">
                     <div class="row">
                         <div class="col-sm">
-                            <p><span class="keyword">class</span><input type="text" placeholder="class name" /></p>
+                            <p><span class="keyword">class</span><input type="text" id="className" placeholder="class name" /></p>
                         </div>
                         <div class="col-sm">
-                            <p><span class="keyword">extends</span><input type="text" placeholder="extension class" /></p>
+                            <p><span class="keyword">extends</span><input type="text" id="extensionClass" placeholder="extension class" /></p>
                         </div>
                         <div class="col-sm">
                             <p><span class="operator">{</span></p>
                         </div>
                     </div>
-                    <p>Attributes<br /><textarea id="attributes"></textarea></p>
-                    <p>Methods<br /><textarea id="methods"></textarea></p>
+                    <p>Attributes<br /><textarea id="attributes">
+llantas
+sillas
+ventanas
+luces</textarea></p>
+                    <p>Methods<br /><textarea id="methods">
+meterCambio
+meterReversa
+meterPrimera
+meterSegunda
+meterTercera
+meterCuarta
+meterQuinta
+agregarLlanta
+removerLlanta
+prenderLuces
+prenderLucesAltas
+apagar
+prender
+girarIzquierda
+girarDerecha
+acelerar
+frenar
+meterClotch
+quitarClotch
+soltarFreno
+soltarAcelerador</textarea></p>
                     <p><span class="operator">}</span></p>
                 </div>
                 <div class="col-sm">
                     <div class="container-fluid">
                         <div class="objectSummary overflow-auto">
                             <h1>Summary</h1>
+
+
                             <h2>Class name</h2>
                             <p id="className"></p>
 
                             <h2>Extends from</h2>
                             <p id="classExtends"></p>
+
+                            <h2>Constructors</h2>
+                            <p id="constructors"></p>
 
                             <h2>Attributes</h2>
                             <p id="classAttributes"></p>
