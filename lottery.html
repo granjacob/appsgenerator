@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+        var maxRange = 999;
+        var random = function ( max ) { return Math.floor( 0 + (Math.random() * max) ); };
+
+        var calculateWinning = function ( myNumber, lotteryNumbers, o ) { 
+            var w = 0;
+            for (var i in lotteryNumbers) {
+                if (lotteryNumbers[i] === myNumber)
+                    w++;
+            }
+            return { myNumber: myNumber, lotteryNumbers : lotteryNumbers, youwin: (w > 0), winningTimes: w, bet: o }; 
+        }
+
+
+        var numberIsOnNumber = function( number, match )
+        {
+            var  posarr = [];
+            console.log( 'here...' );
+            var numberAsString = number + "";
+            var matchAsString = match + "";
+
+            if (numberAsString.length !== matchAsString.length)
+                return false;
+           
+            for (var i = 0; i < numberAsString.length; i++) {
+                var found = false;
+                for (var j = 0; j < matchAsString.length; j++) {
+                    
+                    var matchIndex = numberAsString[i] + "-" + i.toString();
+                    if (matchAsString[i] == numberAsString[j] && (typeof posarr[matchIndex] === "undefined")) {
+                        posarr[matchIndex] = 'ok'; found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+            }
+            console.log( posarr );
+            console.log( 'Match for ' + numberAsString + ' with ' + matchAsString + ' is ' + JSON.stringify( posarr ) );
+            return true;
+        }
+
+        numberIsOnNumber( 8528, 8882 );
+
+        var calculateWinningCombined = function ( myNumber, lotteryNumbers, o ) { 
+            var w = 0;
+            for (var i in lotteryNumbers) {
+                console.log( "Comparing myNumber " + myNumber + " with " + lotteryNumbers[i]  ); 
+
+                if (numberIsOnNumber( myNumber, lotteryNumbers[i] ))
+                    w++;
+
+            }
+            return { myNumber: myNumber, lotteryNumbers : lotteryNumbers, youwin: (w > 0), winningTimes: w, bet: o }; 
+        }
+
+        var numberExists = function ( lotteryNumbers, number )
+        {
+            for (var i = 0; i < lotteryNumbers.length; i++) {
+                if (lotteryNumbers[i] === number)
+                    return true;
+            }
+            return false;
+        }
+
+        var start = function () {
+            var result = "";
+            var winningTickets = [];
+            var o = 0;
+            for (var i = 0; i < 1; i++) {                 // 100 POSIBILIDADES
+                var myNumber = random( maxRange );          // NUMERO APOSTADO
+                var lotteryNumbers = [];
+                for (var k = 0; k < 30; k++) {              // 30 NUMEROS POR INTENTO
+                    var number = random(maxRange);          // NUMERO ACTUAL
+                    if (!numberExists( lotteryNumbers, number )) {      // AGREGAMOS EL NUMERO SI NO EXISTE A LOS NUMEROS GANADORES
+                        lotteryNumbers.push( number );  // AGREGAR
+                    }
+                    else {
+                        k--;    // NO SE PUDO AGREGAR PORQUE YA ESTABA REPETIDO
+                    }
+                }
+                var winning = calculateWinningCombined( myNumber, lotteryNumbers );
+            //  if (winning.winningTimes > 0)
+                    winningTickets.push( winning );
+            /*  else
+                    i--;*/
+                o++;
+            }
+         document.write( "Total bets: " + o + '<br/>' + JSON.stringify( winningTickets ).replaceAll( '},{','}<br/>{') );
+        }
+
+       // start();
+        </script>
+    </head>
+    <body>
+    
+    </body>
+</html>

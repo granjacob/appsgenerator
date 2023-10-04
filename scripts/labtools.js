@@ -4,6 +4,8 @@ var item, data, key;
 var textareaAttributes = document.getElementById('attributes');
 var textareaMethods = document.getElementById('methods');
 
+var globalVars = [];
+
 function camelize(str) {
     return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
@@ -172,6 +174,10 @@ function refreshSummary()
     document.getElementById('classMethods').innerHTML = classSummary.writeMethods();
     console.log( classSummary );
 
+    for (var v in globalVars) {
+        document.getElementById(v).innerHTML = globalVars[v];
+    }
+
 }
 
 textareaAttributes.addEventListener("keyup", function(event) {
@@ -184,3 +190,19 @@ textareaMethods.addEventListener("keyup", function(event) {
 
     refreshSummary();
 });
+
+
+window.addEventListener("load", function(event) {
+
+    refreshSummary();
+});
+
+var elements = document.getElementsByTagName('input');
+for (var i in elements) {
+    elements[i].addEventListener( 'keyup', function (event) {
+        var variableName = 'v_' + this.id;
+        globalVars[variableName] = this.value;
+        console.log( variableName );
+       document.getElementById(variableName).innerHTML = globalVars[variableName];
+    });
+}
