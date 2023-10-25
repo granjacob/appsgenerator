@@ -131,8 +131,21 @@ echo "hola!";
         lista.createContainer('container3', 'top' );
         lista.createContainer('container4', 'top' );
         lista.createContainer('paginator','both');
+        lista.createContainer('paginatorBottom','bottom');
 
-        lista.containers['paginator'].content = lista.writeNavigationButtons();
+
+        var navigationButtonsFlags = { 
+            showPageIndexes : false, 
+            align: 'center',
+            showHomeButton: false,
+            showEndButton: false,
+         };
+        lista.containers['paginator'].content = lista.writeNavigationButtons( navigationButtonsFlags );
+
+        navigationButtonsFlags.showPageIndexes = true;
+        navigationButtonsFlags.align = 'left';
+
+        lista.containers['paginatorBottom'].content = lista.writeNavigationButtons( navigationButtonsFlags );
 
             lista.calculateColumns();
 

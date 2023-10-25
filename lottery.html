@@ -2,60 +2,80 @@
 <html>
     <head>
         <script>
-        var maxRange = 999;
-        var random = function ( max ) { return Math.floor( 0 + (Math.random() * max) ); };
+        var map = {};
 
-        var calculateWinning = function ( myNumber, lotteryNumbers, o ) { 
+        var fillMap = function(max) {
+            for (var i = 0; i < max; i++) {
+                map[i] = { number: i, match: false };
+            }
+        }
+
+            
+        var maxRange = 999;
+        
+        fillMap(maxRange);
+
+
+
+        var random = function ( max ) { 
+            var maxStr = "" + max;
+            var finalNumber = "";
+            for (var i = 0; i < maxStr.length; i++) {
+                var digit = Math.floor( 0 + (Math.random() * 9) );
+                finalNumber = finalNumber + digit; 
+            }
+            return parseInt( finalNumber );
+        }
+
+        var calculateWinning = function ( myNumber, lotteryNumbers, o, odiff, map ) { 
+            
             var w = 0;
             for (var i in lotteryNumbers) {
                 if (lotteryNumbers[i] === myNumber)
                     w++;
             }
-            return { myNumber: myNumber, lotteryNumbers : lotteryNumbers, youwin: (w > 0), winningTimes: w, bet: o }; 
+            return { myNumber: myNumber, 
+                lotteryNumbers : lotteryNumbers, 
+                youwin: (w > 0), winningTimes: w, bet: o, diff: odiff, map: map }; 
         }
 
+        var documentLog = function( str )
+        {
+            var currentContent = document.getElementById('mainBody');
+            currentContent = currentContent + str;
+            document.write( currentContent );
+        }
+
+        var sortAlpha = function(number) {
+            number = number + "";
+            return number.split("")
+                    .sort()
+                    .join("");
+        }
 
         var numberIsOnNumber = function( number, match )
         {
-            var  posarr = [];
-            console.log( 'here...' );
-            var numberAsString = number + "";
-            var matchAsString = match + "";
+            number = sortAlpha( number );
+            match = sortAlpha( match );
 
-            if (numberAsString.length !== matchAsString.length)
-                return false;
-           
-            for (var i = 0; i < numberAsString.length; i++) {
-                var found = false;
-                for (var j = 0; j < matchAsString.length; j++) {
-                    
-                    var matchIndex = numberAsString[i] + "-" + i.toString();
-                    if (matchAsString[i] == numberAsString[j] && (typeof posarr[matchIndex] === "undefined")) {
-                        posarr[matchIndex] = 'ok'; found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return false;
-                }
-            }
-            console.log( posarr );
-            console.log( 'Match for ' + numberAsString + ' with ' + matchAsString + ' is ' + JSON.stringify( posarr ) );
-            return true;
+            return number === match;
+
         }
 
-        numberIsOnNumber( 8528, 8882 );
+        //numberIsOnNumber( 8884, 8488 );
 
         var calculateWinningCombined = function ( myNumber, lotteryNumbers, o ) { 
+            var winners = [];
             var w = 0;
             for (var i in lotteryNumbers) {
-                console.log( "Comparing myNumber " + myNumber + " with " + lotteryNumbers[i]  ); 
 
-                if (numberIsOnNumber( myNumber, lotteryNumbers[i] ))
+                if (numberIsOnNumber( myNumber, lotteryNumbers[i] )) {
+                    winners.push( lotteryNumbers[i] );
                     w++;
+                }
 
             }
-            return { myNumber: myNumber, lotteryNumbers : lotteryNumbers, youwin: (w > 0), winningTimes: w, bet: o }; 
+            return { winners: winners, myNumber: myNumber, lotteryNumbers : lotteryNumbers, youwin: (w > 0), winningTimes: w, bet: o  }; 
         }
 
         var numberExists = function ( lotteryNumbers, number )
@@ -71,10 +91,11 @@
             var result = "";
             var winningTickets = [];
             var o = 0;
-            for (var i = 0; i < 1; i++) {                 // 100 POSIBILIDADES
-                var myNumber = random( maxRange );          // NUMERO APOSTADO
+            for (var i = 0; i < 28; i++) {                 // 100 POSIBILIDADES
+                var myNumber = 315;// random( maxRange );          // NUMERO APOSTADO
+                map[myNumber].match = true;
                 var lotteryNumbers = [];
-                for (var k = 0; k < 30; k++) {              // 30 NUMEROS POR INTENTO
+                for (var k = 0; k < 1; k++) {              // 30 NUMEROS POR INTENTO
                     var number = random(maxRange);          // NUMERO ACTUAL
                     if (!numberExists( lotteryNumbers, number )) {      // AGREGAMOS EL NUMERO SI NO EXISTE A LOS NUMEROS GANADORES
                         lotteryNumbers.push( number );  // AGREGAR
@@ -83,20 +104,49 @@
                         k--;    // NO SE PUDO AGREGAR PORQUE YA ESTABA REPETIDO
                     }
                 }
-                var winning = calculateWinningCombined( myNumber, lotteryNumbers );
-            //  if (winning.winningTimes > 0)
+                var winning = calculateWinning( myNumber, lotteryNumbers, o, Math.abs( ((i - 1) < 0 ? o :  o - winningTickets[i - 1].bet ) ), map );
+                if (winning.winningTimes > 0)
                     winningTickets.push( winning );
-            /*  else
-                    i--;*/
+                else
+                    i--;
                 o++;
             }
-         document.write( "Total bets: " + o + '<br/>' + JSON.stringify( winningTickets ).replaceAll( '},{','}<br/>{') );
+            var finalOutput = "";
+            for (var winningTicket in  winningTickets) {
+                finalOutput = finalOutput + "<div class='winner'>";
+                var wt = winningTickets[winningTicket];
+                finalOutput = finalOutput + "<div><strong>Winner number</strong> " + wt.myNumber + "</div>";
+                finalOutput = finalOutput + "<div><strong>Total bets</strong> " + wt.bet + "</div>";
+                finalOutput = finalOutput + "<div><strong>Bets for win</strong> " + wt.diff + "</div>";
+
+
+                
+                finalOutput = finalOutput + "</div>";
+            }
+         //document.write( "Total bets: " + o + '<br/>' + JSON.stringify( winningTickets ).replaceAll( '},{','}<br/>{') );
+         document.write( "Total bets: " + o + '<br/>' + finalOutput );
+        
         }
 
-       // start();
+       start();
+      
         </script>
+        <style type="text/css">
+            body {
+                font-family: Tahoma;
+                font-size: 12px;
+            }
+
+            .winner {
+                width:150px;
+                padding:3px;
+                border: 1px solid #ccc;
+                margin:10px;
+                display: inline-block;
+            }
+        </style>
     </head>
-    <body>
+    <body id="mainBody">
     
     </body>
 </html>

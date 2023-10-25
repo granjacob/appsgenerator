@@ -185,6 +185,27 @@ class Paginator extends Gobject {
     
 }
 
+class Template extends Gobject {
+
+        constructor( templateDefinition )
+        {
+            super();
+            this.templateDefinition = templateDefinition;
+            this.tags = [];
+            initialize();
+        }
+
+        initialize( templateDefinition )
+        {
+            this.tags = templateDefinition.split('/');
+        }
+
+        getTag( index )
+        {
+            return this.tags[index];
+        }
+}
+
 var paginator = new Paginator();
 paginator.totalItems = 100;
 
@@ -382,7 +403,7 @@ function Lista(data) {
         return result;
     }
 
-    this.writePageIndexes = function () {
+    this.writePageIndexes = function ( flags ) {
         var result = '<ul class="pageIndexes">';
         for (i = 0; i < 10; i++) {
             result = result + '<li data-action="page-index"><a class="actionButton" href="#">' + (i + 1) + '</a></li>';
@@ -392,13 +413,15 @@ function Lista(data) {
         return result;
     }
 
-    this.writeNavigationButtons = function () {
+    this.writeNavigationButtons = function ( flags ) {
 
         var result = '<ul class="actionButtons">';
         //for (var action in this.actions) {
         result = result + '<li data-action="back-home"><a class="actionButton" href="#">Home</a></li>';
         result = result + '<li data-action="back"><a class="actionButton" href="#">&lt; Back</a></li>';
-        result = result + '<li data-action="page-indexes">' + this.writePageIndexes() + '</li>';
+        if (typeof flags !== 'undefined' && flags.showPageIndexes) {
+            result = result + '<li data-action="page-indexes">' + this.writePageIndexes( flags.pageIndexesFlags ) + '</li>';
+        }
         result = result + '<li data-action="next"><a class="actionButton" href="#">Next &gt;</a></li>';
         result = result + '<li data-action="next-final"><a class="actionButton" href="#">End</a></li>';
 
