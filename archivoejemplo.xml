@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<snippets>
+    <snippet name="class">
+        <content>
+            <![CDATA[
+
+            public class {{:class_name:}} [[extends {{:class_name_extends:}}]] {
+                {{(class_constructor):constructor:}}
+                {{(class_attribute):attributes:}}
+                {{(class_method):methods:}}
+            }
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="class_constructor">
+        <content>
+            <![CDATA[
+
+            {{(class_method)}} 
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="attribute">
+        <content>
+            <![CDATA[
+
+            {{:access_modifier:}} {{:attributeName:}};
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="class_method">
+        <content>
+            <![CDATA[
+
+            public function {{:method_name:}}( [[{{(method_parameter):method_parameters:}}]] )
+            {
+                [[{{:method_body:}}]]
+            }
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="method_parmeter">
+        <content>
+            <![CDATA[
+
+            ${{:name:}}[[,]]
+            
+            ]]>
+        </content>
+    </snippet>
+</snippets>

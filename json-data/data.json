@@ -22,7 +22,7 @@ var sampleData = [{
     "youwin": true,
     "winningTimes": 1,
     "bet": 7501
-}/*
+}
 , {
     "myNumber": 84,
     "lotteryNumbers": [84, 3785, 8943, 5600, 4129, 9505, 9861],
@@ -600,7 +600,7 @@ var sampleData = [{
     "winningTimes": 1,
     "bet": 163545
 }
-*/]
+]
 /*[
 {
 "author": "Chinua Achebe",

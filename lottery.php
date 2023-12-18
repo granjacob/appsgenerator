@@ -1,5 +1,116 @@
 <?php
 
+function isNumberInRange( $number )
+{
+    return $number >= 0 && $number <= 36;
+}
+function get_multiples(int $a, int $n=10) {
+    $multiples_arr = array();
+    for ($i=1; $i <= $n; $i++) { 
+      $multiples_arr[] = $a * $i; 
+    }
+    return $multiples_arr;
+}
+$multiples = [];
+for( $i= 0; $i <= 36; $i++ ) {
+    for( $j= 0; $j <= 36; $j++ ) {
+        if (($i * $j) <= 36) {
+            //echo $i . " X " . $j . " = " . ($i * $j) . "<br/>";
+            if ($i != ($i*$j))
+                $multiples[$i*$j][$i]=  $i;
+            if ($j != ($i*$j))
+                $multiples[$i*$j][$j] = $j;
+        }
+    }
+}
+
+
+function generatePossibleNumbers( $number ) {
+
+    global $multiples;
+
+    $strnum = (string)$number;
+    $result = [];
+
+    $result[round( $number/2 )] = round( $number/2 ); 
+
+    if (strlen( $strnum ) == 2) {
+        $result[$strnum[0]] = $strnum[0];
+        $result[$strnum[1]] = $strnum[1];
+    }
+
+    
+
+    $sum = $number;
+    while ($sum >= 0) {
+        //if (isNumberInRange( $sum ))
+            $result[max( 0, $sum )] = max( 0, $sum );
+        $sum -= 11;
+    }  
+   
+    $sum = $number;
+    while ($sum <= 36) {
+        //if (isNumberInRange( $sum ))
+            $result[min( 36, $sum )] = min( 36, $sum );
+        $sum += 11;
+    }
+
+
+    $sum = $number;
+    while ($sum >= 0) {
+        //if (isNumberInRange( $sum ))
+            $result[max( $sum, 0 )] = max( $sum, 0 );
+        $sum -= 10;
+    }  
+    
+    $sum = $number;
+    while ($sum <= 36) {
+        //if (isNumberInRange( $sum ))
+            $result[ min( $sum, 0 )] = min( $sum, 0 );
+        $sum += 10;
+    }
+
+    $revnum = ltrim( strrev((string) $number), '0' );
+    
+    //if (isNumberInRange( $revnum )) 
+        $result[min( 36,(int) $revnum )] = min( 36, (int) $revnum );
+      
+    //if (isNumberInRange( $number-2 ))
+
+        $result[min( $number+1, 36 )] = min( $number+1, 36 );
+
+    //if (isNumberInRange( $number-2 ))
+        $result[ max($number-1, 0 )] = max($number-1, 0 );
+
+    //if (isNumberInRange( $number-2 ))
+        $result[min( $number+2, 36 )] = min( $number+2, 36 );
+
+    //if (isNumberInRange( $number-2 ))
+        $result[ max( $number-2, 0 )] = max( $number-2, 0 );
+    
+    if (isset( $multiples[$number] ) && $number > 0) {
+        foreach ($multiples[$number] as $value) {
+            
+                $result[$value] = $value;
+            
+        }
+    }
+ 
+
+    unset( $result[$number] );
+    sort( $result, SORT_REGULAR );
+
+    return '<strong>' . $number . '</strong>&nbsp;---&nbsp;' . implode(  ', ', $result ) . '<br/>';
+
+}
+
+for ($i =0; $i <= 36; $i++)
+    echo generatePossibleNumbers( $i );
+
+//echo generatePossibleNumbers( 13 );
+
+exit;
+
 $numbersString = "1971
 3394
 2369

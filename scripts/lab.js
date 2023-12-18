@@ -74,7 +74,98 @@ class Gobject
     {
         return this.text;
     }
+
+
 }
+
+class GController 
+{
+    constructor()
+    {
+
+    }
+}
+
+class GView extends Gobject
+{
+    constructor()
+    {
+        this.controller = new GController();
+    }
+}
+
+class GService
+{
+    constructor()
+    {
+
+    }
+
+    
+}
+
+class GButtonController extends GController {
+    constructor()
+    {
+        super();
+    }
+}
+
+class GButton extends GView {
+
+    constructor( id, name, text )
+    {
+        this.controller = new GButtonController();
+    }
+
+    write()
+    {
+        return 
+            '<button id="' + this.id + '" name="' + this.name + '">' + 
+                this.text + 
+            '</button>';
+    }
+}
+
+class Grid extends Gobject {
+    constructor()
+    {
+        super();
+    }
+}
+
+class GridModule extends Gobject {
+}
+
+class GridIndexer extends Gobject {
+}
+
+class GridPaginator extends Gobject {
+}
+
+class GridUrl extends Gobject {
+}
+
+
+class GridSearch extends Gobject {
+}
+
+class GridTitle extends Gobject {
+}
+
+class GridSidebar extends Gobject {
+}
+
+class GridData extends Gobject { 
+}
+
+class GridColumn extends Gobject { 
+}
+
+class GridRow extends Gobject { 
+}
+
+
 
 class GobjectList
 {
@@ -217,8 +308,43 @@ function Lista(data) {
     this.columns = [];
     this.actions = [];
     this.containers = [];
+    this.currentPageIndex = 0;
     this.rowsPerPage = 10;
+    this.listElementsCount = 0;
     this.maxVisiblePageIndexes = 4;
+
+
+    this.getNextIndex = function()
+    {
+        if (this.currentPageIndex < this.rowsPerPage)
+            return this.currentPageIndex + 1
+        return this.currentPageIndex;
+    }
+
+    this.getPreviousIndex = function()
+    {
+        if (this.currentPageIndex > 0)
+            return this.currentPageIndex - 1;
+        return this.currentPageIndex;
+    }
+
+    this.goToHomePageIndex = function()
+    {
+        this.currentPageIndex = 0;
+        return this.currentPageIndex;
+    }
+
+    this.goToLastPageIndex = function()
+    {
+        this.currentPageIndex = this.listElementsCount / this.rowsPerPage;
+        return this.currentPageIndexl
+    }
+
+    this.goToPageIndex = function( index )
+    {
+        this.currentPageIndex = index;
+        return this.currentPageIndex;
+    }
 
 
     this.createContainer = function (containerName, containerPosition) {
@@ -417,13 +543,13 @@ function Lista(data) {
 
         var result = '<ul class="actionButtons">';
         //for (var action in this.actions) {
-        result = result + '<li data-action="back-home"><a class="actionButton" href="#">Home</a></li>';
-        result = result + '<li data-action="back"><a class="actionButton" href="#">&lt; Back</a></li>';
+        result = result + '<li data-list-action="back-home"><a class="actionButton" href="#">Home</a></li>';
+        result = result + '<li data-list-action="back"><a class="actionButton" href="#">&lt; Back</a></li>';
         if (typeof flags !== 'undefined' && flags.showPageIndexes) {
             result = result + '<li data-action="page-indexes">' + this.writePageIndexes( flags.pageIndexesFlags ) + '</li>';
         }
-        result = result + '<li data-action="next"><a class="actionButton" href="#">Next &gt;</a></li>';
-        result = result + '<li data-action="next-final"><a class="actionButton" href="#">End</a></li>';
+        result = result + '<li data-list-action="next"><a class="actionButton" href="#">Next &gt;</a></li>';
+        result = result + '<li data-list-action="next-final"><a class="actionButton" href="#">End</a></li>';
 
         //}
         result = result + '</ul>';
@@ -465,10 +591,10 @@ function Lista(data) {
 
         return ul.outerHTML.toString();
 
-
+/*
         var result =
             '<ul class="groupOptions"><li><a class="actionButton" href="#">Group by</a></li><li><a class="actionButton" href="#">Columns</a></li></ul>';
-        return result;
+        return result;*/
     }
 
     this.writeSearch = function () {
@@ -541,6 +667,7 @@ function showArrayInformation(data, format, deepLevel) {
 
 function buildForm(formFields, formName, formAction) {
 
+    
     var result = "<form><div class='form container " + formName + "'>";
     for (var field in formFields[0]) {
         result = result + "<div class='row'><div class='fieldName col-sm'>";
