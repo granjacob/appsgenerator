@@ -17,12 +17,106 @@ class VariableDefinition {
 
     public $content;
 
+    public $variables;
+
+    public $optionals;
+
     public function __construct()
     {
+        $this->variables = array();
+        $this->optionals = array(); 
+    }
 
+    public function makeVar( $name )
+    {
+        return VAR_DEF_OPEN . $name . VAR_DEF_CLOSE;
+    }
+
+    // Catch definition expression
+    public function catchDefExpr( $expressionStr, $offset, $def )
+    {
+        return substr( $expressionStr, $offset, strlen( $def ) );
+    }
+
+    
+    public function buildExpressionDefinition( 
+        $expressionStr, &$offset, $defOpen, $defClose, $exprClass, $id  )
+    {
+        $posStart = $offset;
+        $posEnd = strpos( $expressionStr, $defClose, $offset ) + strlen( $defClose );
+        $varName = substr( $expressionStr, $posStart  + strlen( $defOpen ), $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
+        $var = new $exprClass();
+        $var->pos_start = $posStart;
+        $var->pos_end = $posEnd;
+        $var->name = $varName;
+        $var->id = $id;
+        $i = $posEnd + strlen( $defClose );
+        return $var;
+    }
+    public function extractVars( $expressionStr=null, $currentVar=null )
+    {
+        if ($expressionStr === null)
+            $expressionStr = $this->content;
+        $matches = array();
+        $k = 0;
+        $var = null;
+        echo $expressionStr;
+        for ($i = 0; $i < strlen( $expressionStr ); $i++) {
+            $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
+            $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
+            if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
+                $var = $this->buildExpressionDefinition( 
+                    $expressionStr, $i, 
+                    VAR_DEF_OPEN, 
+                    VAR_DEF_CLOSE, 
+                    VariableDefinition::class, $k );
+                $k++;
+                array_push( $this->variables, $var );
+            }
+            else 
+            if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
+                $qOptOpenCount = 0;
+                for ($j = $i; $j < strlen( $expressionStr ); $j++) {
+                    $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_CLOSE ); 
+                    $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_OPEN ); 
+                    if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
+                        $j++;
+                        $qOptOpenCount++;
+                    }
+                    else 
+                    if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
+              
+                        $qOptOpenCount--;
+                    
+                        if ($qOptOpenCount === 0) {
+         
+                            $optExpr = new VariableDefinition();
+                            $optExpr->content = substr( 
+                                $expressionStr, 
+                                $i + strlen( OPT_DEF_OPEN ), 
+                                $j - $i - strlen( OPT_DEF_CLOSE )
+                                );
+                            $optExpr->pos_start = $i;
+                            $optExpr->pos_end = $j;
+            
+                            $k++;
+                            $optExpr->extractVars( $optExpr->content );
+                            array_push( $this->optionals, $optExpr );
+                            break;
+                        }
+                        
+                        $j++;
+                    }
+                }
+                $i = $j;
+            }
+        }
+
+        print_r( (array) $this );
+        return $matches;
     }
 }
-
+/*
 class OptionalExpressionDefinition extends VariableDefinition {
     public $variables;
     public $optionals;
@@ -32,9 +126,9 @@ class OptionalExpressionDefinition extends VariableDefinition {
         $this->variables = array();
         $this->optionals = array();
     }
-}
+}*/
 
-class Parser {
+class Parser extends VariableDefinition {
 
     public $filenameDefinition;
     public $language;
@@ -42,6 +136,7 @@ class Parser {
 
     public function __construct( $language=null, $filenameDefinition=null )
     {
+        parent::__construct();
         $this->language = $language;
         $this->filenameDefinition = $filenameDefinition;
         $this->snippets = array();  
@@ -97,91 +192,8 @@ class Parser {
         }
     }
 
-    private function makeVar( $name )
-    {
-        return VAR_DEF_OPEN . $name . VAR_DEF_CLOSE;
-    }
 
-    // Catch definition expression
-    private function catchDefExpr( $expressionStr, $offset, $def )
-    {
-        return substr( $expressionStr, $offset, strlen( $def ) );
-    }
 
-    private function buildExpressionDefinition( 
-        $expressionStr, &$offset, $defOpen, $defClose, $exprClass, $id  )
-    {
-        $posStart = $offset;
-        $posEnd = strpos( $expressionStr, $defClose, $offset ) + strlen( $defClose );
-        $varName = substr( $expressionStr, $posStart  + strlen( $defOpen ), $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
-        $var = new $exprClass();
-        $var->pos_start = $posStart;
-        $var->pos_end = $posEnd;
-        $var->name = $varName;
-        $var->id = $id;
-        $i = $posEnd + strlen( $defClose );
-        return $var;
-    }
-    public function extractVars( $expressionStr, $currentVar=null )
-    {
-        $matches = array();
-        $k = 0;
-        $var = null;
-        for ($i = 0; $i < strlen( $expressionStr ); $i++) {
-            $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
-            $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
-            if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
-                $var = $this->buildExpressionDefinition( 
-                    $expressionStr, $i, 
-                    VAR_DEF_OPEN, 
-                    VAR_DEF_CLOSE, 
-                    VariableDefinition::class, $k );
-                $k++;
-                array_push( $matches, $var );
-            }
-            else 
-            if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                $qOptOpenCount = 0;
-                for ($j = $i; $j < strlen( $expressionStr ); $j++) {
-                    $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_CLOSE ); 
-                    $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_OPEN ); 
-                    if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                        $j++;
-                        $qOptOpenCount++;
-                    }
-                    else 
-                    if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
-              
-                        $qOptOpenCount--;
-                        
-                        
-
-                        if ($qOptOpenCount === 0) {
-         
-                            $optExpr = new OptionalExpressionDefinition();
-                            $optExpr->content = substr( 
-                                $expressionStr, 
-                                $i + strlen( OPT_DEF_OPEN ), 
-                                $j - $i - strlen( OPT_DEF_CLOSE )
-                                );
-                            $optExpr->pos_start = $i;
-                            $optExpr->pos_end = $j;
-            
-                            $k++;
-                            array_push( $matches, $optExpr );
-                            break;
-                        }
-                        
-                        $j++;
-                    }
-                }
-                $i = $j;
-            }
-        }
-
-        print_r( $matches );
-        return $matches;
-    }
 
 }
 
