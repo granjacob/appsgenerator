@@ -8,6 +8,189 @@ define( 'VAR_DEF_CLOSE',':}}' );
 define( 'OPT_DEF_OPEN','[[' );
 define( 'OPT_DEF_CLOSE',']]' );
 
+
+
+
+
+class SingleToken extends TokenString {
+
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+
+}
+
+class VariableToken extends TokenString {
+
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+
+}
+
+class OptionalToken extends TokenString {
+    
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+
+}
+
+class Snippet extends TokenString {
+
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+}
+
+
+class TokenString  {
+
+    public $id;
+	public $name;
+	public $content;
+	public $value;
+
+	public $posStart;
+	public $posEnd;
+
+    public $tokens;
+
+    public $type;
+
+    public $jsonParameters;
+
+    public $snippetsXMLFile;
+
+    public $snippets;
+
+    public function __construct()
+    {
+        $this->tokens = array();
+    }   
+
+
+    public function catchDefExpr( $expressionStr, $offset, $def )
+    {
+        return substr( $expressionStr, $offset, strlen( $def ) );
+    }
+
+    public function loadSnippets( $filename=null )
+    {
+        if ( $filename === null ) {
+            $filename = $this->snippetsXMLFile;
+        }
+                
+        $xml = new DOMDocument();
+       
+        $xml->load($filename);
+
+        $snippets = $xml->getElementsByTagName('snippet' );
+
+        foreach ($snippets as $snippet) {
+            $newSnippet = new Snippet();
+            $newSnippet->content = $snippet->nodeValue;
+            $this->snippets[$snippet->getAttribute('name')] = $newSnippet;
+        }
+    }
+
+
+    public function buildExpressionDefinition( 
+        $expressionStr, &$offset, $defOpen, $defClose, $exprClass, $id  )
+    {
+        $posStart = $offset;
+        $posEnd = strpos( $expressionStr, $defClose, $offset ) + strlen( $defClose );
+        $varName = substr( $expressionStr, $posStart  + strlen( $defOpen ), $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
+        $var = new $exprClass();
+        $var->posStart = $posStart;
+        $var->posEnd = $posEnd;
+        $var->name = $varName;
+        $var->id = $id;
+        $i = $posEnd + strlen( $defClose );
+        return $var;
+    }
+
+    public function make( $expressionStr=null )
+    {
+        
+        if ($expressionStr === null)
+            $expressionStr = $this->content;
+        $k = 0;
+        $var = null;
+        for ($i = 0; $i < strlen( $expressionStr ); $i++) {
+            $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
+            $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
+            if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
+                $var = $this->buildExpressionDefinition( 
+                    $expressionStr, $i, 
+                    VAR_DEF_OPEN, 
+                    VAR_DEF_CLOSE, 
+                    VariableToken::class, $k );
+                $k++;
+                array_push( $this->tokens, $var );
+            }
+            else 
+            if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
+                $qOptOpenCount = 0;
+                for ($j = $i; $j < strlen( $expressionStr ); $j++) {
+                    $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_CLOSE ); 
+                    $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_OPEN ); 
+                    if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
+                        $j++;
+                        $qOptOpenCount++;
+                    }
+                    else 
+                    if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
+              
+                        $qOptOpenCount--;
+                    
+                        if ($qOptOpenCount === 0) {
+         
+                            $optExpr = new OptionalToken();
+                            $optExpr->content = substr( 
+                                $expressionStr, 
+                                $i + strlen( OPT_DEF_OPEN ), 
+                                $j - $i - strlen( OPT_DEF_CLOSE )
+                                );
+                            $optExpr->posStart = $i;
+                            $optExpr->posEnd = $j;
+            
+                            $k++;
+                            $optExpr->make( $optExpr->content );
+                            array_push( $this->tokens, $optExpr );
+                            break;
+                        }
+                        
+                        $j++;
+                    }
+                }
+                $i = $j;
+            }
+        }
+
+        
+
+    } 
+}
+ 
+
+$input =  "[[optional1]] [[optional2]] [[optional3]] [[esta es una prueba]] {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}} [[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]] {{:permite:}} cambiar cada uno de sus {{:valores:}} 
+vamos a ver si funciona {{:ojala:}} {{:funcione:}}, [[extends {{:welcome_to_the_jungle:}}]] {{:porque:}}, necesito avanzar en {{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]]
+otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
+";
+
+$do = new TokenString();
+$do->snippetsXMLFile = "archivoejemplo.xml";
+$do->loadSnippets();
+$do->content = $input;
+$do->make();
+print_r( $do->tokens );
+exit;
+
 class VariableDefinition {
     public $id;
     public $pos_start;
@@ -27,6 +210,16 @@ class VariableDefinition {
         $this->optionals = array(); 
     }
 
+    public function hasvariables()
+    {
+        return count( $this->variables ) > 0;
+    }
+
+    public function hasOptionals()
+    {
+        return count( $this->optionals ) > 0;
+    }
+
     public function makeVar( $name )
     {
         return VAR_DEF_OPEN . $name . VAR_DEF_CLOSE;
@@ -39,28 +232,15 @@ class VariableDefinition {
     }
 
     
-    public function buildExpressionDefinition( 
-        $expressionStr, &$offset, $defOpen, $defClose, $exprClass, $id  )
-    {
-        $posStart = $offset;
-        $posEnd = strpos( $expressionStr, $defClose, $offset ) + strlen( $defClose );
-        $varName = substr( $expressionStr, $posStart  + strlen( $defOpen ), $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
-        $var = new $exprClass();
-        $var->pos_start = $posStart;
-        $var->pos_end = $posEnd;
-        $var->name = $varName;
-        $var->id = $id;
-        $i = $posEnd + strlen( $defClose );
-        return $var;
-    }
+
+
+
     public function extractVars( $expressionStr=null, $currentVar=null )
     {
         if ($expressionStr === null)
             $expressionStr = $this->content;
-        $matches = array();
         $k = 0;
         $var = null;
-        echo $expressionStr;
         for ($i = 0; $i < strlen( $expressionStr ); $i++) {
             $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
             $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
@@ -112,8 +292,6 @@ class VariableDefinition {
             }
         }
 
-        print_r( (array) $this );
-        return $matches;
     }
 }
 /*
@@ -162,16 +340,56 @@ class Parser extends VariableDefinition {
     
     }
 
-    public function writeExpression( $expressionName, $lang=null, $expressionParameters=null )
+    public function setExpressionParameters( $expressionParameters )
     {
         $resultArray = json_decode( $expressionParameters, true );
+    }
+
+
+    public function next()
+    {
+
+    }
+
+    
+    public function make($expressionName=null, $lang=null, $expressionParameters=null)
+    {
+        if ($expressionParameters !== null)
+            $resultArray = json_decode( $expressionParameters, true );
+        
+        $finalExpression = $this->content;
+        $this->extractVars();
+
+        for ($i = 0; $i < strlen( $finalExpression ); $i++) {
+            $evalExpr_varDefOpen = $this->catchDefExpr( $finalExpression, $i, VAR_DEF_OPEN );
+            $evalExpr_optDefOpen = $this->catchDefExpr( $finalExpression, $i, OPT_DEF_OPEN );
+            if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
+
+            }
+            else {
+                $finalExpression .= $this->content[$i];
+            }
+        }
+
+        foreach ($this->optionals as $optExpr) {
+            if (!$optExpr->hasVariables()) {
+                $finalExpression = substr_replace( $finalExpression, $optExpr->content, $optExpr->pos_start, $optExpr->pos_end - $optExpr->pos_start );
+            }
+        }
+
+        print $finalExpression;
+    }
+
+    public function writeExpression( $expressionName, $lang=null, $expressionParameters=null )
+    {
+        $this->make( $expressionName, $lang, $expressionParameters );
+
+     /*   $resultArray = json_decode( $expressionParameters, true );
 
         $finalExpression = $this->snippets[$expressionName];
 
-        $vars = $this->extractVars( $finalExpression );
 
-        print_r( $vars );
-        exit;
+  
 
         foreach ($resultArray as $key => $item) {
             foreach ($resultArray[$key] as $qkey => $qvalue) {
@@ -189,7 +407,7 @@ class Parser extends VariableDefinition {
                 }
             }
             print $finalExpression;
-        }
+        }*/
     }
 
 
@@ -198,10 +416,14 @@ class Parser extends VariableDefinition {
 }
 
 $parser = new Parser( "php", "archivoejemplo.xml" );
-$parser->extractVars("[[esta es una prueba]] {{:variable:}} [[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]] {{:permite:}} cambiar cada uno de sus {{:valores:}} 
+$parser->content = "[[optional1]] [[optional2]] [[optional3]] [[esta es una prueba]] {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}} [[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]] {{:permite:}} cambiar cada uno de sus {{:valores:}} 
 vamos a ver si funciona {{:ojala:}} {{:funcione:}}, [[extends {{:welcome_to_the_jungle:}}]] {{:porque:}}, necesito avanzar en {{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]]
 otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
-");
+";
+$parser->make(null, null, '{}');
+
+
+print_r( (array) $parser );
 exit;
 $parser->writeExpression(
     "class", 'php',
