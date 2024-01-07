@@ -1,3 +1,16 @@
+
+<!doctype html>
+<html>
+    <head>
+        <style type="text/css">
+        body {
+            background-color:#222;
+            color:#00eeff;
+        }
+        </style>
+    </head>
+    <body>
+
 <?php
 
 
@@ -14,9 +27,10 @@ define( 'OPT_DEF_CLOSE',']]' );
 
 class SingleToken extends TokenString {
 
-    public function __construct()
+    public function __construct( $content )
     {
         parent :: __construct();
+        $this->content = $content;
     }
 
 }
@@ -110,8 +124,20 @@ class TokenString  {
         $var->posEnd = $posEnd;
         $var->name = $varName;
         $var->id = $id;
-        $i = $posEnd + strlen( $defClose );
+        $offset = $posEnd - 1;
+        
         return $var;
+    }
+
+    public function addSingleToken( &$tokensArray, &$content, &$id )
+    {
+        if (strlen( $content ) > 0) {
+            $newSingleToken = new SingleToken( $content );
+            $newSingleToken->id = $id;
+            $id++;
+            array_push( $tokensArray, $newSingleToken );   
+        }
+        $content = "";
     }
 
     public function make( $expressionStr=null )
@@ -121,16 +147,28 @@ class TokenString  {
             $expressionStr = $this->content;
         $k = 0;
         $var = null;
+        $singleToken = "";
+        print 'Strlen($expressionStr)= ' . strlen( $expressionStr ) . '!!!' ;
         for ($i = 0; $i < strlen( $expressionStr ); $i++) {
+            print "\n<$i : CONTINUANDO>\n";
             $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
             $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
+
+            $evalExpr_varDefClose = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_CLOSE );
+            $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
+
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
+                print "\n<encontre VAR_DEF_OPEN>\n";
+
                 $var = $this->buildExpressionDefinition( 
                     $expressionStr, $i, 
                     VAR_DEF_OPEN, 
                     VAR_DEF_CLOSE, 
                     VariableToken::class, $k );
                 $k++;
+
+                
+                $this->addSingleToken( $this->tokens, $singleToken, $k );
                 array_push( $this->tokens, $var );
             }
             else 
@@ -140,16 +178,18 @@ class TokenString  {
                     $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_CLOSE ); 
                     $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_OPEN ); 
                     if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                        $j++;
+                        print "\n<$j : encontre opt_def_open>\n";
                         $qOptOpenCount++;
+                        $j++;
                     }
                     else 
                     if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
-              
+                        
+                        print '$i = ' . $i . ', $j = ' . $j . "\n";
                         $qOptOpenCount--;
                     
                         if ($qOptOpenCount === 0) {
-         
+                           
                             $optExpr = new OptionalToken();
                             $optExpr->content = substr( 
                                 $expressionStr, 
@@ -157,11 +197,14 @@ class TokenString  {
                                 $j - $i - strlen( OPT_DEF_CLOSE )
                                 );
                             $optExpr->posStart = $i;
-                            $optExpr->posEnd = $j;
+                            $optExpr->posEnd = $j + strlen( OPT_DEF_CLOSE ) - 1;
             
                             $k++;
                             $optExpr->make( $optExpr->content );
+                            $this->addSingleToken( $this->tokens, $singleToken, $k );
+                           
                             array_push( $this->tokens, $optExpr );
+                            $j++;
                             break;
                         }
                         
@@ -169,6 +212,9 @@ class TokenString  {
                     }
                 }
                 $i = $j;
+            }
+            else {
+                $singleToken = $singleToken . $expressionStr[$i];
             }
         }
 
@@ -178,11 +224,8 @@ class TokenString  {
 }
  
 
-$input =  "[[optional1]] [[optional2]] [[optional3]] [[esta es una prueba]] {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}} [[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]] {{:permite:}} cambiar cada uno de sus {{:valores:}} 
-vamos a ver si funciona {{:ojala:}} {{:funcione:}}, [[extends {{:welcome_to_the_jungle:}}]] {{:porque:}}, necesito avanzar en {{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]]
-otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
-";
-
+$input =  "AAA[[FIRST_VARIABLE{{:nombreVar:}}[[{{:otra_variable_inside:}}]]]][[A]]X[[B]]XX[[C]]XXX[[Desta es una prueba]]Y{{:variable:}},Q{{:variable:}},M{{:variable:}},ZZ{{:variable:}},TT{{:variable:}}QQ[[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]]RRRRR{{:permite:}}ZZZZcambiar cada uno de susQ{{:valores:}}YYYYvamos a ver si funcionaTTT{{:ojala:}}RRRR{{:funcione:}},JJJJ[[extends {{:welcome_to_the_jungle:}}]]QQW{{:porque:}},FGFSnecesito avanzar enERRE{{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]] otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]";
+print $input;
 $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
@@ -535,3 +578,6 @@ $parser->writeExpression(
 
 
 ?>
+
+</body>
+</html>
