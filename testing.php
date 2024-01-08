@@ -33,6 +33,11 @@ class SingleToken extends TokenString {
         $this->content = $content;
     }
 
+    public function make(  $expressionStr=null )
+    {
+        $this->value = $this->content;
+    }
+
 }
 
 class VariableToken extends TokenString {
@@ -40,6 +45,10 @@ class VariableToken extends TokenString {
     public function __construct()
     {
         parent :: __construct();
+    }
+    public function make(  $expressionStr=null )
+    {
+        $this->value = $this->jsonParameters[$this->name];
     }
 
 }
@@ -77,6 +86,8 @@ class TokenString  {
     public $type;
 
     public $jsonParameters;
+
+    public $jsonStructure;
 
     public $snippetsXMLFile;
 
@@ -140,17 +151,135 @@ class TokenString  {
         $content = "";
     }
 
+    public function isValidDigitForVariableName( $chr )
+    {
+        if (ctype_alnum( $chr ) || $chr == '_' || $chr == '-')
+            return true;
+        return false;
+    }
+
+    public function logSyntaxError( $msg, $expressionStr, $currentIndex )
+    {
+        print '<strong>Syntax error:</strong> ' . $msg . "<br/>\r\n";
+        print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) , $currentIndex + 8 ) ) . '", index: ' . $currentIndex . "<br/>\r\n";
+    }
+
+    public function validateExpression( $expressionStr=null )
+    {
+        if ($expressionStr === null)
+            $expressionStr = $this->content;
+        $isValid = true;
+        $countValidationVar = 0;
+        $countValidationOpt = 0;
+        $currentVariableLength = 0;
+        $currentVariableName = "";
+        for ($i = 0; $i < strlen( $expressionStr ); $i++) {
+            $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
+            $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
+
+            $evalExpr_varDefClose = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_CLOSE );
+            $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
+            
+            // variable definition
+            if ($evalExpr_varDefOpen === VAR_DEF_OPEN && $countValidationVar == 0) {
+                $countValidationVar++;
+                $i += strlen( VAR_DEF_OPEN ) - 1;
+                continue;
+            }
+
+            // variable definition close
+            if ($evalExpr_varDefClose === VAR_DEF_CLOSE && $countValidationVar == 1) {
+                if ($currentVariableLength == 0) { 
+                    $this->logSyntaxError( 'Variable definition cannot have an empty name.', $expressionStr, $i );
+
+                    return false;   // --> variable doesn't have name
+                }
+
+                $currentVariableName = "";
+                $currentVariableLength = 0;
+                $countValidationVar--;
+                $i += strlen( VAR_DEF_CLOSE ) - 1;
+                continue;
+            }
+
+
+            // cannot give a name to a variable incorrectly
+            if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1) {
+                $this->logSyntaxError( 'Variable name not valid.', $expressionStr, $i );
+                return false;
+            }
+            else 
+            if ($countValidationVar == 1) {
+                $currentVariableName .= $expressionStr[$i];
+
+                $currentVariableLength++;
+            }
+
+            // optional section definition
+            if ($evalExpr_optDefOpen === OPT_DEF_OPEN && $countValidationVar == 0) {
+                $countValidationOpt++;
+                $i += strlen( OPT_DEF_OPEN ) - 1;
+                continue;
+            }
+            
+            // fail optional section definition inside a variable
+            if ($evalExpr_optDefOpen === OPT_DEF_OPEN && $countValidationVar == 1) {
+                $this->logSyntaxError( 'Cannot open an optional definition (' . OPT_DEF_OPEN . ') inside a variable.', $expressionStr, $i );
+
+                return false;
+            }
+
+            // fail
+            if ($evalExpr_optDefClose === OPT_DEF_CLOSE && $countValidationOpt >= 0 && $countValidationVar == 0) {
+                $countValidationOpt--;
+                $i += strlen( OPT_DEF_CLOSE ) - 1;
+                continue;
+            }
+
+
+            if ($evalExpr_optDefClose === OPT_DEF_CLOSE && ($countValidationOpt == 0 || $countValidationVar == 1)) {
+                $this->logSyntaxError( 'Syntax error: Cannot close an optional section "' . OPT_DEF_CLOSE . '" without open it before.', $expressionStr, $i );
+
+                return false;
+            }
+
+        }
+
+        if ($countValidationVar == 0 && 
+            $countValidationOpt == 0 && 
+            $currentVariableLength == 0) {
+            return true;
+        }
+        else 
+        {
+            if ($countValidationVar !== 0) {
+                print '<strong>Check></strong>Some variable definition is wrong.';
+                exit;
+            }
+
+            if ($countValidationOpt !== 0) {
+                print '<strong>Check></strong>Some optional expression is not correctly defined.';
+                exit;
+            }
+
+        }
+
+        print $countValidationVar . " : " . $countValidationOpt . " : " . $currentVariableLength . "<br/>";
+        
+        return false;
+
+    }
+
     public function make( $expressionStr=null )
     {
+        $jsonStructure = "{}";
         
         if ($expressionStr === null)
             $expressionStr = $this->content;
         $k = 0;
         $var = null;
         $singleToken = "";
-        print 'Strlen($expressionStr)= ' . strlen( $expressionStr ) . '!!!' ;
         for ($i = 0; $i < strlen( $expressionStr ); $i++) {
-            print "\n<$i : CONTINUANDO>\n";
             $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
             $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
 
@@ -158,7 +287,6 @@ class TokenString  {
             $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
 
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
-                print "\n<encontre VAR_DEF_OPEN>\n";
 
                 $var = $this->buildExpressionDefinition( 
                     $expressionStr, $i, 
@@ -178,14 +306,12 @@ class TokenString  {
                     $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_CLOSE ); 
                     $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $j, OPT_DEF_OPEN ); 
                     if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                        print "\n<$j : encontre opt_def_open>\n";
                         $qOptOpenCount++;
                         $j++;
                     }
                     else 
                     if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
                         
-                        print '$i = ' . $i . ', $j = ' . $j . "\n";
                         $qOptOpenCount--;
                     
                         if ($qOptOpenCount === 0) {
@@ -217,20 +343,26 @@ class TokenString  {
                 $singleToken = $singleToken . $expressionStr[$i];
             }
         }
-
-        
-
     } 
 }
  
 
-$input =  "AAA[[FIRST_VARIABLE{{:nombreVar:}}[[{{:otra_variable_inside:}}]]]][[A]]X[[B]]XX[[C]]XXX[[Desta es una prueba]]Y{{:variable:}},Q{{:variable:}},M{{:variable:}},ZZ{{:variable:}},TT{{:variable:}}QQ[[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]]RRRRR{{:permite:}}ZZZZcambiar cada uno de susQ{{:valores:}}YYYYvamos a ver si funcionaTTT{{:ojala:}}RRRR{{:funcione:}},JJJJ[[extends {{:welcome_to_the_jungle:}}]]QQW{{:porque:}},FGFSnecesito avanzar enERRE{{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]] otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]";
-print $input;
+$input =  "AAA[[FIRST_VARIABLE{{:nombreVar:}}[[{{:otra_variable_inside:}}]]]][[A]]X[[B]]XX[[C]]XXX[[Desta es una prueba]]Y{{:variable:}},Q{{:variable:}},M{{:variable:}},ZZ{{:variable:}},TT{{:variable:}}QQ[[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]]RRRRR{{:permite:}}ZZZZcambiar cada uno de susQ{{:valores:}}YYYYvamos a ver si funcionaTTT{{:ojala:}}RRRR{{:funcione:}},JJJJ[[extends {{:welcome_to_the_jungle:}}]]QQW{{:porque:}},FGFSnecesito avanzar enERRE{{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]] otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
+
+El software permite administrar los {{:empleados:}} de la {{:empresa:}}, para dichos empleados se guardan los siguientes valores {{:id:}}
+";
 $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 $do->content = $input;
-$do->make();
+//$do->make();
+if ($do->validateExpression()) {
+    print 'The entered expression is valid.<br/>';
+}
+else {
+    print 'The entered expression is not valid.<br/>';
+
+}
 print_r( $do->tokens );
 exit;
 
