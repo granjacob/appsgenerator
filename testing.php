@@ -21,7 +21,7 @@ define( 'VAR_DEF_CLOSE',':}}' );
 define( 'OPT_DEF_OPEN','[[' );
 define( 'OPT_DEF_CLOSE',']]' );
 define( 'TYPE_DEF_OPEN', '(' );
-define( 'TYPE_DEF_CLOSE', '(' );
+define( 'TYPE_DEF_CLOSE', ')' );
 
 
 
@@ -212,14 +212,14 @@ class TokenString  {
                 continue;
             }
 
+
             // type definition
             if ($evalExpr_typeDefOpen === TYPE_DEF_OPEN && $countValidationVar == 1 && $countValidationType == 0) {
                 $countValidationType++;
                 $i += strlen( TYPE_DEF_OPEN ) - 1;
                 continue;
             }
-
-            if ($evalExpr_varDefClose === TYPE_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 1) {
+            if ($evalExpr_typeDefClose === TYPE_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 1) {
                 if ($currentTypeLength == 0) { 
                     $this->logSyntaxError( 'Type definition cannot have an empty name.', $expressionStr, $i );
 
@@ -232,7 +232,6 @@ class TokenString  {
                 $i += strlen( TYPE_DEF_CLOSE ) - 1;
                 continue;
             }
-
 
             if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1 && $countValidationType == 1) {
                 print $currentTypeName . "<br/>\r\n";
