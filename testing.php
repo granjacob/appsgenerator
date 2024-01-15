@@ -53,6 +53,21 @@ class VariableToken extends TokenString {
 
 }
 
+
+class CompoundVariableToken extends TokenString {
+
+
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+ /*   public function make(  $expressionStr=null )
+    {
+        $this->value = $this->jsonParameters[$this->name];
+    }*/
+
+}
+
 class OptionalToken extends TokenString {
     
     public function __construct()
@@ -91,7 +106,9 @@ class TokenString  {
 
     public $snippetsXMLFile;
 
-    public $snippets;
+    public static $snippets;
+
+    public $snippetName;
 
     public function __construct()
     {
@@ -119,7 +136,7 @@ class TokenString  {
         foreach ($snippets as $snippet) {
             $newSnippet = new Snippet();
             $newSnippet->content = $snippet->nodeValue;
-            $this->snippets[$snippet->getAttribute('name')] = $newSnippet;
+            TokenString :: $snippets[$snippet->getAttribute('name')] = $newSnippet;
         }
     }
 
@@ -128,8 +145,17 @@ class TokenString  {
         $expressionStr, &$offset, $defOpen, $defClose, $exprClass, $id  )
     {
         $posStart = $offset;
-        $posEnd = strpos( $expressionStr, $defClose, $offset ) + strlen( $defClose );
-        $varName = substr( $expressionStr, $posStart  + strlen( $defOpen ), $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
+        
+        $posEnd = strpos( 
+            $expressionStr, 
+            $defClose, 
+            $offset ) + strlen( $defClose );
+
+        $varName = substr( 
+                $expressionStr, 
+                $posStart  + strlen( $defOpen ), 
+                $posEnd - $posStart - strlen( $defClose ) - strlen( $defOpen ) );
+        
         $var = new $exprClass();
         $var->posStart = $posStart;
         $var->posEnd = $posEnd;
@@ -168,7 +194,9 @@ class TokenString  {
     {
         if ($expressionStr === null)
             $expressionStr = $this->content;
+
         $isValid = true;
+
         $countValidationVar = 0;
         $countValidationType = 0;
         $countValidationOpt = 0;
@@ -177,7 +205,6 @@ class TokenString  {
 
         $currentVariableName = "";
         $currentTypeName = "";
-
 
         for ($i = 0; $i < strlen( $expressionStr ); $i++) {
             $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
@@ -320,6 +347,10 @@ class TokenString  {
     public function make( $expressionStr=null )
     {
         $jsonStructure = "{}";
+
+        if ($this->snippetName != null) {
+            $this->content = TokenString::$snippets[$this->snippetName]->content;
+        }
         
         if ($expressionStr === null)
             $expressionStr = $this->content;
@@ -327,6 +358,9 @@ class TokenString  {
         if (!$this->validateExpression( $expressionStr )) {
             return false;
         }
+
+
+        
 
         $k = 0;
         $var = null;
@@ -340,11 +374,62 @@ class TokenString  {
 
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
 
-                $var = $this->buildExpressionDefinition( 
+           /*     $var = $this->buildExpressionDefinition( 
                     $expressionStr, $i, 
                     VAR_DEF_OPEN, 
                     VAR_DEF_CLOSE, 
-                    VariableToken::class, $k );
+                    VariableToken::class, $k );*/
+
+
+                    $posStart = $i;
+        
+                    $posEnd = strpos( 
+                        $expressionStr, 
+                        VAR_DEF_CLOSE, 
+                        $i ) + strlen( VAR_DEF_CLOSE );
+            
+                    $varName = substr( 
+                            $expressionStr, 
+                            $posStart  + strlen( VAR_DEF_OPEN ), 
+                            $posEnd - $posStart - strlen( VAR_DEF_CLOSE ) - strlen( VAR_DEF_CLOSE ) );
+
+                    $exprClass =   VariableToken::class;      
+
+
+                    $matches = array();
+                    $expr = preg_match_all( "/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches );
+                    
+                    $snippetName = null;
+                    $variableName = $varName;
+
+                    if (is_array( $matches[1] ) && count( $matches[1] ) == 1)
+                        $snippetName = $matches[1][0];
+                    if (is_array( $matches[2] ) && count( $matches[2] ) == 1) {                    
+                        $variableName = $matches[2][0];
+                    }
+                    else {
+                        $variableName = $varName;
+                    }
+
+                    if ($snippetName !== null && $variableName !== null) {
+                        $exprClass = CompoundVariableToken::class;                        
+                    }
+
+                    
+                    $var = new $exprClass();
+                    $var->posStart = $posStart;
+                    $var->posEnd = $posEnd;
+                    $var->name = $variableName;
+                    if (get_class( $var ) == CompoundVariableToken::class) {
+                        $var->snippetName = $snippetName;
+                        $var->make();
+                    }
+                    $var->id = $k;
+
+
+                    $i = $posEnd - 1;
+
+
                 $k++;
 
                 
@@ -411,10 +496,20 @@ public class {{:class_name:}} [[extends {{:class_name_extends:}}]] {
     {{:(class_method)methods:}}
 }
 ";
+
+
+$json = "{'id1':{
+    'type':'class',
+    'variables': {
+        'name':
+    }
+}";
+
 $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 $do->content = $input;
+//$do->data = $json;
 $do->make();
 /*
 if ($do->validateExpression()) {

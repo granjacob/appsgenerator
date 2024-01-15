@@ -17,7 +17,12 @@
         <content>
             <![CDATA[
 
-            {{(class_method)}} 
+            public function {{:method_name:}}( [[{{(method_parameter):method_parameters:}}]] )
+            {
+                [[{{:method_body:}}]]
+            }
+            
+             
             
             ]]>
         </content>
