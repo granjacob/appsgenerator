@@ -5,9 +5,9 @@
             <![CDATA[
 
             public class {{:class_name:}} [[extends {{:class_name_extends:}}]] {
-                {{(class_constructor):constructor:}}
-                {{(class_attribute):attributes:}}
-                {{(class_method):methods:}}
+                {{:(class_constructor)constructor:}}
+                {{:(class_attribute)attributes:}}
+                {{:(class_method)methods:}}
             }
             
             ]]>
@@ -29,11 +29,7 @@
     </snippet>
     <snippet name="class_attribute">
         <content>
-            <![CDATA[
-
-            {{:access_modifier:}} {{:attributeName:}};
-            
-            ]]>
+            <![CDATA[{{:access_modifier:}} {{:attributeName:}};]]>
         </content>
     </snippet>
     <snippet name="class_method">
@@ -48,7 +44,7 @@
             ]]>
         </content>
     </snippet>
-    <snippet name="method_parmeter">
+    <snippet name="method_parameter">
         <content>
             <![CDATA[
 

@@ -24,6 +24,13 @@ define( 'TYPE_DEF_OPEN', '(' );
 define( 'TYPE_DEF_CLOSE', ')' );
 
 
+function endl()
+{
+    return "\n";
+}
+
+
+
 
 class SingleToken extends TokenString {
 
@@ -186,8 +193,8 @@ class TokenString  {
 
     public function logSyntaxError( $msg, $expressionStr, $currentIndex )
     {
-        print '<strong>Syntax error:</strong> ' . $msg . "<br/>\r\n";
-        print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) - $currentIndex , 16 ) ) . '", index: ' . $currentIndex . "<br/>\r\n";
+        print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
+        print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) - $currentIndex , 16 ) ) . '", index: ' . $currentIndex . "<br/>\n";
     }
 
     public function validateExpression( $expressionStr=null )
@@ -261,7 +268,7 @@ class TokenString  {
             }
 
             if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1 && $countValidationType == 1) {
-                print $currentTypeName . "<br/>\r\n";
+                print $currentTypeName . "<br/>\n";
                 $this->logSyntaxError( 'Variable type specified not valid.', $expressionStr, $i );
                 return false;
             }
@@ -359,20 +366,27 @@ class TokenString  {
             return false;
         }
 
-
+        $expressionStr = trim( $expressionStr );
         
+        print 'Processing ' . $expressionStr . "\n";
 
         $k = 0;
         $var = null;
         $singleToken = "";
+
+        $addSingleToken = false;
+
         for ($i = 0; $i < strlen( $expressionStr ); $i++) {
+
+            $addSingleToken = false;
+
             $evalExpr_varDefOpen = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_OPEN );
             $evalExpr_optDefOpen = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_OPEN );
-
             $evalExpr_varDefClose = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_CLOSE );
             $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
 
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
+
 
            /*     $var = $this->buildExpressionDefinition( 
                     $expressionStr, $i, 
@@ -428,11 +442,11 @@ class TokenString  {
 
 
                     $i = $posEnd - 1;
-
-
-                $k++;
-
-                
+                    
+                    $k++;
+                    
+                    print 'Final i => ' . $i . endl() ;
+                $addSingleToken = true;
                 $this->addSingleToken( $this->tokens, $singleToken, $k );
                 array_push( $this->tokens, $var );
             }
@@ -464,6 +478,8 @@ class TokenString  {
             
                             $k++;
                             $optExpr->make( $optExpr->content );
+                            $addSingleToken = true;
+
                             $this->addSingleToken( $this->tokens, $singleToken, $k );
                            
                             array_push( $this->tokens, $optExpr );
@@ -476,8 +492,15 @@ class TokenString  {
                 }
                 $i = $j;
             }
+            
             else {
                 $singleToken = $singleToken . $expressionStr[$i];
+            }
+
+
+
+            if (($i == strlen( $expressionStr ) - 1) && strlen( $singleToken ) > 0) {
+                $this->addSingleToken( $this->tokens, $singleToken, $k );
             }
         }
     } 
@@ -508,7 +531,8 @@ $json = "{'id1':{
 $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
-$do->content = $input;
+//$do->content = $input;
+$do->snippetName = 'class';
 //$do->data = $json;
 $do->make();
 /*
