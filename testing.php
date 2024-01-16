@@ -368,9 +368,8 @@ class TokenString  {
 
         $expressionStr = trim( $expressionStr );
         
-        print 'Processing ' . $expressionStr . "\n";
 
-        $k = 0;
+        static $k = 0;
         $var = null;
         $singleToken = "";
 
@@ -386,14 +385,6 @@ class TokenString  {
             $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
 
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
-
-
-           /*     $var = $this->buildExpressionDefinition( 
-                    $expressionStr, $i, 
-                    VAR_DEF_OPEN, 
-                    VAR_DEF_CLOSE, 
-                    VariableToken::class, $k );*/
-
 
                     $posStart = $i;
         
@@ -445,7 +436,6 @@ class TokenString  {
                     
                     $k++;
                     
-                    print 'Final i => ' . $i . endl() ;
                 $addSingleToken = true;
                 $this->addSingleToken( $this->tokens, $singleToken, $k );
                 array_push( $this->tokens, $var );
@@ -532,7 +522,7 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-$do->snippetName = 'class';
+$do->snippetName = 'SpringBootController';
 //$do->data = $json;
 $do->make();
 /*

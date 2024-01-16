@@ -1,5 +1,106 @@
 <?xml version="1.0"?>
 <snippets>
+    <snippet name="SpringBootMain">
+        <![CDATA[
+package {{:packageName:}};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class {{:applicationMainClass:}} {
+
+  public static void main(String... args) {
+    SpringApplication.run({{:applicationMainClass:}}.class, args);
+  }
+}       
+        ]]>
+    </snippet>
+
+
+        <snippet name="SpringBootController">
+        <![CDATA[
+package {{:packageName:}};
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class {{:controllerClassName:}} {
+
+    {{:(SpringAutowiredService)InjectService:}}
+
+    {{:(SpringControllerMethod)ControllerMethods:}}
+}       
+        ]]>
+    </snippet>
+       <snippet name="SpringControllerMethod">
+        <![CDATA[
+@{{:mappingAnnotation:}}("{{:controllerPath:}}")
+    {{:accessModifier:}} {{:returnType:}} {{:controllerMethodName:}}( 
+            [[{{:(SpringBootMethodParameter)parameters:}}]] ) {
+        {{:MethodBody:}}
+    }
+            ]]>
+    </snippet>
+       <snippet name="SpringBootMethodParameter">
+        <![CDATA[
+      
+        @{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}};
+        ]]>
+    </snippet>
+   <snippet name="SpringAutowiredService">
+        <![CDATA[
+        @Autowired
+        {{:accessModifier:}} {{:ServiceType:}} {{:ServiceName:}};
+        ]]>
+    </snippet>
+    <snippet name="SpringController">
+        <content>
+            <![CDATA[
+
+            @Controller
+            {{:(class)controller_class:}}
+            {|+
+                @Column("{{:columnName:}}")
+                (class_attribute)
+            +|}
+
+            {|+
+                @{{:SpringControllerMapping:}}("{{:path:}}")
+                (class_method)
+            +|}
+            ]]>
+        </content>
+    </snippet>
+
+
+    <snippet name="SpringController_Test">
+        <content>
+            <![CDATA[
+
+            @Controller
+            {{:(class)controller_class:}}
+            {|+
+                @Column("{{:columnName:}}")
+                (class_attribute)
+            +|}
+
+            {|+
+                @{{:SpringControllerMapping:}}("{{:path:}}")
+                (class_method)
+            +|}
+            ]]>
+        </content>
+    </snippet>
+
     <snippet name="class">
         <content>
             <![CDATA[
@@ -7,6 +108,7 @@
             public class {{:class_name:}} [[extends {{:class_name_extends:}}]] {
                 {{:(class_constructor)constructor:}}
                 {{:(class_attribute)attributes:}}
+                {{:(class_attribute_nasdaq)nasdaq_attributes:}}
                 {{:(class_method)methods:}}
             }
             
@@ -17,7 +119,7 @@
         <content>
             <![CDATA[
 
-            public function {{:method_name:}}( [[{{(method_parameter):method_parameters:}}]] )
+            public function {{:method_name:}}( [[{{:(method_parameter)method_parameters:}}]] )
             {
                 [[{{:method_body:}}]]
             }
@@ -32,11 +134,26 @@
             <![CDATA[{{:access_modifier:}} {{:attributeName:}};]]>
         </content>
     </snippet>
+    <snippet name="class_attribute_nasdaq">
+        <content>
+            <![CDATA[{{:access_modifier:}} {{:(prefixedNasdaq)attributeName:}};]]>
+        </content>
+    </snippet>
+     <snippet name="prefixedNasdaq">
+        <content>
+            <![CDATA[NASDAQ_{{:(AAAA)attrName:}}]]>
+        </content>
+    </snippet>
+         <snippet name="AAAA">
+        <content>
+            <![CDATA[AAAA{{:atrname:}}]]>
+        </content>
+    </snippet>
     <snippet name="class_method">
         <content>
             <![CDATA[
 
-            public function {{:method_name:}}( [[{{(method_parameter):method_parameters:}}]] )
+            public function {{:method_name:}}( [[{{:(method_parameter)method_parameters:}}]] )
             {
                 [[{{:method_body:}}]]
             }
