@@ -32,15 +32,33 @@ function endl()
 
 function __ln($count, $chr)
 {
-    print endl();
+    $result = '';
+    $result .= endl();
 
     for ($i = 0; $i < $count; $i++)
     {
-        print $chr;
+        $result .= $chr;
     }
-    print endl();
+    $result .= endl();
+    return $result;
 }
 
+function __rpt( $chr, $count )
+{
+    $result = '';
+    
+    for ($i = 0; $i < $count; $i++)
+    {
+        $result .= $chr;
+    }
+
+    return $result;
+}
+
+function _tab( $times )
+{
+    return __rpt( "\t", $times );
+}
 
 
 
@@ -158,7 +176,7 @@ class TokenString  {
         foreach ($snippets as $snippet) {
             $newSnippet = new Snippet();
             $newSnippet->name = $snippet->attributes['name']->value;
-            $newSnippet->content = $snippet->nodeValue;
+            $newSnippet->content = trim( $snippet->nodeValue );
             TokenString :: $snippets[$snippet->getAttribute('name')] = $newSnippet;
         }
     }
@@ -532,17 +550,26 @@ class TokenString  {
     {
         $writeFunc = "";
        // print_r( $this );
-        $classCode = "class " . $this->snippetName . " {";
+        $classCode = "class " . $this->snippetName . " { " . endl();
         foreach ($this->tokens as $token) {
             if (get_class( $token ) == VariableToken::class)
             {
-                print 'public $' . $token->name . ';' . endl();
+                $classCode .= endl() . _tab(1) . 'public $' . $token->name . ';' . endl();
         
             }
         }
-        $writeFunc .= endl() . 'public function write() {' . 
-           endl() . 'print ' . "'" . $this->content . "';" . endl()
-            . '} ';
+
+        $lines = explode( "\n", $this->content );
+
+        $writeFunc .= endl() . _tab(1) . 'public function write() { ' . endl() ;
+        foreach ($lines as $line) {
+
+        $writeFunc .=
+           endl() . _tab(2) . 'print ' . "'" . $line . "';";
+
+        }
+
+        $writeFunc .=  endl() . _tab(1) . '} ';
 
         foreach ($this->tokens as $token) {
             $writeFunc = str_replace( 
