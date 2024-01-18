@@ -1,5 +1,21 @@
 <?xml version="1.0"?>
 <snippets>
+
+    <snippet name="MinExample">
+    <![CDATA[
+        Hello world! ---> {{:(typeDato)datos:}}
+    ]]>
+    </snippet>
+    <snippet name="typeDato">
+    <![CDATA[
+        The output of TypeDato! ---> {{:address:}} and {{:id:}} is the data for {{:nombre_persona:}}
+    ]]>
+    </snippet>
+
+
+
+
+
     <snippet name="SpringBootMain">
         <![CDATA[
 package {{:packageName:}};
@@ -35,13 +51,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class {{:controllerClassName:}} {
 
-    {{:(SpringAutowiredService)InjectService:}}
+    {{:(SpringAutowiredService)Services:}}
 
-    {{:(SpringControllerMethod)ControllerMethods:}}
+    {{:(SpringControllerMethod)Methods:}}
 }       
         ]]>
     </snippet>
-       <snippet name="SpringControllerMethod">
+    <snippet name="SpringControllerMethod">
         <![CDATA[
 @{{:mappingAnnotation:}}("{{:controllerPath:}}")
     {{:accessModifier:}} {{:returnType:}} {{:controllerMethodName:}}( 
@@ -62,44 +78,7 @@ public class {{:controllerClassName:}} {
         {{:accessModifier:}} {{:ServiceType:}} {{:ServiceName:}};
         ]]>
     </snippet>
-    <snippet name="SpringController">
-        <content>
-            <![CDATA[
 
-            @Controller
-            {{:(class)controller_class:}}
-            {|+
-                @Column("{{:columnName:}}")
-                (class_attribute)
-            +|}
-
-            {|+
-                @{{:SpringControllerMapping:}}("{{:path:}}")
-                (class_method)
-            +|}
-            ]]>
-        </content>
-    </snippet>
-
-
-    <snippet name="SpringController_Test">
-        <content>
-            <![CDATA[
-
-            @Controller
-            {{:(class)controller_class:}}
-            {|+
-                @Column("{{:columnName:}}")
-                (class_attribute)
-            +|}
-
-            {|+
-                @{{:SpringControllerMapping:}}("{{:path:}}")
-                (class_method)
-            +|}
-            ]]>
-        </content>
-    </snippet>
 
     <snippet name="class">
         <content>

@@ -30,6 +30,18 @@ function endl()
 }
 
 
+function __ln($count, $chr)
+{
+    print endl();
+
+    for ($i = 0; $i < $count; $i++)
+    {
+        print $chr;
+    }
+    print endl();
+}
+
+
 
 
 class SingleToken extends TokenString {
@@ -95,6 +107,9 @@ class Snippet extends TokenString {
 
 class TokenString  {
 
+
+    public $packageName;
+
     public $id;
 	public $name;
 	public $content;
@@ -142,6 +157,7 @@ class TokenString  {
 
         foreach ($snippets as $snippet) {
             $newSnippet = new Snippet();
+            $newSnippet->name = $snippet->attributes['name']->value;
             $newSnippet->content = $snippet->nodeValue;
             TokenString :: $snippets[$snippet->getAttribute('name')] = $newSnippet;
         }
@@ -351,8 +367,13 @@ class TokenString  {
 
     }
 
-    public function make( $expressionStr=null )
+    public function clean()
     {
+        $this->tokens = array();        
+    }
+
+    public function make( $expressionStr=null )
+    {        
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
@@ -494,7 +515,68 @@ class TokenString  {
             }
         }
     } 
+
+    public function makeSingleToken( TokenString $tokenString=null )
+    {
+        $class = get_class( 
+            ($tokenString !== null ? $tokenString : $this ) );
+    
+        switch ($class) {
+            case 'SingleToken':
+                print $this->content;
+                break;
+        }
+    }
+
+    public function generateClass()
+    {
+        $writeFunc = "";
+       // print_r( $this );
+        $classCode = "class " . $this->snippetName . " {";
+        foreach ($this->tokens as $token) {
+            if (get_class( $token ) == VariableToken::class)
+            {
+                print 'public $' . $token->name . ';' . endl();
+        
+            }
+        }
+        $writeFunc .= endl() . 'public function write() {' . 
+           endl() . 'print ' . "'" . $this->content . "';" . endl()
+            . '} ';
+
+        foreach ($this->tokens as $token) {
+            $writeFunc = str_replace( 
+                VAR_DEF_OPEN . $token->name . VAR_DEF_CLOSE, 
+                "' . \$this->" . $token->name . " . '", 
+                $writeFunc 
+            );
+        }
+        $classCode .= $writeFunc;
+        $classCode .= endl() . "}";
+
+        print $classCode . endl() . endl();
+        
+    }
+
+    /**
+     * Generate the classes based on the snippets code.
+     *
+     * @return void
+     */
+    public function generateClasses()
+    {
+        $className = "";
+        print 'Snippets quantity ' . count( TokenString :: $snippets ) . endl();
+        foreach (TokenString :: $snippets as $snippet) {
+
+            $this->snippetName = $snippet->name;
+            $this->clean();
+            $this->make();
+            $this->generateClass();
+        }
+    }
 }
+
  
 
 $input =  "AAA[[FIRST_VARIABLE{{:nombreVar:}}[[{{:otra_variable_inside:}}]]]][[A]]X[[B]]XX[[C]]XXX[[Desta es una prueba]]Y{{:variable:}},Q{{:variable:}},M{{:variable:}},ZZ{{:variable:}},TT{{:variable:}}QQ[[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]]RRRRR{{:permite:}}ZZZZcambiar cada uno de susQ{{:valores:}}YYYYvamos a ver si funcionaTTT{{:ojala:}}RRRR{{:funcione:}},JJJJ[[extends {{:welcome_to_the_jungle:}}]]QQW{{:porque:}},FGFSnecesito avanzar enERRE{{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]] otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
@@ -522,9 +604,16 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-$do->snippetName = 'SpringBootController';
+/*$do->snippetName = 'MinExample';
 //$do->data = $json;
-$do->make();
+$do->make();*/
+$do->generateClasses();
+/*
+foreach ($do->tokens as $token) {
+    $token->makeSingleToken();
+    __ln(100,'-');
+}*/
+
 /*
 if ($do->validateExpression()) {
     print 'The entered expression is valid.<br/>';
@@ -534,7 +623,7 @@ else {
 
 }
 */
-print_r( $do->tokens );
+//print_r( $do->tokens );
 exit;
 
 
