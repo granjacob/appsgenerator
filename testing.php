@@ -23,10 +23,12 @@ define( 'OPT_DEF_CLOSE',']]' );
 define( 'TYPE_DEF_OPEN', '(' );
 define( 'TYPE_DEF_CLOSE', ')' );
 
+define( 'PHP_FILE_OPEN', '<?php' );
+define( 'PHP_FILE_CLOSE', '?>' );
 
-function endl()
+function endl( $times=1 )
 {
-    return "\n";
+    return __rpt( "\n", $times );
 }
 
 
@@ -55,7 +57,7 @@ function __rpt( $chr, $count )
     return $result;
 }
 
-function _tab( $times )
+function _tab( $times=1 )
 {
     return __rpt( "\t", $times );
 }
@@ -130,6 +132,8 @@ class TokenString  {
 
     public $id;
 	public $name;
+
+    public $fullNameReference;
 	public $content;
 	public $value;
 
@@ -436,7 +440,7 @@ class TokenString  {
                             $expressionStr, 
                             $posStart  + strlen( VAR_DEF_OPEN ), 
                             $posEnd - $posStart - strlen( VAR_DEF_CLOSE ) - strlen( VAR_DEF_CLOSE ) );
-
+                    $fullNameReference = VAR_DEF_OPEN . $varName . VAR_DEF_CLOSE;
                     $exprClass =   VariableToken::class;      
 
 
@@ -464,6 +468,7 @@ class TokenString  {
                     $var->posStart = $posStart;
                     $var->posEnd = $posEnd;
                     $var->name = $variableName;
+                    $var->fullNameReference = $fullNameReference;
                     if (get_class( $var ) == CompoundVariableToken::class) {
                         $var->snippetName = $snippetName;
                         $var->make();
@@ -550,9 +555,14 @@ class TokenString  {
     {
         $writeFunc = "";
        // print_r( $this );
-        $classCode = "class " . $this->snippetName . " { " . endl();
+        $classCode = PHP_FILE_OPEN . endl(2);
+        $classCode .= "class " . $this->snippetName . " { " . endl();
         foreach ($this->tokens as $token) {
-            if (get_class( $token ) == VariableToken::class)
+       /*     if (get_class( $token ) === CompoundVariableToken::class) {
+                print 'foreach instead of ' . $token->content . endl();
+            }
+            else */
+            if (get_class( $token ) !== SingleToken::class)
             {
                 $classCode .= endl() . _tab(1) . 'public $' . $token->name . ';' . endl();
         
@@ -561,7 +571,7 @@ class TokenString  {
 
         $lines = explode( "\n", $this->content );
 
-        $writeFunc .= endl() . _tab(1) . 'public function write() { ' . endl() ;
+        $writeFunc .= endl() . _tab(1) . 'public function write() ' . endl() . _tab() . '{ ';
         foreach ($lines as $line) {
 
         $writeFunc .=
@@ -572,15 +582,28 @@ class TokenString  {
         $writeFunc .=  endl() . _tab(1) . '} ';
 
         foreach ($this->tokens as $token) {
-            $writeFunc = str_replace( 
-                VAR_DEF_OPEN . $token->name . VAR_DEF_CLOSE, 
-                "' . \$this->" . $token->name . " . '", 
-                $writeFunc 
-            );
+            $replaceStr = "' . \$this->" . $token->name . " . '";
+
+            if (get_class( $token ) === CompoundVariableToken::class) {
+                $outputCompound = "";
+                $outputCompound .= "';" . endl() . _tab(2) . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
+                $outputCompound .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
+                $outputCompound .= _tab(2) . '}' . endl();
+                $outputCompound .= _tab(2) . 'print ' . "'";
+                $replaceStr = $outputCompound;
+            }
+
+            if ($token->fullNameReference !== null) {
+                $writeFunc = str_replace( 
+                    $token->fullNameReference, 
+                    $replaceStr, 
+                    $writeFunc 
+                );
+            }
         }
         $classCode .= $writeFunc;
         $classCode .= endl() . "}";
-
+        $classCode .= endl(2) . PHP_FILE_CLOSE . endl();
         print $classCode . endl() . endl();
         
     }
@@ -634,7 +657,9 @@ $do->loadSnippets();
 /*$do->snippetName = 'MinExample';
 //$do->data = $json;
 $do->make();*/
+print '<xmp>';
 $do->generateClasses();
+print '</xmp>';
 /*
 foreach ($do->tokens as $token) {
     $token->makeSingleToken();
