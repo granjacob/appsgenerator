@@ -54,6 +54,12 @@ public class {{:controllerClassName:}} {
     {{:(SpringAutowiredService)Services:}}
 
     {{:(SpringControllerMethod)Methods:}}
+
+    [[{{:(SpringControllerMethod)Repositories:}}]]
+
+    [[{{:(SpringControllerMethod)OtherThings:}}]]
+
+    [[{{:(SpringControllerMethod)MoreThings:}} and {{:(SpringControllerMethod)AndMoreThings:}} [[{{:(SpringControllerMethod)WithMoreThings:}}]] ]]
 }       
         ]]>
     </snippet>

@@ -118,9 +118,38 @@ class OptionalToken extends TokenString {
 
 class Snippet extends TokenString {
 
+    public $variablesDefined;   // this is for control the variables names defined in a template/snippet
+
     public function __construct()
     {
         parent :: __construct();
+        $this->variablesDefined = array();
+    }
+
+ /*   public function cleanSnippet()
+    {
+        parent :: clean();
+        $this->variablesDefined = array();
+    }*/
+
+    public function addVariableName( $varName )
+    {
+        if (!isset( $this->variablesDefined[$varName])) {
+            $this->variablesDefined[$varName] = $varName;
+        }        
+    /*    else {
+            throw new Exception(
+                "Cannot add more than one variable with the same name to a snippet/template." . endl() .
+            "Please review the snippet/template " . $this->name );
+        }*/
+    }
+
+    public function removeVariableName( $varName )
+    {
+        if (isset( $this->variablesDefined[$varName] ))
+        {
+            unset( $this->variablesDefined[$varName] );
+        }
     }
 }
 
@@ -151,6 +180,8 @@ class TokenString  {
     public $snippetsXMLFile;
 
     public static $snippets;
+
+    public static $variableNames = array();
 
     public $snippetName;
 
@@ -233,6 +264,37 @@ class TokenString  {
     {
         print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
         print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) - $currentIndex , 16 ) ) . '", index: ' . $currentIndex . "<br/>\n";
+    }
+
+    public function collectVariables( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
+    {
+        if ($tokenObj == null)
+            $tokenObj = $this;
+        $variables = array();
+        foreach ($tokenObj->tokens as $token) {
+            if ((is_array( $variableTypes ) && in_array( get_class( $token ), $variableTypes )) ||
+                !is_array( $variableTypes ) && get_class( $token ) === $variableTypes) {
+                if (get_class( $token ) != $returnAsType) {
+                    $var = new $returnAsType();
+                    $var->name = $token->name;
+                    $var->content = $token->content;
+                    $var->fullNameReference = $token->fullNameReference;
+                    $var->id = $token->id;
+                    array_push( $variables, $var );
+
+                }
+                else {
+                    array_push( $variables, $token );            
+                }
+            }
+            else {
+                $collected = $this->collectVariables( $token, $variableTypes, $returnAsType );
+                foreach ($collected as $variableCollected) {
+                    array_push( $variables, $variableCollected );
+                }
+            }
+        }
+        return $variables;
     }
 
     public function validateExpression( $expressionStr=null )
@@ -391,7 +453,10 @@ class TokenString  {
 
     public function clean()
     {
-        $this->tokens = array();        
+        $this->tokens = array();    
+        foreach (TokenString::$snippets as $snippet) {
+            $snippet->variablesDefined = array();
+        }    
     }
 
     public function make( $expressionStr=null )
@@ -458,6 +523,8 @@ class TokenString  {
                     else {
                         $variableName = $varName;
                     }
+
+                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
 
                     if ($snippetName !== null && $variableName !== null) {
                         $exprClass = CompoundVariableToken::class;                        
@@ -557,6 +624,8 @@ class TokenString  {
        // print_r( $this );
         $classCode = PHP_FILE_OPEN . endl(2);
         $classCode .= "class " . $this->snippetName . " { " . endl();
+
+        // attributes
         foreach ($this->tokens as $token) {
        /*     if (get_class( $token ) === CompoundVariableToken::class) {
                 print 'foreach instead of ' . $token->content . endl();
@@ -564,8 +633,16 @@ class TokenString  {
             else */
             if (get_class( $token ) !== SingleToken::class)
             {
-                $classCode .= endl() . _tab(1) . 'public $' . $token->name . ';' . endl();
-        
+                if (get_class( $token ) === OptionalToken::class) {
+                    $variables = $this->collectVariables( $token, CompoundVariableToken::class, VariableToken::class );
+
+                    foreach ($variables as $variable) {
+                        $classCode .= endl() . _tab(1) . 'public $' . $variable->name . ';' . endl();
+                    }
+                }
+                else {
+                    $classCode .= endl() . _tab(1) . 'public $' . $token->name . ';' . endl();
+                }
             }
         }
 
@@ -583,12 +660,22 @@ class TokenString  {
 
         foreach ($this->tokens as $token) {
             $replaceStr = "' . \$this->" . $token->name . " . '";
-
+            $outputCompound = "";
             if (get_class( $token ) === CompoundVariableToken::class) {
-                $outputCompound = "";
+              
                 $outputCompound .= "';" . endl() . _tab(2) . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
                 $outputCompound .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
                 $outputCompound .= _tab(2) . '}' . endl();
+                $outputCompound .= _tab(2) . 'print ' . "'";
+                $replaceStr = $outputCompound;
+            }
+
+            if (get_class( $token ) === OptionalToken :: class) {
+                $outputOptional = "";
+                $replaceStr = $outputOptional = "";
+                $outputCompound .= "';" . endl();
+                $variables = $this->collectVariables( $token, CompoundVariableToken::class, VariableToken::class );
+
                 $outputCompound .= _tab(2) . 'print ' . "'";
                 $replaceStr = $outputCompound;
             }
@@ -654,11 +741,24 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-/*$do->snippetName = 'MinExample';
-//$do->data = $json;
-$do->make();*/
+$do->snippetName = 'SpringBootController';
+/*//$do->data = $json;*/
+$do->make();
 print '<xmp>';
 $do->generateClasses();
+/*
+$do->make();
+print_r( $do->tokens );
+print __ln( 100, '$$$');
+foreach ($do->tokens as $token) {
+    if (get_class( $token ) === OptionalToken::class ) {
+        print 'Collecting variables ... '. endl();
+        $variables = $do->collectVariables( $token, CompoundVariableToken::class );
+        print_r( $variables );
+        print __ln(100, '##' );
+    }
+}*/
+//$do->generateClass();
 print '</xmp>';
 /*
 foreach ($do->tokens as $token) {
