@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html>
     <head>
@@ -67,7 +68,7 @@ function _print( $output )
     $finalPrint = "";
     $lines = explode( "\n", $output );
     foreach ($lines as $line) {
-        $finalPrint .= endl() . "print '" . $line . "';" ;
+        $finalPrint .= endl() . 'print ' . "'" . $line . "';" ;
     }
     return $finalPrint;
 }
@@ -672,45 +673,7 @@ class TokenString  {
         return $this->hasTokenOfType( $tokenObj, OptionalToken::class );
     }
 
-    /**
-     * Generates the code for write an optional section including nested optionals.
-     *
-     * @param [type] $token
-     * @return void
-     */
-    public function generateOptionalReplacements( $token )
-    {
-        print 'generateOptionalReplacements^^^^' . endl();
-        $output = "";     
 
-        $if_ConditionMatch = "%{if_condition}";
-        $if_BodyMatch = "%{if_body}";
-        $if = endl() . "if (" . $if_ConditionMatch . ") {" . $if_BodyMatch . "}" . endl();
-        $if_Condition = "";
-        $close_if_Condition = false;
-
-
-        $variablesSameLevel = $this->collectVariablesSameLevel( $token, CompoundVariableToken::class, CompoundVariableToken::class );
-        //print_r( $variablesSameLevel );
-        foreach ($variablesSameLevel as $variable) {
-            $if_Condition .= ' (count( $this->' . $variable->name . ') > 0) &&';
-        }
-
-        $output = str_replace( $if_ConditionMatch, trim( $if_Condition, "&" ), $if );
-
-
-        $output = str_replace( $if_BodyMatch, $token->content, $output );
-
-        
-        foreach ($token->tokens as $tokenI) {
-            if (get_class( $tokenI ) == OptionalToken::class) {
-                $output = str_replace( OPT_DEF_OPEN . $tokenI->content . OPT_DEF_CLOSE, endl() . $this->generateOptionalReplacements( $tokenI ), $output );
-            }
-        }
-        
-        print __ln( 100, '^^^' );
-        return $output;
-    }
 
     public function generateClass( $pToken=null )
     {
@@ -745,37 +708,56 @@ class TokenString  {
 
         }   
 
-        foreach ($pToken->tokens as $token) {
+        $ignoreNextToken = false;
+        $writeFunc = "";
+        while ($token = current($pToken->tokens) ) {
+            $nextToken = next($pToken->tokens);
+
+            $token->content = str_replace( "\r", "", $token->content );
+        //foreach ($pToken->tokens as $token) {
+            if ($ignoreNextToken) {
+                $ignoreNextToken = false;
+                continue;
+            }
             if (get_class( $token ) === OptionalToken::class) {
-                $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
-                $output .= endl() . $token->generateClass2( $token ) . endl();
-                $output .= endl() . '}' . endl();
+                $writeFunc .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
+                $writeFunc .= endl() . $token->generateClass( $token ) . endl();
+                $writeFunc .= endl() . '}' . endl();
             }
             else
             if (get_class( $token ) === CompoundVariableToken::class) {
-                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
-                $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
-                $output .= _tab(2) . '}' . endl();
+                $writeFunc .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
+                $writeFunc .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
+                $writeFunc .= _tab(2) . '}' . endl();
 
             }
             else if (get_class( $token ) === SingleToken::class ) {
-                $output .= endl() . _print( $token->content ) . endl();
+                
+                if (is_objecT( $nextToken ) && get_class( $nextToken ) === VariableToken::class) {
+                    $ignoreNextToken = true;
+                    $writeFunc .= endl() . 'print ' . "'" .$token->content . '{$this->' . $nextToken->name . '}'. endl();
+                }
+                else {
+                    $writeFunc .= endl() . _print( $token->content ) . endl();
+                }
+
             } 
 
             else if (get_class( $token ) === VariableToken::class ) {
-                $output .= endl() . 'print $this->' . $token->name . ';'. endl();
+                $writeFunc .= endl() . 'print $this->' . $token->name . ';'. endl();
             } 
         }
         
-
+        $writeFunc = ( $writeFunc );
         
+        $output.= $writeFunc;
 
         if ($fileBegins) {
             $output .= endl() . '}' . endl();
             $output .= endl() . ' } ' . endl();
             $output .= endl(2) . PHP_FILE_CLOSE . endl(2);
         }
-        return $output;
+        return ( $output );
     }
 
     /**
