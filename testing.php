@@ -62,6 +62,15 @@ function _tab( $times=1 )
     return __rpt( "\t", $times );
 }
 
+function _print( $output )
+{
+    $finalPrint = "";
+    $lines = explode( "\n", $output );
+    foreach ($lines as $line) {
+        $finalPrint .= endl() . "print '" . $line . "';" ;
+    }
+    return $finalPrint;
+}
 
 
 class SingleToken extends TokenString {
@@ -108,6 +117,8 @@ class CompoundVariableToken extends TokenString {
 }
 
 class OptionalToken extends TokenString {
+
+    public $conditionalExpression;
     
     public function __construct()
     {
@@ -266,7 +277,7 @@ class TokenString  {
         print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) - $currentIndex , 16 ) ) . '", index: ' . $currentIndex . "<br/>\n";
     }
 
-    public function collectVariables( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
+    public function collectVariables( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class, $sameLevel=false )
     {
         if ($tokenObj == null)
             $tokenObj = $this;
@@ -287,7 +298,8 @@ class TokenString  {
                     array_push( $variables, $token );            
                 }
             }
-            else {
+            else 
+            if (!$sameLevel) {
                 $collected = $this->collectVariables( $token, $variableTypes, $returnAsType );
                 foreach ($collected as $variableCollected) {
                     array_push( $variables, $variableCollected );
@@ -295,6 +307,11 @@ class TokenString  {
             }
         }
         return $variables;
+    }
+
+    public function collectVariablesSameLevel( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
+    {
+        return $this->collectVariables( $tokenObj, $variableTypes, $returnAsType, true );
     }
 
     public function validateExpression( $expressionStr=null )
@@ -583,6 +600,15 @@ class TokenString  {
 
                             $this->addSingleToken( $this->tokens, $singleToken, $k );
                            
+                            $variables = $optExpr->collectVariablesSameLevel( null, CompoundVariableToken::class, CompoundVariableToken::class );
+                            
+                            $conditionalExpression = "";
+                            foreach ($variables as $variable) {
+                                $conditionalExpression .= ' count( $this->'  . $variable->name . ' ) > 0 &&';                                                                
+                            }
+
+                            $optExpr->conditionalExpression = trim( $conditionalExpression, "& " );
+
                             array_push( $this->tokens, $optExpr );
                             $j += strlen( OPT_DEF_CLOSE ) - 1;
                             break;
@@ -618,81 +644,138 @@ class TokenString  {
         }
     }
 
-    public function generateClass()
+    public function hasTokenOfType( $tokenObj=null, $tokenType=OptionalToken::class )
     {
-        $writeFunc = "";
-       // print_r( $this );
-        $classCode = PHP_FILE_OPEN . endl(2);
-        $classCode .= "class " . $this->snippetName . " { " . endl();
-
-        // attributes
-        foreach ($this->tokens as $token) {
-       /*     if (get_class( $token ) === CompoundVariableToken::class) {
-                print 'foreach instead of ' . $token->content . endl();
-            }
-            else */
-            if (get_class( $token ) !== SingleToken::class)
-            {
-                if (get_class( $token ) === OptionalToken::class) {
-                    $variables = $this->collectVariables( $token, CompoundVariableToken::class, VariableToken::class );
-
-                    foreach ($variables as $variable) {
-                        $classCode .= endl() . _tab(1) . 'public $' . $variable->name . ';' . endl();
-                    }
-                }
-                else {
-                    $classCode .= endl() . _tab(1) . 'public $' . $token->name . ';' . endl();
-                }
-            }
+        if ($tokenObj == null) {
+            $tokenObj = $this;
         }
 
-        $lines = explode( "\n", $this->content );
-
-        $writeFunc .= endl() . _tab(1) . 'public function write() ' . endl() . _tab() . '{ ';
-        foreach ($lines as $line) {
-
-        $writeFunc .=
-           endl() . _tab(2) . 'print ' . "'" . $line . "';";
-
-        }
-
-        $writeFunc .=  endl() . _tab(1) . '} ';
-
-        foreach ($this->tokens as $token) {
-            $replaceStr = "' . \$this->" . $token->name . " . '";
-            $outputCompound = "";
-            if (get_class( $token ) === CompoundVariableToken::class) {
-              
-                $outputCompound .= "';" . endl() . _tab(2) . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
-                $outputCompound .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
-                $outputCompound .= _tab(2) . '}' . endl();
-                $outputCompound .= _tab(2) . 'print ' . "'";
-                $replaceStr = $outputCompound;
-            }
-
-            if (get_class( $token ) === OptionalToken :: class) {
-                $outputOptional = "";
-                $replaceStr = $outputOptional = "";
-                $outputCompound .= "';" . endl();
-                $variables = $this->collectVariables( $token, CompoundVariableToken::class, VariableToken::class );
-
-                $outputCompound .= _tab(2) . 'print ' . "'";
-                $replaceStr = $outputCompound;
-            }
-
-            if ($token->fullNameReference !== null) {
-                $writeFunc = str_replace( 
-                    $token->fullNameReference, 
-                    $replaceStr, 
-                    $writeFunc 
-                );
-            }
-        }
-        $classCode .= $writeFunc;
-        $classCode .= endl() . "}";
-        $classCode .= endl(2) . PHP_FILE_CLOSE . endl();
-        print $classCode . endl() . endl();
+        $variables = array();
         
+        foreach ($tokenObj->tokens as $token) {
+            $ind = false;
+            if  (get_class( $token ) === $tokenType) {
+                return true;
+            }
+            else 
+            if (count( $token->tokens ) > 0) {
+                $ind = $token->hasOptionalTokens( $token );
+                if ($ind) return true;
+            }
+        }
+        return false;
+
+    }
+
+    public function hasOptionalTokens(  $tokenObj=null )
+    {
+        return $this->hasTokenOfType( $tokenObj, OptionalToken::class );
+    }
+
+    /**
+     * Generates the code for write an optional section including nested optionals.
+     *
+     * @param [type] $token
+     * @return void
+     */
+    public function generateOptionalReplacements( $token )
+    {
+        print 'generateOptionalReplacements^^^^' . endl();
+        $output = "";     
+
+        $if_ConditionMatch = "%{if_condition}";
+        $if_BodyMatch = "%{if_body}";
+        $if = endl() . "if (" . $if_ConditionMatch . ") {" . $if_BodyMatch . "}" . endl();
+        $if_Condition = "";
+        $close_if_Condition = false;
+
+
+        $variablesSameLevel = $this->collectVariablesSameLevel( $token, CompoundVariableToken::class, CompoundVariableToken::class );
+        //print_r( $variablesSameLevel );
+        foreach ($variablesSameLevel as $variable) {
+            $if_Condition .= ' (count( $this->' . $variable->name . ') > 0) &&';
+        }
+
+        $output = str_replace( $if_ConditionMatch, trim( $if_Condition, "&" ), $if );
+
+
+        $output = str_replace( $if_BodyMatch, $token->content, $output );
+
+        
+        foreach ($token->tokens as $tokenI) {
+            if (get_class( $tokenI ) == OptionalToken::class) {
+                $output = str_replace( OPT_DEF_OPEN . $tokenI->content . OPT_DEF_CLOSE, endl() . $this->generateOptionalReplacements( $tokenI ), $output );
+            }
+        }
+        
+        print __ln( 100, '^^^' );
+        return $output;
+    }
+
+    public function generateClass( $pToken=null )
+    {
+        $output = "";
+
+        $fileBegins = $pToken === null;
+
+        if ($fileBegins) {
+            $output .= endl() . PHP_FILE_OPEN . endl(2);
+            $output .= endl() . 'class ' . $this->snippetName . ' {' . endl();
+        }
+
+        if ($pToken === null) {
+            $pToken = $this;
+        }
+
+        
+        if ($fileBegins) {
+            $variables = 
+            $this->collectVariables( 
+                $pToken, 
+                array( VariableToken::class, CompoundVariableToken::class ), 
+                VariableToken::class 
+            );
+
+      
+            foreach ($variables as $variable) {
+                $output .= endl() . _tab() . 'public $' . $variable->name . ';' . endl();
+            }
+
+            $output .= endl() . _tab() . 'public function write() {' . endl();
+
+        }   
+
+        foreach ($pToken->tokens as $token) {
+            if (get_class( $token ) === OptionalToken::class) {
+                $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
+                $output .= endl() . $token->generateClass2( $token ) . endl();
+                $output .= endl() . '}' . endl();
+            }
+            else
+            if (get_class( $token ) === CompoundVariableToken::class) {
+                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
+                $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
+                $output .= _tab(2) . '}' . endl();
+
+            }
+            else if (get_class( $token ) === SingleToken::class ) {
+                $output .= endl() . _print( $token->content ) . endl();
+            } 
+
+            else if (get_class( $token ) === VariableToken::class ) {
+                $output .= endl() . 'print $this->' . $token->name . ';'. endl();
+            } 
+        }
+        
+
+        
+
+        if ($fileBegins) {
+            $output .= endl() . '}' . endl();
+            $output .= endl() . ' } ' . endl();
+            $output .= endl(2) . PHP_FILE_CLOSE . endl(2);
+        }
+        return $output;
     }
 
     /**
@@ -745,7 +828,9 @@ $do->snippetName = 'SpringBootController';
 /*//$do->data = $json;*/
 $do->make();
 print '<xmp>';
-$do->generateClasses();
+//print_r( $do );
+print $do->generateClass();
+//$do->generateClasses();
 /*
 $do->make();
 print_r( $do->tokens );

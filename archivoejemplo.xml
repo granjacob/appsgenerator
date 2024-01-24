@@ -59,8 +59,13 @@ public class {{:controllerClassName:}} {
 
     [[{{:(SpringControllerMethod)OtherThings:}}]]
 
-    [[{{:(SpringControllerMethod)MoreThings:}} and {{:(SpringControllerMethod)AndMoreThings:}} [[{{:(SpringControllerMethod)WithMoreThings:}}]] ]]
-}       
+    [[
+        {{:(SpringControllerMethod)MoreThings:}} and {{:(SpringControllerMethod)AndMoreThings:}} 
+            [[{{:(SpringControllerMethod)WithMoreThings:}}]] 
+    ]]
+}   
+
+
         ]]>
     </snippet>
     <snippet name="SpringControllerMethod">
