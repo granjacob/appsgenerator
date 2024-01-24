@@ -789,7 +789,7 @@ class TokenString  {
             }
             else if (get_class( $token ) === SingleToken::class ) {
                 
-                if (is_objecT( $nextToken ) && get_class( $nextToken ) === VariableToken::class) {
+                if (is_object( $nextToken ) && get_class( $nextToken ) === VariableToken::class) {
                     $ignoreNextToken = true;
                     $outputStack .= ( $token->content . '{$this->' . $nextToken->name . '}' );
                 }
@@ -802,6 +802,11 @@ class TokenString  {
             else if (get_class( $token ) === VariableToken::class ) {
                 $output .= __print( '{$this->' . $token->name . '}' );
             } 
+        }
+
+        if ($outputStack !== null) {
+            $output .= __print( $outputStack );
+            $outputStack = "";
         }
         
 
@@ -862,17 +867,14 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-$do->snippetName = 'SpringBootController';
+$do->snippetName = 'TypeDato';
 /*//$do->data = $json;*/
 $do->make();
+
+
 print '<xmp>';
 //print_r( $do );
 
-$options = [
-	'identation' => '    ' // 4 spaces (default Tab)
-];
-
-$autoStyle = new PHPAutoStyle($options);
 
 
 //print $autoStyle->loadString($do->generateClass()) ."\n";

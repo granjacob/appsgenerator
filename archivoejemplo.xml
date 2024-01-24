@@ -3,10 +3,10 @@
 
     <snippet name="MinExample">
     <![CDATA[
-        Hello world! ---> {{:(typeDato)datos:}}
+        Hello world! ---> {{:(TypeDato)datos:}}
     ]]>
     </snippet>
-    <snippet name="typeDato">
+    <snippet name="TypeDato">
     <![CDATA[
         The output of TypeDato! ---> {{:address:}} and {{:id:}} is the data for {{:nombre_persona:}}
     ]]>
