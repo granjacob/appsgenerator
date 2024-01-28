@@ -14,16 +14,16 @@ require_once( "class_method.php" );
 	$varclass->setClassName("XXXXXXX");
 
 	$varconstructor = new class_constructor();
-	$varclass->addConstructorItem( $item );
+	$varclass->addConstructorItem( $varConstructor );
 
 	$varattributes = new class_attribute();
-	$varclass->addAttributesItem( $item );
+	$varclass->addAttributesItem( $varAttributes );
 
 	$varnasdaq_attributes = new class_attribute_nasdaq();
-	$varclass->addNasdaqAttributesItem( $item );
+	$varclass->addNasdaqAttributesItem( $varNasdaqAttributes );
 
 	$varmethods = new class_method();
-	$varclass->addMethodsItem( $item );
+	$varclass->addMethodsItem( $varMethods );
 
 	$varclass->write();
 
@@ -124,13 +124,6 @@ return $this;
 		return $this->methods;
 }
 
-	public function addClassNameItem(  $item )
-{
-
-		$this->class_name->append($item);
-return $this; 
-}
-
 	public function addConstructorItem( class_constructor $item )
 {
 
@@ -173,28 +166,28 @@ print "extends {$this->class_name_extends}\n";
 
 print " {\n";
 print "                \n";		
-if (is_array( $this->constructor)) {		
+if ($this->constructor !== null) {		
 foreach ($this->constructor as $item_constructor) {
 			$item_constructor->write();
 		}}
 
 print "\n";
 print "                \n";		
-if (is_array( $this->attributes)) {		
+if ($this->attributes !== null) {		
 foreach ($this->attributes as $item_attributes) {
 			$item_attributes->write();
 		}}
 
 print "\n";
 print "                \n";		
-if (is_array( $this->nasdaq_attributes)) {		
+if ($this->nasdaq_attributes !== null) {		
 foreach ($this->nasdaq_attributes as $item_nasdaq_attributes) {
 			$item_nasdaq_attributes->write();
 		}}
 
 print "\n";
 print "                \n";		
-if (is_array( $this->methods)) {		
+if ($this->methods !== null) {		
 foreach ($this->methods as $item_methods) {
 			$item_methods->write();
 		}}

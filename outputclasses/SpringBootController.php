@@ -14,10 +14,10 @@ require_once( "SpringControllerMethod.php" );
 	$varSpringBootController->setControllerClassName("XXXXXXX");
 
 	$varServices = new SpringAutowiredService();
-	$varSpringBootController->addServicesItem( $item );
+	$varSpringBootController->addServicesItem( $varServices );
 
 	$varMethods = new SpringControllerMethod();
-	$varSpringBootController->addMethodsItem( $item );
+	$varSpringBootController->addMethodsItem( $varMethods );
 
 	$varSpringBootController->write();
 
@@ -101,20 +101,6 @@ return $this;
 		return $this->Methods;
 }
 
-	public function addPackageNameItem(  $item )
-{
-
-		$this->packageName->append($item);
-return $this; 
-}
-
-	public function addControllerClassNameItem(  $item )
-{
-
-		$this->controllerClassName->append($item);
-return $this; 
-}
-
 	public function addServicesItem( SpringAutowiredService $item )
 {
 
@@ -149,7 +135,7 @@ print "@RestController\n";
 print "public class {$this->controllerClassName} {\n";
 print "\n";
 print "    \n";		
-if (is_array( $this->Services)) {		
+if ($this->Services !== null) {		
 foreach ($this->Services as $item_Services) {
 			$item_Services->write();
 		}}
@@ -157,7 +143,7 @@ foreach ($this->Services as $item_Services) {
 print "\n";
 print "\n";
 print "    \n";		
-if (is_array( $this->Methods)) {		
+if ($this->Methods !== null) {		
 foreach ($this->Methods as $item_Methods) {
 			$item_Methods->write();
 		}}
@@ -165,11 +151,12 @@ foreach ($this->Methods as $item_Methods) {
 print "\n";
 print "\n";
 print "    \n";
-if ((is_array( $this->Repositories ) && count( $this->Repositories ) > 0)) {
+if (($this->Repositories !== null &&
+ $this->Repositories->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->Repositories)) {		
+if ($this->Repositories !== null) {		
 foreach ($this->Repositories as $item_Repositories) {
 			$item_Repositories->write();
 		}}
@@ -181,11 +168,12 @@ print "\n";
 print "\n";
 print "\n";
 print "    \n";
-if ((is_array( $this->OtherThings ) && count( $this->OtherThings ) > 0)) {
+if (($this->OtherThings !== null &&
+ $this->OtherThings->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->OtherThings)) {		
+if ($this->OtherThings !== null) {		
 foreach ($this->OtherThings as $item_OtherThings) {
 			$item_OtherThings->write();
 		}}
@@ -197,28 +185,32 @@ print "\n";
 print "\n";
 print "\n";
 print "    \n";
-if ((is_array( $this->MoreThings ) && count( $this->MoreThings ) > 0) && (is_array( $this->AndMoreThings ) && count( $this->AndMoreThings ) > 0)) {
+if (($this->MoreThings !== null &&
+ $this->MoreThings->count() > 0) &&
+ ($this->AndMoreThings !== null &&
+ $this->AndMoreThings->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->MoreThings)) {		
+if ($this->MoreThings !== null) {		
 foreach ($this->MoreThings as $item_MoreThings) {
 			$item_MoreThings->write();
 		}}
 
 print " and \n";		
-if (is_array( $this->AndMoreThings)) {		
+if ($this->AndMoreThings !== null) {		
 foreach ($this->AndMoreThings as $item_AndMoreThings) {
 			$item_AndMoreThings->write();
 		}}
 
 print " \n";
 print "            \n";
-if ((is_array( $this->WithMoreThings ) && count( $this->WithMoreThings ) > 0)) {
+if (($this->WithMoreThings !== null &&
+ $this->WithMoreThings->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->WithMoreThings)) {		
+if ($this->WithMoreThings !== null) {		
 foreach ($this->WithMoreThings as $item_WithMoreThings) {
 			$item_WithMoreThings->write();
 		}}

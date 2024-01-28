@@ -78,27 +78,6 @@ return $this;
 		return $this->ParameterName;
 }
 
-	public function addParameterAnnotationItem(  $item )
-{
-
-		$this->parameterAnnotation->append($item);
-return $this; 
-}
-
-	public function addParameterTypeItem(  $item )
-{
-
-		$this->ParameterType->append($item);
-return $this; 
-}
-
-	public function addParameterNameItem(  $item )
-{
-
-		$this->ParameterName->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

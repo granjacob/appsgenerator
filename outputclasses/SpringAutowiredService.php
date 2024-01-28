@@ -78,27 +78,6 @@ return $this;
 		return $this->ServiceName;
 }
 
-	public function addAccessModifierItem(  $item )
-{
-
-		$this->accessModifier->append($item);
-return $this; 
-}
-
-	public function addServiceTypeItem(  $item )
-{
-
-		$this->ServiceType->append($item);
-return $this; 
-}
-
-	public function addServiceNameItem(  $item )
-{
-
-		$this->ServiceName->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

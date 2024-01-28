@@ -40,13 +40,6 @@ return $this;
 		return $this->atrname;
 }
 
-	public function addAtrnameItem(  $item )
-{
-
-		$this->atrname->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

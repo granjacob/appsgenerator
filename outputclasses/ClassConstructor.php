@@ -40,23 +40,17 @@ return $this;
 		return $this->method_name;
 }
 
-	public function addMethodNameItem(  $item )
-{
-
-		$this->method_name->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();
 
 print "public function {$this->method_name}( \n";
-if ((is_array( $this->method_parameters ) && count( $this->method_parameters ) > 0)) {
+if (($this->method_parameters !== null &&
+ $this->method_parameters->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->method_parameters)) {		
+if ($this->method_parameters !== null) {		
 foreach ($this->method_parameters as $item_method_parameters) {
 			$item_method_parameters->write();
 		}}

@@ -78,27 +78,6 @@ return $this;
 		return $this->nombre_persona;
 }
 
-	public function addAddressItem(  $item )
-{
-
-		$this->address->append($item);
-return $this; 
-}
-
-	public function addIdItem(  $item )
-{
-
-		$this->id->append($item);
-return $this; 
-}
-
-	public function addNombrePersonaItem(  $item )
-{
-
-		$this->nombre_persona->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

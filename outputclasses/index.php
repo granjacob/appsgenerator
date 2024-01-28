@@ -10,7 +10,7 @@ $test = new SpringBootMain();
 $test->setPackageName( "HelloWorld" );
 $test->setApplicationMainClass( "MainSpringApp" );
 $test->write();
-
+/*
 
 $cnt = new SpringBootController();
 
@@ -30,6 +30,30 @@ $spm->setControllerMethodName( "otherMethod" );
 $spm->setControllerPath("/otherPath2" );
 $cnt->addMethodsItem( $spm );
 
-$cnt->write();
+$cnt->write();*/
+
+
+$varSpringBootController = new SpringBootController();
+$varSpringBootController->setPackageName("XXXXXXX");
+$varSpringBootController->setControllerClassName("XXXXXXX");
+
+$varServices = new SpringAutowiredService();
+$varServices->setAccessModifier("XXXXXXX");
+$varServices->setServiceType("XXXXXXX");
+$varServices->setServiceName("XXXXXXX");
+
+$varSpringBootController->addServicesItem( $varServices );
+
+$varMethods = new SpringControllerMethod();
+$varMethods->setMappingAnnotation("XXXXXXX");
+$varMethods->setControllerPath("XXXXXXX");
+$varMethods->setAccessModifier("XXXXXXX");
+$varMethods->setReturnType("XXXXXXX");
+$varMethods->setControllerMethodName("XXXXXXX");
+$varMethods->setMethodBody("XXXXXXX");
+
+$varSpringBootController->addMethodsItem( $varMethods );
+
+$varSpringBootController->write();
 
 ?>

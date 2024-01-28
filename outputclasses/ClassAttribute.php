@@ -59,20 +59,6 @@ return $this;
 		return $this->attributeName;
 }
 
-	public function addAccessModifierItem(  $item )
-{
-
-		$this->access_modifier->append($item);
-return $this; 
-}
-
-	public function addAttributeNameItem(  $item )
-{
-
-		$this->attributeName->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

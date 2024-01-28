@@ -9,7 +9,7 @@ require_once( "TypeDato.php" );
 	$varMinExample = new MinExample();
 
 	$vardatos = new TypeDato();
-	$varMinExample->addDatosItem( $item );
+	$varMinExample->addDatosItem( $varDatos );
 
 	$varMinExample->write();
 
@@ -54,7 +54,7 @@ return $this;
 	$this->validateData();
 
 print "Hello world! ---> \n";		
-if (is_array( $this->datos)) {		
+if ($this->datos !== null) {		
 foreach ($this->datos as $item_datos) {
 			$item_datos->write();
 		}}

@@ -11,7 +11,7 @@ require_once( "prefixedNasdaq.php" );
 	$varclass_attribute_nasdaq->setAccessModifier("XXXXXXX");
 
 	$varattributeName = new prefixedNasdaq();
-	$varclass_attribute_nasdaq->addAttributeNameItem( $item );
+	$varclass_attribute_nasdaq->addAttributeNameItem( $varAttributeName );
 
 	$varclass_attribute_nasdaq->write();
 
@@ -61,13 +61,6 @@ return $this;
 		return $this->attributeName;
 }
 
-	public function addAccessModifierItem(  $item )
-{
-
-		$this->access_modifier->append($item);
-return $this; 
-}
-
 	public function addAttributeNameItem( prefixedNasdaq $item )
 {
 
@@ -81,7 +74,7 @@ return $this;
 
 print "{$this->access_modifier}\n";
 print " \n";		
-if (is_array( $this->attributeName)) {		
+if ($this->attributeName !== null) {		
 foreach ($this->attributeName as $item_attributeName) {
 			$item_attributeName->write();
 		}}

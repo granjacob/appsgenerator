@@ -40,13 +40,6 @@ return $this;
 		return $this->name;
 }
 
-	public function addNameItem(  $item )
-{
-
-		$this->name->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

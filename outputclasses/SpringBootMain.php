@@ -59,20 +59,6 @@ return $this;
 		return $this->applicationMainClass;
 }
 
-	public function addPackageNameItem(  $item )
-{
-
-		$this->packageName->append($item);
-return $this; 
-}
-
-	public function addApplicationMainClassItem(  $item )
-{
-
-		$this->applicationMainClass->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();

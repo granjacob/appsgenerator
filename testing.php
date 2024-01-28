@@ -338,7 +338,9 @@ class TokenString  {
         foreach ($tokenObj->tokens as $token) {            
             if ((is_array( $variableTypes ) && in_array( get_class( $token ), $variableTypes )) ||
                 !is_array( $variableTypes ) && get_class( $token ) === $variableTypes) {
+                    print 'Analysing token ' . $token->name . ' to addedVariables' . endl();
                 if (in_array( $token->name, $addedVariables ) && $distinct !== false) {
+                    print 'NOT ADDED ' . $token->name . endl();
                     continue;
                 }
                 if (get_class( $token ) != $returnAsType) {
@@ -351,22 +353,27 @@ class TokenString  {
                     array_push( $variables, $var );
                 }
                 else {
+                   
                     array_push( $variables, $token );            
                 }
+
+                print 'successfully ADDED ' . $token->name . endl();
+
                 array_push( $addedVariables, $token->name );
             }
             else 
             if (!$sameLevel) {
-                $collected = $this->collectVariables( $token, $variableTypes, $returnAsType );
+                $collected = $this->collectVariables( $token, $variableTypes, $returnAsType, $sameLevel, $distinct );
                 foreach ($collected as $variableCollected) {
                     array_push( $variables, $variableCollected );
                 }
             }
         }
+        print_r( $addedVariables );
         return $variables;
     }
 
-    public function collectVariablesdistinct( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
+    public function collectVariablesDistinct( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
     {
         return $this->collectVariables(  $tokenObj, $variableTypes, $returnAsType, true, true );
     }
@@ -666,10 +673,12 @@ class TokenString  {
                             
                             $conditionalExpression = "";
                             foreach ($variables as $variable) {
-                                $conditionalExpression .= ' (is_array( $this->' . $variable->name . ' ) && count( $this->'  . $variable->name . ' ) > 0) &&';                                                                
+                                $conditionalExpression .= 
+                                    ' ($this->' . $variable->name . ' !== null && ' . 
+                                    '$this->' . $variable->name . '->count() > 0) &&';                                                                
                             }
 
-                            $optExpr->conditionalExpression = trim( $conditionalExpression, "& " );
+                            $optExpr->conditionalExpression = str_replace( "&&", "&&\n", trim( $conditionalExpression, "& " ) );
 
                             array_push( $this->tokens, $optExpr );
                             $j += strlen( OPT_DEF_CLOSE ) - 1;
@@ -736,6 +745,8 @@ class TokenString  {
 
 
 
+
+
     public function generateClass( $pToken=null )
     {
         $output = "";
@@ -783,10 +794,9 @@ class TokenString  {
 
             foreach ($variables as $var) {
                 $output .= endl();
-                print_r( $var );
                 if ($var->snippetName !== null) {
                     $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
-                    $output .= _tab() .  '$var' . $this->snippetName . '->add' . camelize( $var->name  ) . 'Item( $item );' . endl();
+                    $output .= _tab() .  '$var' . $this->snippetName . '->add' . camelize( $var->name  ) . 'Item( $var' .  camelize( $var->name  ) . ' );' . endl();
                 }
                 else {
                     $output .= _tab() .  '$var' . $this->snippetName . '->set' . camelize( $var->name ) . '("XXXXXXX");' . endl();
@@ -840,8 +850,10 @@ class TokenString  {
             }
             // adders
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function add' . camelize( $variable->name ) . 'Item( ' . $variable->snippetName . ' $item )' . endl() . '{' . endl();
-                $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append($item);' . endl() . 'return $this; ' . endl() . '}' . endl();
+                if ($variable->snippetName !== null) {
+                    $output .= endl() . _tab() . 'public function add' . camelize( $variable->name ) . 'Item( ' . $variable->snippetName . ' $item )' . endl() . '{' . endl();
+                    $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append($item);' . endl() . 'return $this; ' . endl() . '}' . endl();
+                }
             }
 
 
@@ -876,7 +888,7 @@ class TokenString  {
             if (get_class( $token ) === CompoundVariableToken::class) {
                 $output .= __print( $outputStack );
                 $outputStack = "";
-                $output .= _tab(2) . endl() . 'if (is_array( $this->' . $token->name . ')) {';
+                $output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
                 $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
                 $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
                 $output .= _tab(2) . '}}' . endl();

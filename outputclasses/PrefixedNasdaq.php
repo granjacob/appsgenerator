@@ -9,7 +9,7 @@ require_once( "AAAA.php" );
 	$varprefixedNasdaq = new prefixedNasdaq();
 
 	$varattrName = new AAAA();
-	$varprefixedNasdaq->addAttrNameItem( $item );
+	$varprefixedNasdaq->addAttrNameItem( $varAttrName );
 
 	$varprefixedNasdaq->write();
 
@@ -54,7 +54,7 @@ return $this;
 	$this->validateData();
 
 print "NASDAQ_\n";		
-if (is_array( $this->attrName)) {		
+if ($this->attrName !== null) {		
 foreach ($this->attrName as $item_attrName) {
 			$item_attrName->write();
 		}}

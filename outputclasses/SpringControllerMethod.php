@@ -135,48 +135,6 @@ return $this;
 		return $this->MethodBody;
 }
 
-	public function addMappingAnnotationItem(  $item )
-{
-
-		$this->mappingAnnotation->append($item);
-return $this; 
-}
-
-	public function addControllerPathItem(  $item )
-{
-
-		$this->controllerPath->append($item);
-return $this; 
-}
-
-	public function addAccessModifierItem(  $item )
-{
-
-		$this->accessModifier->append($item);
-return $this; 
-}
-
-	public function addReturnTypeItem(  $item )
-{
-
-		$this->returnType->append($item);
-return $this; 
-}
-
-	public function addControllerMethodNameItem(  $item )
-{
-
-		$this->controllerMethodName->append($item);
-return $this; 
-}
-
-	public function addMethodBodyItem(  $item )
-{
-
-		$this->MethodBody->append($item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();
@@ -184,11 +142,12 @@ return $this;
 print "@{$this->mappingAnnotation}(\"{$this->controllerPath}\")\n";
 print "    {$this->accessModifier} {$this->returnType} {$this->controllerMethodName}( \n";
 print "            \n";
-if ((is_array( $this->parameters ) && count( $this->parameters ) > 0)) {
+if (($this->parameters !== null &&
+ $this->parameters->count() > 0)) {
 
 
 print "\n";		
-if (is_array( $this->parameters)) {		
+if ($this->parameters !== null) {		
 foreach ($this->parameters as $item_parameters) {
 			$item_parameters->write();
 		}}
