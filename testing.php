@@ -1,7 +1,38 @@
 
 <?php
 
-    require("PHPAS.php");
+
+function camelize( $str )
+{
+    $finalStr = "";
+    $str = ucwords( $str );
+    for ($i = 0; $i < strlen( $str ); $i++) {
+        if ($str[$i] !== '-' && $str[$i] !== '_') {
+            $finalStr .= $str[$i];
+        }
+        else {
+            if ($i !== (strlen( $str ) - 1)) {
+                $str[$i + 1] = ucwords( $str[$i + 1] );        
+            }
+        }
+    }
+    return $finalStr;
+}
+
+function camelizeAsVariableName( $str )
+{
+    $temp = camelize( $str );
+    $temp[0] = strtolower( $temp[0] );
+    return $temp;
+}
+
+function camelizeAsMethodName( $str )
+{
+    return camelizeAsVariableName( $str );
+}
+
+
+//    require("PHPAS.php");
 ?>
 <!doctype html>
 <html>
@@ -38,8 +69,9 @@ function endl( $times=1 )
 
 function __print( $str )
 {
+
     $finalPrint = "";
-    $str = str_replace( "\r", "", $str );
+    $str = str_replace( "\r", "", str_replace( "\"", "\\\"", $str ) );
     $lines = explode( "\n", $str );
     foreach ($lines as $line) {
         $line = ( $line );    
@@ -88,6 +120,8 @@ function _print( $output )
     }
     return $finalPrint;
 }
+
+
 
 
 class SingleToken extends TokenString {
@@ -216,6 +250,7 @@ class TokenString  {
     public function __construct()
     {
         $this->tokens = array();
+        
     }   
 
 
@@ -294,26 +329,31 @@ class TokenString  {
         print '<strong>Check></strong> "' . substr( $expressionStr, max(0, $currentIndex - 8), min( strlen( $expressionStr ) - $currentIndex , 16 ) ) . '", index: ' . $currentIndex . "<br/>\n";
     }
 
-    public function collectVariables( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class, $sameLevel=false )
+    public function collectVariables( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class, $sameLevel=false, $distinct=false )
     {
         if ($tokenObj == null)
             $tokenObj = $this;
+        $addedVariables = array();
         $variables = array();
-        foreach ($tokenObj->tokens as $token) {
+        foreach ($tokenObj->tokens as $token) {            
             if ((is_array( $variableTypes ) && in_array( get_class( $token ), $variableTypes )) ||
                 !is_array( $variableTypes ) && get_class( $token ) === $variableTypes) {
+                if (in_array( $token->name, $addedVariables ) && $distinct !== false) {
+                    continue;
+                }
                 if (get_class( $token ) != $returnAsType) {
                     $var = new $returnAsType();
                     $var->name = $token->name;
                     $var->content = $token->content;
                     $var->fullNameReference = $token->fullNameReference;
                     $var->id = $token->id;
+                    $var->snippetName = $token->snippetName;
                     array_push( $variables, $var );
-
                 }
                 else {
                     array_push( $variables, $token );            
                 }
+                array_push( $addedVariables, $token->name );
             }
             else 
             if (!$sameLevel) {
@@ -324,6 +364,11 @@ class TokenString  {
             }
         }
         return $variables;
+    }
+
+    public function collectVariablesdistinct( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
+    {
+        return $this->collectVariables(  $tokenObj, $variableTypes, $returnAsType, true, true );
     }
 
     public function collectVariablesSameLevel( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
@@ -699,7 +744,9 @@ class TokenString  {
 
         if ($fileBegins) {
             $output .= endl() . PHP_FILE_OPEN . endl(2);
-            $output .= endl() . 'class ' . $this->snippetName . ' extends GeneratorClass {' . endl();
+            $output .= 'require_once( "GeneratorClass.php" );' . endl();
+           // $output .= ' require_once( "core.php" );' . endl();
+
         }
 
         if ($pToken === null) {
@@ -709,17 +756,65 @@ class TokenString  {
         
         if ($fileBegins) {
             $variables = 
-            $this->collectVariables( 
-                $pToken, 
-                array( VariableToken::class, CompoundVariableToken::class ), 
-                VariableToken::class 
-            );
+                $this->collectVariablesDistinct( 
+                    $pToken, 
+                    array( VariableToken::class, CompoundVariableToken::class ), 
+                    VariableToken::class 
+                );
+            
+        }
 
-
-      
-            foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'protected $' . $variable->name . ';' . endl();
+        // requires
+        if ($fileBegins) {
+            foreach ($variables as $var) {
+               
+                if ($var->snippetName !== null) {
+                    $output .= 'require_once( "' . $var->snippetName . '.php" );';
+                    $output .= endl();
+                }
             }
+        }
+
+        // comment with usage example
+        if ($fileBegins) {
+            $output .= endl() . "/* ####################### " . $this->snippetName . " : USAGE EXAMPLE ####################### " . endl();
+
+            $output .= endl() . _tab() . '$var' . $this->snippetName . ' = new ' . $this->snippetName . '();' . endl();
+
+            foreach ($variables as $var) {
+                $output .= endl();
+                print_r( $var );
+                if ($var->snippetName !== null) {
+                    $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
+                    $output .= _tab() .  '$var' . $this->snippetName . '->add' . camelize( $var->name  ) . 'Item( $item );' . endl();
+                }
+                else {
+                    $output .= _tab() .  '$var' . $this->snippetName . '->set' . camelize( $var->name ) . '("XXXXXXX");' . endl();
+                }
+            }
+
+            $output .= endl() . _tab() . '$var' . $this->snippetName . '->write();' . endl();
+
+            $output .= endl() . "    ####################### USAGE EXAMPLE ####################### **/ " . endl();
+
+        }
+
+        if ($fileBegins) {
+            $output .= endl() . 'class ' . $this->snippetName . ' extends GeneratorClass {' . endl();
+        }
+
+        if ($fileBegins) {
+      
+            // attributes of class
+            foreach ($variables as $variable) {
+                $output .= endl() . _tab() . 
+                    'protected ' . 
+                    ($variable->snippetName !== null ? $variable->snippetName  . ' ':'') . 
+                    '$' . $variable->name . ';' . endl();
+            }
+
+            $addedVariables = array();
+
 
             // constructor 
             $output .= endl()  . 'public function __construct()' . endl();
@@ -727,7 +822,7 @@ class TokenString  {
             $output .= endl()  . _tab(2) . 'parent :: __construct();' . endl();
 
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . '$this->' . $variable->name . ' = null;' . endl();
+                $output .= endl() . _tab() . '$this->' . $variable->name . ' = ' . ($variable->snippetName !== null ? ' new ' . $variable->snippetName . '()' : ' null') . ';' . endl();
             }
 
             $output .= endl()  . '}' . endl();
@@ -735,18 +830,18 @@ class TokenString  {
             
             // setters
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function set' . $variable->name . '($' . $variable->name . ')' . endl() . '{' . endl();
+                $output .= endl() . _tab() . 'public function set' . camelize( $variable->name ) . '( ' . $variable->snippetName . ' $' . $variable->name . ')' . endl() . '{' . endl();
                 $output .= endl() . _tab(2) . ' $this->' . $variable->name . ' = $' . $variable->name  . ';' . endl() .  'return $this; ' . endl() . '}' . endl();
             }
             // getters
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function get' . $variable->name . '()' . endl() . '{' . endl();
+                $output .= endl() . _tab() . 'public function get' . camelize( $variable->name ) . '()' . endl() . '{' . endl();
                 $output .= endl() . _tab(2) . 'return $this->' . $variable->name . ';' . endl() . '}' . endl();
             }
             // adders
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function add' . $variable->name . 'Item( $item )' . endl() . '{' . endl();
-                $output .= endl() . _tab(2) . 'array_push( $this->' . $variable->name . ', $item );' . endl() . 'return $this; ' . endl() . '}' . endl();
+                $output .= endl() . _tab() . 'public function add' . camelize( $variable->name ) . 'Item( ' . $variable->snippetName . ' $item )' . endl() . '{' . endl();
+                $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append($item);' . endl() . 'return $this; ' . endl() . '}' . endl();
             }
 
 
@@ -829,12 +924,15 @@ class TokenString  {
     {
         $className = "";
         print 'Snippets quantity ' . count( TokenString :: $snippets ) . endl();
+        $this->collectVariables( null, array( CompoundVariableToken::class ), VariableToken::class  );
+
         foreach (TokenString :: $snippets as $snippet) {
 
             $this->snippetName = $snippet->name;
             $this->clean();
             $this->make();
-            print $this->generateClass();
+            $output = $this->generateClass();
+            file_put_contents( "outputclasses/" . camelize( $this->snippetName  ) . ".php", $output );
             print __ln(100,'%' );
         }
     }
@@ -867,7 +965,7 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-$do->snippetName = 'TypeDato';
+$do->snippetName = 'SpringBootController';
 /*//$do->data = $json;*/
 $do->make();
 

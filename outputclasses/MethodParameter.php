@@ -1,0 +1,69 @@
+
+<?php
+
+require_once( "GeneratorClass.php" );
+
+/* ####################### method_parameter : USAGE EXAMPLE ####################### 
+
+	$varmethod_parameter = new method_parameter();
+
+	$varmethod_parameter->setName("XXXXXXX");
+
+	$varmethod_parameter->write();
+
+    ####################### USAGE EXAMPLE ####################### **/ 
+
+class method_parameter extends GeneratorClass {
+
+	protected $name;
+
+public function __construct()
+
+{
+
+		parent :: __construct();
+
+	$this->name =  null;
+
+}
+
+	public function setName(  $name)
+{
+
+		 $this->name = $name;
+return $this; 
+}
+
+	public function getName()
+{
+
+		return $this->name;
+}
+
+	public function addNameItem(  $item )
+{
+
+		$this->name->append($item);
+return $this; 
+}
+
+	public function write() {
+
+	$this->validateData();
+
+print "${$this->name}\n";
+if () {
+
+
+print ",\n";
+
+}
+
+print "\n";
+}
+
+ } 
+
+
+?>
+
