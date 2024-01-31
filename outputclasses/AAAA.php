@@ -7,7 +7,7 @@ require_once( "GeneratorClass.php" );
 
 	$varAAAA = new AAAA();
 
-	$varAAAA->setAtrname("XXXXXXX");
+	$varAAAA->setAtrname("AAAA_atrname_EXAMPLE");
 
 	$varAAAA->write();
 

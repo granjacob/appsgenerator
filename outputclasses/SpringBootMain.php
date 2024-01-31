@@ -7,9 +7,9 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringBootMain = new SpringBootMain();
 
-	$varSpringBootMain->setPackageName("XXXXXXX");
+	$varSpringBootMain->setPackageName("SpringBootMain_packageName_EXAMPLE");
 
-	$varSpringBootMain->setApplicationMainClass("XXXXXXX");
+	$varSpringBootMain->setApplicationMainClass("SpringBootMain_applicationMainClass_EXAMPLE");
 
 	$varSpringBootMain->write();
 

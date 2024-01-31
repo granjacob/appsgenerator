@@ -7,7 +7,7 @@ require_once( "GeneratorClass.php" );
 
 	$varmethod_parameter = new method_parameter();
 
-	$varmethod_parameter->setName("XXXXXXX");
+	$varmethod_parameter->setName("method_parameter_name_EXAMPLE");
 
 	$varmethod_parameter->write();
 

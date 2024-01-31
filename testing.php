@@ -338,11 +338,12 @@ class TokenString  {
         foreach ($tokenObj->tokens as $token) {            
             if ((is_array( $variableTypes ) && in_array( get_class( $token ), $variableTypes )) ||
                 !is_array( $variableTypes ) && get_class( $token ) === $variableTypes) {
-                    print 'Analysing token ' . $token->name . ' to addedVariables' . endl();
                 if (in_array( $token->name, $addedVariables ) && $distinct !== false) {
-                    print 'NOT ADDED ' . $token->name . endl();
                     continue;
                 }
+                array_push( $addedVariables, $token->name );
+                print 'successfully ADDED ' . $token->name . endl();
+
                 if (get_class( $token ) != $returnAsType) {
                     $var = new $returnAsType();
                     $var->name = $token->name;
@@ -357,25 +358,35 @@ class TokenString  {
                     array_push( $variables, $token );            
                 }
 
-                print 'successfully ADDED ' . $token->name . endl();
+                
 
-                array_push( $addedVariables, $token->name );
+                
             }
             else 
             if (!$sameLevel) {
                 $collected = $this->collectVariables( $token, $variableTypes, $returnAsType, $sameLevel, $distinct );
+                
+ 
+
                 foreach ($collected as $variableCollected) {
+                    if (in_array( $variableCollected->name, $addedVariables ) && $distinct !== false) {
+                        continue;
+                    }
+                    else {
+                        print 'No se agrega collected->name = "' . $variableCollected->name . '"' . endl(); 
+                    }
+                    array_push( $addedVariables, $variableCollected->name );
                     array_push( $variables, $variableCollected );
                 }
             }
         }
-        print_r( $addedVariables );
+        //print_r( $addedVariables );
         return $variables;
     }
 
     public function collectVariablesDistinct( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
     {
-        return $this->collectVariables(  $tokenObj, $variableTypes, $returnAsType, true, true );
+        return $this->collectVariables(  $tokenObj, $variableTypes, $returnAsType, false, true );
     }
 
     public function collectVariablesSameLevel( $tokenObj=null, $variableTypes=array(TokenString::class), $returnAsType=VariableToken::class )
@@ -749,6 +760,10 @@ class TokenString  {
 
     public function generateClass( $pToken=null )
     {
+        if ($pToken === null) {
+            print 'Generating class for ' . $this->snippetName . endl();
+
+        }
         $output = "";
 
         $fileBegins = $pToken === null;
@@ -764,6 +779,7 @@ class TokenString  {
             $pToken = $this;
         }
 
+        $variables = array();
         
         if ($fileBegins) {
             $variables = 
@@ -775,12 +791,20 @@ class TokenString  {
             
         }
 
+        $uniqueSnippets = array();
+
+        if ($fileBegins) {
+            foreach ($variables as $variable) {
+                $uniqueSnippets[$variable->snippetName] = $variable->snippetName;
+            }
+        }
+
         // requires
         if ($fileBegins) {
-            foreach ($variables as $var) {
+            foreach ($uniqueSnippets as $fileName) {
                
-                if ($var->snippetName !== null) {
-                    $output .= 'require_once( "' . $var->snippetName . '.php" );';
+                if ($fileName !== null) {
+                    $output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
             }
@@ -794,12 +818,15 @@ class TokenString  {
 
             foreach ($variables as $var) {
                 $output .= endl();
+
+                $sampleData = $this->snippetName . '_' . $var->name . '_EXAMPLE';
+
                 if ($var->snippetName !== null) {
                     $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
-                    $output .= _tab() .  '$var' . $this->snippetName . '->add' . camelize( $var->name  ) . 'Item( $var' .  camelize( $var->name  ) . ' );' . endl();
+                    $output .= _tab() .  '$var' . $this->snippetName . '->add' . camelize( $var->name  ) . 'Item( $var' .  camelize( $var->name  ) . 'Item );' . endl();
                 }
                 else {
-                    $output .= _tab() .  '$var' . $this->snippetName . '->set' . camelize( $var->name ) . '("XXXXXXX");' . endl();
+                    $output .= _tab() .  '$var' . $this->snippetName . '->set' . camelize( $var->name ) . '("' . $sampleData . '");' . endl();
                 }
             }
 
@@ -980,7 +1007,9 @@ $do->loadSnippets();
 $do->snippetName = 'SpringBootController';
 /*//$do->data = $json;*/
 $do->make();
-
+print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
 
 print '<xmp>';
 //print_r( $do );
@@ -989,6 +1018,8 @@ print '<xmp>';
 
 //print $autoStyle->loadString($do->generateClass()) ."\n";
 print $do->generateClasses();
+
+//print $do->generateClass();//generateClasses();
 /*
 $do->make();
 print_r( $do->tokens );

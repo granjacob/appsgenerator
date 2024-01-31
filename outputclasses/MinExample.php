@@ -9,7 +9,7 @@ require_once( "TypeDato.php" );
 	$varMinExample = new MinExample();
 
 	$vardatos = new TypeDato();
-	$varMinExample->addDatosItem( $varDatos );
+	$varMinExample->addDatosItem( $varDatosItem );
 
 	$varMinExample->write();
 

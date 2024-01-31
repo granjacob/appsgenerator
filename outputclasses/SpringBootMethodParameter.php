@@ -7,11 +7,11 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringBootMethodParameter = new SpringBootMethodParameter();
 
-	$varSpringBootMethodParameter->setParameterAnnotation("XXXXXXX");
+	$varSpringBootMethodParameter->setParameterAnnotation("SpringBootMethodParameter_parameterAnnotation_EXAMPLE");
 
-	$varSpringBootMethodParameter->setParameterType("XXXXXXX");
+	$varSpringBootMethodParameter->setParameterType("SpringBootMethodParameter_ParameterType_EXAMPLE");
 
-	$varSpringBootMethodParameter->setParameterName("XXXXXXX");
+	$varSpringBootMethodParameter->setParameterName("SpringBootMethodParameter_ParameterName_EXAMPLE");
 
 	$varSpringBootMethodParameter->write();
 
@@ -82,7 +82,7 @@ return $this;
 
 	$this->validateData();
 
-print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName};\n";
+print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName},\n";
 }
 
  } 

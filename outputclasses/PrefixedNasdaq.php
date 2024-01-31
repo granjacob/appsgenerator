@@ -9,7 +9,7 @@ require_once( "AAAA.php" );
 	$varprefixedNasdaq = new prefixedNasdaq();
 
 	$varattrName = new AAAA();
-	$varprefixedNasdaq->addAttrNameItem( $varAttrName );
+	$varprefixedNasdaq->addAttrNameItem( $varAttrNameItem );
 
 	$varprefixedNasdaq->write();
 

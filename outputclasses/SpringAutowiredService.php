@@ -7,11 +7,11 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringAutowiredService = new SpringAutowiredService();
 
-	$varSpringAutowiredService->setAccessModifier("XXXXXXX");
+	$varSpringAutowiredService->setAccessModifier("SpringAutowiredService_accessModifier_EXAMPLE");
 
-	$varSpringAutowiredService->setServiceType("XXXXXXX");
+	$varSpringAutowiredService->setServiceType("SpringAutowiredService_ServiceType_EXAMPLE");
 
-	$varSpringAutowiredService->setServiceName("XXXXXXX");
+	$varSpringAutowiredService->setServiceName("SpringAutowiredService_ServiceName_EXAMPLE");
 
 	$varSpringAutowiredService->write();
 

@@ -55,6 +55,8 @@ public class {{:controllerClassName:}} {
 
     {{:(SpringControllerMethod)Methods:}}
 
+    {{:(SpringControllerMethod2)MethodsWithPathVariable:}}
+
     [[{{:(SpringControllerMethod)Repositories:}}]]
 
     [[{{:(SpringControllerMethod)OtherThings:}}]]
@@ -68,21 +70,36 @@ public class {{:controllerClassName:}} {
 
         ]]>
     </snippet>
+    <snippet name="ControllerPathPlusPathVariableName">
+        <![CDATA[
+            {{:controllerPath}}/{{{:pathVariableName:}}}
+        ]]>
+    </snippet>
     <snippet name="SpringControllerMethod">
         <![CDATA[
-@{{:mappingAnnotation:}}("{{:controllerPath:}}")
+@{{:mappingAnnotation:}}("{{:controllerPath:}}/{{:pathVariableName:}}")
     {{:accessModifier:}} {{:returnType:}} {{:controllerMethodName:}}( 
             [[{{:(SpringBootMethodParameter)parameters:}}]] ) {
         {{:MethodBody:}}
     }
             ]]>
     </snippet>
-       <snippet name="SpringBootMethodParameter">
+    <snippet name="SpringControllerMethod2">
         <![CDATA[
-      
-        @{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}};
-        ]]>
+
+@{{:mappingAnnotation:}}("{{:path:}}/{{{:pathVariableName:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(@{{:variableAnnotation:}}("{{:pathVariableName:}}") String {{:paramName:}}) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
     </snippet>
+       <snippet name="SpringBootMethodParameter">
+        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}},]]>
+    </snippet>
+
+
+
    <snippet name="SpringAutowiredService">
         <![CDATA[
         @Autowired

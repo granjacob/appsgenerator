@@ -4,20 +4,39 @@
 require_once( "GeneratorClass.php" );
 require_once( "SpringAutowiredService.php" );
 require_once( "SpringControllerMethod.php" );
+require_once( "SpringControllerMethod2.php" );
 
 /* ####################### SpringBootController : USAGE EXAMPLE ####################### 
 
 	$varSpringBootController = new SpringBootController();
 
-	$varSpringBootController->setPackageName("XXXXXXX");
+	$varSpringBootController->setPackageName("SpringBootController_packageName_EXAMPLE");
 
-	$varSpringBootController->setControllerClassName("XXXXXXX");
+	$varSpringBootController->setControllerClassName("SpringBootController_controllerClassName_EXAMPLE");
 
 	$varServices = new SpringAutowiredService();
-	$varSpringBootController->addServicesItem( $varServices );
+	$varSpringBootController->addServicesItem( $varServicesItem );
 
 	$varMethods = new SpringControllerMethod();
-	$varSpringBootController->addMethodsItem( $varMethods );
+	$varSpringBootController->addMethodsItem( $varMethodsItem );
+
+	$varMethodsWithPathVariable = new SpringControllerMethod2();
+	$varSpringBootController->addMethodsWithPathVariableItem( $varMethodsWithPathVariableItem );
+
+	$varRepositories = new SpringControllerMethod();
+	$varSpringBootController->addRepositoriesItem( $varRepositoriesItem );
+
+	$varOtherThings = new SpringControllerMethod();
+	$varSpringBootController->addOtherThingsItem( $varOtherThingsItem );
+
+	$varMoreThings = new SpringControllerMethod();
+	$varSpringBootController->addMoreThingsItem( $varMoreThingsItem );
+
+	$varAndMoreThings = new SpringControllerMethod();
+	$varSpringBootController->addAndMoreThingsItem( $varAndMoreThingsItem );
+
+	$varWithMoreThings = new SpringControllerMethod();
+	$varSpringBootController->addWithMoreThingsItem( $varWithMoreThingsItem );
 
 	$varSpringBootController->write();
 
@@ -33,6 +52,18 @@ class SpringBootController extends GeneratorClass {
 
 	protected SpringControllerMethod $Methods;
 
+	protected SpringControllerMethod2 $MethodsWithPathVariable;
+
+	protected SpringControllerMethod $Repositories;
+
+	protected SpringControllerMethod $OtherThings;
+
+	protected SpringControllerMethod $MoreThings;
+
+	protected SpringControllerMethod $AndMoreThings;
+
+	protected SpringControllerMethod $WithMoreThings;
+
 public function __construct()
 
 {
@@ -46,6 +77,18 @@ public function __construct()
 	$this->Services =  new SpringAutowiredService();
 
 	$this->Methods =  new SpringControllerMethod();
+
+	$this->MethodsWithPathVariable =  new SpringControllerMethod2();
+
+	$this->Repositories =  new SpringControllerMethod();
+
+	$this->OtherThings =  new SpringControllerMethod();
+
+	$this->MoreThings =  new SpringControllerMethod();
+
+	$this->AndMoreThings =  new SpringControllerMethod();
+
+	$this->WithMoreThings =  new SpringControllerMethod();
 
 }
 
@@ -77,6 +120,48 @@ return $this;
 return $this; 
 }
 
+	public function setMethodsWithPathVariable( SpringControllerMethod2 $MethodsWithPathVariable)
+{
+
+		 $this->MethodsWithPathVariable = $MethodsWithPathVariable;
+return $this; 
+}
+
+	public function setRepositories( SpringControllerMethod $Repositories)
+{
+
+		 $this->Repositories = $Repositories;
+return $this; 
+}
+
+	public function setOtherThings( SpringControllerMethod $OtherThings)
+{
+
+		 $this->OtherThings = $OtherThings;
+return $this; 
+}
+
+	public function setMoreThings( SpringControllerMethod $MoreThings)
+{
+
+		 $this->MoreThings = $MoreThings;
+return $this; 
+}
+
+	public function setAndMoreThings( SpringControllerMethod $AndMoreThings)
+{
+
+		 $this->AndMoreThings = $AndMoreThings;
+return $this; 
+}
+
+	public function setWithMoreThings( SpringControllerMethod $WithMoreThings)
+{
+
+		 $this->WithMoreThings = $WithMoreThings;
+return $this; 
+}
+
 	public function getPackageName()
 {
 
@@ -101,6 +186,42 @@ return $this;
 		return $this->Methods;
 }
 
+	public function getMethodsWithPathVariable()
+{
+
+		return $this->MethodsWithPathVariable;
+}
+
+	public function getRepositories()
+{
+
+		return $this->Repositories;
+}
+
+	public function getOtherThings()
+{
+
+		return $this->OtherThings;
+}
+
+	public function getMoreThings()
+{
+
+		return $this->MoreThings;
+}
+
+	public function getAndMoreThings()
+{
+
+		return $this->AndMoreThings;
+}
+
+	public function getWithMoreThings()
+{
+
+		return $this->WithMoreThings;
+}
+
 	public function addServicesItem( SpringAutowiredService $item )
 {
 
@@ -112,6 +233,48 @@ return $this;
 {
 
 		$this->Methods->append($item);
+return $this; 
+}
+
+	public function addMethodsWithPathVariableItem( SpringControllerMethod2 $item )
+{
+
+		$this->MethodsWithPathVariable->append($item);
+return $this; 
+}
+
+	public function addRepositoriesItem( SpringControllerMethod $item )
+{
+
+		$this->Repositories->append($item);
+return $this; 
+}
+
+	public function addOtherThingsItem( SpringControllerMethod $item )
+{
+
+		$this->OtherThings->append($item);
+return $this; 
+}
+
+	public function addMoreThingsItem( SpringControllerMethod $item )
+{
+
+		$this->MoreThings->append($item);
+return $this; 
+}
+
+	public function addAndMoreThingsItem( SpringControllerMethod $item )
+{
+
+		$this->AndMoreThings->append($item);
+return $this; 
+}
+
+	public function addWithMoreThingsItem( SpringControllerMethod $item )
+{
+
+		$this->WithMoreThings->append($item);
 return $this; 
 }
 
@@ -146,6 +309,14 @@ print "    \n";
 if ($this->Methods !== null) {		
 foreach ($this->Methods as $item_Methods) {
 			$item_Methods->write();
+		}}
+
+print "\n";
+print "\n";
+print "    \n";		
+if ($this->MethodsWithPathVariable !== null) {		
+foreach ($this->MethodsWithPathVariable as $item_MethodsWithPathVariable) {
+			$item_MethodsWithPathVariable->write();
 		}}
 
 print "\n";

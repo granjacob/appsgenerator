@@ -11,19 +11,21 @@ require_once( "class_method.php" );
 
 	$varclass = new class();
 
-	$varclass->setClassName("XXXXXXX");
+	$varclass->setClassName("class_class_name_EXAMPLE");
+
+	$varclass->setClassNameExtends("class_class_name_extends_EXAMPLE");
 
 	$varconstructor = new class_constructor();
-	$varclass->addConstructorItem( $varConstructor );
+	$varclass->addConstructorItem( $varConstructorItem );
 
 	$varattributes = new class_attribute();
-	$varclass->addAttributesItem( $varAttributes );
+	$varclass->addAttributesItem( $varAttributesItem );
 
 	$varnasdaq_attributes = new class_attribute_nasdaq();
-	$varclass->addNasdaqAttributesItem( $varNasdaqAttributes );
+	$varclass->addNasdaqAttributesItem( $varNasdaqAttributesItem );
 
 	$varmethods = new class_method();
-	$varclass->addMethodsItem( $varMethods );
+	$varclass->addMethodsItem( $varMethodsItem );
 
 	$varclass->write();
 
@@ -32,6 +34,8 @@ require_once( "class_method.php" );
 class class extends GeneratorClass {
 
 	protected $class_name;
+
+	protected $class_name_extends;
 
 	protected class_constructor $constructor;
 
@@ -49,6 +53,8 @@ public function __construct()
 
 	$this->class_name =  null;
 
+	$this->class_name_extends =  null;
+
 	$this->constructor =  new class_constructor();
 
 	$this->attributes =  new class_attribute();
@@ -63,6 +69,13 @@ public function __construct()
 {
 
 		 $this->class_name = $class_name;
+return $this; 
+}
+
+	public function setClassNameExtends(  $class_name_extends)
+{
+
+		 $this->class_name_extends = $class_name_extends;
 return $this; 
 }
 
@@ -98,6 +111,12 @@ return $this;
 {
 
 		return $this->class_name;
+}
+
+	public function getClassNameExtends()
+{
+
+		return $this->class_name_extends;
 }
 
 	public function getConstructor()

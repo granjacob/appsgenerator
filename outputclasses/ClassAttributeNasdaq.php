@@ -8,10 +8,10 @@ require_once( "prefixedNasdaq.php" );
 
 	$varclass_attribute_nasdaq = new class_attribute_nasdaq();
 
-	$varclass_attribute_nasdaq->setAccessModifier("XXXXXXX");
+	$varclass_attribute_nasdaq->setAccessModifier("class_attribute_nasdaq_access_modifier_EXAMPLE");
 
 	$varattributeName = new prefixedNasdaq();
-	$varclass_attribute_nasdaq->addAttributeNameItem( $varAttributeName );
+	$varclass_attribute_nasdaq->addAttributeNameItem( $varAttributeNameItem );
 
 	$varclass_attribute_nasdaq->write();
 

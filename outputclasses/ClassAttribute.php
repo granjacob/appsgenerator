@@ -7,9 +7,9 @@ require_once( "GeneratorClass.php" );
 
 	$varclass_attribute = new class_attribute();
 
-	$varclass_attribute->setAccessModifier("XXXXXXX");
+	$varclass_attribute->setAccessModifier("class_attribute_access_modifier_EXAMPLE");
 
-	$varclass_attribute->setAttributeName("XXXXXXX");
+	$varclass_attribute->setAttributeName("class_attribute_attributeName_EXAMPLE");
 
 	$varclass_attribute->write();
 

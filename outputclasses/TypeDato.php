@@ -7,11 +7,11 @@ require_once( "GeneratorClass.php" );
 
 	$varTypeDato = new TypeDato();
 
-	$varTypeDato->setAddress("XXXXXXX");
+	$varTypeDato->setAddress("TypeDato_address_EXAMPLE");
 
-	$varTypeDato->setId("XXXXXXX");
+	$varTypeDato->setId("TypeDato_id_EXAMPLE");
 
-	$varTypeDato->setNombrePersona("XXXXXXX");
+	$varTypeDato->setNombrePersona("TypeDato_nombre_persona_EXAMPLE");
 
 	$varTypeDato->write();
 
