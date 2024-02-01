@@ -61,6 +61,12 @@ define( 'TYPE_DEF_CLOSE', ')' );
 define( 'PHP_FILE_OPEN', '<?php' );
 define( 'PHP_FILE_CLOSE', '?>' );
 
+
+define( 'COND_DEF_OPEN', '{?/' );
+define( 'COND_DEF_CLOSE', '/?}' );
+
+
+
 function endl( $times=1 )
 {
     return __rpt( "\n", $times );
@@ -178,6 +184,15 @@ class OptionalToken extends TokenString {
 
 }
 
+
+class ConditionalToken extends OptionalToken {
+    
+    public function __construct()
+    {
+        parent :: __construct();
+    }
+}
+
 class Snippet extends TokenString {
 
     public $variablesDefined;   // this is for control the variables names defined in a template/snippet
@@ -217,6 +232,21 @@ class Snippet extends TokenString {
 
 
 class TokenString  {
+
+
+    protected $defaultConditionals = array(
+        'notlast', 
+        'notfirst', 
+        'notempty', 
+        'empty', 
+        'last', 
+        'first', 
+        'selected', 
+        'notselected',
+        'disabled',
+        'notdisabled',
+        'customCondition' 
+    );
 
 
     public $packageName;
@@ -419,6 +449,56 @@ class TokenString  {
 
             $evalExpr_typeDefOpen = $this->catchDefExpr( $expressionStr, $i, TYPE_DEF_OPEN );
             $evalExpr_typeDefClose = $this->catchDefExpr( $expressionStr, $i, TYPE_DEF_CLOSE );
+
+            
+            $evalExpr_condDefOpen = $this->catchDefExpr( $expressionStr, $i, COND_DEF_OPEN );
+            $evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE );
+
+
+            if ($evalExpr_varDefOpen === COND_DEF_OPEN) {
+                print 'COND_DEF_OPEN at ' . $i . endl(); 
+                $i += strlen( COND_DEF_OPEN );
+                $conditionalTokenContent = "";
+                while ((($evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE )) !== COND_DEF_CLOSE) &&
+                    $i  < strlen( $expressionStr )) {
+                    $conditionalTokenContent .= $expressionStr[$i];
+                    $i++;
+                }
+                print 'After collecting $conditionalTokenContent=' . $conditionalTokenContent . endl();
+
+                if ($evalExpr_condDefClose !== COND_DEF_CLOSE) {
+                    $this->logSyntaxError( 'ConditionalToken is not correctly defined.', $expressionStr, $i );
+                    return false;
+                }
+
+                $hasConditional = false;
+                $hasExpression = false;
+                foreach ($this->defaultConditionals as $conditionalKey) {
+                    if (substr( $conditionalTokenContent, 0, $len = strlen( $conditionalKey )) === $conditionalKey) {
+                        if ($len < strlen( $conditionalTokenContent ) - 1) {
+                            $hasExpression = true;
+                        }  
+                        /*for ($i = $offset; $i < strlen( $conditionalTokenContent); $i++) {
+                            $varConditionalToken = new ConditionalToken();
+                            $varConditionalToken->conditionalExpression = $conditionalKey;
+                            $varConditionalToken->content = $conditioalTokenContent;
+                            
+                        }*/             
+                        $hasConditional = true;
+                        break;           
+                    }
+                }
+
+                if (!$hasConditional || ($hasConditional && !$hasExpression)) {
+                    $this->logSyntaxError( 'ConditionalToken has not a valid conditional expression.', $expressionStr, $i );
+                    return false;
+                }
+
+
+
+                $i += strlen( COND_DEF_CLOSE ) - 1;
+                continue;
+            }
 
             
             // variable definition
@@ -1004,21 +1084,25 @@ $do = new TokenString();
 $do->snippetsXMLFile = "archivoejemplo.xml";
 $do->loadSnippets();
 //$do->content = $input;
-$do->snippetName = 'SpringBootController';
+$do->snippetName = 'TestForConditionalToken';
 /*//$do->data = $json;*/
-$do->make();
-print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
-print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
-print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+$result = $do->make();
 
-print '<xmp>';
+
 //print_r( $do );
 
 
 
 //print $autoStyle->loadString($do->generateClass()) ."\n";
-print $do->generateClasses();
+if ($result) {
 
+    print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
+print '<xmp>';
+    print $do->generateClass();
+    print '</xmp>';
+}
 //print $do->generateClass();//generateClasses();
 /*
 $do->make();
@@ -1033,7 +1117,7 @@ foreach ($do->tokens as $token) {
     }
 }*/
 //$do->generateClass();
-print '</xmp>';
+
 /*
 foreach ($do->tokens as $token) {
     $token->makeSingleToken();
@@ -1051,124 +1135,6 @@ else {
 */
 //print_r( $do->tokens );
 exit;
-
-
-$parser = new Parser( "php", "archivoejemplo.xml" );
-$parser->content = "[[optional1]] [[optional2]] [[optional3]] [[esta es una prueba]] {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}}, {{:variable:}} [[que tienes {{:variable:}} que me encanta [[quizas sabes algo]]]] {{:permite:}} cambiar cada uno de sus {{:valores:}} 
-vamos a ver si funciona {{:ojala:}} {{:funcione:}}, [[extends {{:welcome_to_the_jungle:}}]] {{:porque:}}, necesito avanzar en {{:esto:}} [[[[{{:esto_es_una_variable:}}]] un opcional juntos [[extends {{:asdasd:}}]]]]
-otra prueba es [[[[[[esta es una super prueba{{:welcome:}}]]]]]]
-";
-$parser->make(null, null, '{}');
-
-
-print_r( (array) $parser );
-exit;
-$parser->writeExpression(
-    "class", 'php',
-    '{
-        "id1234" :
-        {
-            "class_name":"NombreClase",
-            "name" :"ereee",
-            "methods" : [
-                { 
-                    "method_name" : "exampleFunc1",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" },
-                        { "name" : "param3", "value" : "val3" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc2",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc3",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc4",
-                    "method_parameters" : []
-                }
-            ]
-        }
-        ,
-        
-        "id12342" :
-        {
-            "class_name":"NombreClase",
-            "methods" : [
-                { 
-                    "method_name" : "exampleFunc1",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" },
-                        { "name" : "param3", "value" : "val3" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc2",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc3",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc4",
-                    "method_parameters" : []
-                }
-            ]
-        }
-        ,
-        
-        "id12343" :
-        {
-            "class_name":"NombreClase",
-            "methods" : [
-                { 
-                    "method_name" : "exampleFunc1",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" },
-                        { "name" : "param3", "value" : "val3" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc2",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" },
-                        { "name" : "param2", "value" : "val2" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc3",
-                    "method_parameters" : [
-                        { "name" : "param1", "value" : "val1" }
-                    ]
-                },
-                { 
-                    "method_name" : "exampleFunc4",
-                    "method_parameters" : []
-                }
-            ]
-        }
-    }
-
-    ' );
-
-//$parser->writeExpression("class", '{"a":"b"}' );
 
 
 

@@ -1,5 +1,44 @@
 <?php
 
+require("SpringControllerMethodDynamic.php");
+
+$xyzName = "xyz";
+
+$varSpringControllerMethodDynamic = new SpringControllerMethodDynamic();
+
+$varSpringControllerMethodDynamic->setMappingAnnotation("GetMapping");
+
+$varSpringControllerMethodDynamic->setPathVariableService("service");
+
+$varSpringControllerMethodDynamic->setPathVariableTo($xyzName);
+
+$varSpringControllerMethodDynamic->setPathVariableJungle("jungle");
+
+$varSpringControllerMethodDynamic->setAccessModifier("public");
+
+$varSpringControllerMethodDynamic->setReturnType("String");
+
+$varSpringControllerMethodDynamic->setContollerMethodName("doThis");
+
+$varPathVariableParameter = new PathVariableParameter();
+
+$varPathVariableParameter->setPathVariableName("service");
+$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
+
+$varPathVariableParameter = new PathVariableParameter();
+$varPathVariableParameter->setPathVariableName($xyzName);
+$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
+
+$varPathVariableParameter = new PathVariableParameter();
+$varPathVariableParameter->setPathVariableName("jungle");
+$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
+
+//$varSpringControllerMethodDynamic->setControllerMethodBody('return "hola";');
+
+$varSpringControllerMethodDynamic->write();
+
+exit;
+
 require_once("SpringBootController.php");
 
 $varSpringBootController = new SpringBootController();

@@ -94,6 +94,61 @@ public class {{:controllerClassName:}} {
 
             ]]>
     </snippet>
+        <snippet name="SpringControllerMethodN">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{service}/welcome/{to}/the/{jungle}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+            @{{:variableAnnotation:}}("service") String {{:pathVariableService:}},
+             @{{:variableAnnotation:}}("to") String {{:pathVariableTo:}},
+              @{{:variableAnnotation:}}("jungle") String {{:pathVariableJungle:}}
+            ) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
+    </snippet>
+            <snippet name="SpringControllerMethodDynamic">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{{{:pathVariableService:}}}/welcome/{{{:pathVariableTo:}}}/the/{{{:pathVariableJungle:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+            @PathVariable("{{:pathVariableService:}}") String {{:pathVariableService:}},
+             @PathVariable("{{:pathVariableTo:}}") String {{:pathVariableTo:}},
+              @PathVariable("{{:pathVariableJungle:}}") String {{:pathVariableJungle:}}
+            ) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
+    </snippet>
+
+
+                <snippet name="SpringControllerMethodDynamic">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{{{:pathVariableService:}}}/welcome/{{{:pathVariableTo:}}}/the/{{{:pathVariableJungle:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+           {{:(PathVariableParameter)parameter:}}
+            ) { 
+        
+        return service.{{:contollerMethodName:}}( {{:(PathVariableParameter)parameter:}} );
+    }
+
+            ]]>
+    </snippet>
+
+    <snippet name="PathVariableParameter">
+     <![CDATA[
+     @PathVariable("{{:pathVariableName:}}") String {{:pathVariableName:}},
+      ]]>
+    </snippet>
+
+  <snippet name="PassMethodParameter">
+   <![CDATA[
+     {{:variableName:}},
+      ]]>
+    </snippet>
        <snippet name="SpringBootMethodParameter">
         <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}},]]>
     </snippet>
@@ -172,7 +227,18 @@ public class {{:controllerClassName:}} {
         <content>
             <![CDATA[
 
-            ${{:name:}}[[,]]
+            ${{:name:}}||notlast,||
+            
+            ]]>
+        </content>
+    </snippet>
+
+
+    <snippet name="TestForConditionalToken">
+        <content>
+            <![CDATA[
+
+            ${{:name:}}{?/notlast,/?}
             
             ]]>
         </content>
