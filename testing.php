@@ -230,23 +230,25 @@ class Snippet extends TokenString {
     }
 }
 
+$defaultConditionals = array(
+    'notlast', 
+    'notfirst', 
+    'notempty', 
+    'empty', 
+    'last', 
+    'first', 
+    'selected', 
+    'notselected',
+    'disabled',
+    'notdisabled',
+    'customCondition' 
+);
+
 
 class TokenString  {
 
 
-    protected $defaultConditionals = array(
-        'notlast', 
-        'notfirst', 
-        'notempty', 
-        'empty', 
-        'last', 
-        'first', 
-        'selected', 
-        'notselected',
-        'disabled',
-        'notdisabled',
-        'customCondition' 
-    );
+
 
 
     public $packageName;
@@ -426,6 +428,7 @@ class TokenString  {
 
     public function validateExpression( $expressionStr=null )
     {
+        global $defaultConditionals;
         if ($expressionStr === null)
             $expressionStr = $this->content;
 
@@ -455,8 +458,8 @@ class TokenString  {
             $evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE );
 
 
-            if ($evalExpr_varDefOpen === COND_DEF_OPEN) {
-                print 'COND_DEF_OPEN at ' . $i . endl(); 
+            if ($evalExpr_condDefOpen === COND_DEF_OPEN) {
+                
                 $i += strlen( COND_DEF_OPEN );
                 $conditionalTokenContent = "";
                 while ((($evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE )) !== COND_DEF_CLOSE) &&
@@ -464,7 +467,6 @@ class TokenString  {
                     $conditionalTokenContent .= $expressionStr[$i];
                     $i++;
                 }
-                print 'After collecting $conditionalTokenContent=' . $conditionalTokenContent . endl();
 
                 if ($evalExpr_condDefClose !== COND_DEF_CLOSE) {
                     $this->logSyntaxError( 'ConditionalToken is not correctly defined.', $expressionStr, $i );
@@ -473,17 +475,17 @@ class TokenString  {
 
                 $hasConditional = false;
                 $hasExpression = false;
-                foreach ($this->defaultConditionals as $conditionalKey) {
+                foreach ($defaultConditionals as $conditionalKey) {
                     if (substr( $conditionalTokenContent, 0, $len = strlen( $conditionalKey )) === $conditionalKey) {
-                        if ($len < strlen( $conditionalTokenContent ) - 1) {
+
+                        if ($len < $lenFinalContent = strlen( $conditionalTokenContent )) {
                             $hasExpression = true;
                         }  
-                        /*for ($i = $offset; $i < strlen( $conditionalTokenContent); $i++) {
-                            $varConditionalToken = new ConditionalToken();
-                            $varConditionalToken->conditionalExpression = $conditionalKey;
-                            $varConditionalToken->content = $conditioalTokenContent;
-                            
-                        }*/             
+
+                        $varConditionalToken = new ConditionalToken();
+                        $varConditionalToken->conditionalExpression = $conditionalKey;
+                        $varConditionalToken->content = substr( $conditionalTokenContent, $len, strlen( $conditionalTokenContent ) - $len );
+                                     
                         $hasConditional = true;
                         break;           
                     }
@@ -638,6 +640,7 @@ class TokenString  {
 
     public function make( $expressionStr=null )
     {        
+        global $defaultConditionals;
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
@@ -669,60 +672,99 @@ class TokenString  {
             $evalExpr_varDefClose = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_CLOSE );
             $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
 
+            $evalExpr_varDefClose = $this->catchDefExpr( $expressionStr, $i, VAR_DEF_CLOSE );
+            $evalExpr_optDefClose = $this->catchDefExpr( $expressionStr, $i, OPT_DEF_CLOSE );
+
+            $evalExpr_condDefOpen = $this->catchDefExpr( $expressionStr, $i, COND_DEF_OPEN );
+            $evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE );
+
+            if ($evalExpr_varDefOpen === COND_DEF_OPEN) {
+                $i += strlen( COND_DEF_OPEN );
+                $conditionalTokenContent = "";
+
+                while ((($evalExpr_condDefClose = $this->catchDefExpr( $expressionStr, $i, COND_DEF_CLOSE )) !== COND_DEF_CLOSE) &&
+                    $i  < strlen( $expressionStr )) {
+                    $conditionalTokenContent .= $expressionStr[$i];
+                    $i++;
+                }         
+                print 'Conditional token content found ' . $conditionalTokenContent . endl();
+                $conditionalKey = "";
+
+                foreach ($defaultConditionals as $conditionalKey) {
+                    if (($conditionalKey = substr( $conditionalTokenContent, 0, $len = strlen( $conditionalKey ))) === $conditionalKey) {
+
+   
+
+                        $varConditionalToken = new ConditionalToken();
+                        $varConditionalToken->conditionalExpression = $conditionalKey;
+                        $varConditionalToken->content = substr( $conditionalTokenContent, $len, strlen( $conditionalTokenContent ) - $len );
+
+                        print 'Conditional expression ' . $varConditionalToken->conditionalExpression . endl();
+                        print 'Conditional token content ' . $varConditionalToken->content . endl();
+                        array_push( $this->tokens, $varConditionalToken );
+
+
+                        break;           
+                    }
+                }
+
+                $i += strlen( COND_DEF_CLOSE ) - 1;
+            }
+            else
             if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
 
-                    $posStart = $i;
+                $posStart = $i;
+    
+                $posEnd = strpos( 
+                    $expressionStr, 
+                    VAR_DEF_CLOSE, 
+                    $i ) + strlen( VAR_DEF_CLOSE );
         
-                    $posEnd = strpos( 
+                $varName = substr( 
                         $expressionStr, 
-                        VAR_DEF_CLOSE, 
-                        $i ) + strlen( VAR_DEF_CLOSE );
-            
-                    $varName = substr( 
-                            $expressionStr, 
-                            $posStart  + strlen( VAR_DEF_OPEN ), 
-                            $posEnd - $posStart - strlen( VAR_DEF_CLOSE ) - strlen( VAR_DEF_CLOSE ) );
-                    $fullNameReference = VAR_DEF_OPEN . $varName . VAR_DEF_CLOSE;
-                    $exprClass =   VariableToken::class;      
+                        $posStart  + strlen( VAR_DEF_OPEN ), 
+                        $posEnd - $posStart - strlen( VAR_DEF_CLOSE ) - strlen( VAR_DEF_CLOSE ) );
+                $fullNameReference = VAR_DEF_OPEN . $varName . VAR_DEF_CLOSE;
+                $exprClass =   VariableToken::class;      
 
 
-                    $matches = array();
-                    $expr = preg_match_all( "/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches );
-                    
-                    $snippetName = null;
+                $matches = array();
+                $expr = preg_match_all( "/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches );
+                
+                $snippetName = null;
+                $variableName = $varName;
+
+                if (is_array( $matches[1] ) && count( $matches[1] ) == 1)
+                    $snippetName = $matches[1][0];
+                if (is_array( $matches[2] ) && count( $matches[2] ) == 1) {                    
+                    $variableName = $matches[2][0];
+                }
+                else {
                     $variableName = $varName;
+                }
 
-                    if (is_array( $matches[1] ) && count( $matches[1] ) == 1)
-                        $snippetName = $matches[1][0];
-                    if (is_array( $matches[2] ) && count( $matches[2] ) == 1) {                    
-                        $variableName = $matches[2][0];
-                    }
-                    else {
-                        $variableName = $varName;
-                    }
+                //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
 
-                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
+                if ($snippetName !== null && $variableName !== null) {
+                    $exprClass = CompoundVariableToken::class;                        
+                }
 
-                    if ($snippetName !== null && $variableName !== null) {
-                        $exprClass = CompoundVariableToken::class;                        
-                    }
-
-                    
-                    $var = new $exprClass();
-                    $var->posStart = $posStart;
-                    $var->posEnd = $posEnd;
-                    $var->name = $variableName;
-                    $var->fullNameReference = $fullNameReference;
-                    if (get_class( $var ) == CompoundVariableToken::class) {
-                        $var->snippetName = $snippetName;
-                        $var->make();
-                    }
-                    $var->id = $k;
+                
+                $var = new $exprClass();
+                $var->posStart = $posStart;
+                $var->posEnd = $posEnd;
+                $var->name = $variableName;
+                $var->fullNameReference = $fullNameReference;
+                if (get_class( $var ) == CompoundVariableToken::class) {
+                    $var->snippetName = $snippetName;
+                    $var->make();
+                }
+                $var->id = $k;
 
 
-                    $i = $posEnd - 1;
-                    
-                    $k++;
+                $i = $posEnd - 1;
+                
+                $k++;
                     
                 $addSingleToken = true;
                 $this->addSingleToken( $this->tokens, $singleToken, $k );
@@ -973,7 +1015,9 @@ class TokenString  {
         $outputStack = "";
 
         $ignoreNextToken = false;
+        
         while ($token = current($pToken->tokens) ) {
+            $token->content = str_replace( "$", "\\$", $token->content );   // o . o
             $nextToken = next($pToken->tokens);
 
             if ($token->content  !== null) {
@@ -983,6 +1027,11 @@ class TokenString  {
             if ($ignoreNextToken) {
                 $ignoreNextToken = false;
                 continue;
+            }
+            if (get_class( $token ) === ConditionalToken::class) {
+                if ($token->conditionalExpression === "notlast") {
+                    $conditional = "curren"
+                }
             }
             if (get_class( $token ) === OptionalToken::class) {
                 $output .= __print( $outputStack );
@@ -1094,15 +1143,17 @@ $result = $do->make();
 
 
 //print $autoStyle->loadString($do->generateClass()) ."\n";
-if ($result) {
+
 
     print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
 print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
 print ' START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START  START ---- START ' . endl();
 print '<xmp>';
-    print $do->generateClass();
+    
+    $do->generateClasses();
+   // print_r( $do );
     print '</xmp>';
-}
+
 //print $do->generateClass();//generateClasses();
 /*
 $do->make();

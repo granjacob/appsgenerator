@@ -3,17 +3,17 @@
 
 require_once( "GeneratorClass.php" );
 
-/* ####################### method_parameter : USAGE EXAMPLE ####################### 
+/* ####################### TestForConditionalToken : USAGE EXAMPLE ####################### 
 
-	$varmethod_parameter = new method_parameter();
+	$varTestForConditionalToken = new TestForConditionalToken();
 
-	$varmethod_parameter->setName("method_parameter_name_EXAMPLE");
+	$varTestForConditionalToken->setName("TestForConditionalToken_name_EXAMPLE");
 
-	$varmethod_parameter->write();
+	$varTestForConditionalToken->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
-class method_parameter extends GeneratorClass {
+class TestForConditionalToken extends GeneratorClass {
 
 	protected $name;
 
@@ -44,7 +44,7 @@ return $this;
 
 	$this->validateData();
 
-print "\${$this->name}||notlast,||\n";
+print "\${$this->name}\n";
 }
 
  } 

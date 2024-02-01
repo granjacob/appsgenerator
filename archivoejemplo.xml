@@ -227,20 +227,22 @@ public class {{:controllerClassName:}} {
         <content>
             <![CDATA[
 
-            ${{:name:}}||notlast,||
+            ${{:name:}}{?/notlast,/?}
             
             ]]>
         </content>
     </snippet>
-
-
-    <snippet name="TestForConditionalToken">
+while ($i < count( $method_parameters ))
+{
+    $notlast = !($i === (count( $method_parameters ) - 1));
+    print "name";
+    if ($notlast) {
+        print ",";
+    }
+}
+    <snippet name="TestForConditionalToken" rule="trim(,)">
         <content>
-            <![CDATA[
-
-            ${{:name:}}{?/notlast,/?}
-            
-            ]]>
+            <![CDATA[${{:name:}}{?/notlast,/?}]]>
         </content>
     </snippet>
 </snippets>
