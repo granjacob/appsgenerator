@@ -150,7 +150,11 @@ public class {{:controllerClassName:}} {
       ]]>
     </snippet>
        <snippet name="SpringBootMethodParameter">
-        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}},]]>
+        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}} 1
+        
+        {?\notlast,\?}
+        
+        ]]>
     </snippet>
 
 
@@ -232,17 +236,10 @@ public class {{:controllerClassName:}} {
             ]]>
         </content>
     </snippet>
-while ($i < count( $method_parameters ))
-{
-    $notlast = !($i === (count( $method_parameters ) - 1));
-    print "name";
-    if ($notlast) {
-        print ",";
-    }
-}
+
     <snippet name="TestForConditionalToken" rule="trim(,)">
         <content>
-            <![CDATA[${{:name:}}{?/notlast,/?}]]>
+            <![CDATA[{?/notlast${{:name:}},/?}]]>
         </content>
     </snippet>
 </snippets>

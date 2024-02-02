@@ -11,7 +11,7 @@ require_once( "TypeDato.php" );
 	$vardatos = new TypeDato();
 	$varMinExample->addDatosItem( $varDatosItem );
 
-	$varMinExample->write();
+	$varMinExample->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -49,14 +49,15 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
 print "Hello world! ---> \n";		
 if ($this->datos !== null) {		
-foreach ($this->datos as $item_datos) {
-			$item_datos->write();
+$keys = array_keys( $this->datos);		
+foreach ($this->datos as $item_datos => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_datos->write($options);
 		}}
 
 print "\n";

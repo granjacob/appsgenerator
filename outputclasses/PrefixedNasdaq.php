@@ -11,7 +11,7 @@ require_once( "AAAA.php" );
 	$varattrName = new AAAA();
 	$varprefixedNasdaq->addAttrNameItem( $varAttrNameItem );
 
-	$varprefixedNasdaq->write();
+	$varprefixedNasdaq->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -49,14 +49,15 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
 print "NASDAQ_\n";		
 if ($this->attrName !== null) {		
-foreach ($this->attrName as $item_attrName) {
-			$item_attrName->write();
+$keys = array_keys( $this->attrName);		
+foreach ($this->attrName as $item_attrName => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attrName->write($options);
 		}}
 
 print "\n";

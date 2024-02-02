@@ -7,7 +7,7 @@ require_once( "GeneratorClass.php" );
 
 	$varControllerPathPlusPathVariableName = new ControllerPathPlusPathVariableName();
 
-	$varControllerPathPlusPathVariableName->write();
+	$varControllerPathPlusPathVariableName->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -21,7 +21,7 @@ public function __construct()
 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 

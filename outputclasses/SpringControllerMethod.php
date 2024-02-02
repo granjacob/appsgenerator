@@ -25,7 +25,7 @@ require_once( "SpringBootMethodParameter.php" );
 
 	$varSpringControllerMethod->setMethodBody("SpringControllerMethod_MethodBody_EXAMPLE");
 
-	$varSpringControllerMethod->write();
+	$varSpringControllerMethod->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -182,7 +182,7 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
@@ -195,8 +195,9 @@ if (($this->parameters !== null &&
 
 print "\n";		
 if ($this->parameters !== null) {		
-foreach ($this->parameters as $item_parameters) {
-			$item_parameters->write();
+$keys = array_keys( $this->parameters);		
+foreach ($this->parameters as $item_parameters => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameters->write($options);
 		}}
 
 print "\n";

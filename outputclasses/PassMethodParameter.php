@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varPassMethodParameter->setVariableName("PassMethodParameter_variableName_EXAMPLE");
 
-	$varPassMethodParameter->write();
+	$varPassMethodParameter->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,7 +40,7 @@ return $this;
 		return $this->variableName;
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 

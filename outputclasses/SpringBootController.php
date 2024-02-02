@@ -38,7 +38,7 @@ require_once( "SpringControllerMethod2.php" );
 	$varWithMoreThings = new SpringControllerMethod();
 	$varSpringBootController->addWithMoreThingsItem( $varWithMoreThingsItem );
 
-	$varSpringBootController->write();
+	$varSpringBootController->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -278,7 +278,7 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
@@ -299,24 +299,27 @@ print "public class {$this->controllerClassName} {\n";
 print "\n";
 print "    \n";		
 if ($this->Services !== null) {		
-foreach ($this->Services as $item_Services) {
-			$item_Services->write();
+$keys = array_keys( $this->Services);		
+foreach ($this->Services as $item_Services => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_Services->write($options);
 		}}
 
 print "\n";
 print "\n";
 print "    \n";		
 if ($this->Methods !== null) {		
-foreach ($this->Methods as $item_Methods) {
-			$item_Methods->write();
+$keys = array_keys( $this->Methods);		
+foreach ($this->Methods as $item_Methods => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_Methods->write($options);
 		}}
 
 print "\n";
 print "\n";
 print "    \n";		
 if ($this->MethodsWithPathVariable !== null) {		
-foreach ($this->MethodsWithPathVariable as $item_MethodsWithPathVariable) {
-			$item_MethodsWithPathVariable->write();
+$keys = array_keys( $this->MethodsWithPathVariable);		
+foreach ($this->MethodsWithPathVariable as $item_MethodsWithPathVariable => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_MethodsWithPathVariable->write($options);
 		}}
 
 print "\n";
@@ -328,8 +331,9 @@ if (($this->Repositories !== null &&
 
 print "\n";		
 if ($this->Repositories !== null) {		
-foreach ($this->Repositories as $item_Repositories) {
-			$item_Repositories->write();
+$keys = array_keys( $this->Repositories);		
+foreach ($this->Repositories as $item_Repositories => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_Repositories->write($options);
 		}}
 
 print "\n";
@@ -345,8 +349,9 @@ if (($this->OtherThings !== null &&
 
 print "\n";		
 if ($this->OtherThings !== null) {		
-foreach ($this->OtherThings as $item_OtherThings) {
-			$item_OtherThings->write();
+$keys = array_keys( $this->OtherThings);		
+foreach ($this->OtherThings as $item_OtherThings => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_OtherThings->write($options);
 		}}
 
 print "\n";
@@ -364,14 +369,16 @@ if (($this->MoreThings !== null &&
 
 print "\n";		
 if ($this->MoreThings !== null) {		
-foreach ($this->MoreThings as $item_MoreThings) {
-			$item_MoreThings->write();
+$keys = array_keys( $this->MoreThings);		
+foreach ($this->MoreThings as $item_MoreThings => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_MoreThings->write($options);
 		}}
 
 print " and \n";		
 if ($this->AndMoreThings !== null) {		
-foreach ($this->AndMoreThings as $item_AndMoreThings) {
-			$item_AndMoreThings->write();
+$keys = array_keys( $this->AndMoreThings);		
+foreach ($this->AndMoreThings as $item_AndMoreThings => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_AndMoreThings->write($options);
 		}}
 
 print " \n";
@@ -382,8 +389,9 @@ if (($this->WithMoreThings !== null &&
 
 print "\n";		
 if ($this->WithMoreThings !== null) {		
-foreach ($this->WithMoreThings as $item_WithMoreThings) {
-			$item_WithMoreThings->write();
+$keys = array_keys( $this->WithMoreThings);		
+foreach ($this->WithMoreThings as $item_WithMoreThings => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_WithMoreThings->write($options);
 		}}
 
 print "\n";

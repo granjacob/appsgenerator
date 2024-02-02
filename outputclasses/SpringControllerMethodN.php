@@ -25,7 +25,7 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringControllerMethodN->setControllerMethodBody("SpringControllerMethodN_controllerMethodBody_EXAMPLE");
 
-	$varSpringControllerMethodN->write();
+	$varSpringControllerMethodN->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -192,7 +192,7 @@ return $this;
 		return $this->controllerMethodBody;
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 

@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varTestForConditionalToken->setName("TestForConditionalToken_name_EXAMPLE");
 
-	$varTestForConditionalToken->write();
+	$varTestForConditionalToken->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,11 +40,16 @@ return $this;
 		return $this->name;
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
-print "\${$this->name}\n";
+print "\n";if ((isset( $options["condition:notlast"] ) && 
+$options["condition:notlast"] === true) || !isset( $options["condition:notlast"])) { 
+
+print "\${$this->name},\n";
+ }
+print "\n";
 }
 
  } 

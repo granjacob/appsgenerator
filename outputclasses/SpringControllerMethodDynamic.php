@@ -25,7 +25,7 @@ require_once( "PathVariableParameter.php" );
 	$varparameter = new PathVariableParameter();
 	$varSpringControllerMethodDynamic->addParameterItem( $varParameterItem );
 
-	$varSpringControllerMethodDynamic->write();
+	$varSpringControllerMethodDynamic->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -182,7 +182,7 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
@@ -190,8 +190,9 @@ print "@{$this->mappingAnnotation}(\"/ciss/common/{{$this->pathVariableService}}
 print "    {$this->accessModifier} {$this->returnType} {$this->contollerMethodName}(\n";
 print "           \n";		
 if ($this->parameter !== null) {		
-foreach ($this->parameter as $item_parameter) {
-			$item_parameter->write();
+$keys = array_keys( $this->parameter);		
+foreach ($this->parameter as $item_parameter => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameter->write($options);
 		}}
 
 print "\n";
@@ -199,8 +200,9 @@ print "            ) { \n";
 print "        \n";
 print "        return service.{$this->contollerMethodName}( \n";		
 if ($this->parameter !== null) {		
-foreach ($this->parameter as $item_parameter) {
-			$item_parameter->write();
+$keys = array_keys( $this->parameter);		
+foreach ($this->parameter as $item_parameter => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameter->write($options);
 		}}
 
 print " );\n";

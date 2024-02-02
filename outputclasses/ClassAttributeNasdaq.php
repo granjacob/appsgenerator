@@ -13,7 +13,7 @@ require_once( "prefixedNasdaq.php" );
 	$varattributeName = new prefixedNasdaq();
 	$varclass_attribute_nasdaq->addAttributeNameItem( $varAttributeNameItem );
 
-	$varclass_attribute_nasdaq->write();
+	$varclass_attribute_nasdaq->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -68,15 +68,16 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
 print "{$this->access_modifier}\n";
 print " \n";		
 if ($this->attributeName !== null) {		
-foreach ($this->attributeName as $item_attributeName) {
-			$item_attributeName->write();
+$keys = array_keys( $this->attributeName);		
+foreach ($this->attributeName as $item_attributeName => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attributeName->write($options);
 		}}
 
 print ";\n";

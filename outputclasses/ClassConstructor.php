@@ -15,7 +15,7 @@ require_once( "method_parameter.php" );
 
 	$varclass_constructor->setMethodBody("class_constructor_method_body_EXAMPLE");
 
-	$varclass_constructor->write();
+	$varclass_constructor->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -87,7 +87,7 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
@@ -98,8 +98,9 @@ if (($this->method_parameters !== null &&
 
 print "\n";		
 if ($this->method_parameters !== null) {		
-foreach ($this->method_parameters as $item_method_parameters) {
-			$item_method_parameters->write();
+$keys = array_keys( $this->method_parameters);		
+foreach ($this->method_parameters as $item_method_parameters => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_method_parameters->write($options);
 		}}
 
 print "\n";

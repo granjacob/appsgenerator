@@ -699,8 +699,9 @@ class TokenString  {
                         $varConditionalToken->conditionalExpression = $conditionalKey;
                         $varConditionalToken->content = substr( $conditionalTokenContent, $len, strlen( $conditionalTokenContent ) - $len );
 
-                        print 'Conditional expression ' . $varConditionalToken->conditionalExpression . endl();
-                        print 'Conditional token content ' . $varConditionalToken->content . endl();
+                        //print 'Conditional expression ' . $varConditionalToken->conditionalExpression . endl();
+                        //print 'Conditional token content ' . $varConditionalToken->content . endl();
+                        $varConditionalToken->make( $varConditionalToken->content );
                         array_push( $this->tokens, $varConditionalToken );
 
 
@@ -952,7 +953,7 @@ class TokenString  {
                 }
             }
 
-            $output .= endl() . _tab() . '$var' . $this->snippetName . '->write();' . endl();
+            $output .= endl() . _tab() . '$var' . $this->snippetName . '->write( $options );' . endl();
 
             $output .= endl() . "    ####################### USAGE EXAMPLE ####################### **/ " . endl();
 
@@ -1007,7 +1008,7 @@ class TokenString  {
 
 
             // main write function
-            $output .= endl() . _tab() . 'public function write() {' . endl();
+            $output .= endl() . _tab() . 'public function write( $options ) {' . endl();
             $output .= endl() . _tab() . '$this->validateData();' . endl();
 
         }   
@@ -1017,10 +1018,12 @@ class TokenString  {
         $ignoreNextToken = false;
         
         while ($token = current($pToken->tokens) ) {
-            $token->content = str_replace( "$", "\\$", $token->content );   // o . o
+
+               // o . o
             $nextToken = next($pToken->tokens);
 
             if ($token->content  !== null) {
+                $token->content = str_replace( "$", "\\$", $token->content );
                 $token->content = str_replace( "\r", "", $token->content );
             }
         //foreach ($pToken->tokens as $token) {
@@ -1028,10 +1031,15 @@ class TokenString  {
                 $ignoreNextToken = false;
                 continue;
             }
-            if (get_class( $token ) === ConditionalToken::class) {
-                if ($token->conditionalExpression === "notlast") {
-                    $conditional = "curren"
-                }
+            if (get_class( $token ) === ConditionalToken::class) {    
+   
+                print ' HELLOOOOOOOOOOOOOOOOOOOOOOO WORLD!';        
+                $output .= __print( $outputStack );
+                $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
+                $output .=  'if ((isset( $options["' . $conditionalExpressionIndexName . '"] ) && ' . endl() .  
+                            '$options["' . $conditionalExpressionIndexName . '"] === true) ||' . 
+                            ' !isset( $options["' . $conditionalExpressionIndexName . '"])) { ' .
+                            endl() . $token->generateClass( $token ) . endl() . ' }';
             }
             if (get_class( $token ) === OptionalToken::class) {
                 $output .= __print( $outputStack );
@@ -1042,11 +1050,13 @@ class TokenString  {
             }
             else
             if (get_class( $token ) === CompoundVariableToken::class) {
-                $output .= __print( $outputStack );
+                $output .= __print( $outputStack ); 
                 $outputStack = "";
                 $output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
-                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ') {' . endl();
-                $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
+                $output .= _tab(2) . endl() . '$keys = array_keys( $this->' . $token->name . ');';
+                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ' => $key) {' . endl();
+                $output .= _tab(3) . '$options = array( "condition:notlast" => (end( $keys ) === $key));';
+                $output .= _tab(3) . '$item_' . $token->name . '->write($options);' . endl();
                 $output .= _tab(2) . '}}' . endl();
 
             }

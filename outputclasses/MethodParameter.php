@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varmethod_parameter->setName("method_parameter_name_EXAMPLE");
 
-	$varmethod_parameter->write();
+	$varmethod_parameter->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,11 +40,16 @@ return $this;
 		return $this->name;
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
-print "\${$this->name}||notlast,||\n";
+print "\${$this->name}\n";if ((isset( $options["condition:notlast"] ) && 
+$options["condition:notlast"] === true) || !isset( $options["condition:notlast"])) { 
+
+print ",\n";
+ }
+print "\${$this->name}\n";
 }
 
  } 

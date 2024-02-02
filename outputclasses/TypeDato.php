@@ -13,7 +13,7 @@ require_once( "GeneratorClass.php" );
 
 	$varTypeDato->setNombrePersona("TypeDato_nombre_persona_EXAMPLE");
 
-	$varTypeDato->write();
+	$varTypeDato->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -78,7 +78,7 @@ return $this;
 		return $this->nombre_persona;
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 

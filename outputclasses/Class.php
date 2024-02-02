@@ -27,7 +27,7 @@ require_once( "class_method.php" );
 	$varmethods = new class_method();
 	$varclass->addMethodsItem( $varMethodsItem );
 
-	$varclass->write();
+	$varclass->write( $options );
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -171,7 +171,7 @@ return $this;
 return $this; 
 }
 
-	public function write() {
+	public function write( $options ) {
 
 	$this->validateData();
 
@@ -186,29 +186,33 @@ print "extends {$this->class_name_extends}\n";
 print " {\n";
 print "                \n";		
 if ($this->constructor !== null) {		
-foreach ($this->constructor as $item_constructor) {
-			$item_constructor->write();
+$keys = array_keys( $this->constructor);		
+foreach ($this->constructor as $item_constructor => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_constructor->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->attributes !== null) {		
-foreach ($this->attributes as $item_attributes) {
-			$item_attributes->write();
+$keys = array_keys( $this->attributes);		
+foreach ($this->attributes as $item_attributes => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attributes->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->nasdaq_attributes !== null) {		
-foreach ($this->nasdaq_attributes as $item_nasdaq_attributes) {
-			$item_nasdaq_attributes->write();
+$keys = array_keys( $this->nasdaq_attributes);		
+foreach ($this->nasdaq_attributes as $item_nasdaq_attributes => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_nasdaq_attributes->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->methods !== null) {		
-foreach ($this->methods as $item_methods) {
-			$item_methods->write();
+$keys = array_keys( $this->methods);		
+foreach ($this->methods as $item_methods => $key) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_methods->write($options);
 		}}
 
 print "\n";
