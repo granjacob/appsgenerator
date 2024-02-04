@@ -22,6 +22,9 @@ require_once( "PathVariableParameter.php" );
 
 	$varSpringControllerMethodDynamic->setContollerMethodName("SpringControllerMethodDynamic_contollerMethodName_EXAMPLE");
 
+	$varparameters = new PathVariableParameter();
+	$varSpringControllerMethodDynamic->addParametersItem( $varParametersItem );
+
 	$varparameter = new PathVariableParameter();
 	$varSpringControllerMethodDynamic->addParameterItem( $varParameterItem );
 
@@ -45,6 +48,8 @@ class SpringControllerMethodDynamic extends GeneratorClass {
 
 	protected $contollerMethodName;
 
+	protected PathVariableParameter $parameters;
+
 	protected PathVariableParameter $parameter;
 
 public function __construct()
@@ -66,6 +71,8 @@ public function __construct()
 	$this->returnType =  null;
 
 	$this->contollerMethodName =  null;
+
+	$this->parameters =  new PathVariableParameter();
 
 	$this->parameter =  new PathVariableParameter();
 
@@ -120,6 +127,13 @@ return $this;
 return $this; 
 }
 
+	public function setParameters( PathVariableParameter $parameters)
+{
+
+		 $this->parameters = $parameters;
+return $this; 
+}
+
 	public function setParameter( PathVariableParameter $parameter)
 {
 
@@ -169,10 +183,23 @@ return $this;
 		return $this->contollerMethodName;
 }
 
+	public function getParameters()
+{
+
+		return $this->parameters;
+}
+
 	public function getParameter()
 {
 
 		return $this->parameter;
+}
+
+	public function addParametersItem( PathVariableParameter $item )
+{
+
+		$this->parameters->append( clone $item);
+return $this; 
 }
 
 	public function addParameterItem( PathVariableParameter $item )
@@ -189,10 +216,20 @@ return $this;
 print "@{$this->mappingAnnotation}(\"/ciss/common/{{$this->pathVariableService}}/welcome/{{$this->pathVariableTo}}/the/{{$this->pathVariableJungle}}\")\n";
 print "    {$this->accessModifier} {$this->returnType} {$this->contollerMethodName}(\n";
 print "           \n";		
-if ($this->parameter !== null) {		
-$keys = array_keys( get_object_vars( $this->parameter) );		
-foreach ($this->parameter as $key => $item_parameter) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_parameter->write($options);
+if ($this->parameters !== null) {		
+$keys = array_keys( get_object_vars( $this->parameters) );		
+foreach ($this->parameters as $key => $item_parameters) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_parameters->disabled === true), 
+"condition:notdisabled" => ($item_parameters->disabled !== true), 
+"condition:selected" => ($item_parameters->selected === true), 
+"condition:notselected" => ($item_parameters->selected !== true), 
+"condition:enabled" => ($item_parameters->disabled !== true), 
+"condition:notenabled" => ($item_parameters->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_parameters->write($options);
 		}}
 
 print "\n";
@@ -202,7 +239,17 @@ print "        return service.{$this->contollerMethodName}( \n";
 if ($this->parameter !== null) {		
 $keys = array_keys( get_object_vars( $this->parameter) );		
 foreach ($this->parameter as $key => $item_parameter) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_parameter->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_parameter->disabled === true), 
+"condition:notdisabled" => ($item_parameter->disabled !== true), 
+"condition:selected" => ($item_parameter->selected === true), 
+"condition:notselected" => ($item_parameter->selected !== true), 
+"condition:enabled" => ($item_parameter->disabled !== true), 
+"condition:notenabled" => ($item_parameter->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_parameter->write($options);
 		}}
 
 print " );\n";

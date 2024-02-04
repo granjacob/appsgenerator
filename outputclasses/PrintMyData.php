@@ -1,0 +1,54 @@
+
+<?php
+
+require_once( "GeneratorClass.php" );
+
+/* ####################### PrintMyData : USAGE EXAMPLE ####################### 
+
+	$varPrintMyData = new PrintMyData();
+
+	$varPrintMyData->setName("PrintMyData_name_EXAMPLE");
+
+	$varPrintMyData->write( $options );
+
+    ####################### USAGE EXAMPLE ####################### **/ 
+
+class PrintMyData extends GeneratorClass {
+
+	protected $name;
+
+public function __construct()
+
+{
+
+		parent :: __construct();
+
+	$this->name =  null;
+
+}
+
+	public function setName(  $name)
+{
+
+		 $this->name = $name;
+return $this; 
+}
+
+	public function getName()
+{
+
+		return $this->name;
+}
+
+	public function write( $options=array() ) {
+
+	$this->validateData();
+
+print "<p>Data del elemento  <strong>{$this->name}</strong> en la lista.</p>\n";
+}
+
+ } 
+
+
+?>
+

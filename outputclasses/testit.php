@@ -1,4 +1,20 @@
 <?php
+
+
+require_once( "EmptyResultsMessage.php" );
+require_once( "PrintMyData.php" );
+$varEmptyResultsMessage = new EmptyResultsMessage();
+
+$varDataItem = new PrintMyData();
+
+
+$varEmptyResultsMessage->addDataItem( $varDataItem );
+
+$varEmptyResultsMessage->write( array() );
+
+exit;
+
+
 /*
 require("SpringControllerMethodDynamic.php");
 

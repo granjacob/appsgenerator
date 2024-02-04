@@ -100,7 +100,17 @@ print "\n";
 if ($this->method_parameters !== null) {		
 $keys = array_keys( get_object_vars( $this->method_parameters) );		
 foreach ($this->method_parameters as $key => $item_method_parameters) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_method_parameters->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_method_parameters->disabled === true), 
+"condition:notdisabled" => ($item_method_parameters->disabled !== true), 
+"condition:selected" => ($item_method_parameters->selected === true), 
+"condition:notselected" => ($item_method_parameters->selected !== true), 
+"condition:enabled" => ($item_method_parameters->disabled !== true), 
+"condition:notenabled" => ($item_method_parameters->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_method_parameters->write($options);
 		}}
 
 print "\n";

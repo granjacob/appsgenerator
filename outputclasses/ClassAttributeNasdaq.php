@@ -77,7 +77,17 @@ print " \n";
 if ($this->attributeName !== null) {		
 $keys = array_keys( get_object_vars( $this->attributeName) );		
 foreach ($this->attributeName as $key => $item_attributeName) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_attributeName->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_attributeName->disabled === true), 
+"condition:notdisabled" => ($item_attributeName->disabled !== true), 
+"condition:selected" => ($item_attributeName->selected === true), 
+"condition:notselected" => ($item_attributeName->selected !== true), 
+"condition:enabled" => ($item_attributeName->disabled !== true), 
+"condition:notenabled" => ($item_attributeName->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_attributeName->write($options);
 		}}
 
 print ";\n";

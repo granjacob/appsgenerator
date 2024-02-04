@@ -301,7 +301,17 @@ print "    \n";
 if ($this->Services !== null) {		
 $keys = array_keys( get_object_vars( $this->Services) );		
 foreach ($this->Services as $key => $item_Services) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_Services->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_Services->disabled === true), 
+"condition:notdisabled" => ($item_Services->disabled !== true), 
+"condition:selected" => ($item_Services->selected === true), 
+"condition:notselected" => ($item_Services->selected !== true), 
+"condition:enabled" => ($item_Services->disabled !== true), 
+"condition:notenabled" => ($item_Services->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_Services->write($options);
 		}}
 
 print "\n";
@@ -310,7 +320,17 @@ print "    \n";
 if ($this->Methods !== null) {		
 $keys = array_keys( get_object_vars( $this->Methods) );		
 foreach ($this->Methods as $key => $item_Methods) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_Methods->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_Methods->disabled === true), 
+"condition:notdisabled" => ($item_Methods->disabled !== true), 
+"condition:selected" => ($item_Methods->selected === true), 
+"condition:notselected" => ($item_Methods->selected !== true), 
+"condition:enabled" => ($item_Methods->disabled !== true), 
+"condition:notenabled" => ($item_Methods->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_Methods->write($options);
 		}}
 
 print "\n";
@@ -319,7 +339,17 @@ print "    \n";
 if ($this->MethodsWithPathVariable !== null) {		
 $keys = array_keys( get_object_vars( $this->MethodsWithPathVariable) );		
 foreach ($this->MethodsWithPathVariable as $key => $item_MethodsWithPathVariable) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_MethodsWithPathVariable->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_MethodsWithPathVariable->disabled === true), 
+"condition:notdisabled" => ($item_MethodsWithPathVariable->disabled !== true), 
+"condition:selected" => ($item_MethodsWithPathVariable->selected === true), 
+"condition:notselected" => ($item_MethodsWithPathVariable->selected !== true), 
+"condition:enabled" => ($item_MethodsWithPathVariable->disabled !== true), 
+"condition:notenabled" => ($item_MethodsWithPathVariable->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_MethodsWithPathVariable->write($options);
 		}}
 
 print "\n";
@@ -333,7 +363,17 @@ print "\n";
 if ($this->Repositories !== null) {		
 $keys = array_keys( get_object_vars( $this->Repositories) );		
 foreach ($this->Repositories as $key => $item_Repositories) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_Repositories->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_Repositories->disabled === true), 
+"condition:notdisabled" => ($item_Repositories->disabled !== true), 
+"condition:selected" => ($item_Repositories->selected === true), 
+"condition:notselected" => ($item_Repositories->selected !== true), 
+"condition:enabled" => ($item_Repositories->disabled !== true), 
+"condition:notenabled" => ($item_Repositories->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_Repositories->write($options);
 		}}
 
 print "\n";
@@ -351,7 +391,17 @@ print "\n";
 if ($this->OtherThings !== null) {		
 $keys = array_keys( get_object_vars( $this->OtherThings) );		
 foreach ($this->OtherThings as $key => $item_OtherThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_OtherThings->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_OtherThings->disabled === true), 
+"condition:notdisabled" => ($item_OtherThings->disabled !== true), 
+"condition:selected" => ($item_OtherThings->selected === true), 
+"condition:notselected" => ($item_OtherThings->selected !== true), 
+"condition:enabled" => ($item_OtherThings->disabled !== true), 
+"condition:notenabled" => ($item_OtherThings->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_OtherThings->write($options);
 		}}
 
 print "\n";
@@ -371,14 +421,34 @@ print "\n";
 if ($this->MoreThings !== null) {		
 $keys = array_keys( get_object_vars( $this->MoreThings) );		
 foreach ($this->MoreThings as $key => $item_MoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_MoreThings->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_MoreThings->disabled === true), 
+"condition:notdisabled" => ($item_MoreThings->disabled !== true), 
+"condition:selected" => ($item_MoreThings->selected === true), 
+"condition:notselected" => ($item_MoreThings->selected !== true), 
+"condition:enabled" => ($item_MoreThings->disabled !== true), 
+"condition:notenabled" => ($item_MoreThings->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_MoreThings->write($options);
 		}}
 
 print " and \n";		
 if ($this->AndMoreThings !== null) {		
 $keys = array_keys( get_object_vars( $this->AndMoreThings) );		
 foreach ($this->AndMoreThings as $key => $item_AndMoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_AndMoreThings->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_AndMoreThings->disabled === true), 
+"condition:notdisabled" => ($item_AndMoreThings->disabled !== true), 
+"condition:selected" => ($item_AndMoreThings->selected === true), 
+"condition:notselected" => ($item_AndMoreThings->selected !== true), 
+"condition:enabled" => ($item_AndMoreThings->disabled !== true), 
+"condition:notenabled" => ($item_AndMoreThings->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_AndMoreThings->write($options);
 		}}
 
 print " \n";
@@ -391,7 +461,17 @@ print "\n";
 if ($this->WithMoreThings !== null) {		
 $keys = array_keys( get_object_vars( $this->WithMoreThings) );		
 foreach ($this->WithMoreThings as $key => $item_WithMoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_WithMoreThings->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_WithMoreThings->disabled === true), 
+"condition:notdisabled" => ($item_WithMoreThings->disabled !== true), 
+"condition:selected" => ($item_WithMoreThings->selected === true), 
+"condition:notselected" => ($item_WithMoreThings->selected !== true), 
+"condition:enabled" => ($item_WithMoreThings->disabled !== true), 
+"condition:notenabled" => ($item_WithMoreThings->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_WithMoreThings->write($options);
 		}}
 
 print "\n";

@@ -188,7 +188,17 @@ print "                \n";
 if ($this->constructor !== null) {		
 $keys = array_keys( get_object_vars( $this->constructor) );		
 foreach ($this->constructor as $key => $item_constructor) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_constructor->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_constructor->disabled === true), 
+"condition:notdisabled" => ($item_constructor->disabled !== true), 
+"condition:selected" => ($item_constructor->selected === true), 
+"condition:notselected" => ($item_constructor->selected !== true), 
+"condition:enabled" => ($item_constructor->disabled !== true), 
+"condition:notenabled" => ($item_constructor->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_constructor->write($options);
 		}}
 
 print "\n";
@@ -196,7 +206,17 @@ print "                \n";
 if ($this->attributes !== null) {		
 $keys = array_keys( get_object_vars( $this->attributes) );		
 foreach ($this->attributes as $key => $item_attributes) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_attributes->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_attributes->disabled === true), 
+"condition:notdisabled" => ($item_attributes->disabled !== true), 
+"condition:selected" => ($item_attributes->selected === true), 
+"condition:notselected" => ($item_attributes->selected !== true), 
+"condition:enabled" => ($item_attributes->disabled !== true), 
+"condition:notenabled" => ($item_attributes->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_attributes->write($options);
 		}}
 
 print "\n";
@@ -204,7 +224,17 @@ print "                \n";
 if ($this->nasdaq_attributes !== null) {		
 $keys = array_keys( get_object_vars( $this->nasdaq_attributes) );		
 foreach ($this->nasdaq_attributes as $key => $item_nasdaq_attributes) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_nasdaq_attributes->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_nasdaq_attributes->disabled === true), 
+"condition:notdisabled" => ($item_nasdaq_attributes->disabled !== true), 
+"condition:selected" => ($item_nasdaq_attributes->selected === true), 
+"condition:notselected" => ($item_nasdaq_attributes->selected !== true), 
+"condition:enabled" => ($item_nasdaq_attributes->disabled !== true), 
+"condition:notenabled" => ($item_nasdaq_attributes->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_nasdaq_attributes->write($options);
 		}}
 
 print "\n";
@@ -212,7 +242,17 @@ print "                \n";
 if ($this->methods !== null) {		
 $keys = array_keys( get_object_vars( $this->methods) );		
 foreach ($this->methods as $key => $item_methods) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_methods->write($options);
+			$options = array( "condition:notlast" => (end( $keys ) === $key), 
+"condition:first" => ($key === $keys[0]),
+"condition:notfirst" => ($key !== $keys[0]), 
+"condition:disabled" => ($item_methods->disabled === true), 
+"condition:notdisabled" => ($item_methods->disabled !== true), 
+"condition:selected" => ($item_methods->selected === true), 
+"condition:notselected" => ($item_methods->selected !== true), 
+"condition:enabled" => ($item_methods->disabled !== true), 
+"condition:notenabled" => ($item_methods->disabled === true), 
+"condition:last" => ($key === end( $keys )), 
+);			$item_methods->write($options);
 		}}
 
 print "\n";

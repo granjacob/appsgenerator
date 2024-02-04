@@ -129,7 +129,7 @@ public class {{:controllerClassName:}} {
 
 @{{:mappingAnnotation:}}("/ciss/common/{{{:pathVariableService:}}}/welcome/{{{:pathVariableTo:}}}/the/{{{:pathVariableJungle:}}}")
     {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
-           {{:(PathVariableParameter)parameter:}}
+           {{:(PathVariableParameter)parameters:}}
             ) { 
         
         return service.{{:contollerMethodName:}}( {{:(PathVariableParameter)parameter:}} );
@@ -233,9 +233,33 @@ public class {{:controllerClassName:}} {
         </content>
     </snippet>
 
-    <snippet name="TestForConditionalToken" rule="trim(,)">
+    <snippet name="TestForConditionalToken">
         <content>
             <![CDATA[~(?notlast${{:name:}},?)~]]>
+        </content>
+    </snippet>
+
+
+      <snippet name="EmptyResultsMessage">
+        <content>
+            <![CDATA[
+
+            ~(?data:emptyEste mensaje aparece porque los resultados estan vacios o no hay informacion disponible.?)~
+
+            ~(?data:notempty{{:(PrintMyData)data:}}?)~
+            
+            ]]>
+        </content>
+    </snippet>
+
+    
+      <snippet name="PrintMyData">
+        <content>
+            <![CDATA[
+
+            <p>Data del elemento  <strong>{{:name:}}</strong> en la lista.</p>
+            
+            ]]>
         </content>
     </snippet>
 </snippets>
