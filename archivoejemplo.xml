@@ -150,11 +150,7 @@ public class {{:controllerClassName:}} {
       ]]>
     </snippet>
        <snippet name="SpringBootMethodParameter">
-        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}} 1
-        
-        {?\notlast,\?}
-        
-        ]]>
+        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}}~(?notlast,?)~]]>
     </snippet>
 
 
@@ -239,7 +235,7 @@ public class {{:controllerClassName:}} {
 
     <snippet name="TestForConditionalToken" rule="trim(,)">
         <content>
-            <![CDATA[{?/notlast${{:name:}},/?}]]>
+            <![CDATA[~(?notlast${{:name:}},?)~]]>
         </content>
     </snippet>
 </snippets>

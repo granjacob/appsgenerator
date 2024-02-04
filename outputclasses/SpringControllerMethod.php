@@ -178,11 +178,11 @@ return $this;
 	public function addParametersItem( SpringBootMethodParameter $item )
 {
 
-		$this->parameters->append($item);
+		$this->parameters->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
@@ -195,9 +195,9 @@ if (($this->parameters !== null &&
 
 print "\n";		
 if ($this->parameters !== null) {		
-$keys = array_keys( $this->parameters);		
-foreach ($this->parameters as $item_parameters => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameters->write($options);
+$keys = array_keys( get_object_vars( $this->parameters) );		
+foreach ($this->parameters as $key => $item_parameters) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_parameters->write($options);
 		}}
 
 print "\n";

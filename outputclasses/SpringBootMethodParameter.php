@@ -78,13 +78,16 @@ return $this;
 		return $this->ParameterName;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
-print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName} 1\n";
-print "        \n";
-print "        {?\notlast,\?}\n";
+print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName}\n";if ((isset( $options["condition:notlast"] ) && 
+$options["condition:notlast"] === true) || !isset( $options["condition:notlast"])) { 
+
+print ",\n";
+ }
+print "\n";
 }
 
  } 

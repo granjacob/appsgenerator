@@ -146,32 +146,32 @@ return $this;
 	public function addConstructorItem( class_constructor $item )
 {
 
-		$this->constructor->append($item);
+		$this->constructor->append( clone $item);
 return $this; 
 }
 
 	public function addAttributesItem( class_attribute $item )
 {
 
-		$this->attributes->append($item);
+		$this->attributes->append( clone $item);
 return $this; 
 }
 
 	public function addNasdaqAttributesItem( class_attribute_nasdaq $item )
 {
 
-		$this->nasdaq_attributes->append($item);
+		$this->nasdaq_attributes->append( clone $item);
 return $this; 
 }
 
 	public function addMethodsItem( class_method $item )
 {
 
-		$this->methods->append($item);
+		$this->methods->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
@@ -186,33 +186,33 @@ print "extends {$this->class_name_extends}\n";
 print " {\n";
 print "                \n";		
 if ($this->constructor !== null) {		
-$keys = array_keys( $this->constructor);		
-foreach ($this->constructor as $item_constructor => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_constructor->write($options);
+$keys = array_keys( get_object_vars( $this->constructor) );		
+foreach ($this->constructor as $key => $item_constructor) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_constructor->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->attributes !== null) {		
-$keys = array_keys( $this->attributes);		
-foreach ($this->attributes as $item_attributes => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attributes->write($options);
+$keys = array_keys( get_object_vars( $this->attributes) );		
+foreach ($this->attributes as $key => $item_attributes) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_attributes->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->nasdaq_attributes !== null) {		
-$keys = array_keys( $this->nasdaq_attributes);		
-foreach ($this->nasdaq_attributes as $item_nasdaq_attributes => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_nasdaq_attributes->write($options);
+$keys = array_keys( get_object_vars( $this->nasdaq_attributes) );		
+foreach ($this->nasdaq_attributes as $key => $item_nasdaq_attributes) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_nasdaq_attributes->write($options);
 		}}
 
 print "\n";
 print "                \n";		
 if ($this->methods !== null) {		
-$keys = array_keys( $this->methods);		
-foreach ($this->methods as $item_methods => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_methods->write($options);
+$keys = array_keys( get_object_vars( $this->methods) );		
+foreach ($this->methods as $key => $item_methods) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_methods->write($options);
 		}}
 
 print "\n";

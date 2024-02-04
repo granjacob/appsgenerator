@@ -40,7 +40,7 @@ return $this;
 		return $this->variableName;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 

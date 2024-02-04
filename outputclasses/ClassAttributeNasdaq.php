@@ -64,20 +64,20 @@ return $this;
 	public function addAttributeNameItem( prefixedNasdaq $item )
 {
 
-		$this->attributeName->append($item);
+		$this->attributeName->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
 print "{$this->access_modifier}\n";
 print " \n";		
 if ($this->attributeName !== null) {		
-$keys = array_keys( $this->attributeName);		
-foreach ($this->attributeName as $item_attributeName => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attributeName->write($options);
+$keys = array_keys( get_object_vars( $this->attributeName) );		
+foreach ($this->attributeName as $key => $item_attributeName) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_attributeName->write($options);
 		}}
 
 print ";\n";

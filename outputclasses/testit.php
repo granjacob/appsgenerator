@@ -1,5 +1,5 @@
 <?php
-
+/*
 require("SpringControllerMethodDynamic.php");
 
 $xyzName = "xyz";
@@ -37,7 +37,7 @@ $varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter )
 
 $varSpringControllerMethodDynamic->write();
 
-exit;
+exit;*/
 
 require_once("SpringBootController.php");
 
@@ -113,6 +113,6 @@ $varSpringBootController->addAndMoreThingsItem($varSpringControllerMethod);
 $varWithMoreThings = new SpringControllerMethod();
 $varSpringBootController->addWithMoreThingsItem($varSpringControllerMethod);*/
 
-$varSpringBootController->write();
+$varSpringBootController->write(array());
 
 ?>

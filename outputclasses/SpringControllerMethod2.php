@@ -192,7 +192,7 @@ return $this;
 		return $this->controllerMethodBody;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 

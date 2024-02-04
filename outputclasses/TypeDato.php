@@ -78,7 +78,7 @@ return $this;
 		return $this->nombre_persona;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 

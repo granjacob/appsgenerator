@@ -83,11 +83,11 @@ return $this;
 	public function addMethodParametersItem( method_parameter $item )
 {
 
-		$this->method_parameters->append($item);
+		$this->method_parameters->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
@@ -98,9 +98,9 @@ if (($this->method_parameters !== null &&
 
 print "\n";		
 if ($this->method_parameters !== null) {		
-$keys = array_keys( $this->method_parameters);		
-foreach ($this->method_parameters as $item_method_parameters => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_method_parameters->write($options);
+$keys = array_keys( get_object_vars( $this->method_parameters) );		
+foreach ($this->method_parameters as $key => $item_method_parameters) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_method_parameters->write($options);
 		}}
 
 print "\n";

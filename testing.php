@@ -62,8 +62,8 @@ define( 'PHP_FILE_OPEN', '<?php' );
 define( 'PHP_FILE_CLOSE', '?>' );
 
 
-define( 'COND_DEF_OPEN', '{?/' );
-define( 'COND_DEF_CLOSE', '/?}' );
+define( 'COND_DEF_OPEN', '~(?' );
+define( 'COND_DEF_CLOSE', '?)~' );
 
 
 
@@ -1002,13 +1002,13 @@ class TokenString  {
             foreach ($variables as $variable) {
                 if ($variable->snippetName !== null) {
                     $output .= endl() . _tab() . 'public function add' . camelize( $variable->name ) . 'Item( ' . $variable->snippetName . ' $item )' . endl() . '{' . endl();
-                    $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append($item);' . endl() . 'return $this; ' . endl() . '}' . endl();
+                    $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append( clone $item);' . endl() . 'return $this; ' . endl() . '}' . endl();
                 }
             }
 
 
             // main write function
-            $output .= endl() . _tab() . 'public function write( $options ) {' . endl();
+            $output .= endl() . _tab() . 'public function write( $options=array() ) {' . endl();
             $output .= endl() . _tab() . '$this->validateData();' . endl();
 
         }   
@@ -1031,16 +1031,16 @@ class TokenString  {
                 $ignoreNextToken = false;
                 continue;
             }
-            if (get_class( $token ) === ConditionalToken::class) {    
-   
-                print ' HELLOOOOOOOOOOOOOOOOOOOOOOO WORLD!';        
+            if (get_class( $token ) === ConditionalToken::class) {      
                 $output .= __print( $outputStack );
+                $outputStack = "";
                 $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
                 $output .=  'if ((isset( $options["' . $conditionalExpressionIndexName . '"] ) && ' . endl() .  
                             '$options["' . $conditionalExpressionIndexName . '"] === true) ||' . 
                             ' !isset( $options["' . $conditionalExpressionIndexName . '"])) { ' .
                             endl() . $token->generateClass( $token ) . endl() . ' }';
             }
+            else
             if (get_class( $token ) === OptionalToken::class) {
                 $output .= __print( $outputStack );
                 $outputStack = "";
@@ -1053,14 +1053,15 @@ class TokenString  {
                 $output .= __print( $outputStack ); 
                 $outputStack = "";
                 $output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
-                $output .= _tab(2) . endl() . '$keys = array_keys( $this->' . $token->name . ');';
-                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $item_' . $token->name . ' => $key) {' . endl();
+                $output .= _tab(2) . endl() . '$keys = array_keys( get_object_vars( $this->' . $token->name . ') );';
+                $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $key => $item_' . $token->name . ') {' . endl();
                 $output .= _tab(3) . '$options = array( "condition:notlast" => (end( $keys ) === $key));';
                 $output .= _tab(3) . '$item_' . $token->name . '->write($options);' . endl();
                 $output .= _tab(2) . '}}' . endl();
 
             }
-            else if (get_class( $token ) === SingleToken::class ) {
+            else 
+            if (get_class( $token ) === SingleToken::class ) {
                 
                 if (is_object( $nextToken ) && get_class( $nextToken ) === VariableToken::class) {
                     $ignoreNextToken = true;

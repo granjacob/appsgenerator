@@ -59,7 +59,7 @@ return $this;
 		return $this->attributeName;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 

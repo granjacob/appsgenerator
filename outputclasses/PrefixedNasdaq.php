@@ -45,19 +45,19 @@ return $this;
 	public function addAttrNameItem( AAAA $item )
 {
 
-		$this->attrName->append($item);
+		$this->attrName->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
 print "NASDAQ_\n";		
 if ($this->attrName !== null) {		
-$keys = array_keys( $this->attrName);		
-foreach ($this->attrName as $item_attrName => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_attrName->write($options);
+$keys = array_keys( get_object_vars( $this->attrName) );		
+foreach ($this->attrName as $key => $item_attrName) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_attrName->write($options);
 		}}
 
 print "\n";

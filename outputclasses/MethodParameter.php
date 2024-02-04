@@ -40,16 +40,11 @@ return $this;
 		return $this->name;
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
-print "\${$this->name}\n";if ((isset( $options["condition:notlast"] ) && 
-$options["condition:notlast"] === true) || !isset( $options["condition:notlast"])) { 
-
-print ",\n";
- }
-print "\${$this->name}\n";
+print "\${$this->name}{?/notlast,/?}\n";
 }
 
  } 

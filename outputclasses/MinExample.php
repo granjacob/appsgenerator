@@ -45,19 +45,19 @@ return $this;
 	public function addDatosItem( TypeDato $item )
 {
 
-		$this->datos->append($item);
+		$this->datos->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
 print "Hello world! ---> \n";		
 if ($this->datos !== null) {		
-$keys = array_keys( $this->datos);		
-foreach ($this->datos as $item_datos => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_datos->write($options);
+$keys = array_keys( get_object_vars( $this->datos) );		
+foreach ($this->datos as $key => $item_datos) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_datos->write($options);
 		}}
 
 print "\n";

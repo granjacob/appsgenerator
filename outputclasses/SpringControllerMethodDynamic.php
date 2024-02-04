@@ -178,11 +178,11 @@ return $this;
 	public function addParameterItem( PathVariableParameter $item )
 {
 
-		$this->parameter->append($item);
+		$this->parameter->append( clone $item);
 return $this; 
 }
 
-	public function write( $options ) {
+	public function write( $options=array() ) {
 
 	$this->validateData();
 
@@ -190,9 +190,9 @@ print "@{$this->mappingAnnotation}(\"/ciss/common/{{$this->pathVariableService}}
 print "    {$this->accessModifier} {$this->returnType} {$this->contollerMethodName}(\n";
 print "           \n";		
 if ($this->parameter !== null) {		
-$keys = array_keys( $this->parameter);		
-foreach ($this->parameter as $item_parameter => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameter->write($options);
+$keys = array_keys( get_object_vars( $this->parameter) );		
+foreach ($this->parameter as $key => $item_parameter) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_parameter->write($options);
 		}}
 
 print "\n";
@@ -200,9 +200,9 @@ print "            ) { \n";
 print "        \n";
 print "        return service.{$this->contollerMethodName}( \n";		
 if ($this->parameter !== null) {		
-$keys = array_keys( $this->parameter);		
-foreach ($this->parameter as $item_parameter => $key) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key ? true : false));			$item_parameter->write($options);
+$keys = array_keys( get_object_vars( $this->parameter) );		
+foreach ($this->parameter as $key => $item_parameter) {
+			$options = array( "condition:notlast" => (end( $keys ) === $key));			$item_parameter->write($options);
 		}}
 
 print " );\n";
