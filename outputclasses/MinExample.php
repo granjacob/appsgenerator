@@ -11,7 +11,7 @@ require_once( "TypeDato.php" );
 	$vardatos = new TypeDato();
 	$varMinExample->addDatosItem( $varDatosItem );
 
-	$varMinExample->write( $options );
+	$varMinExample->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -49,7 +49,7 @@ return $this;
 return $this; 
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 
@@ -57,17 +57,7 @@ print "Hello world! ---> \n";
 if ($this->datos !== null) {		
 $keys = array_keys( get_object_vars( $this->datos) );		
 foreach ($this->datos as $key => $item_datos) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_datos->disabled === true), 
-"condition:notdisabled" => ($item_datos->disabled !== true), 
-"condition:selected" => ($item_datos->selected === true), 
-"condition:notselected" => ($item_datos->selected !== true), 
-"condition:enabled" => ($item_datos->disabled !== true), 
-"condition:notenabled" => ($item_datos->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_datos->write($options);
+		$item_datos->options = $this->getOptionsArray( $keys, $key, $item_datos );			$item_datos->write();
 		}}
 
 print "\n";

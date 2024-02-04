@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varAAAA->setAtrname("AAAA_atrname_EXAMPLE");
 
-	$varAAAA->write( $options );
+	$varAAAA->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,7 +40,7 @@ return $this;
 		return $this->atrname;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 

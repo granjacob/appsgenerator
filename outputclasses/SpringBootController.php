@@ -1,10 +1,9 @@
-
 <?php
 
-require_once( "GeneratorClass.php" );
-require_once( "SpringAutowiredService.php" );
-require_once( "SpringControllerMethod.php" );
-require_once( "SpringControllerMethod2.php" );
+require_once("GeneratorClass.php");
+require_once("SpringAutowiredService.php");
+require_once("SpringControllerMethod.php");
+require_once("SpringControllerMethod2.php");
 
 /* ####################### SpringBootController : USAGE EXAMPLE ####################### 
 
@@ -38,11 +37,12 @@ require_once( "SpringControllerMethod2.php" );
 	$varWithMoreThings = new SpringControllerMethod();
 	$varSpringBootController->addWithMoreThingsItem( $varWithMoreThingsItem );
 
-	$varSpringBootController->write( $options );
+	$varSpringBootController->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+	####################### USAGE EXAMPLE ####################### **/
 
-class SpringBootController extends GeneratorClass {
+class SpringBootController extends GeneratorClass
+{
 
 	protected $packageName;
 
@@ -64,430 +64,373 @@ class SpringBootController extends GeneratorClass {
 
 	protected SpringControllerMethod $WithMoreThings;
 
-public function __construct()
+	public function __construct()
+	{
 
-{
+		parent::__construct();
 
-		parent :: __construct();
+		$this->packageName = null;
 
-	$this->packageName =  null;
+		$this->controllerClassName = null;
 
-	$this->controllerClassName =  null;
+		$this->Services = new SpringAutowiredService();
 
-	$this->Services =  new SpringAutowiredService();
+		$this->Methods = new SpringControllerMethod();
 
-	$this->Methods =  new SpringControllerMethod();
+		$this->MethodsWithPathVariable = new SpringControllerMethod2();
 
-	$this->MethodsWithPathVariable =  new SpringControllerMethod2();
+		$this->Repositories = new SpringControllerMethod();
 
-	$this->Repositories =  new SpringControllerMethod();
+		$this->OtherThings = new SpringControllerMethod();
 
-	$this->OtherThings =  new SpringControllerMethod();
+		$this->MoreThings = new SpringControllerMethod();
 
-	$this->MoreThings =  new SpringControllerMethod();
+		$this->AndMoreThings = new SpringControllerMethod();
 
-	$this->AndMoreThings =  new SpringControllerMethod();
+		$this->WithMoreThings = new SpringControllerMethod();
 
-	$this->WithMoreThings =  new SpringControllerMethod();
+	}
 
-}
+	public function setPackageName($packageName)
+	{
 
-	public function setPackageName(  $packageName)
-{
+		$this->packageName = $packageName;
+		return $this;
+	}
 
-		 $this->packageName = $packageName;
-return $this; 
-}
+	public function setControllerClassName($controllerClassName)
+	{
 
-	public function setControllerClassName(  $controllerClassName)
-{
+		$this->controllerClassName = $controllerClassName;
+		return $this;
+	}
 
-		 $this->controllerClassName = $controllerClassName;
-return $this; 
-}
+	public function setServices(SpringAutowiredService $Services)
+	{
 
-	public function setServices( SpringAutowiredService $Services)
-{
+		$this->Services = $Services;
+		return $this;
+	}
 
-		 $this->Services = $Services;
-return $this; 
-}
+	public function setMethods(SpringControllerMethod $Methods)
+	{
 
-	public function setMethods( SpringControllerMethod $Methods)
-{
+		$this->Methods = $Methods;
+		return $this;
+	}
 
-		 $this->Methods = $Methods;
-return $this; 
-}
+	public function setMethodsWithPathVariable(SpringControllerMethod2 $MethodsWithPathVariable)
+	{
 
-	public function setMethodsWithPathVariable( SpringControllerMethod2 $MethodsWithPathVariable)
-{
+		$this->MethodsWithPathVariable = $MethodsWithPathVariable;
+		return $this;
+	}
 
-		 $this->MethodsWithPathVariable = $MethodsWithPathVariable;
-return $this; 
-}
+	public function setRepositories(SpringControllerMethod $Repositories)
+	{
 
-	public function setRepositories( SpringControllerMethod $Repositories)
-{
+		$this->Repositories = $Repositories;
+		return $this;
+	}
 
-		 $this->Repositories = $Repositories;
-return $this; 
-}
+	public function setOtherThings(SpringControllerMethod $OtherThings)
+	{
 
-	public function setOtherThings( SpringControllerMethod $OtherThings)
-{
+		$this->OtherThings = $OtherThings;
+		return $this;
+	}
 
-		 $this->OtherThings = $OtherThings;
-return $this; 
-}
+	public function setMoreThings(SpringControllerMethod $MoreThings)
+	{
 
-	public function setMoreThings( SpringControllerMethod $MoreThings)
-{
+		$this->MoreThings = $MoreThings;
+		return $this;
+	}
 
-		 $this->MoreThings = $MoreThings;
-return $this; 
-}
+	public function setAndMoreThings(SpringControllerMethod $AndMoreThings)
+	{
 
-	public function setAndMoreThings( SpringControllerMethod $AndMoreThings)
-{
+		$this->AndMoreThings = $AndMoreThings;
+		return $this;
+	}
 
-		 $this->AndMoreThings = $AndMoreThings;
-return $this; 
-}
+	public function setWithMoreThings(SpringControllerMethod $WithMoreThings)
+	{
 
-	public function setWithMoreThings( SpringControllerMethod $WithMoreThings)
-{
-
-		 $this->WithMoreThings = $WithMoreThings;
-return $this; 
-}
+		$this->WithMoreThings = $WithMoreThings;
+		return $this;
+	}
 
 	public function getPackageName()
-{
+	{
 
 		return $this->packageName;
-}
+	}
 
 	public function getControllerClassName()
-{
+	{
 
 		return $this->controllerClassName;
-}
+	}
 
 	public function getServices()
-{
+	{
 
 		return $this->Services;
-}
+	}
 
 	public function getMethods()
-{
+	{
 
 		return $this->Methods;
-}
+	}
 
 	public function getMethodsWithPathVariable()
-{
+	{
 
 		return $this->MethodsWithPathVariable;
-}
+	}
 
 	public function getRepositories()
-{
+	{
 
 		return $this->Repositories;
-}
+	}
 
 	public function getOtherThings()
-{
+	{
 
 		return $this->OtherThings;
-}
+	}
 
 	public function getMoreThings()
-{
+	{
 
 		return $this->MoreThings;
-}
+	}
 
 	public function getAndMoreThings()
-{
+	{
 
 		return $this->AndMoreThings;
-}
+	}
 
 	public function getWithMoreThings()
-{
+	{
 
 		return $this->WithMoreThings;
-}
+	}
 
-	public function addServicesItem( SpringAutowiredService $item )
-{
+	public function addServicesItem(SpringAutowiredService $item)
+	{
 
-		$this->Services->append( clone $item);
-return $this; 
-}
+		$this->Services->append(clone $item);
+		return $this;
+	}
 
-	public function addMethodsItem( SpringControllerMethod $item )
-{
+	public function addMethodsItem(SpringControllerMethod $item)
+	{
 
-		$this->Methods->append( clone $item);
-return $this; 
-}
+		$this->Methods->append(clone $item);
+		return $this;
+	}
 
-	public function addMethodsWithPathVariableItem( SpringControllerMethod2 $item )
-{
+	public function addMethodsWithPathVariableItem(SpringControllerMethod2 $item)
+	{
 
-		$this->MethodsWithPathVariable->append( clone $item);
-return $this; 
-}
+		$this->MethodsWithPathVariable->append(clone $item);
+		return $this;
+	}
 
-	public function addRepositoriesItem( SpringControllerMethod $item )
-{
+	public function addRepositoriesItem(SpringControllerMethod $item)
+	{
 
-		$this->Repositories->append( clone $item);
-return $this; 
-}
+		$this->Repositories->append(clone $item);
+		return $this;
+	}
 
-	public function addOtherThingsItem( SpringControllerMethod $item )
-{
+	public function addOtherThingsItem(SpringControllerMethod $item)
+	{
 
-		$this->OtherThings->append( clone $item);
-return $this; 
-}
+		$this->OtherThings->append(clone $item);
+		return $this;
+	}
 
-	public function addMoreThingsItem( SpringControllerMethod $item )
-{
+	public function addMoreThingsItem(SpringControllerMethod $item)
+	{
 
-		$this->MoreThings->append( clone $item);
-return $this; 
-}
+		$this->MoreThings->append(clone $item);
+		return $this;
+	}
 
-	public function addAndMoreThingsItem( SpringControllerMethod $item )
-{
+	public function addAndMoreThingsItem(SpringControllerMethod $item)
+	{
 
-		$this->AndMoreThings->append( clone $item);
-return $this; 
-}
+		$this->AndMoreThings->append(clone $item);
+		return $this;
+	}
 
-	public function addWithMoreThingsItem( SpringControllerMethod $item )
-{
+	public function addWithMoreThingsItem(SpringControllerMethod $item)
+	{
 
-		$this->WithMoreThings->append( clone $item);
-return $this; 
-}
+		$this->WithMoreThings->append(clone $item);
+		return $this;
+	}
 
-	public function write( $options=array() ) {
+	public function write()
+	{
 
-	$this->validateData();
+		$this->validateData();
 
-print "package {$this->packageName};\n";
-print "\n";
-print "import java.util.List;\n";
-print "\n";
-print "import org.springframework.web.bind.annotation.DeleteMapping;\n";
-print "import org.springframework.web.bind.annotation.GetMapping;\n";
-print "import org.springframework.web.bind.annotation.PathVariable;\n";
-print "import org.springframework.web.bind.annotation.PostMapping;\n";
-print "import org.springframework.web.bind.annotation.PutMapping;\n";
-print "import org.springframework.web.bind.annotation.RequestBody;\n";
-print "import org.springframework.web.bind.annotation.RestController;\n";
-print "\n";
-print "@RestController\n";
-print "public class {$this->controllerClassName} {\n";
-print "\n";
-print "    \n";		
-if ($this->Services !== null) {		
-$keys = array_keys( get_object_vars( $this->Services) );		
-foreach ($this->Services as $key => $item_Services) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_Services->disabled === true), 
-"condition:notdisabled" => ($item_Services->disabled !== true), 
-"condition:selected" => ($item_Services->selected === true), 
-"condition:notselected" => ($item_Services->selected !== true), 
-"condition:enabled" => ($item_Services->disabled !== true), 
-"condition:notenabled" => ($item_Services->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_Services->write($options);
-		}}
+		print "package {$this->packageName};\n";
+		print "\n";
+		print "import java.util.List;\n";
+		print "\n";
+		print "import org.springframework.web.bind.annotation.DeleteMapping;\n";
+		print "import org.springframework.web.bind.annotation.GetMapping;\n";
+		print "import org.springframework.web.bind.annotation.PathVariable;\n";
+		print "import org.springframework.web.bind.annotation.PostMapping;\n";
+		print "import org.springframework.web.bind.annotation.PutMapping;\n";
+		print "import org.springframework.web.bind.annotation.RequestBody;\n";
+		print "import org.springframework.web.bind.annotation.RestController;\n";
+		print "\n";
+		print "@RestController\n";
+		print "public class {$this->controllerClassName} {\n";
+		print "\n";
+		print "    \n";
+		if ($this->Services !== null) {
+			$keys = array_keys(get_object_vars($this->Services));
+			foreach ($this->Services as $key => $item_Services) {
+				$item_Services->options = $this->getOptionsArray($keys, $key, $item_Services);
+				$item_Services->write();
+			}
+		}
 
-print "\n";
-print "\n";
-print "    \n";		
-if ($this->Methods !== null) {		
-$keys = array_keys( get_object_vars( $this->Methods) );		
-foreach ($this->Methods as $key => $item_Methods) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_Methods->disabled === true), 
-"condition:notdisabled" => ($item_Methods->disabled !== true), 
-"condition:selected" => ($item_Methods->selected === true), 
-"condition:notselected" => ($item_Methods->selected !== true), 
-"condition:enabled" => ($item_Methods->disabled !== true), 
-"condition:notenabled" => ($item_Methods->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_Methods->write($options);
-		}}
+		print "\n";
+		print "\n";
+		print "    \n";
+		if ($this->Methods !== null) {
+			$keys = array_keys(get_object_vars($this->Methods));
+			foreach ($this->Methods as $key => $item_Methods) {
+				$item_Methods->options = $this->getOptionsArray($keys, $key, $item_Methods);
+				$item_Methods->write();
+			}
+		}
 
-print "\n";
-print "\n";
-print "    \n";		
-if ($this->MethodsWithPathVariable !== null) {		
-$keys = array_keys( get_object_vars( $this->MethodsWithPathVariable) );		
-foreach ($this->MethodsWithPathVariable as $key => $item_MethodsWithPathVariable) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_MethodsWithPathVariable->disabled === true), 
-"condition:notdisabled" => ($item_MethodsWithPathVariable->disabled !== true), 
-"condition:selected" => ($item_MethodsWithPathVariable->selected === true), 
-"condition:notselected" => ($item_MethodsWithPathVariable->selected !== true), 
-"condition:enabled" => ($item_MethodsWithPathVariable->disabled !== true), 
-"condition:notenabled" => ($item_MethodsWithPathVariable->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_MethodsWithPathVariable->write($options);
-		}}
+		print "\n";
+		print "\n";
+		print "    \n";
+		if ($this->MethodsWithPathVariable !== null) {
+			$keys = array_keys(get_object_vars($this->MethodsWithPathVariable));
+			foreach ($this->MethodsWithPathVariable as $key => $item_MethodsWithPathVariable) {
+				$item_MethodsWithPathVariable->options = $this->getOptionsArray($keys, $key, $item_MethodsWithPathVariable);
+				$item_MethodsWithPathVariable->write();
+			}
+		}
 
-print "\n";
-print "\n";
-print "    \n";
-if (($this->Repositories !== null &&
- $this->Repositories->count() > 0)) {
+		print "\n";
+		print "\n";
+		print "    \n";
+		if (
+			($this->Repositories !== null &&
+				$this->Repositories->count() > 0)
+		) {
 
 
-print "\n";		
-if ($this->Repositories !== null) {		
-$keys = array_keys( get_object_vars( $this->Repositories) );		
-foreach ($this->Repositories as $key => $item_Repositories) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_Repositories->disabled === true), 
-"condition:notdisabled" => ($item_Repositories->disabled !== true), 
-"condition:selected" => ($item_Repositories->selected === true), 
-"condition:notselected" => ($item_Repositories->selected !== true), 
-"condition:enabled" => ($item_Repositories->disabled !== true), 
-"condition:notenabled" => ($item_Repositories->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_Repositories->write($options);
-		}}
+			print "\n";
+			if ($this->Repositories !== null) {
+				$keys = array_keys(get_object_vars($this->Repositories));
+				foreach ($this->Repositories as $key => $item_Repositories) {
+					$item_Repositories->options = $this->getOptionsArray($keys, $key, $item_Repositories);
+					$item_Repositories->write();
+				}
+			}
 
-print "\n";
+			print "\n";
 
-}
+		}
 
-print "\n";
-print "\n";
-print "    \n";
-if (($this->OtherThings !== null &&
- $this->OtherThings->count() > 0)) {
+		print "\n";
+		print "\n";
+		print "    \n";
+		if (
+			($this->OtherThings !== null &&
+				$this->OtherThings->count() > 0)
+		) {
 
 
-print "\n";		
-if ($this->OtherThings !== null) {		
-$keys = array_keys( get_object_vars( $this->OtherThings) );		
-foreach ($this->OtherThings as $key => $item_OtherThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_OtherThings->disabled === true), 
-"condition:notdisabled" => ($item_OtherThings->disabled !== true), 
-"condition:selected" => ($item_OtherThings->selected === true), 
-"condition:notselected" => ($item_OtherThings->selected !== true), 
-"condition:enabled" => ($item_OtherThings->disabled !== true), 
-"condition:notenabled" => ($item_OtherThings->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_OtherThings->write($options);
-		}}
+			print "\n";
+			if ($this->OtherThings !== null) {
+				$keys = array_keys(get_object_vars($this->OtherThings));
+				foreach ($this->OtherThings as $key => $item_OtherThings) {
+					$item_OtherThings->options = $this->getOptionsArray($keys, $key, $item_OtherThings);
+					$item_OtherThings->write();
+				}
+			}
 
-print "\n";
+			print "\n";
 
-}
+		}
 
-print "\n";
-print "\n";
-print "    \n";
-if (($this->MoreThings !== null &&
- $this->MoreThings->count() > 0) &&
- ($this->AndMoreThings !== null &&
- $this->AndMoreThings->count() > 0)) {
+		print "\n";
+		print "\n";
+		print "    \n";
+		if (
+			($this->MoreThings !== null &&
+				$this->MoreThings->count() > 0) &&
+			($this->AndMoreThings !== null &&
+				$this->AndMoreThings->count() > 0)
+		) {
 
 
-print "\n";		
-if ($this->MoreThings !== null) {		
-$keys = array_keys( get_object_vars( $this->MoreThings) );		
-foreach ($this->MoreThings as $key => $item_MoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_MoreThings->disabled === true), 
-"condition:notdisabled" => ($item_MoreThings->disabled !== true), 
-"condition:selected" => ($item_MoreThings->selected === true), 
-"condition:notselected" => ($item_MoreThings->selected !== true), 
-"condition:enabled" => ($item_MoreThings->disabled !== true), 
-"condition:notenabled" => ($item_MoreThings->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_MoreThings->write($options);
-		}}
+			print "\n";
+			if ($this->MoreThings !== null) {
+				$keys = array_keys(get_object_vars($this->MoreThings));
+				foreach ($this->MoreThings as $key => $item_MoreThings) {
+					$item_MoreThings->options = $this->getOptionsArray($keys, $key, $item_MoreThings);
+					$item_MoreThings->write();
+				}
+			}
 
-print " and \n";		
-if ($this->AndMoreThings !== null) {		
-$keys = array_keys( get_object_vars( $this->AndMoreThings) );		
-foreach ($this->AndMoreThings as $key => $item_AndMoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_AndMoreThings->disabled === true), 
-"condition:notdisabled" => ($item_AndMoreThings->disabled !== true), 
-"condition:selected" => ($item_AndMoreThings->selected === true), 
-"condition:notselected" => ($item_AndMoreThings->selected !== true), 
-"condition:enabled" => ($item_AndMoreThings->disabled !== true), 
-"condition:notenabled" => ($item_AndMoreThings->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_AndMoreThings->write($options);
-		}}
+			print " and \n";
+			if ($this->AndMoreThings !== null) {
+				$keys = array_keys(get_object_vars($this->AndMoreThings));
+				foreach ($this->AndMoreThings as $key => $item_AndMoreThings) {
+					$item_AndMoreThings->options = $this->getOptionsArray($keys, $key, $item_AndMoreThings);
+					$item_AndMoreThings->write();
+				}
+			}
 
-print " \n";
-print "            \n";
-if (($this->WithMoreThings !== null &&
- $this->WithMoreThings->count() > 0)) {
+			print " \n";
+			print "            \n";
+			if (
+				($this->WithMoreThings !== null &&
+					$this->WithMoreThings->count() > 0)
+			) {
 
 
-print "\n";		
-if ($this->WithMoreThings !== null) {		
-$keys = array_keys( get_object_vars( $this->WithMoreThings) );		
-foreach ($this->WithMoreThings as $key => $item_WithMoreThings) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_WithMoreThings->disabled === true), 
-"condition:notdisabled" => ($item_WithMoreThings->disabled !== true), 
-"condition:selected" => ($item_WithMoreThings->selected === true), 
-"condition:notselected" => ($item_WithMoreThings->selected !== true), 
-"condition:enabled" => ($item_WithMoreThings->disabled !== true), 
-"condition:notenabled" => ($item_WithMoreThings->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_WithMoreThings->write($options);
-		}}
+				print "\n";
+				if ($this->WithMoreThings !== null) {
+					$keys = array_keys(get_object_vars($this->WithMoreThings));
+					foreach ($this->WithMoreThings as $key => $item_WithMoreThings) {
+						$item_WithMoreThings->options = $this->getOptionsArray($keys, $key, $item_WithMoreThings);
+						$item_WithMoreThings->write();
+					}
+				}
 
-print "\n";
+				print "\n";
+
+			}
+
+			print "\n";
+
+		}
+
+		print "\n";
+		print "}\n";
+	}
 
 }
-
-print "\n";
-
-}
-
-print "\n";
-print "}\n";
-}
-
- } 
 
 
 ?>
-

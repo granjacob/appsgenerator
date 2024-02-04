@@ -13,7 +13,7 @@ require_once( "prefixedNasdaq.php" );
 	$varattributeName = new prefixedNasdaq();
 	$varclass_attribute_nasdaq->addAttributeNameItem( $varAttributeNameItem );
 
-	$varclass_attribute_nasdaq->write( $options );
+	$varclass_attribute_nasdaq->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -68,7 +68,7 @@ return $this;
 return $this; 
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 
@@ -77,17 +77,7 @@ print " \n";
 if ($this->attributeName !== null) {		
 $keys = array_keys( get_object_vars( $this->attributeName) );		
 foreach ($this->attributeName as $key => $item_attributeName) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_attributeName->disabled === true), 
-"condition:notdisabled" => ($item_attributeName->disabled !== true), 
-"condition:selected" => ($item_attributeName->selected === true), 
-"condition:notselected" => ($item_attributeName->selected !== true), 
-"condition:enabled" => ($item_attributeName->disabled !== true), 
-"condition:notenabled" => ($item_attributeName->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_attributeName->write($options);
+		$item_attributeName->options = $this->getOptionsArray( $keys, $key, $item_attributeName );			$item_attributeName->write();
 		}}
 
 print ";\n";

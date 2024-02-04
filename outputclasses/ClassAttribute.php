@@ -11,7 +11,7 @@ require_once( "GeneratorClass.php" );
 
 	$varclass_attribute->setAttributeName("class_attribute_attributeName_EXAMPLE");
 
-	$varclass_attribute->write( $options );
+	$varclass_attribute->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -59,7 +59,7 @@ return $this;
 		return $this->attributeName;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 

@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varPrintMyData->setName("PrintMyData_name_EXAMPLE");
 
-	$varPrintMyData->write( $options );
+	$varPrintMyData->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,11 +40,11 @@ return $this;
 		return $this->name;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 
-print "<p>Data del elemento  <strong>{$this->name}</strong> en la lista.</p>\n";
+print "<li>Data del elemento  <strong>{$this->name}</strong> en la lista.</li>\n";
 }
 
  } 

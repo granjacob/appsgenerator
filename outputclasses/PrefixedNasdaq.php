@@ -11,7 +11,7 @@ require_once( "AAAA.php" );
 	$varattrName = new AAAA();
 	$varprefixedNasdaq->addAttrNameItem( $varAttrNameItem );
 
-	$varprefixedNasdaq->write( $options );
+	$varprefixedNasdaq->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -49,7 +49,7 @@ return $this;
 return $this; 
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 
@@ -57,17 +57,7 @@ print "NASDAQ_\n";
 if ($this->attrName !== null) {		
 $keys = array_keys( get_object_vars( $this->attrName) );		
 foreach ($this->attrName as $key => $item_attrName) {
-			$options = array( "condition:notlast" => (end( $keys ) === $key), 
-"condition:first" => ($key === $keys[0]),
-"condition:notfirst" => ($key !== $keys[0]), 
-"condition:disabled" => ($item_attrName->disabled === true), 
-"condition:notdisabled" => ($item_attrName->disabled !== true), 
-"condition:selected" => ($item_attrName->selected === true), 
-"condition:notselected" => ($item_attrName->selected !== true), 
-"condition:enabled" => ($item_attrName->disabled !== true), 
-"condition:notenabled" => ($item_attrName->disabled === true), 
-"condition:last" => ($key === end( $keys )), 
-);			$item_attrName->write($options);
+		$item_attrName->options = $this->getOptionsArray( $keys, $key, $item_attrName );			$item_attrName->write();
 		}}
 
 print "\n";

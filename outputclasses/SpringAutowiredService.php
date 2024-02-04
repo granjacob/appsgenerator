@@ -13,7 +13,7 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringAutowiredService->setServiceName("SpringAutowiredService_ServiceName_EXAMPLE");
 
-	$varSpringAutowiredService->write( $options );
+	$varSpringAutowiredService->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -78,7 +78,7 @@ return $this;
 		return $this->ServiceName;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 

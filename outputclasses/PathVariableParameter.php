@@ -9,7 +9,7 @@ require_once( "GeneratorClass.php" );
 
 	$varPathVariableParameter->setPathVariableName("PathVariableParameter_pathVariableName_EXAMPLE");
 
-	$varPathVariableParameter->write( $options );
+	$varPathVariableParameter->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -40,7 +40,7 @@ return $this;
 		return $this->pathVariableName;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 

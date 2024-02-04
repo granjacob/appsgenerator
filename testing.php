@@ -497,7 +497,9 @@ function camelizeAsMethodName($str)
                             $varConditionalToken = new ConditionalToken();
                             $varConditionalToken->conditionalExpression = $conditionalKey;
                             $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
-
+print __rpt( '##VALIDATION##', 12 );
+                            print_r( $varConditionalToken );
+                            print __rpt( '##VALIDATION##', 12 );                            
                             $hasConditional = true;
                             break;
                         }
@@ -703,17 +705,15 @@ function camelizeAsMethodName($str)
                     $conditionalKey = "";
 
                     foreach ($defaultConditionals as $conditionalKey) {
-                        if (($conditionalKey = substr($conditionalTokenContent, 0, $len = strlen($conditionalKey))) === $conditionalKey) {
-
-
+                        if (substr($conditionalTokenContent, 0, $len = strlen($conditionalKey)) === $conditionalKey) {
 
                             $varConditionalToken = new ConditionalToken();
                             $varConditionalToken->conditionalExpression = $conditionalKey;
                             $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
 
-                            //print 'Conditional expression ' . $varConditionalToken->conditionalExpression . endl();
-                            //print 'Conditional token content ' . $varConditionalToken->content . endl();
                             $varConditionalToken->make($varConditionalToken->content);
+
+
                             array_push($this->tokens, $varConditionalToken);
 
 
@@ -961,7 +961,7 @@ function camelizeAsMethodName($str)
                     }
                 }
 
-                $output .= endl() . _tab() . '$var' . $this->snippetName . '->write( $options );' . endl();
+                $output .= endl() . _tab() . '$var' . $this->snippetName . '->write();' . endl();
 
                 $output .= endl() . "    ####################### USAGE EXAMPLE ####################### **/ " . endl();
 
@@ -1016,7 +1016,7 @@ function camelizeAsMethodName($str)
 
 
                 // main write function
-                $output .= endl() . _tab() . 'public function write( $options=array() ) {' . endl();
+                $output .= endl() . _tab() . 'public function write() {' . endl();
                 $output .= endl() . _tab() . '$this->validateData();' . endl();
 
             }
@@ -1040,12 +1040,15 @@ function camelizeAsMethodName($str)
                     continue;
                 }
                 if (get_class($token) === ConditionalToken::class) {
+
+                    print __rpt( 'ConditionalToken', 100 ) . endl();
+                    print_r( $token ); print endl();
+                    print __rpt( 'ConditionalToken', 100 ) . endl();
+
                     $output .= __print($outputStack);
                     $outputStack = "";
                     $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
-                    $output .= 'if ((isset( $options["' . $conditionalExpressionIndexName . '"] ) && ' . endl() .
-                        '$options["' . $conditionalExpressionIndexName . '"] === true) ||' .
-                        ' !isset( $options["' . $conditionalExpressionIndexName . '"])) { ' .
+                    $output .= 'if ($this->validateOptions("' . $conditionalExpressionIndexName . '")) { ' .
                         endl() . $token->generateClass($token) . endl() . ' }';
                 } else
                     if (get_class($token) === OptionalToken::class) {
@@ -1061,7 +1064,8 @@ function camelizeAsMethodName($str)
                             $output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
                             $output .= _tab(2) . endl() . '$keys = array_keys( get_object_vars( $this->' . $token->name . ') );';
                             $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $key => $item_' . $token->name . ') {' . endl();
-                            $output .= _tab(3) .
+                            $output .= _tab(2) . '$item_' . $token->name . '->options = $this->getOptionsArray( $keys, $key, $item_' . $token->name . ' );';
+                          /*  $output .= _tab(3) .
                                 '$options = array( "condition:notlast" => (end( $keys ) === $key), ' . endl() .
                                 '"condition:first" => ($key === $keys[0]),' . endl() .
                                 '"condition:notfirst" => ($key !== $keys[0]), ' . endl() .
@@ -1072,8 +1076,8 @@ function camelizeAsMethodName($str)
                                 '"condition:enabled" => ($item_' . $token->name . '->disabled !== true), ' . endl() .
                                 '"condition:notenabled" => ($item_' . $token->name . '->disabled === true), ' . endl() .
                                 '"condition:last" => ($key === end( $keys )), ' . endl() .
-                                ');';
-                            $output .= _tab(3) . '$item_' . $token->name . '->write($options);' . endl();
+                                ');';*/
+                            $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
                             $output .= _tab(2) . '}}' . endl();
 
                         } else

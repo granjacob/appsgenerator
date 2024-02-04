@@ -4,18 +4,22 @@
 require_once( "GeneratorClass.php" );
 require_once( "PrintMyData.php" );
 
-/* ####################### EmptyResultsMessage : USAGE EXAMPLE ####################### 
+/* ####################### ErrorMessage : USAGE EXAMPLE ####################### 
 
-	$varEmptyResultsMessage = new EmptyResultsMessage();
+	$varErrorMessage = new ErrorMessage();
+
+	$varErrorMessage->setMessage("ErrorMessage_message_EXAMPLE");
 
 	$vardata = new PrintMyData();
-	$varEmptyResultsMessage->addDataItem( $varDataItem );
+	$varErrorMessage->addDataItem( $varDataItem );
 
-	$varEmptyResultsMessage->write();
+	$varErrorMessage->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
-class EmptyResultsMessage extends GeneratorClass {
+class ErrorMessage extends GeneratorClass {
+
+	protected $message;
 
 	protected PrintMyData $data;
 
@@ -25,8 +29,17 @@ public function __construct()
 
 		parent :: __construct();
 
+	$this->message =  null;
+
 	$this->data =  new PrintMyData();
 
+}
+
+	public function setMessage(  $message)
+{
+
+		 $this->message = $message;
+return $this; 
 }
 
 	public function setData( PrintMyData $data)
@@ -34,6 +47,12 @@ public function __construct()
 
 		 $this->data = $data;
 return $this; 
+}
+
+	public function getMessage()
+{
+
+		return $this->message;
 }
 
 	public function getData()
@@ -55,18 +74,18 @@ return $this;
 
 print "\n";if ($this->validateOptions("condition:empty")) { 
 
-print "Este mensaje aparece porque los resultados estan vacios o no hay informacion disponible.\n";
+print "<p>{$this->message}</p>\n";
  }
 print "\n";if ($this->validateOptions("condition:notempty")) { 
 
-print "\n";		
+print "<ul>\n";		
 if ($this->data !== null) {		
 $keys = array_keys( get_object_vars( $this->data) );		
 foreach ($this->data as $key => $item_data) {
 		$item_data->options = $this->getOptionsArray( $keys, $key, $item_data );			$item_data->write();
 		}}
 
-print "\n";
+print "</ul>\n";
  }
 print "\n";
 print "\n";

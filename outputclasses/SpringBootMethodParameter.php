@@ -13,7 +13,7 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringBootMethodParameter->setParameterName("SpringBootMethodParameter_ParameterName_EXAMPLE");
 
-	$varSpringBootMethodParameter->write( $options );
+	$varSpringBootMethodParameter->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -78,12 +78,11 @@ return $this;
 		return $this->ParameterName;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 
-print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName}\n";if ((isset( $options["condition:notlast"] ) && 
-$options["condition:notlast"] === true) || !isset( $options["condition:notlast"])) { 
+print "@{$this->parameterAnnotation} {$this->ParameterType} {$this->ParameterName}\n";if ($this->validateOptions("condition:notlast")) { 
 
 print ",\n";
  }

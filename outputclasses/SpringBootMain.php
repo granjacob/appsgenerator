@@ -11,7 +11,7 @@ require_once( "GeneratorClass.php" );
 
 	$varSpringBootMain->setApplicationMainClass("SpringBootMain_applicationMainClass_EXAMPLE");
 
-	$varSpringBootMain->write( $options );
+	$varSpringBootMain->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
@@ -59,7 +59,7 @@ return $this;
 		return $this->applicationMainClass;
 }
 
-	public function write( $options=array() ) {
+	public function write() {
 
 	$this->validateData();
 

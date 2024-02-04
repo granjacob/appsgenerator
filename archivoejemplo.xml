@@ -227,7 +227,7 @@ public class {{:controllerClassName:}} {
         <content>
             <![CDATA[
 
-            ${{:name:}}{?/notlast,/?}
+            ${{:name:}}~(?notlast,?)~
             
             ]]>
         </content>
@@ -235,7 +235,13 @@ public class {{:controllerClassName:}} {
 
     <snippet name="TestForConditionalToken">
         <content>
-            <![CDATA[~(?notlast${{:name:}},?)~]]>
+            <![CDATA[
+            
+            ~(?notlast
+                ${{:name:}},
+            ?)~
+            
+            ]]>
         </content>
     </snippet>
 
@@ -244,20 +250,33 @@ public class {{:controllerClassName:}} {
         <content>
             <![CDATA[
 
-            ~(?data:emptyEste mensaje aparece porque los resultados estan vacios o no hay informacion disponible.?)~
+            ~(?emptyEste mensaje aparece porque los resultados estan vacios o no hay informacion disponible.?)~
 
-            ~(?data:notempty{{:(PrintMyData)data:}}?)~
+            ~(?notempty{{:(PrintMyData)data:}}?)~
             
             ]]>
         </content>
     </snippet>
 
+
+
+      <snippet name="ErrorMessage">
+        <content>
+            <![CDATA[
+
+            ~(?empty<p>{{:message:}}</p>?)~
+
+            ~(?notempty<ul>{{:(PrintMyData)data:}}</ul>?)~
+            
+            ]]>
+        </content>
+    </snippet>
     
       <snippet name="PrintMyData">
         <content>
             <![CDATA[
 
-            <p>Data del elemento  <strong>{{:name:}}</strong> en la lista.</p>
+            <li>Data del elemento  <strong>{{:name:}}</strong> en la lista.</li>
             
             ]]>
         </content>

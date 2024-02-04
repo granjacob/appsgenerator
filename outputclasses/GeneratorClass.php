@@ -9,6 +9,8 @@ abstract class GeneratorClass extends ArrayObject {
 
     public $customCondition;
 
+    public $options;
+
     public function __construct()
     {
         $this->options = array();
@@ -18,7 +20,31 @@ abstract class GeneratorClass extends ArrayObject {
     {
     }
 
-    public abstract function write( $options=array() );
+    public abstract function write();
+
+
+    public function getOptionsArray( $keys, $currentKey, &$currentItem )
+    {
+        return array(
+            "condition:notlast" => (end($keys) === $currentKey),
+            "condition:first" => ($currentKey === $keys[0]),
+            "condition:notfirst" => ($currentKey !== $keys[0]),
+            "condition:disabled" => ($currentItem->disabled === true),
+            "condition:notdisabled" => ($currentItem->disabled !== true),
+            "condition:selected" => ($currentItem->selected === true),
+            "condition:notselected" => ($currentItem->selected !== true),
+            "condition:enabled" => ($currentItem->disabled !== true),
+            "condition:notenabled" => ($currentItem->disabled === true),
+            "condition:last" => ($currentKey === end($keys)),
+        );
+    }
+
+    public function validateOptions( $conditionKey )
+    {
+        return (isset($this->options[$conditionKey]) &&
+				$this->options[$conditionKey] === true) || 
+                !isset($this->options[$conditionKey]);
+    }
 
 }
 
