@@ -1,5 +1,18 @@
 <?php
 
+class Test extends ArrayObject {
+    public $q;
+}
+
+$t = new Test();
+$t->append($t);
+
+
+
+
+
+exit;
+
 interface IExampleEntity extends IEntity {
 
 }

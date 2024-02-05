@@ -25,8 +25,9 @@ abstract class GeneratorClass extends ArrayObject {
 
     public function getOptionsArray( $keys, $currentKey, &$currentItem )
     {
+
         return array(
-            "condition:notlast" => (end($keys) === $currentKey),
+            "condition:notlast" => (end($keys) !== $currentKey),
             "condition:first" => ($currentKey === $keys[0]),
             "condition:notfirst" => ($currentKey !== $keys[0]),
             "condition:disabled" => ($currentItem->disabled === true),
@@ -41,6 +42,7 @@ abstract class GeneratorClass extends ArrayObject {
 
     public function validateOptions( $conditionKey )
     {
+
         return (isset($this->options[$conditionKey]) &&
 				$this->options[$conditionKey] === true) || 
                 !isset($this->options[$conditionKey]);
@@ -49,7 +51,7 @@ abstract class GeneratorClass extends ArrayObject {
     public function writeArrayObject( &$object )
     {
         if ($object !== null) {
-			$keys = array_keys(get_object_vars($object));
+			$keys = array_keys((array)$object);
 			foreach ($object as $key => $item) {
 				$item->options = $this->getOptionsArray($keys, $key, $item);
 				$item->write();

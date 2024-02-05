@@ -387,7 +387,7 @@ function camelizeAsMethodName($str)
                         continue;
                     }
                     array_push($addedVariables, $token->name);
-                    print 'successfully ADDED ' . $token->name . endl();
+
 
                     if (get_class($token) != $returnAsType) {
                         $var = new $returnAsType();
@@ -414,9 +414,7 @@ function camelizeAsMethodName($str)
                         foreach ($collected as $variableCollected) {
                             if (in_array($variableCollected->name, $addedVariables) && $distinct !== false) {
                                 continue;
-                            } else {
-                                print 'No se agrega collected->name = "' . $variableCollected->name . '"' . endl();
-                            }
+                            } 
                             array_push($addedVariables, $variableCollected->name);
                             array_push($variables, $variableCollected);
                         }
@@ -497,9 +495,7 @@ function camelizeAsMethodName($str)
                             $varConditionalToken = new ConditionalToken();
                             $varConditionalToken->conditionalExpression = $conditionalKey;
                             $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
-print __rpt( '##VALIDATION##', 12 );
-                            print_r( $varConditionalToken );
-                            print __rpt( '##VALIDATION##', 12 );                            
+                          
                             $hasConditional = true;
                             break;
                         }
@@ -701,7 +697,7 @@ print __rpt( '##VALIDATION##', 12 );
                         $conditionalTokenContent .= $expressionStr[$i];
                         $i++;
                     }
-                    print 'Conditional token content found ' . $conditionalTokenContent . endl();
+
                     $conditionalKey = "";
 
                     foreach ($defaultConditionals as $conditionalKey) {
@@ -892,10 +888,7 @@ print __rpt( '##VALIDATION##', 12 );
 
         public function generateClass($pToken = null)
         {
-            if ($pToken === null) {
-                print 'Generating class for ' . $this->snippetName . endl();
 
-            }
             $output = "";
 
             $fileBegins = $pToken === null;
@@ -1041,10 +1034,6 @@ print __rpt( '##VALIDATION##', 12 );
                 }
                 if (get_class($token) === ConditionalToken::class) {
 
-                    print __rpt( 'ConditionalToken', 100 ) . endl();
-                    print_r( $token ); print endl();
-                    print __rpt( 'ConditionalToken', 100 ) . endl();
-
                     $output .= __print($outputStack);
                     $outputStack = "";
                     $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
@@ -1082,7 +1071,7 @@ print __rpt( '##VALIDATION##', 12 );
                                 ');';*/
 
 
-                                
+
                            // $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
                            // $output .= _tab(2) . '}}' . endl();
 

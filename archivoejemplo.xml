@@ -1,6 +1,51 @@
 <?xml version="1.0"?>
 <snippets>
 
+    <snippet name="Empresa">
+        <![CDATA[ 
+
+         ]]>
+    </snippet>
+    <snippet name="ColegioJerusalen"> 
+         <![CDATA[
+
+         El colegio Leo ofrece a los estudiantes de bachillerato estudiar los 
+         grados sexto, septimo, octavo, noveno, decimo y undecimo.
+
+         Las matriculas de los estudiantes se realizan cada año en 
+         el primer mes del año a cursar o el ultimo mes del año vigente.
+
+         El colegio cuenta con 30 profesores disponibles.
+
+         Cada año se genera un horario para cada estudiante y profesor.
+         
+         Cada grado cuenta con un plan academico.
+         
+         Los planes academicos estan compuestos por materias.
+         
+         Las materias se componen de modulos que el profesor debera abordar durante el 
+         año lectivo en curso.
+
+         Los estudiantes deberan cumplir y aprobar los objetivos de cada modulo mediante evaluaciones.
+
+         Las materias son evaluadas mediante porcentajes que el profesor debe definir para la materia.
+
+         Los porcentajes de evaluacion reciben una calificacion entre 0.0 y 5.0, siendo 0.0 la nota minima
+         y 5.0 la nota maxima.
+
+         Cada matricula tiene un valor para el año en curso y el valor de esta se definira de acuerdo con
+         lo establecido por el ministerio de educacion.
+
+         Cada estudiante debera pagar mes a mes el valor correspondiente a una pension.
+
+         Con el dinero recolectado de la pension se le paga a los profesores y se destinan recursos
+         para el mantenimiento de las instalaciones.
+
+
+
+         ]]>
+    </snippet>
+
     <snippet name="MinExample">
     <![CDATA[
         Hello world! ---> {{:(TypeDato)datos:}}
@@ -72,7 +117,7 @@ public class {{:controllerClassName:}} {
     </snippet>
     <snippet name="ControllerPathPlusPathVariableName">
         <![CDATA[
-            {{:controllerPath}}/{{{:pathVariableName:}}}
+            {{:controllerPath:}}/{{{:pathVariableName:}}}
         ]]>
     </snippet>
     <snippet name="SpringControllerMethod">
