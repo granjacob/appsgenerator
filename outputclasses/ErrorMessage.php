@@ -79,11 +79,7 @@ print "<p>{$this->message}</p>\n";
 print "\n";if ($this->validateOptions("condition:notempty")) { 
 
 print "<ul>\n";		
-if ($this->data !== null) {		
-$keys = array_keys( get_object_vars( $this->data) );		
-foreach ($this->data as $key => $item_data) {
-		$item_data->options = $this->getOptionsArray( $keys, $key, $item_data );			$item_data->write();
-		}}
+$this->writeArrayObject( $this->data );
 
 print "</ul>\n";
  }

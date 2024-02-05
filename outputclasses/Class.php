@@ -185,35 +185,19 @@ print "extends {$this->class_name_extends}\n";
 
 print " {\n";
 print "                \n";		
-if ($this->constructor !== null) {		
-$keys = array_keys( get_object_vars( $this->constructor) );		
-foreach ($this->constructor as $key => $item_constructor) {
-		$item_constructor->options = $this->getOptionsArray( $keys, $key, $item_constructor );			$item_constructor->write();
-		}}
+$this->writeArrayObject( $this->constructor );
 
 print "\n";
 print "                \n";		
-if ($this->attributes !== null) {		
-$keys = array_keys( get_object_vars( $this->attributes) );		
-foreach ($this->attributes as $key => $item_attributes) {
-		$item_attributes->options = $this->getOptionsArray( $keys, $key, $item_attributes );			$item_attributes->write();
-		}}
+$this->writeArrayObject( $this->attributes );
 
 print "\n";
 print "                \n";		
-if ($this->nasdaq_attributes !== null) {		
-$keys = array_keys( get_object_vars( $this->nasdaq_attributes) );		
-foreach ($this->nasdaq_attributes as $key => $item_nasdaq_attributes) {
-		$item_nasdaq_attributes->options = $this->getOptionsArray( $keys, $key, $item_nasdaq_attributes );			$item_nasdaq_attributes->write();
-		}}
+$this->writeArrayObject( $this->nasdaq_attributes );
 
 print "\n";
 print "                \n";		
-if ($this->methods !== null) {		
-$keys = array_keys( get_object_vars( $this->methods) );		
-foreach ($this->methods as $key => $item_methods) {
-		$item_methods->options = $this->getOptionsArray( $keys, $key, $item_methods );			$item_methods->write();
-		}}
+$this->writeArrayObject( $this->methods );
 
 print "\n";
 print "            }\n";

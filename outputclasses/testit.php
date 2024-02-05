@@ -1,59 +1,6 @@
 <?php
 
 
-require_once( "EmptyResultsMessage.php" );
-require_once( "PrintMyData.php" );
-$varEmptyResultsMessage = new EmptyResultsMessage();
-
-$varDataItem = new PrintMyData();
-
-
-$varEmptyResultsMessage->addDataItem( $varDataItem );
-
-$varEmptyResultsMessage->write( array() );
-
-exit;
-
-
-/*
-require("SpringControllerMethodDynamic.php");
-
-$xyzName = "xyz";
-
-$varSpringControllerMethodDynamic = new SpringControllerMethodDynamic();
-
-$varSpringControllerMethodDynamic->setMappingAnnotation("GetMapping");
-
-$varSpringControllerMethodDynamic->setPathVariableService("service");
-
-$varSpringControllerMethodDynamic->setPathVariableTo($xyzName);
-
-$varSpringControllerMethodDynamic->setPathVariableJungle("jungle");
-
-$varSpringControllerMethodDynamic->setAccessModifier("public");
-
-$varSpringControllerMethodDynamic->setReturnType("String");
-
-$varSpringControllerMethodDynamic->setContollerMethodName("doThis");
-
-$varPathVariableParameter = new PathVariableParameter();
-
-$varPathVariableParameter->setPathVariableName("service");
-$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
-
-$varPathVariableParameter = new PathVariableParameter();
-$varPathVariableParameter->setPathVariableName($xyzName);
-$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
-
-$varPathVariableParameter = new PathVariableParameter();
-$varPathVariableParameter->setPathVariableName("jungle");
-$varSpringControllerMethodDynamic->addParameterItem( $varPathVariableParameter );
-
-//$varSpringControllerMethodDynamic->setControllerMethodBody('return "hola";');
-
-$varSpringControllerMethodDynamic->write();
-
-exit;*/
 
 require_once("SpringBootController.php");
 
@@ -108,11 +55,40 @@ $varSpringBootMethodParameter->setParameterName("param");
 
 $varSpringControllerMethod->addParametersItem($varSpringBootMethodParameter);
 
+$varSpringBootMethodParameter->setParameterName("param2");
 
+$varSpringControllerMethod->addParametersItem($varSpringBootMethodParameter);
+
+$varSpringBootMethodParameter->setParameterName("param3");
+
+$varSpringControllerMethod->addParametersItem($varSpringBootMethodParameter);
 
 $varSpringControllerMethod->setMethodBody('return "ExampleReturnString";');
 
 $varSpringBootController->addMethodsItem($varSpringControllerMethod);
+
+
+
+
+
+$varSpringControllerMethodDynamic = new SpringControllerMethodDynamic();
+
+$varSpringControllerMethodDynamic->setMappingAnnotation("PostMapping");
+
+$varSpringControllerMethodDynamic->setPathVariableService("SERVICE");
+
+$varSpringControllerMethodDynamic->setPathVariableTo("TO");
+
+$varSpringControllerMethodDynamic->setPathVariableJungle("NEW_YORK");
+
+$varSpringControllerMethodDynamic->setAccessModifier("private");
+
+$varSpringControllerMethodDynamic->setReturnType("ArrayList<String>");
+
+$varSpringControllerMethodDynamic->setContollerMethodName("doWelcome");
+
+
+
 /*
 $varRepositories = new SpringControllerMethod();
 $varSpringBootController->addRepositoriesItem($varSpringControllerMethod);
@@ -129,6 +105,8 @@ $varSpringBootController->addAndMoreThingsItem($varSpringControllerMethod);
 $varWithMoreThings = new SpringControllerMethod();
 $varSpringBootController->addWithMoreThingsItem($varSpringControllerMethod);*/
 
-$varSpringBootController->write(array());
+$varSpringBootController->addMethodsWithPathVariableItem($varSpringControllerMethodDynamic);
+
+$varSpringBootController->write();
 
 ?>

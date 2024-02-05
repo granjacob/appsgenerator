@@ -54,11 +54,7 @@ return $this;
 	$this->validateData();
 
 print "Hello world! ---> \n";		
-if ($this->datos !== null) {		
-$keys = array_keys( get_object_vars( $this->datos) );		
-foreach ($this->datos as $key => $item_datos) {
-		$item_datos->options = $this->getOptionsArray( $keys, $key, $item_datos );			$item_datos->write();
-		}}
+$this->writeArrayObject( $this->datos );
 
 print "\n";
 }

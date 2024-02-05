@@ -74,11 +74,7 @@ return $this;
 
 print "{$this->access_modifier}\n";
 print " \n";		
-if ($this->attributeName !== null) {		
-$keys = array_keys( get_object_vars( $this->attributeName) );		
-foreach ($this->attributeName as $key => $item_attributeName) {
-		$item_attributeName->options = $this->getOptionsArray( $keys, $key, $item_attributeName );			$item_attributeName->write();
-		}}
+$this->writeArrayObject( $this->attributeName );
 
 print ";\n";
 }

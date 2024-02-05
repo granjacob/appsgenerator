@@ -46,6 +46,26 @@ abstract class GeneratorClass extends ArrayObject {
                 !isset($this->options[$conditionKey]);
     }
 
+    public function writeArrayObject( &$object )
+    {
+        if ($object !== null) {
+			$keys = array_keys(get_object_vars($object));
+			foreach ($object as $key => $item) {
+				$item->options = $this->getOptionsArray($keys, $key, $item);
+				$item->write();
+			}
+		}
+    }
+
+    public function arrayHasElements( &$arrayObjects=array() )
+    {
+        foreach ($arrayObjects as $k => $v) {
+            if (!($v !== null && $v->count() > 0))
+                return false;
+        }
+        return true;
+    }
+
 }
 
 ?>

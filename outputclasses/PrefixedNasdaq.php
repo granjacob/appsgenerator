@@ -54,11 +54,7 @@ return $this;
 	$this->validateData();
 
 print "NASDAQ_\n";		
-if ($this->attrName !== null) {		
-$keys = array_keys( get_object_vars( $this->attrName) );		
-foreach ($this->attrName as $key => $item_attrName) {
-		$item_attrName->options = $this->getOptionsArray( $keys, $key, $item_attrName );			$item_attrName->write();
-		}}
+$this->writeArrayObject( $this->attrName );
 
 print "\n";
 }

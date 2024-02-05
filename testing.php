@@ -1061,11 +1061,14 @@ print __rpt( '##VALIDATION##', 12 );
                         if (get_class($token) === CompoundVariableToken::class) {
                             $output .= __print($outputStack);
                             $outputStack = "";
-                            $output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
+                            $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name  . ' );' . endl();
+                            /*$output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
                             $output .= _tab(2) . endl() . '$keys = array_keys( get_object_vars( $this->' . $token->name . ') );';
                             $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $key => $item_' . $token->name . ') {' . endl();
                             $output .= _tab(2) . '$item_' . $token->name . '->options = $this->getOptionsArray( $keys, $key, $item_' . $token->name . ' );';
-                          /*  $output .= _tab(3) .
+                          */
+                          
+                            /*  $output .= _tab(3) .
                                 '$options = array( "condition:notlast" => (end( $keys ) === $key), ' . endl() .
                                 '"condition:first" => ($key === $keys[0]),' . endl() .
                                 '"condition:notfirst" => ($key !== $keys[0]), ' . endl() .
@@ -1077,8 +1080,11 @@ print __rpt( '##VALIDATION##', 12 );
                                 '"condition:notenabled" => ($item_' . $token->name . '->disabled === true), ' . endl() .
                                 '"condition:last" => ($key === end( $keys )), ' . endl() .
                                 ');';*/
-                            $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
-                            $output .= _tab(2) . '}}' . endl();
+
+
+                                
+                           // $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
+                           // $output .= _tab(2) . '}}' . endl();
 
                         } else
                             if (get_class($token) === SingleToken::class) {

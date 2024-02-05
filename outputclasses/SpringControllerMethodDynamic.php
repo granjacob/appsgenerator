@@ -1,8 +1,6 @@
-
 <?php
 
-require_once( "GeneratorClass.php" );
-require_once( "PathVariableParameter.php" );
+require_once("GeneratorClass.php");
 
 /* ####################### SpringControllerMethodDynamic : USAGE EXAMPLE ####################### 
 
@@ -22,17 +20,14 @@ require_once( "PathVariableParameter.php" );
 
 	$varSpringControllerMethodDynamic->setContollerMethodName("SpringControllerMethodDynamic_contollerMethodName_EXAMPLE");
 
-	$varparameters = new PathVariableParameter();
-	$varSpringControllerMethodDynamic->addParametersItem( $varParametersItem );
-
-	$varparameter = new PathVariableParameter();
-	$varSpringControllerMethodDynamic->addParameterItem( $varParameterItem );
+	$varSpringControllerMethodDynamic->setControllerMethodBody("SpringControllerMethodDynamic_controllerMethodBody_EXAMPLE");
 
 	$varSpringControllerMethodDynamic->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+	####################### USAGE EXAMPLE ####################### **/
 
-class SpringControllerMethodDynamic extends GeneratorClass {
+class SpringControllerMethodDynamic extends GeneratorClass
+{
 
 	protected $mappingAnnotation;
 
@@ -48,196 +43,151 @@ class SpringControllerMethodDynamic extends GeneratorClass {
 
 	protected $contollerMethodName;
 
-	protected PathVariableParameter $parameters;
+	protected $controllerMethodBody;
 
-	protected PathVariableParameter $parameter;
+	public function __construct()
+	{
 
-public function __construct()
+		parent::__construct();
 
-{
+		$this->mappingAnnotation = null;
 
-		parent :: __construct();
+		$this->pathVariableService = null;
 
-	$this->mappingAnnotation =  null;
+		$this->pathVariableTo = null;
 
-	$this->pathVariableService =  null;
+		$this->pathVariableJungle = null;
 
-	$this->pathVariableTo =  null;
+		$this->accessModifier = null;
 
-	$this->pathVariableJungle =  null;
+		$this->returnType = null;
 
-	$this->accessModifier =  null;
+		$this->contollerMethodName = null;
 
-	$this->returnType =  null;
+		$this->controllerMethodBody = null;
 
-	$this->contollerMethodName =  null;
+	}
 
-	$this->parameters =  new PathVariableParameter();
+	public function setMappingAnnotation($mappingAnnotation)
+	{
 
-	$this->parameter =  new PathVariableParameter();
+		$this->mappingAnnotation = $mappingAnnotation;
+		return $this;
+	}
 
-}
+	public function setPathVariableService($pathVariableService)
+	{
 
-	public function setMappingAnnotation(  $mappingAnnotation)
-{
+		$this->pathVariableService = $pathVariableService;
+		return $this;
+	}
 
-		 $this->mappingAnnotation = $mappingAnnotation;
-return $this; 
-}
+	public function setPathVariableTo($pathVariableTo)
+	{
 
-	public function setPathVariableService(  $pathVariableService)
-{
+		$this->pathVariableTo = $pathVariableTo;
+		return $this;
+	}
 
-		 $this->pathVariableService = $pathVariableService;
-return $this; 
-}
+	public function setPathVariableJungle($pathVariableJungle)
+	{
 
-	public function setPathVariableTo(  $pathVariableTo)
-{
+		$this->pathVariableJungle = $pathVariableJungle;
+		return $this;
+	}
 
-		 $this->pathVariableTo = $pathVariableTo;
-return $this; 
-}
+	public function setAccessModifier($accessModifier)
+	{
 
-	public function setPathVariableJungle(  $pathVariableJungle)
-{
+		$this->accessModifier = $accessModifier;
+		return $this;
+	}
 
-		 $this->pathVariableJungle = $pathVariableJungle;
-return $this; 
-}
+	public function setReturnType($returnType)
+	{
 
-	public function setAccessModifier(  $accessModifier)
-{
+		$this->returnType = $returnType;
+		return $this;
+	}
 
-		 $this->accessModifier = $accessModifier;
-return $this; 
-}
+	public function setContollerMethodName($contollerMethodName)
+	{
 
-	public function setReturnType(  $returnType)
-{
+		$this->contollerMethodName = $contollerMethodName;
+		return $this;
+	}
 
-		 $this->returnType = $returnType;
-return $this; 
-}
+	public function setControllerMethodBody($controllerMethodBody)
+	{
 
-	public function setContollerMethodName(  $contollerMethodName)
-{
-
-		 $this->contollerMethodName = $contollerMethodName;
-return $this; 
-}
-
-	public function setParameters( PathVariableParameter $parameters)
-{
-
-		 $this->parameters = $parameters;
-return $this; 
-}
-
-	public function setParameter( PathVariableParameter $parameter)
-{
-
-		 $this->parameter = $parameter;
-return $this; 
-}
+		$this->controllerMethodBody = $controllerMethodBody;
+		return $this;
+	}
 
 	public function getMappingAnnotation()
-{
+	{
 
 		return $this->mappingAnnotation;
-}
+	}
 
 	public function getPathVariableService()
-{
+	{
 
 		return $this->pathVariableService;
-}
+	}
 
 	public function getPathVariableTo()
-{
+	{
 
 		return $this->pathVariableTo;
-}
+	}
 
 	public function getPathVariableJungle()
-{
+	{
 
 		return $this->pathVariableJungle;
-}
+	}
 
 	public function getAccessModifier()
-{
+	{
 
 		return $this->accessModifier;
-}
+	}
 
 	public function getReturnType()
-{
+	{
 
 		return $this->returnType;
-}
+	}
 
 	public function getContollerMethodName()
-{
+	{
 
 		return $this->contollerMethodName;
+	}
+
+	public function getControllerMethodBody()
+	{
+
+		return $this->controllerMethodBody;
+	}
+
+	public function write()
+	{
+
+		$this->validateData();
+
+		print "@{$this->mappingAnnotation}(\"/ciss/common/{{$this->pathVariableService}}/welcome/{{$this->pathVariableTo}}/the/{{$this->pathVariableJungle}}\")\n";
+		print "    {$this->accessModifier} {$this->returnType} {$this->contollerMethodName}(\n";
+		print "            @PathVariable(\"{$this->pathVariableService}\") String {$this->pathVariableService},\n";
+		print "             @PathVariable(\"{$this->pathVariableTo}\") String {$this->pathVariableTo},\n";
+		print "              @PathVariable(\"{$this->pathVariableJungle}\") String {$this->pathVariableJungle}\n";
+		print "            ) {\n";
+		print "        {$this->controllerMethodBody}\n";
+		print "    }\n";
+	}
+
 }
-
-	public function getParameters()
-{
-
-		return $this->parameters;
-}
-
-	public function getParameter()
-{
-
-		return $this->parameter;
-}
-
-	public function addParametersItem( PathVariableParameter $item )
-{
-
-		$this->parameters->append( clone $item);
-return $this; 
-}
-
-	public function addParameterItem( PathVariableParameter $item )
-{
-
-		$this->parameter->append( clone $item);
-return $this; 
-}
-
-	public function write() {
-
-	$this->validateData();
-
-print "@{$this->mappingAnnotation}(\"/ciss/common/{{$this->pathVariableService}}/welcome/{{$this->pathVariableTo}}/the/{{$this->pathVariableJungle}}\")\n";
-print "    {$this->accessModifier} {$this->returnType} {$this->contollerMethodName}(\n";
-print "           \n";		
-if ($this->parameters !== null) {		
-$keys = array_keys( get_object_vars( $this->parameters) );		
-foreach ($this->parameters as $key => $item_parameters) {
-		$item_parameters->options = $this->getOptionsArray( $keys, $key, $item_parameters );			$item_parameters->write();
-		}}
-
-print "\n";
-print "            ) { \n";
-print "        \n";
-print "        return service.{$this->contollerMethodName}( \n";		
-if ($this->parameter !== null) {		
-$keys = array_keys( get_object_vars( $this->parameter) );		
-foreach ($this->parameter as $key => $item_parameter) {
-		$item_parameter->options = $this->getOptionsArray( $keys, $key, $item_parameter );			$item_parameter->write();
-		}}
-
-print " );\n";
-print "    }\n";
-}
-
- } 
 
 
 ?>
-

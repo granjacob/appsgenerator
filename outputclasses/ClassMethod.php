@@ -97,11 +97,7 @@ if (($this->method_parameters !== null &&
 
 
 print "\n";		
-if ($this->method_parameters !== null) {		
-$keys = array_keys( get_object_vars( $this->method_parameters) );		
-foreach ($this->method_parameters as $key => $item_method_parameters) {
-		$item_method_parameters->options = $this->getOptionsArray( $keys, $key, $item_method_parameters );			$item_method_parameters->write();
-		}}
+$this->writeArrayObject( $this->method_parameters );
 
 print "\n";
 

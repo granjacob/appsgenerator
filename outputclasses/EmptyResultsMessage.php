@@ -60,11 +60,7 @@ print "Este mensaje aparece porque los resultados estan vacios o no hay informac
 print "\n";if ($this->validateOptions("condition:notempty")) { 
 
 print "\n";		
-if ($this->data !== null) {		
-$keys = array_keys( get_object_vars( $this->data) );		
-foreach ($this->data as $key => $item_data) {
-		$item_data->options = $this->getOptionsArray( $keys, $key, $item_data );			$item_data->write();
-		}}
+$this->writeArrayObject( $this->data );
 
 print "\n";
  }

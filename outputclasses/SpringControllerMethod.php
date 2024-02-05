@@ -194,11 +194,7 @@ if (($this->parameters !== null &&
 
 
 print "\n";		
-if ($this->parameters !== null) {		
-$keys = array_keys( get_object_vars( $this->parameters) );		
-foreach ($this->parameters as $key => $item_parameters) {
-		$item_parameters->options = $this->getOptionsArray( $keys, $key, $item_parameters );			$item_parameters->write();
-		}}
+$this->writeArrayObject( $this->parameters );
 
 print "\n";
 

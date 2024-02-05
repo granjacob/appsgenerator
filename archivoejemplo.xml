@@ -55,7 +55,7 @@ public class {{:controllerClassName:}} {
 
     {{:(SpringControllerMethod)Methods:}}
 
-    {{:(SpringControllerMethod2)MethodsWithPathVariable:}}
+    {{:(SpringControllerMethodDynamic)MethodsWithPathVariable:}}
 
     [[{{:(SpringControllerMethod)Repositories:}}]]
 
@@ -123,7 +123,7 @@ public class {{:controllerClassName:}} {
             ]]>
     </snippet>
 
-
+<!--
                 <snippet name="SpringControllerMethodDynamic">
         <![CDATA[
 
@@ -136,7 +136,7 @@ public class {{:controllerClassName:}} {
     }
 
             ]]>
-    </snippet>
+    </snippet>-->
 
     <snippet name="PathVariableParameter">
      <![CDATA[
@@ -240,7 +240,7 @@ public class {{:controllerClassName:}} {
             ~(?notlast
                 ${{:name:}},
             ?)~
-            
+
             ]]>
         </content>
     </snippet>
