@@ -1,5 +1,8 @@
 <?php
+
 require_once('core.php');
+
+
 /*
 try {
     $pdo= new \system\data\DatabaseConnection( $datasource );

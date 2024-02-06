@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<snippets>
-
+<snippets 
+    package="java.com.proyectox.interfaces"
+    mainMappingAnnotation="GetMapping">
     <snippet name="Empresa">
         <![CDATA[ 
-
+            $ {{:NetWorth:}} 
          ]]>
     </snippet>
     <snippet name="ColegioJerusalen"> 
@@ -61,9 +62,9 @@
 
 
 
-    <snippet name="SpringBootMain">
+    <snippet name="SpringBootMain" package="a.b.c">
         <![CDATA[
-package {{:packageName:}};
+package self%:package:%self;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -122,7 +123,7 @@ public class {{:controllerClassName:}} {
     </snippet>
     <snippet name="SpringControllerMethod">
         <![CDATA[
-@{{:mappingAnnotation:}}("{{:controllerPath:}}/{{:pathVariableName:}}")
+@{{:mappingAnnotation=%mainMappingAnnotation:}}("{{:controllerPath:}}/{{:pathVariableName:}}")
     {{:accessModifier:}} {{:returnType:}} {{:controllerMethodName:}}( 
             [[{{:(SpringBootMethodParameter)parameters:}}]] ) {
         {{:MethodBody:}}
