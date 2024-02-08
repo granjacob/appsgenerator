@@ -6,6 +6,7 @@ namespace system\jupiter\core;
 class Snippet extends TokenString
     {
 
+        
         public $variablesDefined;   // this is for control the variables names defined in a template/snippet
     
         public function __construct()

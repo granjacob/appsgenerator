@@ -63,7 +63,7 @@ function IO_toVariableName( $string )
 
 spl_autoload_register(function ($class_name) {
     $filePath = strtolower( getcwd() . "\\" . $class_name . ".php" );
-    print 'Including ' . $filePath;
+
     include( $filePath  );
 });
 
@@ -175,6 +175,15 @@ function _print($output)
         $finalPrint .= endl() . "print '" . $line . "';";
     }
     return $finalPrint;
+}
+
+
+function _slash() {
+    return '/';
+}
+
+function _bslash() {
+    return '\\';
 }
 
 

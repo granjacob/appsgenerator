@@ -1,7 +1,6 @@
-
 <?php
 
-require_once( "GeneratorClass.php" );
+require_once("GeneratorClass.php");
 
 /* ####################### AAAA : USAGE EXAMPLE ####################### 
 
@@ -11,44 +10,44 @@ require_once( "GeneratorClass.php" );
 
 	$varAAAA->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+	####################### USAGE EXAMPLE ####################### **/
 
-class AAAA extends GeneratorClass {
+class AAAA extends GeneratorClass
+{
 
 	protected $atrname;
 
-public function __construct()
+	public function __construct()
+	{
 
-{
+		parent::__construct();
 
-		parent :: __construct();
+		$this->atrname = null;
 
-	$this->atrname =  null;
+	}
 
-}
+	public function setAtrname($atrname)
+	{
 
-	public function setAtrname(  $atrname)
-{
-
-		 $this->atrname = $atrname;
-return $this; 
-}
+		$this->atrname = $atrname;
+		return $this;
+	}
 
 	public function getAtrname()
-{
+	{
 
 		return $this->atrname;
+	}
+
+	public function write()
+	{
+
+		$this->validateData();
+
+		print "AAAA{$this->atrname}\n";
+	}
+
 }
-
-	public function write() {
-
-	$this->validateData();
-
-print "AAAA{$this->atrname}\n";
-}
-
- } 
 
 
 ?>
-
