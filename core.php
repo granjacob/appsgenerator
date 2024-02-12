@@ -3,21 +3,21 @@
 
 function IO_print_r( $object )
 {
-    echo "<xmp>";
+    print "<xmp>";
     print_r( $object );
-    echo "</xmp>";
+    print "</xmp>";
 }
 
 function IO_xmpString( $text )
 {
-    echo "<xmp>";
-    echo $text;
-    echo "</xmp>";
+    print "<xmp>";
+    print $text;
+    print "</xmp>";
 }
 
 function IO_printLine( $string=null )
 {
-    echo $string. "<br/>";
+    print $string. "<br/>";
 }
 
 function IO_boldString( $string )

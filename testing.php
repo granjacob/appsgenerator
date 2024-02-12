@@ -28,9 +28,9 @@ use system\jupiter\core\TokenString;
     $do->snippetsXMLFile = "archivoejemplo.xml";
     $do->loadSnippets();
     //$do->content = $input;
-    $do->snippetName = 'TestForConditionalToken';
+    //$do->snippetName = 'TestForConditionalToken';
     /*//$do->data = $json;*/
-    $result = $do->make();
+    //$result = $do->make();
 
 
     //print_r( $do );

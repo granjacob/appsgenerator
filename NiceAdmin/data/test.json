@@ -1,0 +1,52 @@
+{
+    "websites" : 
+    [{
+        "name" : "website1",
+        "pagepaths":{
+            "item1":{
+                "key":"hola",
+                "parent":null
+            },
+            
+            "item2": {
+                "key":"test1",
+                "parent":"item1"
+            },
+            
+            "item3":{
+                "key":"test2",
+                "parent":"item1"
+            },
+            "item4":{
+                "key":"main",
+                "parent":null
+            }
+        }
+    },
+
+    {
+        "name" : "website2",
+        "pagepaths":{
+            "item1":{
+                "key":"hola",
+                "parent":null
+            },
+            
+            "item2": {
+                "key":"test1",
+                "parent":"item1"
+            },
+            
+            "item3":{
+                "key":"test2",
+                "parent":"item1"
+            },
+            "item4":{
+                "key":"main",
+                "parent":null
+            }
+        }
+    }
+
+    ]
+}
