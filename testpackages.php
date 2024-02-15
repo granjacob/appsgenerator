@@ -1,6 +1,8 @@
 <?php
 
-require_once("core.php");
+require_once( "core.php" );
+
+
 
 use system\jupiter\core\Snippet;
 
@@ -11,6 +13,8 @@ class Package extends ArrayObject {
     public $name;
 
     public $snippets;
+
+    public $parentPackage;
 
     protected $packagePath;
 
@@ -29,10 +33,8 @@ class Package extends ArrayObject {
     {
         $this->name = $packageName;
         $parts = explode( '.', $packageName );
-        $this->packagePath = implode( _bslash(), $parts  );       
-        print 'Package name ' . $this->name . endl();
-        print 'Package path ' . $this->basePath . endl();
-        print 'Package fullpath ' . $this->getFullPath() . endl();         
+        $this->packagePath = implode( _bslash(), $parts  );
+        return $this;      
     }
 
     public function getName()
@@ -108,14 +110,58 @@ class SnippetsManager extends Snippet {
      * a.b.c 
      * example.one.and.you
      */
-    public function addPackage( $package )
+    public function addPackage( Package $package, $parentPackage=false )
     {
-        if (!$this->packageExists( $package )) {
+
+        $test = $package->name;
+        $parts = explode( '.', $test );
+        $packagePaths = array();
+        
+        for ($i = 1 ; $i < count( $parts ); $i++) {
+            array_push( $packagePaths, $parentPackageName = 
+                implode( ".", array_slice( $parts, 0, count( $parts ) - $i ) ) );
+            if ($i == 1) {
+                $package->parentPackage = $parentPackageName;
+            }
+            $parentPackage = clone $package;
+            $parentPackage->name = $parentPackageName;
+            $this->addPackage( $parentPackage );
+        }
+
+        if (!$this->packageExists( $package ))
+            $this->packages[$package->name] = clone $package;
+/*
+        if ($package->name === null)
+            return false;
+
+        if (!$this->packageExists( $package ) || $parentPackage) {
+            $packageParts = explode( '.', $package->name );
+            $currentCount = count( $packageParts );
+            for ($i = 0; $i < $currentCount; $i++) {                               
+                unset( $packageParts[$currentCount - $i] );
+                $parentPackageName = implode('.', $packageParts );
+                print '-*-*-' .  $parentPackageName . endl();
+                $currentCount = count( $packageParts );
+                continue;
+                $parentPackage = clone $package;
+                
+                if (strlen( $parentPackageName ) === 0) {
+                    $parentPackage = null;
+                }
+                else {
+                    if ($i === 0) {
+                        $package->parentPackage = $parentPackageName;
+                    }                    
+                    
+                    $parentPackage->name = $parentPackageName;    
+                }            
+               // $this->addPackage( $parentPackage, true );                                
+            }
             $this->packages[$package->name] = clone $package;
         }
         else {
             throw new Exception("Package already exists.");
-        }
+        }*/
     }
 
     public  function removePackage( $packageName )
@@ -273,6 +319,8 @@ $snippetsManager->mainPath = getcwd() . _bslash() . "projects";
 print $snippetsManager->mainPath . endl();
 
 $snippetsManager->make();
+
+print_r( $snippetsManager );
 
 
 

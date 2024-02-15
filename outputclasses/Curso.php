@@ -2,12 +2,15 @@
 <?php
 
 require_once( "GeneratorClass.php" );
+require_once( "int.php" );
+require_once( "Date.php" );
 
 /* ####################### Curso : USAGE EXAMPLE ####################### 
 
 	$varCurso = new Curso();
 
-	$varCurso->setId("Curso_id_EXAMPLE");
+	$varid = new int();
+	$varCurso->addIdItem( $varIdItem );
 
 	$varCurso->setNombre("Curso_nombre_EXAMPLE");
 
@@ -15,7 +18,8 @@ require_once( "GeneratorClass.php" );
 
 	$varCurso->setDescripcion("Curso_descripcion_EXAMPLE");
 
-	$varCurso->setFechaInicio("Curso_fecha_inicio_EXAMPLE");
+	$varfecha_inicio = new Date();
+	$varCurso->addFechaInicioItem( $varFechaInicioItem );
 
 	$varCurso->setFechaFin("Curso_fecha_fin_EXAMPLE");
 
@@ -27,7 +31,7 @@ require_once( "GeneratorClass.php" );
 
 class Curso extends GeneratorClass {
 
-	protected $id;
+	protected int $id;
 
 	protected $nombre;
 
@@ -35,7 +39,7 @@ class Curso extends GeneratorClass {
 
 	protected $descripcion;
 
-	protected $fecha_inicio;
+	protected Date $fecha_inicio;
 
 	protected $fecha_fin;
 
@@ -47,7 +51,7 @@ public function __construct()
 
 		parent :: __construct();
 
-	$this->id =  null;
+	$this->id =  new int();
 
 	$this->nombre =  null;
 
@@ -55,7 +59,7 @@ public function __construct()
 
 	$this->descripcion =  null;
 
-	$this->fecha_inicio =  null;
+	$this->fecha_inicio =  new Date();
 
 	$this->fecha_fin =  null;
 
@@ -63,7 +67,7 @@ public function __construct()
 
 }
 
-	public function setId(  $id)
+	public function setId( int $id)
 {
 
 		 $this->id = $id;
@@ -91,7 +95,7 @@ return $this;
 return $this; 
 }
 
-	public function setFechaInicio(  $fecha_inicio)
+	public function setFechaInicio( Date $fecha_inicio)
 {
 
 		 $this->fecha_inicio = $fecha_inicio;
@@ -154,16 +158,35 @@ return $this;
 		return $this->cantidadModulos;
 }
 
+	public function addIdItem( int $item )
+{
+
+		$this->id->append( clone $item);
+return $this; 
+}
+
+	public function addFechaInicioItem( Date $item )
+{
+
+		$this->fecha_inicio->append( clone $item);
+return $this; 
+}
+
 	public function write() {
 
 	$this->validateData();
 
-print "{$this->id}\n";
+print "\n";		
+$this->writeArrayObject( $this->id );
+
 print "\n";
 print "            {$this->nombre}\n";
 print "            {$this->cupo}\n";
 print "            {$this->descripcion}\n";
-print "            {$this->fecha_inicio}\n";
+print "            \n";		
+$this->writeArrayObject( $this->fecha_inicio );
+
+print "\n";
 print "            {$this->fecha_fin}\n";
 print "            {$this->cantidadModulos}\n";
 }
