@@ -6,6 +6,69 @@ require_once( "core.php" );
 
 use system\jupiter\core\Snippet;
 
+
+class PackageFile extends ArrayObject {
+
+    public $filename;
+
+    public $filenameExtension;
+
+    public $fullPath;
+
+    public $basePath;
+
+    public $fileContent;
+
+    public $packageName;
+
+    public $language;
+
+    public function getFullFilename()
+    {
+        return $this->filename . "." . $this->filenameExtension;
+    }
+
+    public function getPackageName()
+    {
+
+    }
+
+
+
+
+
+    public function isValidSigned($filename = null)
+    {
+        if ($filename === null) {
+            $filename = $this->fullPath;
+        }
+
+        $xml = new DOMDocument();
+
+        try {
+            $xml->load($filename);
+        }
+
+        catch (Exception) {
+            return false;
+        }
+
+        $snippets = $xml->getElementsByTagName('snippets');
+
+        $result = false;
+        foreach ($snippets as $snippet) {
+
+            $result = ($snippet->getAttribute('package')  === $this->packageName &&
+            ($snippet->getAttribute('lang') === $this->language ||
+            $snippet->getAttribute('merca') === $this->language));
+
+        }
+        return $result;
+        
+    }
+
+}
+
 class Package extends ArrayObject {
 
     public $basePath;
@@ -18,10 +81,19 @@ class Package extends ArrayObject {
 
     protected $packagePath;
 
+
+    public PackageFile $files;
+
     public function __construct()
     {
         parent :: __construct();
         $this->snippets = new Snippet();
+        $this->files = new PackageFile();
+    }
+
+    public function setPackagePath( $path )
+    {
+        $this->packagePath = $path;
     }
 
     public function getFullPath()
@@ -31,8 +103,8 @@ class Package extends ArrayObject {
 
     public function setName( $packageName )
     {
-        $this->name = $packageName;
-        $parts = explode( '.', $packageName );
+        $this->name = strtolower( $packageName );
+        $parts = explode( '.', $this->name );
         $this->packagePath = implode( _bslash(), $parts  );
         return $this;      
     }
@@ -45,6 +117,56 @@ class Package extends ArrayObject {
     protected function make()
     {
 
+    }
+
+    public function scanFiles()
+    {
+        if (is_dir( $this->getFullPath() )) {
+            $paths = rglob( $this->getFullPath() . _bslash() . "*" );
+
+            foreach ($paths as $path) {
+                if (!is_dir( $path )) {
+                    $pathinfo = pathinfo( $path );
+                   //print_r( $pathinfo );
+                    $newFile = new PackageFile();
+                    $newFile->filename = $pathinfo['filename'];
+                    $newFile->filenameExtension = $pathinfo['extension'];
+
+                    if (strtolower( $newFile->filenameExtension ) !== "xml") {
+                        throw new Exception("Non XML file found with name 
+                        '{$newFile->filename}.{$newFile->filenameExtension}'
+                        .Templates must be defined on XML files only.");
+                    }
+                    $newFile->basePath = $pathinfo['dirname'];
+                    $newFile->fullPath = $path;
+                    $newFile->packageName = $this->name;
+                    $filenameParts = explode( ".", $newFile->filename );  
+                    $newFile->language = $filenameParts[1];
+
+                    if ($newFile->language === "" || 
+                        $newFile->language === null) {
+                            throw new Exception(
+                                "{$newFile->filename}.xml is not a valid filename.
+                                The filename must have a defined language on its name like *.%lang%.xml.");
+                    }
+
+                    if ($newFile->isValidSigned()) {
+                        $this->files->append( $newFile );
+                    }
+                    else {
+                        throw new Exception("Bad signature on file 
+                        <strong>{$newFile->filename}.xml</strong>, not a valid file for templates definition. 
+                        The file must be signed with the package '{$newFile->packageName}'
+                         and language '{$newFile->language}'");
+                    }
+
+                    // is a file
+                }                
+            }
+        }
+        else {
+            print 'No information for package ' . $this->name .  ' (path=' . $this->getFullPath()  . ') was found.' . endl();
+        }
     }
 }
 
@@ -118,6 +240,9 @@ class SnippetsManager extends Snippet {
         $packagePaths = array();
         
         for ($i = 1 ; $i < count( $parts ); $i++) {
+
+            $parentPackagePath = implode( _bslash(), array_slice( $parts, 0, count( $parts ) - $i ) ) ;
+
             array_push( $packagePaths, $parentPackageName = 
                 implode( ".", array_slice( $parts, 0, count( $parts ) - $i ) ) );
             if ($i == 1) {
@@ -125,43 +250,19 @@ class SnippetsManager extends Snippet {
             }
             $parentPackage = clone $package;
             $parentPackage->name = $parentPackageName;
+            $parentPackage->setPackagePath( $parentPackagePath );
             $this->addPackage( $parentPackage );
         }
 
-        if (!$this->packageExists( $package ))
-            $this->packages[$package->name] = clone $package;
-/*
-        if ($package->name === null)
-            return false;
-
-        if (!$this->packageExists( $package ) || $parentPackage) {
-            $packageParts = explode( '.', $package->name );
-            $currentCount = count( $packageParts );
-            for ($i = 0; $i < $currentCount; $i++) {                               
-                unset( $packageParts[$currentCount - $i] );
-                $parentPackageName = implode('.', $packageParts );
-                print '-*-*-' .  $parentPackageName . endl();
-                $currentCount = count( $packageParts );
-                continue;
-                $parentPackage = clone $package;
-                
-                if (strlen( $parentPackageName ) === 0) {
-                    $parentPackage = null;
-                }
-                else {
-                    if ($i === 0) {
-                        $package->parentPackage = $parentPackageName;
-                    }                    
-                    
-                    $parentPackage->name = $parentPackageName;    
-                }            
-               // $this->addPackage( $parentPackage, true );                                
+        if (!$this->packageExists( $package )) {
+            
+            if (!is_dir( $package->getFullPath() ))
+            {
+                mkdir( $package->getFullPath() );   // creates the package for dir if not exists
             }
             $this->packages[$package->name] = clone $package;
         }
-        else {
-            throw new Exception("Package already exists.");
-        }*/
+
     }
 
     public  function removePackage( $packageName )
@@ -169,6 +270,12 @@ class SnippetsManager extends Snippet {
         if (isset( $this->packagesNames[$packageName] )) {
             unset( $this->packages[$packageName] );
         }
+    }
+
+
+    public function getPackage( $packageName )
+    {
+        return $this->packages[$packageName];
     }
 
     /**
@@ -305,6 +412,29 @@ class SnippetsManager extends Snippet {
         );
         $this->addPackage( $package );
 
+
+        $package->setName( 
+            "com.ibm.infraestructure"
+        );
+        $this->addPackage( $package );
+
+        $package->setName( 
+            "com.ibm.infraestructure.code"
+        );
+        $this->addPackage( $package );
+
+        $package->setName( 
+            "com.ibm.infraestructure.replica"
+        );
+        $this->addPackage( $package );
+
+    }
+
+    public function validatePackagesSignatures()
+    {
+        foreach ($this->packages as $package) {
+            $package->scanFiles();            
+        }
     }
 }
 
@@ -316,11 +446,19 @@ $snippetsManager = new SnippetsManager();
 
 $snippetsManager->mainPath = getcwd() . _bslash() . "projects";
 
-print $snippetsManager->mainPath . endl();
+//print $snippetsManager->mainPath . endl();
 
 $snippetsManager->make();
 
-print_r( $snippetsManager );
+$snippetsManager->validatePackagesSignatures();
+
+//print_r( $snippetsManager );
+/*
+foreach ($snippetsManager->packages as $package) {
+    print 'PACKAGE ' . $package->name . " located at : " . 
+    $package->getFullPath()  . endl() ;
+}*/
+
 
 
 

@@ -201,6 +201,17 @@ $defaultConditionals = array(
     'customCondition'
 );
 
+function rglob($pattern, $flags = 0) {
+    $files = glob($pattern, $flags); 
+    foreach (glob(dirname($pattern) . _bslash() . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+        $files = array_merge(
+            [],
+            ...[$files, rglob($dir . _bslash() . basename($pattern), $flags)]
+        );
+    }
+    return $files;
+}
+
 
 function exceptions_error_handler( $exception ) {
     IO_printLine( IO_boldString("File: ") . $exception->getFile() );

@@ -62,7 +62,7 @@ class TokenString
 
         foreach ($snippets as $snippet) {
             $newSnippet = new Snippet();
-            $newSnippet->name = $snippet->attributes['name']->value;
+            $newSnippet->name = $snippet->getAttribute('name');
             $newSnippet->content = trim($snippet->nodeValue);
             TokenString::$snippets[$snippet->getAttribute('name')] = $newSnippet;
         }
