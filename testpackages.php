@@ -121,13 +121,15 @@ class Package extends ArrayObject {
 
     public function scanFiles()
     {
+
         if (is_dir( $this->getFullPath() )) {
-            $paths = rglob( $this->getFullPath() . _bslash() . "*" );
+            $paths = glob( $this->getFullPath() . _bslash() . "*" );
+
+
 
             foreach ($paths as $path) {
                 if (!is_dir( $path )) {
                     $pathinfo = pathinfo( $path );
-                   //print_r( $pathinfo );
                     $newFile = new PackageFile();
                     $newFile->filename = $pathinfo['filename'];
                     $newFile->filenameExtension = $pathinfo['extension'];
@@ -235,6 +237,7 @@ class SnippetsManager extends Snippet {
     public function addPackage( Package $package, $parentPackage=false )
     {
 
+
         $test = $package->name;
         $parts = explode( '.', $test );
         $packagePaths = array();
@@ -258,6 +261,7 @@ class SnippetsManager extends Snippet {
             
             if (!is_dir( $package->getFullPath() ))
             {
+                print 'Creating dir...';
                 mkdir( $package->getFullPath() );   // creates the package for dir if not exists
             }
             $this->packages[$package->name] = clone $package;
@@ -430,11 +434,44 @@ class SnippetsManager extends Snippet {
 
     }
 
-    public function validatePackagesSignatures()
+  /*  public function validatePackagesSignatures()
     {
         foreach ($this->packages as $package) {
             $package->scanFiles();            
         }
+    }*/
+
+    public function scanPackages()
+    {
+        $processed = array();
+       // print 'Scanning ' . $this->mainPath .  endl();
+        $allPackageFolders = rglob( $this->mainPath . _bslash() . "*" );
+
+        foreach ($allPackageFolders as $path) {
+            
+            $packageTemp = $this->getPackageNameFromPath( $path );            
+
+            if (!isset( $processed[$packageTemp] ) && 
+                $packageTemp !== null && $packageTemp !== "" &&
+                isset( $this->packages[$packageTemp] )) {      
+                print 'Scanning files for ' . $packageTemp . endl();
+                $this->packages[$packageTemp]->scanFiles();
+                $processed[$packageTemp] = $packageTemp;
+            }
+            
+
+        }
+        print_r( $allPackageFolders );
+    }
+
+    public function getPackageNameFromPath( $path )
+    {
+        $pathinfo = pathinfo( $path );
+
+        $result = str_replace( $this->mainPath, "", $pathinfo['dirname'] );
+        $result = ( str_replace( _bslash(), '.', trim( $result, _bslash() ) ) );
+
+        return $result;
     }
 }
 
@@ -450,8 +487,11 @@ $snippetsManager->mainPath = getcwd() . _bslash() . "projects";
 
 $snippetsManager->make();
 
-$snippetsManager->validatePackagesSignatures();
+//$snippetsManager->validatePackagesSignatures();
+$snippetsManager->scanPackages();
 
+
+print_r( $snippetsManager );
 //print_r( $snippetsManager );
 /*
 foreach ($snippetsManager->packages as $package) {
