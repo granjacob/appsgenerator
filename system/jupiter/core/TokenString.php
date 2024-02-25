@@ -3,9 +3,10 @@
 namespace system\jupiter\core;
 
 use DOMDocument;
+use ArrayObject;
 
 
-class TokenString
+class TokenString extends ArrayObject
 {
 
     public $packageName;
@@ -30,7 +31,7 @@ class TokenString
 
     public $snippetsXMLFile;
 
-    public static $snippets;
+    public Snippet $snippets;
 
     public static $variableNames = array();
 
@@ -39,7 +40,6 @@ class TokenString
     public function __construct()
     {
         $this->tokens = array();
-
     }
 
 
@@ -50,6 +50,8 @@ class TokenString
 
     public function loadSnippets($filename = null)
     {
+        $this->snippets = new Snippet();
+
         if ($filename === null) {
             $filename = $this->snippetsXMLFile;
         }
@@ -59,12 +61,13 @@ class TokenString
         $xml->load($filename);
 
         $snippets = $xml->getElementsByTagName('snippet');
-
+        
         foreach ($snippets as $snippet) {
             $newSnippet = new Snippet();
             $newSnippet->name = $snippet->getAttribute('name');
             $newSnippet->content = trim($snippet->nodeValue);
-            TokenString::$snippets[$snippet->getAttribute('name')] = $newSnippet;
+            $this->snippets[$snippet->getAttribute('name')] = $newSnippet;
+
         }
     }
 
@@ -394,9 +397,15 @@ class TokenString
     public function clean()
     {
         $this->tokens = array();
-        foreach (TokenString::$snippets as $snippet) {
+        foreach ($this->snippets as $snippet) {
             $snippet->variablesDefined = array();
         }
+    }
+
+    public function snippetsAreEmpty()
+    {
+        return !isset( $this->snippets ) || 
+                $this->snippets === null || (isset( $this->snippets ) && count( $this->snippets ) === 0);
     }
 
     public function make($expressionStr = null)
@@ -404,8 +413,11 @@ class TokenString
         global $defaultConditionals;
         $jsonStructure = "{}";
 
+        if ($this->snippetsAreEmpty())
+            return false;
+
         if ($this->snippetName != null) {
-            $this->content = TokenString::$snippets[$this->snippetName]->content;
+            $this->content = $this->snippets[$this->snippetName]->content;
         }
 
         if ($expressionStr === null)
@@ -505,7 +517,7 @@ class TokenString
                         $variableName = $varName;
                     }
 
-                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
+                    //$this->snippets[$this->snippetName]->addVariableName($variableName);
 
                     if ($snippetName !== null && $variableName !== null) {
                         $exprClass = CompoundVariableToken::class;
@@ -648,7 +660,7 @@ class TokenString
 
         if ($fileBegins) {
             $output .= endl() . PHP_FILE_OPEN . endl(2);
-            $output .= 'require_once( "GeneratorClass.php" );' . endl();
+            $output .= 'use system/jupiter/core/GeneratorClass;' . endl();
             // $output .= ' require_once( "core.php" );' . endl();
 
         }
@@ -864,19 +876,23 @@ class TokenString
      *
      * @return void
      */
-    public function generateClasses()
+    public function generateClasses( $wherePath )
     {
         $className = "";
-        print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
+        print 'Snippets quantity ' . count($this->snippets) . endl();
         $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
 
-        foreach (TokenString::$snippets as $snippet) {
+        foreach ($this->snippets as $snippet) {
 
             $this->snippetName = $snippet->name;
             $this->clean();
             $this->make();
             $output = $this->generateClass();
-            file_put_contents("outputclasses/" . camelize($this->snippetName) . ".php", $output);
+
+            if (!is_dir( $wherePath )) {
+                mkdir( $wherePath, 0777, true );
+            }
+            file_put_contents( $wherePath . _bslash() . camelize($this->snippetName) . ".php", $output);
             print __ln(100, '%');
         }
     }

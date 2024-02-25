@@ -1,9 +1,6 @@
 
 <?php
 
-class GeneratorClass extends ArrayObject {
-    
-}
 
 class SpringBootController extends GeneratorClass {
     protected $packageName;

@@ -5,6 +5,7 @@ require_once( "core.php" );
 
 
 use system\jupiter\core\Snippet;
+use system\jupiter\core\TokenString;
 
 
 class PackageFile extends ArrayObject {
@@ -30,9 +31,14 @@ class PackageFile extends ArrayObject {
 
     public function getPackageName()
     {
-
+        return $this->packageName;
     }
 
+
+    public function getPackageNameAsPath()
+    {
+        return str_replace( '.', _bslash(), $this->packageName );
+    }
 
 
 
@@ -75,7 +81,6 @@ class Package extends ArrayObject {
 
     public $name;
 
-    public $snippets;
 
     public $parentPackage;
 
@@ -87,7 +92,6 @@ class Package extends ArrayObject {
     public function __construct()
     {
         parent :: __construct();
-        $this->snippets = new Snippet();
         $this->files = new PackageFile();
     }
 
@@ -112,6 +116,11 @@ class Package extends ArrayObject {
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getNameAsPath()
+    {
+        return str_replace( '.', _bslash(), $this->name );
     }
 
     protected function make()
@@ -178,6 +187,8 @@ class Package extends ArrayObject {
 
 class SnippetsManager extends Snippet {
     public string $mainPath;
+
+    public string $outputPath;
 
     public $languages = array();
 
@@ -487,7 +498,21 @@ class SnippetsManager extends Snippet {
 
     public function loadTemplates()
     {
-        
+        foreach ($this->packages as $keyPackage => $package) {
+            print '---------------------------------Scanning templates for ' . $keyPackage . ' at ' . $package->getFullPath() . endl();
+            $files = glob( $package->getFullPath() . _bslash() . '*' );
+            foreach ($files as $file) {
+                if (!is_dir( $file )) {
+                    $do = new TokenString();
+                    $do->snippetsXMLFile = $file;
+                    $do->loadSnippets();
+                    print ' Generating to ' .  $this->outputPath . _bslash() . $package->getNameAsPath() . endl();
+                    $do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
+                    print endl() . 'Processing file ' . $file . endl(); 
+                }
+            }
+            print endl();
+        }            
     }
 
     public function isValidFileExtension( $extension )
@@ -540,22 +565,13 @@ $snippetsManager = new SnippetsManager();
 
 $snippetsManager->mainPath = getcwd() . _bslash() . "projects";
 
-//print $snippetsManager->mainPath . endl();
+$snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "europa";
+
 
 $snippetsManager->make();
 
-//$snippetsManager->validatePackagesSignatures();
 $snippetsManager->scanPackages();
-
-
-print_r( $snippetsManager );
-/*
-foreach ($snippetsManager->packages as $package) {
-    print 'PACKAGE ' . $package->name . " located at : " . 
-    $package->getFullPath()  . endl() ;
-}*/
-
-
+$snippetsManager->loadTemplates();
 
 
 
