@@ -60,7 +60,7 @@ class PackageFile extends ArrayObject {
 
             $result = ($snippet->getAttribute('package')  === $this->packageName &&
             ($snippet->getAttribute('lang') === $this->language ||
-            $snippet->getAttribute('merca') === $this->language));
+            $snippet->getAttribute('language') === $this->language));
 
         }
         return $result;
@@ -121,10 +121,10 @@ class Package extends ArrayObject {
 
     public function scanFiles()
     {
+        //print ' Scanning file for ' . $this->name . ' at ' . $this->getFullPath() . endl() . endl();
 
         if (is_dir( $this->getFullPath() )) {
             $paths = glob( $this->getFullPath() . _bslash() . "*" );
-
 
 
             foreach ($paths as $path) {
@@ -139,6 +139,8 @@ class Package extends ArrayObject {
                         '{$newFile->filename}.{$newFile->filenameExtension}'
                         .Templates must be defined on XML files only.");
                     }
+
+                    
                     $newFile->basePath = $pathinfo['dirname'];
                     $newFile->fullPath = $path;
                     $newFile->packageName = $this->name;
@@ -149,7 +151,7 @@ class Package extends ArrayObject {
                         $newFile->language === null) {
                             throw new Exception(
                                 "{$newFile->filename}.xml is not a valid filename.
-                                The filename must have a defined language on its name like *.%lang%.xml.");
+                                The filename must have a language defined on its name like *.%lang%.xml.");
                     }
 
                     if ($newFile->isValidSigned()) {
@@ -253,6 +255,7 @@ class SnippetsManager extends Snippet {
             }
             $parentPackage = clone $package;
             $parentPackage->name = $parentPackageName;
+            $parentPackage->files = new PackageFile();
             $parentPackage->setPackagePath( $parentPackagePath );
             $this->addPackage( $parentPackage );
         }
@@ -261,7 +264,6 @@ class SnippetsManager extends Snippet {
             
             if (!is_dir( $package->getFullPath() ))
             {
-                print 'Creating dir...';
                 mkdir( $package->getFullPath() );   // creates the package for dir if not exists
             }
             $this->packages[$package->name] = clone $package;
@@ -444,32 +446,87 @@ class SnippetsManager extends Snippet {
     public function scanPackages()
     {
         $processed = array();
-       // print 'Scanning ' . $this->mainPath .  endl();
+
         $allPackageFolders = rglob( $this->mainPath . _bslash() . "*" );
 
-        foreach ($allPackageFolders as $path) {
-            
-            $packageTemp = $this->getPackageNameFromPath( $path );            
 
-            if (!isset( $processed[$packageTemp] ) && 
-                $packageTemp !== null && $packageTemp !== "" &&
-                isset( $this->packages[$packageTemp] )) {      
-                print 'Scanning files for ' . $packageTemp . endl();
-                $this->packages[$packageTemp]->scanFiles();
-                $processed[$packageTemp] = $packageTemp;
-            }
-            
+        foreach ($allPackageFolders as $path) {
+
+                $extensionIsValid = false;
+
+                $pathinfo = pathinfo( $path );
+
+                if (isset(  $pathinfo['extension'] )) {
+                    $filenameForScan = $pathinfo['filename'] . '.'  . $pathinfo['extension'];
+
+                    $extensionIsValid = $this->isValidFileExtension( $pathinfo['extension'] );
+                }
+
+
+                $packageTemp = $this->getPackageNameFromPath( $path );  
+                
+                if (!$this->packageExistsByName( $packageTemp )) {
+
+                    $newPackage = new Package();
+                    $newPackage->name = $packageTemp;
+                    $newPackage->basePath = $this->mainPath;
+                    $newPackage->setPackagePath( str_replace( ".", _bslash(), $newPackage->name ) );
+                    $this->addPackage( $newPackage );
+                }
+
+                if (!isset( $processed[$packageTemp] ) && 
+                    $packageTemp !== null && $packageTemp !== "" &&
+                    isset( $this->packages[$packageTemp] )) {      
+                    $this->packages[$packageTemp]->scanFiles();
+                    $processed[$packageTemp] = $packageTemp;
+                }
+
 
         }
-        print_r( $allPackageFolders );
+    }
+
+    public function loadTemplates()
+    {
+        
+    }
+
+    public function isValidFileExtension( $extension )
+    {
+        return $extension === 'xml';
     }
 
     public function getPackageNameFromPath( $path )
     {
-        $pathinfo = pathinfo( $path );
+        $pathinfo = pathinfo( $path ); 
 
-        $result = str_replace( $this->mainPath, "", $pathinfo['dirname'] );
+        $result = null;
+        if (isset( $pathinfo['extension']) &&
+            $this->isValidFileExtension( $pathinfo['extension'] )) {
+            $filenameReplace = $pathinfo['filename'] . '.' . $pathinfo['extension'];
+
+            $path = str_replace(  $filenameReplace, "", $path  );
+        }
+        
+        $result = str_replace( $this->mainPath, "", $path );
         $result = ( str_replace( _bslash(), '.', trim( $result, _bslash() ) ) );
+        
+
+         
+        return strtolower( $result );
+    }
+
+    public function getPackageNameFromPath2( $path )
+    {
+        $pathinfo = pathinfo( $path ); 
+
+        $result = null;
+        if (isset( $pathinfo['extension'])) {
+            return $path; 
+        }
+        else {
+            $result = str_replace( $this->mainPath, "", $path );
+            $result = ( str_replace( _bslash(), '.', trim( $result, _bslash() ) ) );
+        }
 
         return $result;
     }
@@ -492,7 +549,6 @@ $snippetsManager->scanPackages();
 
 
 print_r( $snippetsManager );
-//print_r( $snippetsManager );
 /*
 foreach ($snippetsManager->packages as $package) {
     print 'PACKAGE ' . $package->name . " located at : " . 
