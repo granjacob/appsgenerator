@@ -1,0 +1,203 @@
+## [2023-07-13 22:50:15] Request #######################################
+
+GET /feeds/discussions.rss HTTP/1.1
+Host: www.litecart.net
+User-Agent: LiteCart/2.5.4
+Content-Length: 0
+Connection: Close
+
+
+
+## [2023-07-13 22:50:16] Response — 9679 bytes transferred in 0.824 s ##
+
+HTTP/1.1 200 OK
+Date: Fri, 14 Jul 2023 03:50:16 GMT
+Content-Type: application/rss+xml; charset=utf-8
+Transfer-Encoding: chunked
+Connection: close
+set-cookie: LCSESSID=et4q6apru726dm4s0gki7kvpo9; path=/; SameSite=Lax; secure
+expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+pragma: no-cache
+x-frame-options: SAMEORIGIN
+content-security-policy: frame-ancestors 'self';
+access-control-allow-origin: https://www.litecart.net/en/
+x-powered-by: LiteCart.net
+vary: Accept-Encoding
+x-turbo-charged-by: LiteSpeed
+CF-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=12Jt78JGuJyoHX4DDQsq08UoGuWRVJDInEZWZSujCWzssT%2FzlMLethKSu48BzGgOQWpVEDbEFkJyPTiQxW8qc%2Bld0O%2B3XtW3bKavj%2FqOLF39FcYMxvdfDrukxH5uYTbfZVbq"}],"group":"cf-nel","max_age":604800}
+NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+CF-RAY: 7e66cced09a631fb-MIA
+alt-svc: h3=":443"; ma=86400
+
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>LiteCart Forum Discussions</title>
+    <link>https://www.litecart.net/forums/index</link>
+    <description>The most recent forum activity.</description>
+    <language>en</language>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Order Module function before_process() Does Not Exist]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19520/order-module-function-before-process-does-not-exist</link>
+      <description></description>
+      <author><![CDATA[thelite]]></author>
+      <pubDate>Tue, 11 Jul 2023 19:34:16 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Missing Translation in Password reset]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19608/missing-translation-in-password-reset</link>
+      <description></description>
+      <author><![CDATA[stefantrier]]></author>
+      <pubDate>Tue, 11 Jul 2023 14:26:26 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[How can i disable client registration?]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/19610/how-can-i-disable-client-registration</link>
+      <description></description>
+      <author><![CDATA[cohesion]]></author>
+      <pubDate>Tue, 11 Jul 2023 09:55:11 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Problem with "Add product" option]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19606/problem-with-add-product-option</link>
+      <description></description>
+      <author><![CDATA[yesannem]]></author>
+      <pubDate>Tue, 11 Jul 2023 09:31:56 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Add-ons]]></category>
+      <title><![CDATA[What is the Lifecycle of Add-ons?]]></title>
+      <link>https://www.litecart.net/en/forums/7/add-ons/19613/what-is-the-lifecycle-of-add-ons</link>
+      <description></description>
+      <author><![CDATA[mishochu]]></author>
+      <pubDate>Mon, 10 Jul 2023 22:27:16 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Problem displaying the control panel]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19576/problem-displaying-the-control-panel</link>
+      <description></description>
+      <author><![CDATA[black1store]]></author>
+      <pubDate>Fri, 07 Jul 2023 15:10:56 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Add-ons]]></category>
+      <title><![CDATA[ISSUE with mobile version:  in product page can't scroll down.]]></title>
+      <link>https://www.litecart.net/en/forums/7/add-ons/19445/issue-with-mobile-version-in-product-page-can-t-scroll-down</link>
+      <description></description>
+      <author><![CDATA[yesannem]]></author>
+      <pubDate>Fri, 07 Jul 2023 10:47:02 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Add-ons]]></category>
+      <title><![CDATA[Why can i not use this on latest lc]]></title>
+      <link>https://www.litecart.net/en/forums/7/add-ons/19541/why-can-i-not-use-this-on-latest-lc</link>
+      <description></description>
+      <author><![CDATA[blixten19]]></author>
+      <pubDate>Fri, 07 Jul 2023 09:35:39 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Add-ons]]></category>
+      <title><![CDATA[Needs updating for 2.5]]></title>
+      <link>https://www.litecart.net/en/forums/7/add-ons/19588/needs-updating-for-2-5</link>
+      <description></description>
+      <author><![CDATA[s22_tech]]></author>
+      <pubDate>Fri, 07 Jul 2023 01:11:49 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Add-ons]]></category>
+      <title><![CDATA[Wrong selected image for option shown on the cart page]]></title>
+      <link>https://www.litecart.net/en/forums/7/add-ons/19543/wrong-selected-image-for-option-shown-on-the-cart-page</link>
+      <description></description>
+      <author><![CDATA[candypalace]]></author>
+      <pubDate>Thu, 06 Jul 2023 19:17:31 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Most Shopping Customers only shows 2 records]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19532/most-shopping-customers-only-shows-2-records</link>
+      <description></description>
+      <author><![CDATA[rilla]]></author>
+      <pubDate>Thu, 06 Jul 2023 11:59:18 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[Dashboard > Catalog  Option to sort by SKU?]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/19474/dashboard-catalog-option-to-sort-by-sku</link>
+      <description></description>
+      <author><![CDATA[aprilkiskis]]></author>
+      <pubDate>Thu, 06 Jul 2023 09:49:50 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[Call to undefined function mysqli_report()]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/19570/call-to-undefined-function-mysqli-report</link>
+      <description></description>
+      <author><![CDATA[fritz]]></author>
+      <pubDate>Thu, 06 Jul 2023 05:03:48 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Language switch doesn't work on version 2.5.4]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19569/language-switch-doesn-t-work-on-version-2-5-4</link>
+      <description></description>
+      <author><![CDATA[fritz]]></author>
+      <pubDate>Thu, 06 Jul 2023 05:00:08 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[General Discussions]]></category>
+      <title><![CDATA[What is the public_key field for?]]></title>
+      <link>https://www.litecart.net/en/forums/2/general-discussions/19563/what-is-the-public-key-field-for</link>
+      <description></description>
+      <author><![CDATA[s22_tech]]></author>
+      <pubDate>Tue, 04 Jul 2023 09:54:59 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[PHP Extensions and Options]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/19558/php-extensions-and-options</link>
+      <description></description>
+      <author><![CDATA[harry]]></author>
+      <pubDate>Tue, 04 Jul 2023 00:39:48 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[Customer choose delivery date in checkout]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/19550/customer-choose-delivery-date-in-checkout</link>
+      <description></description>
+      <author><![CDATA[blixten19]]></author>
+      <pubDate>Mon, 03 Jul 2023 23:37:55 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Installation and Configuration]]></category>
+      <title><![CDATA[Undefined offset in shipping module]]></title>
+      <link>https://www.litecart.net/en/forums/3/installation-and-configuration/6074/undefined-offset-in-shipping-module</link>
+      <description></description>
+      <author></author>
+      <pubDate>Mon, 03 Jul 2023 16:47:13 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[Most Sold Product shows eror message when filtered by item name]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19535/most-sold-product-shows-eror-message-when-filtered-by-item-name</link>
+      <description></description>
+      <author><![CDATA[rilla]]></author>
+      <pubDate>Fri, 30 Jun 2023 11:19:39 +0000</pubDate>
+    </item>
+    <item>
+      <category><![CDATA[Errors and Troubleshooting]]></category>
+      <title><![CDATA[PHP/MySQL error after installing LiteCart]]></title>
+      <link>https://www.litecart.net/en/forums/15/errors-and-troubleshooting/19529/php-mysql-error-after-installing-litecart</link>
+      <description></description>
+      <author><![CDATA[m6vmo]]></author>
+      <pubDate>Thu, 29 Jun 2023 18:58:07 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

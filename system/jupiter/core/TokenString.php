@@ -3,6 +3,7 @@
 namespace system\jupiter\core;
 
 use DOMDocument;
+
 use ArrayObject;
 
 
@@ -31,7 +32,7 @@ class TokenString extends ArrayObject
 
     public $snippetsXMLFile;
 
-    public Snippet $snippets;
+    public static $snippets;
 
     public static $variableNames = array();
 
@@ -40,6 +41,7 @@ class TokenString extends ArrayObject
     public function __construct()
     {
         $this->tokens = array();
+
     }
 
 
@@ -50,8 +52,6 @@ class TokenString extends ArrayObject
 
     public function loadSnippets($filename = null)
     {
-        $this->snippets = new Snippet();
-
         if ($filename === null) {
             $filename = $this->snippetsXMLFile;
         }
@@ -61,13 +61,15 @@ class TokenString extends ArrayObject
         $xml->load($filename);
 
         $snippets = $xml->getElementsByTagName('snippet');
-        
-        foreach ($snippets as $snippet) {
-            $newSnippet = new Snippet();
-            $newSnippet->name = $snippet->getAttribute('name');
-            $newSnippet->content = trim($snippet->nodeValue);
-            $this->snippets[$snippet->getAttribute('name')] = $newSnippet;
 
+        if ($snippets->length > 0) {
+            foreach ($snippets as $snippet) {
+                print 'Adding snippet...';
+                $newSnippet = new Snippet();
+                $newSnippet->name = $snippet->getAttribute('name');
+                $newSnippet->content = trim($snippet->nodeValue);
+                TokenString::$snippets[$snippet->getAttribute('name')] = $newSnippet;
+            }
         }
     }
 
@@ -397,15 +399,9 @@ class TokenString extends ArrayObject
     public function clean()
     {
         $this->tokens = array();
-        foreach ($this->snippets as $snippet) {
+        foreach (TokenString::$snippets as $snippet) {
             $snippet->variablesDefined = array();
         }
-    }
-
-    public function snippetsAreEmpty()
-    {
-        return !isset( $this->snippets ) || 
-                $this->snippets === null || (isset( $this->snippets ) && count( $this->snippets ) === 0);
     }
 
     public function make($expressionStr = null)
@@ -413,11 +409,8 @@ class TokenString extends ArrayObject
         global $defaultConditionals;
         $jsonStructure = "{}";
 
-        if ($this->snippetsAreEmpty())
-            return false;
-
         if ($this->snippetName != null) {
-            $this->content = $this->snippets[$this->snippetName]->content;
+            $this->content = TokenString::$snippets[$this->snippetName]->content;
         }
 
         if ($expressionStr === null)
@@ -517,7 +510,7 @@ class TokenString extends ArrayObject
                         $variableName = $varName;
                     }
 
-                    //$this->snippets[$this->snippetName]->addVariableName($variableName);
+                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
 
                     if ($snippetName !== null && $variableName !== null) {
                         $exprClass = CompoundVariableToken::class;
@@ -651,16 +644,18 @@ class TokenString extends ArrayObject
 
 
 
-    public function generateClass($pToken = null)
+    public function generateClass($pToken = null, $usePath=null )
     {
-
+        if ($usePath !== null)
+            $usePath = str_replace( getcwd(), "", $usePath );
         $output = "";
 
         $fileBegins = $pToken === null;
 
         if ($fileBegins) {
             $output .= endl() . PHP_FILE_OPEN . endl(2);
-            $output .= 'use system/jupiter/core/GeneratorClass;' . endl();
+            $output .= 'use system\jupiter\core\GeneratorClass;' . endl();
+            //$output .= 'require_once( "GeneratorClass.php" );' . endl();
             // $output .= ' require_once( "core.php" );' . endl();
 
         }
@@ -694,7 +689,8 @@ class TokenString extends ArrayObject
             foreach ($uniqueSnippets as $fileName) {
 
                 if ($fileName !== null) {
-                    $output .= 'require_once( "' . $fileName . '.php" );';
+                    $output .= 'use ' . $usePath . _bslash() . $fileName . ';';
+                    //$output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
             }
@@ -879,21 +875,22 @@ class TokenString extends ArrayObject
     public function generateClasses( $wherePath )
     {
         $className = "";
-        print 'Snippets quantity ' . count($this->snippets) . endl();
+       // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
         $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
 
-        foreach ($this->snippets as $snippet) {
+        if (is_array( TokenString::$snippets )) {
+            foreach (TokenString::$snippets as $snippet) {
 
-            $this->snippetName = $snippet->name;
-            $this->clean();
-            $this->make();
-            $output = $this->generateClass();
-
-            if (!is_dir( $wherePath )) {
-                mkdir( $wherePath, 0777, true );
+                $this->snippetName = $snippet->name;
+                $this->clean();
+                $this->make();
+                $output = $this->generateClass( null, $wherePath );
+                if (!is_dir( $wherePath )) {
+                    mkdir( $wherePath, 0777, true );
+                }
+                file_put_contents( $wherePath . _bslash() . camelize($this->snippetName) . ".php", $output);
+                print __ln(100, '%');
             }
-            file_put_contents( $wherePath . _bslash() . camelize($this->snippetName) . ".php", $output);
-            print __ln(100, '%');
         }
     }
 }

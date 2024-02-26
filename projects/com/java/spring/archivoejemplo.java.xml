@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<snippets package="com.java.spring" language="java">
+    <snippet name="Curso">
+        <![CDATA[ 
+            {{:(int)id:}}
+            {{:nombre:}}
+            {{:cupo:}}
+            {{:descripcion:}}
+            {{:(Date)fecha_inicio:}}
+            {{:fecha_fin:}}
+            {{:cantidadModulos:}}  
+         ]]>      
+    </snippet>
+    <snippet name="Empresa">
+        <![CDATA[ 
+            $ {{:NetWorth:}} 
+         ]]>
+    </snippet>
+    <snippet name="ColegioJerusalen"> 
+         <![CDATA[
+
+         El colegio Leo ofrece a los estudiantes de bachillerato estudiar los 
+         grados sexto, septimo, octavo, noveno, decimo y undecimo.
+
+         Las matriculas de los estudiantes se realizan cada año en 
+         el primer mes del año a cursar o el ultimo mes del año vigente.
+
+         El colegio cuenta con 30 profesores disponibles.
+
+         Cada año se genera un horario para cada estudiante y profesor.
+         
+         Cada grado cuenta con un plan academico.
+         
+         Los planes academicos estan compuestos por materias.
+         
+         Las materias se componen de modulos que el profesor debera abordar durante el 
+         año lectivo en curso.
+
+         Los estudiantes deberan cumplir y aprobar los objetivos de cada modulo mediante evaluaciones.
+
+         Las materias son evaluadas mediante porcentajes que el profesor debe definir para la materia.
+
+         Los porcentajes de evaluacion reciben una calificacion entre 0.0 y 5.0, siendo 0.0 la nota minima
+         y 5.0 la nota maxima.
+
+         Cada matricula tiene un valor para el año en curso y el valor de esta se definira de acuerdo con
+         lo establecido por el ministerio de educacion.
+
+         Cada estudiante debera pagar mes a mes el valor correspondiente a una pension.
+
+         Con el dinero recolectado de la pension se le paga a los profesores y se destinan recursos
+         para el mantenimiento de las instalaciones.
+
+
+
+         ]]>
+    </snippet>
+
+    <snippet name="MinExample">
+    <![CDATA[
+        Hello world! ---> {{:(TypeDato)datos:}}
+    ]]>
+    </snippet>
+    <snippet name="TypeDato">
+    <![CDATA[
+        The output of TypeDato! ---> {{:address:}} and {{:id:}} is the data for {{:nombre_persona:}}
+    ]]>
+    </snippet>
+
+
+
+
+
+    <snippet name="SpringBootMain" >
+        <![CDATA[
+package {{:package:}};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class {{:applicationMainClass:}} {
+
+  public static void main(String... args) {
+    SpringApplication.run({{:applicationMainClass:}}.class, args);
+  }
+}       
+        ]]>
+    </snippet>
+
+
+        <snippet name="SpringBootController">
+        <![CDATA[
+package {{:packageName:}};
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class {{:controllerClassName:}} {
+
+    {{:(SpringAutowiredService)Services:}}
+
+    {{:(SpringControllerMethod)Methods:}}
+
+    {{:(SpringControllerMethodDynamic)MethodsWithPathVariable:}}
+
+    [[{{:(SpringControllerMethod)Repositories:}}]]
+
+    [[{{:(SpringControllerMethod)OtherThings:}}]]
+
+    [[
+        {{:(SpringControllerMethod)MoreThings:}} and {{:(SpringControllerMethod)AndMoreThings:}} 
+            [[{{:(SpringControllerMethod)WithMoreThings:}}]] 
+    ]]
+}   
+
+
+        ]]>
+    </snippet>
+    <snippet name="ControllerPathPlusPathVariableName">
+        <![CDATA[
+            {{:controllerPath:}}/{{{:pathVariableName:}}}
+        ]]>
+    </snippet>
+    <snippet name="SpringControllerMethod">
+        <![CDATA[
+@{{:mappingAnnotation:}}{{:mainMappingAnnotation:}}("{{:controllerPath:}}/{{:pathVariableName:}}")
+    {{:accessModifier:}} {{:returnType:}} {{:controllerMethodName:}}( 
+            [[{{:(SpringBootMethodParameter)parameters:}}]] ) {
+        {{:MethodBody:}}
+    }
+            ]]>
+    </snippet>
+    <snippet name="SpringControllerMethod2">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("{{:path:}}/{{{:pathVariableName:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(@{{:variableAnnotation:}}("{{:pathVariableName:}}") String {{:paramName:}}) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
+    </snippet>
+        <snippet name="SpringControllerMethodN">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{service}/welcome/{to}/the/{jungle}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+            @{{:variableAnnotation:}}("service") String {{:pathVariableService:}},
+             @{{:variableAnnotation:}}("to") String {{:pathVariableTo:}},
+              @{{:variableAnnotation:}}("jungle") String {{:pathVariableJungle:}}
+            ) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
+    </snippet>
+            <snippet name="SpringControllerMethodDynamic">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{{{:pathVariableService:}}}/welcome/{{{:pathVariableTo:}}}/the/{{{:pathVariableJungle:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+            @PathVariable("{{:pathVariableService:}}") String {{:pathVariableService:}},
+             @PathVariable("{{:pathVariableTo:}}") String {{:pathVariableTo:}},
+              @PathVariable("{{:pathVariableJungle:}}") String {{:pathVariableJungle:}}
+            ) {
+        {{:controllerMethodBody:}}
+    }
+
+            ]]>
+    </snippet>
+
+<!--
+                <snippet name="SpringControllerMethodDynamic">
+        <![CDATA[
+
+@{{:mappingAnnotation:}}("/ciss/common/{{{:pathVariableService:}}}/welcome/{{{:pathVariableTo:}}}/the/{{{:pathVariableJungle:}}}")
+    {{:accessModifier:}} {{:returnType:}} {{:contollerMethodName:}}(
+           {{:(PathVariableParameter)parameters:}}
+            ) { 
+        
+        return service.{{:contollerMethodName:}}( {{:(PathVariableParameter)parameter:}} );
+    }
+
+            ]]>
+    </snippet>-->
+
+    <snippet name="PathVariableParameter">
+     <![CDATA[
+     @PathVariable("{{:pathVariableName:}}") String {{:pathVariableName:}},
+      ]]>
+    </snippet>
+
+  <snippet name="PassMethodParameter">
+   <![CDATA[
+     {{:variableName:}},
+      ]]>
+    </snippet>
+       <snippet name="SpringBootMethodParameter">
+        <![CDATA[@{{:parameterAnnotation:}} {{:ParameterType:}} {{:ParameterName:}}~(?notlast,?)~]]>
+    </snippet>
+
+
+
+   <snippet name="SpringAutowiredService">
+        <![CDATA[
+        @Autowired
+        {{:accessModifier:}} {{:ServiceType:}} {{:ServiceName:}};
+        ]]>
+    </snippet>
+
+
+    <snippet name="class">
+        <content>
+            <![CDATA[
+
+            public class {{:class_name:}} [[extends {{:class_name_extends:}}]] {
+                {{:(class_constructor)constructor:}}
+                {{:(class_attribute)attributes:}}
+                {{:(class_attribute_nasdaq)nasdaq_attributes:}}
+                {{:(class_method)methods:}}
+            }
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="class_constructor">
+        <content>
+            <![CDATA[
+
+            public function {{:method_name:}}( [[{{:(method_parameter)method_parameters:}}]] )
+            {
+                [[{{:method_body:}}]]
+            }
+            
+             
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="class_attribute">
+        <content>
+            <![CDATA[{{:access_modifier:}} {{:attributeName:}};]]>
+        </content>
+    </snippet>
+    <snippet name="class_attribute_nasdaq">
+        <content>
+            <![CDATA[{{:access_modifier:}} {{:(prefixedNasdaq)attributeName:}};]]>
+        </content>
+    </snippet>
+     <snippet name="prefixedNasdaq">
+        <content>
+            <![CDATA[NASDAQ_{{:(AAAA)attrName:}}]]>
+        </content>
+    </snippet>
+         <snippet name="AAAA">
+        <content>
+            <![CDATA[AAAA{{:atrname:}}]]>
+        </content>
+    </snippet>
+    <snippet name="class_method">
+        <content>
+            <![CDATA[
+
+            public function {{:method_name:}}( [[{{:(method_parameter)method_parameters:}}]] )
+            {
+                [[{{:method_body:}}]]
+            }
+            
+            ]]>
+        </content>
+    </snippet>
+    <snippet name="method_parameter">
+        <content>
+            <![CDATA[
+
+            ${{:name:}}~(?notlast,?)~
+            
+            ]]>
+        </content>
+    </snippet>
+
+    <snippet name="TestForConditionalToken">
+        <content>
+            <![CDATA[
+            
+            ~(?notlast
+                ${{:name:}},
+            ?)~
+
+            ]]>
+        </content>
+    </snippet>
+
+
+      <snippet name="EmptyResultsMessage">
+        <content>
+            <![CDATA[
+
+            ~(?emptyEste mensaje aparece porque los resultados estan vacios o no hay informacion disponible.?)~
+
+            ~(?notempty{{:(PrintMyData)data:}}?)~
+            
+            ]]>
+        </content>
+    </snippet>
+
+
+
+      <snippet name="ErrorMessage">
+        <content>
+            <![CDATA[
+
+            ~(?empty<p>{{:message:}}</p>?)~
+
+            ~(?notempty<ul>{{:(PrintMyData)data:}}</ul>?)~
+            
+            ]]>
+        </content>
+    </snippet>
+    
+      <snippet name="PrintMyData">
+        <content>
+            <![CDATA[
+
+            <li>Data del elemento  <strong>{{:name:}}</strong> en la lista.</li>
+            
+            ]]>
+        </content>
+    </snippet>
+</snippets>
