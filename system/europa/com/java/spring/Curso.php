@@ -2,15 +2,12 @@
 <?php
 
 use system\jupiter\core\GeneratorClass;
-use \system\europa\com\java\spring\int;
-use \system\europa\com\java\spring\Date;
 
 /* ####################### Curso : USAGE EXAMPLE ####################### 
 
 	$varCurso = new Curso();
 
-	$varid = new int();
-	$varCurso->addIdItem( $varIdItem );
+	$varCurso->setId("Curso_id_EXAMPLE");
 
 	$varCurso->setNombre("Curso_nombre_EXAMPLE");
 
@@ -18,8 +15,7 @@ use \system\europa\com\java\spring\Date;
 
 	$varCurso->setDescripcion("Curso_descripcion_EXAMPLE");
 
-	$varfecha_inicio = new Date();
-	$varCurso->addFechaInicioItem( $varFechaInicioItem );
+	$varCurso->setFechaInicio("Curso_fecha_inicio_EXAMPLE");
 
 	$varCurso->setFechaFin("Curso_fecha_fin_EXAMPLE");
 
@@ -31,7 +27,7 @@ use \system\europa\com\java\spring\Date;
 
 class Curso extends GeneratorClass {
 
-	protected int $id;
+	protected  int $id;
 
 	protected $nombre;
 
@@ -39,7 +35,7 @@ class Curso extends GeneratorClass {
 
 	protected $descripcion;
 
-	protected Date $fecha_inicio;
+	protected  Date $fecha_inicio;
 
 	protected $fecha_fin;
 
@@ -51,7 +47,7 @@ public function __construct()
 
 		parent :: __construct();
 
-	$this->id =  new int();
+	$this->id =  null;
 
 	$this->nombre =  null;
 
@@ -59,7 +55,7 @@ public function __construct()
 
 	$this->descripcion =  null;
 
-	$this->fecha_inicio =  new Date();
+	$this->fecha_inicio =  null;
 
 	$this->fecha_fin =  null;
 
@@ -67,7 +63,7 @@ public function __construct()
 
 }
 
-	public function setId( int $id)
+	public function setId(  $id)
 {
 
 		 $this->id = $id;
@@ -95,7 +91,7 @@ return $this;
 return $this; 
 }
 
-	public function setFechaInicio( Date $fecha_inicio)
+	public function setFechaInicio(  $fecha_inicio)
 {
 
 		 $this->fecha_inicio = $fecha_inicio;
@@ -158,35 +154,16 @@ return $this;
 		return $this->cantidadModulos;
 }
 
-	public function addIdItem( int $item )
-{
-
-		$this->id->append( clone $item);
-return $this; 
-}
-
-	public function addFechaInicioItem( Date $item )
-{
-
-		$this->fecha_inicio->append( clone $item);
-return $this; 
-}
-
 	public function write() {
 
 	$this->validateData();
 
-print "\n";		
-$this->writeArrayObject( $this->id );
-
+print "{$this->id}\n";
 print "\n";
 print "            {$this->nombre}\n";
 print "            {$this->cupo}\n";
 print "            {$this->descripcion}\n";
-print "            \n";		
-$this->writeArrayObject( $this->fecha_inicio );
-
-print "\n";
+print "            {$this->fecha_inicio}\n";
 print "            {$this->fecha_fin}\n";
 print "            {$this->cantidadModulos}\n";
 }

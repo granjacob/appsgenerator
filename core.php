@@ -125,6 +125,19 @@ function endl($times = 1)
 }
 
 
+function htmlbrk($times = 1)
+{
+    return __rpt("<br/>", $times);
+}
+
+
+function endlbrk($times = 1)
+{
+    return endl( $times ) . htmlbrk( $times  );
+}
+
+
+
 function __print($str)
 {
 

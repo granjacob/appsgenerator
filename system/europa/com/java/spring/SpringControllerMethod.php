@@ -1,9 +1,8 @@
+
 <?php
 
-namespace system\europa;
-
 use system\jupiter\core\GeneratorClass;
-use com\java\spring\SpringBootMethodParameter;
+use \system\europa\com\java\spring\SpringBootMethodParameter;
 
 /* ####################### SpringControllerMethod : USAGE EXAMPLE ####################### 
 
@@ -30,10 +29,9 @@ use com\java\spring\SpringBootMethodParameter;
 
 	$varSpringControllerMethod->write();
 
-	####################### USAGE EXAMPLE ####################### **/
+    ####################### USAGE EXAMPLE ####################### **/ 
 
-class SpringControllerMethod extends GeneratorClass
-{
+class SpringControllerMethod extends GeneratorClass {
 
 	protected $mappingAnnotation;
 
@@ -53,183 +51,182 @@ class SpringControllerMethod extends GeneratorClass
 
 	protected $MethodBody;
 
-	public function __construct()
-	{
+public function __construct()
 
-		parent::__construct();
+{
 
-		$this->mappingAnnotation = null;
+		parent :: __construct();
 
-		$this->mainMappingAnnotation = null;
+	$this->mappingAnnotation =  null;
 
-		$this->controllerPath = null;
+	$this->mainMappingAnnotation =  null;
 
-		$this->pathVariableName = null;
+	$this->controllerPath =  null;
 
-		$this->accessModifier = null;
+	$this->pathVariableName =  null;
 
-		$this->returnType = null;
+	$this->accessModifier =  null;
 
-		$this->controllerMethodName = null;
+	$this->returnType =  null;
 
-		$this->parameters = new SpringBootMethodParameter();
+	$this->controllerMethodName =  null;
 
-		$this->MethodBody = null;
+	$this->parameters =  new SpringBootMethodParameter();
 
-	}
-
-	public function setMappingAnnotation($mappingAnnotation)
-	{
-
-		$this->mappingAnnotation = $mappingAnnotation;
-		return $this;
-	}
-
-	public function setMainMappingAnnotation($mainMappingAnnotation)
-	{
-
-		$this->mainMappingAnnotation = $mainMappingAnnotation;
-		return $this;
-	}
-
-	public function setControllerPath($controllerPath)
-	{
-
-		$this->controllerPath = $controllerPath;
-		return $this;
-	}
-
-	public function setPathVariableName($pathVariableName)
-	{
-
-		$this->pathVariableName = $pathVariableName;
-		return $this;
-	}
-
-	public function setAccessModifier($accessModifier)
-	{
-
-		$this->accessModifier = $accessModifier;
-		return $this;
-	}
-
-	public function setReturnType($returnType)
-	{
-
-		$this->returnType = $returnType;
-		return $this;
-	}
-
-	public function setControllerMethodName($controllerMethodName)
-	{
-
-		$this->controllerMethodName = $controllerMethodName;
-		return $this;
-	}
-
-	public function setParameters(SpringBootMethodParameter $parameters)
-	{
-
-		$this->parameters = $parameters;
-		return $this;
-	}
-
-	public function setMethodBody($MethodBody)
-	{
-
-		$this->MethodBody = $MethodBody;
-		return $this;
-	}
-
-	public function getMappingAnnotation()
-	{
-
-		return $this->mappingAnnotation;
-	}
-
-	public function getMainMappingAnnotation()
-	{
-
-		return $this->mainMappingAnnotation;
-	}
-
-	public function getControllerPath()
-	{
-
-		return $this->controllerPath;
-	}
-
-	public function getPathVariableName()
-	{
-
-		return $this->pathVariableName;
-	}
-
-	public function getAccessModifier()
-	{
-
-		return $this->accessModifier;
-	}
-
-	public function getReturnType()
-	{
-
-		return $this->returnType;
-	}
-
-	public function getControllerMethodName()
-	{
-
-		return $this->controllerMethodName;
-	}
-
-	public function getParameters()
-	{
-
-		return $this->parameters;
-	}
-
-	public function getMethodBody()
-	{
-
-		return $this->MethodBody;
-	}
-
-	public function addParametersItem(SpringBootMethodParameter $item)
-	{
-
-		$this->parameters->append(clone $item);
-		return $this;
-	}
-
-	public function write()
-	{
-
-		$this->validateData();
-
-		print "{$this->mainMappingAnnotation}\n";
-		print "@{$this->mappingAnnotation}(\"{$this->controllerPath}/{$this->pathVariableName}\")\n";
-		print "    {$this->accessModifier} {$this->returnType} {$this->controllerMethodName}( \n";
-		print "            \n";
-		if (
-			($this->parameters !== null &&
-				$this->parameters->count() > 0)
-		) {
-
-
-			print "\n";
-			$this->writeArrayObject($this->parameters);
-
-			print "\n";
-
-		}
-
-		print " ) {\n";
-		print "        {$this->MethodBody}\n";
-		print "    }\n";
-	}
+	$this->MethodBody =  null;
 
 }
 
+	public function setMappingAnnotation(  $mappingAnnotation)
+{
+
+		 $this->mappingAnnotation = $mappingAnnotation;
+return $this; 
+}
+
+	public function setMainMappingAnnotation(  $mainMappingAnnotation)
+{
+
+		 $this->mainMappingAnnotation = $mainMappingAnnotation;
+return $this; 
+}
+
+	public function setControllerPath(  $controllerPath)
+{
+
+		 $this->controllerPath = $controllerPath;
+return $this; 
+}
+
+	public function setPathVariableName(  $pathVariableName)
+{
+
+		 $this->pathVariableName = $pathVariableName;
+return $this; 
+}
+
+	public function setAccessModifier(  $accessModifier)
+{
+
+		 $this->accessModifier = $accessModifier;
+return $this; 
+}
+
+	public function setReturnType(  $returnType)
+{
+
+		 $this->returnType = $returnType;
+return $this; 
+}
+
+	public function setControllerMethodName(  $controllerMethodName)
+{
+
+		 $this->controllerMethodName = $controllerMethodName;
+return $this; 
+}
+
+	public function setParameters( SpringBootMethodParameter $parameters)
+{
+
+		 $this->parameters = $parameters;
+return $this; 
+}
+
+	public function setMethodBody(  $MethodBody)
+{
+
+		 $this->MethodBody = $MethodBody;
+return $this; 
+}
+
+	public function getMappingAnnotation()
+{
+
+		return $this->mappingAnnotation;
+}
+
+	public function getMainMappingAnnotation()
+{
+
+		return $this->mainMappingAnnotation;
+}
+
+	public function getControllerPath()
+{
+
+		return $this->controllerPath;
+}
+
+	public function getPathVariableName()
+{
+
+		return $this->pathVariableName;
+}
+
+	public function getAccessModifier()
+{
+
+		return $this->accessModifier;
+}
+
+	public function getReturnType()
+{
+
+		return $this->returnType;
+}
+
+	public function getControllerMethodName()
+{
+
+		return $this->controllerMethodName;
+}
+
+	public function getParameters()
+{
+
+		return $this->parameters;
+}
+
+	public function getMethodBody()
+{
+
+		return $this->MethodBody;
+}
+
+	public function addParametersItem( SpringBootMethodParameter $item )
+{
+
+		$this->parameters->append( clone $item);
+return $this; 
+}
+
+	public function write() {
+
+	$this->validateData();
+
+print "{$this->mainMappingAnnotation}\n";
+print "@{$this->mappingAnnotation}(\"{$this->controllerPath}/{$this->pathVariableName}\")\n";
+print "    {$this->accessModifier} {$this->returnType} {$this->controllerMethodName}( \n";
+print "            \n";
+if (($this->parameters !== null &&
+ $this->parameters->count() > 0)) {
+
+
+print "\n";		
+$this->writeArrayObject( $this->parameters );
+
+print "\n";
+
+}
+
+print " ) {\n";
+print "        {$this->MethodBody}\n";
+print "    }\n";
+}
+
+ } 
+
 
 ?>
+

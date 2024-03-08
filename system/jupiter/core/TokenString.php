@@ -26,6 +26,8 @@ class TokenString extends ArrayObject
 
     public $type;
 
+    public $nativeType;
+
     public $jsonParameters;
 
     public $jsonStructure;
@@ -410,6 +412,8 @@ class TokenString extends ArrayObject
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
+            print '--' . $this->snippetName . '--' . htmlbrk();
+            debug_print_backtrace();
             $this->content = TokenString::$snippets[$this->snippetName]->content;
         }
 
@@ -510,8 +514,15 @@ class TokenString extends ArrayObject
                         $variableName = $varName;
                     }
 
-                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
 
+                    $nativeTypes = array( 'int', 'string', 'Date' );
+
+                    if ($hasNativeType = in_array( $snippetName, $nativeTypes )) {
+                        $exprClass = VariableToken::class;
+                    }
+
+                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
+                    else 
                     if ($snippetName !== null && $variableName !== null) {
                         $exprClass = CompoundVariableToken::class;
                     }
@@ -522,7 +533,14 @@ class TokenString extends ArrayObject
                     $var->posEnd = $posEnd;
                     $var->name = $variableName;
                     $var->fullNameReference = $fullNameReference;
+                    if ($hasNativeType) {
+                        print 'Has native type...' . $snippetName . endl();
+                        $var->nativeType = $snippetName;
+                    }
+                    print 'Evaluating if is a compoun variable...' . endl();
                     if (get_class($var) == CompoundVariableToken::class) {
+                        print 'Yes is a compound variable...';
+                        print endlbrk() . ' :::: Is a compound variable with ---{' . $var->snippetName . '}--- snippetName ' . endlbrk();
                         $var->snippetName = $snippetName;
                         $var->make();
                     }
@@ -730,9 +748,9 @@ class TokenString extends ArrayObject
             // attributes of class
             foreach ($variables as $variable) {
                 $output .= endl() . _tab() .
-                    'protected ' .
+                    'protected ' . ($variable->nativeType !== null ? ' ' . $variable->nativeType . ' ' : "" ) . 
                     ($variable->snippetName !== null ? $variable->snippetName . ' ' : '') .
-                    '$' . $variable->name . ';' . endl();
+                    '$' . $variable->name . ';' . endl();                    
             }
 
             $addedVariables = array();
@@ -801,54 +819,32 @@ class TokenString extends ArrayObject
                 $output .= 'if ($this->validateOptions("' . $conditionalExpressionIndexName . '")) { ' .
                     endl() . $token->generateClass($token) . endl() . ' }';
             } else
-                if (get_class($token) === OptionalToken::class) {
-                    $output .= __print($outputStack);
-                    $outputStack = "";
-                    $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
-                    $output .= endl() . $token->generateClass($token) . endl();
-                    $output .= endl() . '}' . endl();
-                } else
-                    if (get_class($token) === CompoundVariableToken::class) {
-                        $output .= __print($outputStack);
-                        $outputStack = "";
-                        $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name  . ' );' . endl();
-                        /*$output .= _tab(2) . endl() . 'if ($this->' . $token->name . ' !== null) {';
-                        $output .= _tab(2) . endl() . '$keys = array_keys( get_object_vars( $this->' . $token->name . ') );';
-                        $output .= _tab(2) . endl() . 'foreach ($this->' . $token->name . ' as $key => $item_' . $token->name . ') {' . endl();
-                        $output .= _tab(2) . '$item_' . $token->name . '->options = $this->getOptionsArray( $keys, $key, $item_' . $token->name . ' );';
-                      */
-                      
-                        /*  $output .= _tab(3) .
-                            '$options = array( "condition:notlast" => (end( $keys ) === $key), ' . endl() .
-                            '"condition:first" => ($key === $keys[0]),' . endl() .
-                            '"condition:notfirst" => ($key !== $keys[0]), ' . endl() .
-                            '"condition:disabled" => ($item_' . $token->name . '->disabled === true), ' . endl() .
-                            '"condition:notdisabled" => ($item_' . $token->name . '->disabled !== true), ' . endl() .
-                            '"condition:selected" => ($item_' . $token->name . '->selected === true), ' . endl() .
-                            '"condition:notselected" => ($item_' . $token->name . '->selected !== true), ' . endl() .
-                            '"condition:enabled" => ($item_' . $token->name . '->disabled !== true), ' . endl() .
-                            '"condition:notenabled" => ($item_' . $token->name . '->disabled === true), ' . endl() .
-                            '"condition:last" => ($key === end( $keys )), ' . endl() .
-                            ');';*/
+            if (get_class($token) === OptionalToken::class) {
+                $output .= __print($outputStack);
+                $outputStack = "";
+                $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
+                $output .= endl() . $token->generateClass($token) . endl();
+                $output .= endl() . '}' . endl();
+            } else
+            if (get_class($token) === CompoundVariableToken::class) {
+                $output .= __print($outputStack);
+                $outputStack = "";
+                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name  . ' );' . endl();
 
 
+            } else
+            if (get_class($token) === SingleToken::class) {
 
-                       // $output .= _tab(3) . '$item_' . $token->name . '->write();' . endl();
-                       // $output .= _tab(2) . '}}' . endl();
+                if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
+                    $ignoreNextToken = true;
+                    $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
+                } else {
+                    $outputStack .= ($token->content);
+                }
 
-                    } else
-                        if (get_class($token) === SingleToken::class) {
-
-                            if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
-                                $ignoreNextToken = true;
-                                $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
-                            } else {
-                                $outputStack .= ($token->content);
-                            }
-
-                        } else if (get_class($token) === VariableToken::class) {
-                            $output .= __print('{$this->' . $token->name . '}');
-                        }
+            } else if (get_class($token) === VariableToken::class) {
+                $output .= __print('{$this->' . $token->name . '}');
+            }
         }
 
         if ($outputStack !== null) {
@@ -880,6 +876,8 @@ class TokenString extends ArrayObject
 
         if (is_array( TokenString::$snippets )) {
             foreach (TokenString::$snippets as $snippet) {
+
+                print endlbrk() . 'SNIPPET PROCESSING = ' . $snippet->name . endlbrk();
 
                 $this->snippetName = $snippet->name;
                 $this->clean();

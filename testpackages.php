@@ -558,7 +558,19 @@ class SnippetsManager extends Snippet {
 }
 
 
-
+?>
+<!doctype html>
+<html>
+    <head>
+        <style type="text/css">
+            body {
+                background-color:#111;
+                color:#AAA;
+            }
+        </style>
+    </head>
+    <body>
+<?php
 
 
 $snippetsManager = new SnippetsManager();
@@ -573,7 +585,9 @@ $snippetsManager->make();
 $snippetsManager->scanPackages();
 $snippetsManager->loadTemplates();
 
-
+?>
+    </body>
+</html>
 
 
 
