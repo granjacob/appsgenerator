@@ -2,6 +2,8 @@
 
 namespace system\jupiter\core;
 
+use \ArrayObject;
+
 abstract class GeneratorClass extends ArrayObject {
 
     public $selected;

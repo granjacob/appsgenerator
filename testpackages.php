@@ -3,7 +3,6 @@
 require_once( "core.php" );
 
 
-
 use system\jupiter\core\Snippet;
 use system\jupiter\core\TokenString;
 
@@ -499,19 +498,16 @@ class SnippetsManager extends Snippet {
     public function loadTemplates()
     {
         foreach ($this->packages as $keyPackage => $package) {
-            print '---------------------------------Scanning templates for ' . $keyPackage . ' at ' . $package->getFullPath() . endl();
             $files = glob( $package->getFullPath() . _bslash() . '*' );
             foreach ($files as $file) {
                 if (!is_dir( $file )) {
                     $do = new TokenString();
                     $do->snippetsXMLFile = $file;
                     $do->loadSnippets();
-                    print ' Generating to ' .  $this->outputPath . _bslash() . $package->getNameAsPath() . endl();
                     $do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
-                    print endl() . 'Processing file ' . $file . endl(); 
                 }
             }
-            print endl();
+           // print endl();
         }            
     }
 
@@ -584,6 +580,11 @@ $snippetsManager->make();
 
 $snippetsManager->scanPackages();
 $snippetsManager->loadTemplates();
+
+use system\europa\com\subpackage\HelloWorld;
+
+$h = new HelloWorld(); 
+$h->write();
 
 ?>
     </body>

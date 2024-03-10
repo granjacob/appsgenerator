@@ -1,6 +1,6 @@
-
 <?php
 
+namespace system\europa\com\java\spring;
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### SpringControllerMethod2 : USAGE EXAMPLE ####################### 

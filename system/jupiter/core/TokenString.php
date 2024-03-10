@@ -12,6 +12,8 @@ class TokenString extends ArrayObject
 
     public $packageName;
 
+    public $namespace;
+
     public $id;
     public $name;
 
@@ -66,7 +68,6 @@ class TokenString extends ArrayObject
 
         if ($snippets->length > 0) {
             foreach ($snippets as $snippet) {
-                print 'Adding snippet...';
                 $newSnippet = new Snippet();
                 $newSnippet->name = $snippet->getAttribute('name');
                 $newSnippet->content = trim($snippet->nodeValue);
@@ -317,7 +318,6 @@ class TokenString extends ArrayObject
             }
 
             if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1 && $countValidationType == 1) {
-                print $currentTypeName . "<br/>\n";
                 $this->logSyntaxError('Variable type specified not valid.', $expressionStr, $i);
                 return false;
             } else
@@ -392,7 +392,7 @@ class TokenString extends ArrayObject
 
         }
 
-        print $countValidationVar . " : " . $countValidationOpt . " : " . $currentVariableLength . "<br/>";
+        //print $countValidationVar . " : " . $countValidationOpt . " : " . $currentVariableLength . "<br/>";
 
         return false;
 
@@ -412,8 +412,6 @@ class TokenString extends ArrayObject
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
-            print '--' . $this->snippetName . '--' . htmlbrk();
-            debug_print_backtrace();
             $this->content = TokenString::$snippets[$this->snippetName]->content;
         }
 
@@ -533,14 +531,12 @@ class TokenString extends ArrayObject
                     $var->posEnd = $posEnd;
                     $var->name = $variableName;
                     $var->fullNameReference = $fullNameReference;
+
                     if ($hasNativeType) {
-                        print 'Has native type...' . $snippetName . endl();
                         $var->nativeType = $snippetName;
                     }
-                    print 'Evaluating if is a compoun variable...' . endl();
+
                     if (get_class($var) == CompoundVariableToken::class) {
-                        print 'Yes is a compound variable...';
-                        print endlbrk() . ' :::: Is a compound variable with ---{' . $var->snippetName . '}--- snippetName ' . endlbrk();
                         $var->snippetName = $snippetName;
                         $var->make();
                     }
@@ -670,17 +666,25 @@ class TokenString extends ArrayObject
 
         $fileBegins = $pToken === null;
 
+        if ($pToken === null) {
+            $pToken = $this;
+        }
+
+
         if ($fileBegins) {
-            $output .= endl() . PHP_FILE_OPEN . endl(2);
+            $output .=  PHP_FILE_OPEN . endl(2);
+
+            $output .= 'namespace ' . $pToken->namespace . ';';
+            //$output .= 'require_once( "' . $fileName . '.php" );';
+            $output .= endl();
+
             $output .= 'use system\jupiter\core\GeneratorClass;' . endl();
             //$output .= 'require_once( "GeneratorClass.php" );' . endl();
             // $output .= ' require_once( "core.php" );' . endl();
 
         }
 
-        if ($pToken === null) {
-            $pToken = $this;
-        }
+        
 
         $variables = array();
 
@@ -701,6 +705,8 @@ class TokenString extends ArrayObject
                 $uniqueSnippets[$variable->snippetName] = $variable->snippetName;
             }
         }
+
+
 
         // requires
         if ($fileBegins) {
@@ -870,6 +876,7 @@ class TokenString extends ArrayObject
      */
     public function generateClasses( $wherePath )
     {
+        //print getcwd() . endl();
         $className = "";
        // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
         $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
@@ -877,9 +884,10 @@ class TokenString extends ArrayObject
         if (is_array( TokenString::$snippets )) {
             foreach (TokenString::$snippets as $snippet) {
 
-                print endlbrk() . 'SNIPPET PROCESSING = ' . $snippet->name . endlbrk();
 
                 $this->snippetName = $snippet->name;
+
+                $this->namespace = trim( str_replace( getcwd(), "", $wherePath ), '\\' );
                 $this->clean();
                 $this->make();
                 $output = $this->generateClass( null, $wherePath );
@@ -887,7 +895,7 @@ class TokenString extends ArrayObject
                     mkdir( $wherePath, 0777, true );
                 }
                 file_put_contents( $wherePath . _bslash() . camelize($this->snippetName) . ".php", $output);
-                print __ln(100, '%');
+               //print __ln(100, '%');
             }
         }
     }
