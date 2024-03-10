@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<snippets package="com.snippets.forms" language="php">
+    <snippet name="FormSubmitButton">
+        <![CDATA[
+ <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Submit Button</label>
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                  </div>
+                </div>
+        ]]>
+    </snippet>
+    <snippet name="FormField">
+        <![CDATA[
+             <div class="row mb-3">
+                  <label for="{{:name:}}" class="col-sm-2 col-form-label">{{:labelDescription:}}</label>
+                  <div class="col-sm-10">
+                    <input name="{{:name:}}" type="{{:fieldType:}}" class="form-control">
+                  </div>
+        ]]>
+    </snippet>
+    <snippet name="SingleForm">
+    <![CDATA[
+  <form>
+                {{:(FormField)fields:}}
+                {{:(FormSubmitButton)submitButton:}}
+                </form>
+        ]]>
+    </snippet>
+</snippets>

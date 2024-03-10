@@ -1,6 +1,6 @@
 <?php
 
-namespace system\europa\com\subpackage;
+namespace system\europa\com\snippets\forms;
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### HelloWorld : USAGE EXAMPLE ####################### 
