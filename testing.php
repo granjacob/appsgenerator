@@ -25,7 +25,7 @@ use system\jupiter\core\TokenString;
 
 
     $do = new TokenString();
-    $do->snippetsXMLFile = "archivoejemplo.xml";
+    $do->snippetsXMLFile = "archissssvoejemplo.xml";
     $do->loadSnippets();
     //$do->content = $input;
     //$do->snippetName = 'TestForConditionalToken';

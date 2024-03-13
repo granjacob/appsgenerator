@@ -22,6 +22,7 @@
     <snippet name="SingleForm">
     <![CDATA[
   <form>
+                {{:(com.java.spring.Empresa):empresas}}
                 {{:(FormField)fields:}}
                 {{:(FormSubmitButton)submitButton:}}
                 </form>

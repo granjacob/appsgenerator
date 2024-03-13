@@ -500,11 +500,14 @@ class SnippetsManager extends Snippet {
         foreach ($this->packages as $keyPackage => $package) {
             $files = glob( $package->getFullPath() . _bslash() . '*' );
             foreach ($files as $file) {
+
                 if (!is_dir( $file )) {
+                print '++++++Processing file... ' . $file . endl(2);
                     $do = new TokenString();
                     $do->snippetsXMLFile = $file;
                     $do->loadSnippets();
                     $do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
+                    TokenString::$snippets = array();
                 }
             }
            // print endl();

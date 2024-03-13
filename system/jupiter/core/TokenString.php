@@ -876,15 +876,17 @@ class TokenString extends ArrayObject
      */
     public function generateClasses( $wherePath )
     {
+        print 'Generating classes for ' . $wherePath . endl();
         //print getcwd() . endl();
         $className = "";
        // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
         $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
 
         if (is_array( TokenString::$snippets )) {
-            foreach (TokenString::$snippets as $snippet) {
+            print 'Snippets founds ' . count( TokenString::$snippets ) . endl();
+            foreach (TokenString::$snippets as $key => $snippet) {
 
-
+                print 'Generating class for ' . $snippet->name . ' with key ' . $key . endl();
                 $this->snippetName = $snippet->name;
 
                 $this->namespace = trim( str_replace( getcwd(), "", $wherePath ), '\\' );
