@@ -199,6 +199,32 @@ function _bslash() {
     return '\\';
 }
 
+/**
+ * Returns the package of data type with package
+ * 
+ * a.b.c.DataType returns a.b.c
+ * 
+ */
+function getPackageOfDataType( $dataTypeWithPackage )
+{
+    $parts = explode( '.', $dataTypeWithPackage );
+    $parts = array_slice( $parts, 0, -1 );
+    return implode( '.', $parts );
+}
+
+
+/**
+ * Returns the data type of package
+ * 
+ * a.b.c.DataType returns DataType
+ * 
+ */
+function getDataTypeOfPackage( $dataTypeWithPackage )
+{
+    $parts = explode( '.', $dataTypeWithPackage );
+    return $parts[count( $parts ) - 1];
+}
+
 
 $defaultConditionals = array(
     'notlast',

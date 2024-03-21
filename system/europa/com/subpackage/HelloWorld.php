@@ -9,6 +9,8 @@ use system\jupiter\core\GeneratorClass;
 
 	$varHelloWorld->setVariableValue("HelloWorld_variableValue_EXAMPLE");
 
+	$varHelloWorld->set(com.java.spring.SpringBootController)welcomers("HelloWorld_(com.java.spring.SpringBootController)welcomers_EXAMPLE");
+
 	$varHelloWorld->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
@@ -17,6 +19,8 @@ class HelloWorld extends GeneratorClass {
 
 	protected $variableValue;
 
+	protected $(com.java.spring.SpringBootController)welcomers;
+
 public function __construct()
 
 {
@@ -24,6 +28,8 @@ public function __construct()
 		parent :: __construct();
 
 	$this->variableValue =  null;
+
+	$this->(com.java.spring.SpringBootController)welcomers =  null;
 
 }
 
@@ -34,10 +40,23 @@ public function __construct()
 return $this; 
 }
 
+	public function set(com.java.spring.SpringBootController)welcomers(  $(com.java.spring.SpringBootController)welcomers)
+{
+
+		 $this->(com.java.spring.SpringBootController)welcomers = $(com.java.spring.SpringBootController)welcomers;
+return $this; 
+}
+
 	public function getVariableValue()
 {
 
 		return $this->variableValue;
+}
+
+	public function get(com.java.spring.SpringBootController)welcomers()
+{
+
+		return $this->(com.java.spring.SpringBootController)welcomers;
 }
 
 	public function write() {
@@ -53,6 +72,8 @@ print "    cout << \"This is a test program for write the variable \" << \n";
 print "        \"{$this->variableValue}\" << endl;\n";
 print "    return 0;\n";
 print "}\n";
+print "\n";
+print "{$this->(com.java.spring.SpringBootController)welcomers}\n";
 }
 
  } 

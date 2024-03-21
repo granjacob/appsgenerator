@@ -504,14 +504,17 @@ class SnippetsManager extends Snippet {
                 if (!is_dir( $file )) {
                 print '++++++Processing file... ' . $file . endl(2);
                     $do = new TokenString();
+                    $do->packageName = $package->name;
                     $do->snippetsXMLFile = $file;
                     $do->loadSnippets();
                     $do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
-                    TokenString::$snippets = array();
+                    //TokenString::$snippets = array();
                 }
             }
            // print endl();
-        }            
+        }  
+        
+        print_r( TokenString::$snippets );
     }
 
     public function isValidFileExtension( $extension )
@@ -563,12 +566,13 @@ class SnippetsManager extends Snippet {
     <head>
         <style type="text/css">
             body {
-                background-color:#111;
-                color:#AAA;
+                background-color:#660033;
+                color:#eee;
             }
         </style>
     </head>
     <body>
+        <xmp>
 <?php
 
 
@@ -589,7 +593,7 @@ use system\europa\com\subpackage\HelloWorld;
 $h = new HelloWorld(); 
 $h->write();
 
-?>
+?></xmp>
     </body>
 </html>
 

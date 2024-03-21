@@ -64,14 +64,21 @@ class TokenString extends ArrayObject
 
         $xml->load($filename);
 
+
+        $snippetsTag =  $xml->getElementsByTagName('snippets');
+        //print 'Welcome...';
+        $packageName = $snippetsTag[0]->getAttribute('package') . endl();
+
         $snippets = $xml->getElementsByTagName('snippet');
 
         if ($snippets->length > 0) {
             foreach ($snippets as $snippet) {
                 $newSnippet = new Snippet();
-                $newSnippet->name = $snippet->getAttribute('name');
+                $newSnippet->name =  $snippet->getAttribute('name');
+                $newSnippet->snippetName =  $snippet->getAttribute('name');
+                $newSnippet->packageName = trim( $packageName ) ;
                 $newSnippet->content = trim($snippet->nodeValue);
-                TokenString::$snippets[$snippet->getAttribute('name')] = $newSnippet;
+                TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
             }
         }
     }
@@ -103,6 +110,7 @@ class TokenString extends ArrayObject
         $var->posStart = $posStart;
         $var->posEnd = $posEnd;
         $var->name = $varName;
+        $var->packageName = 'UNKNOWN';  // ---
         $var->id = $id;
         $offset = $posEnd - 1;
 
@@ -122,7 +130,8 @@ class TokenString extends ArrayObject
 
     public function isValidDigitForVariableName($chr)
     {
-        if (ctype_alnum($chr) || $chr == '_' || $chr == '-')
+        $validCharacters = array('_', '-', '.');
+        if (ctype_alnum($chr) || in_array( $chr, $validCharacters ))
             return true;
         return false;
     }
@@ -131,6 +140,7 @@ class TokenString extends ArrayObject
     {
         print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
         print '<strong>Check></strong> "' . substr($expressionStr, max(0, $currentIndex - 8), min(strlen($expressionStr) - $currentIndex, 16)) . '", index: ' . $currentIndex . "<br/>\n";
+        exit;
     }
 
     public function collectVariables($tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class, $sameLevel = false, $distinct = false)
@@ -150,8 +160,9 @@ class TokenString extends ArrayObject
                 array_push($addedVariables, $token->name);
 
 
-                if (get_class($token) != $returnAsType) {
+                if (get_class($token) !== $returnAsType) {
                     $var = new $returnAsType();
+                    $var->packageName = $token->packageName;   // ---
                     $var->name = $token->name;
                     $var->content = $token->content;
                     $var->fullNameReference = $token->fullNameReference;
@@ -406,13 +417,27 @@ class TokenString extends ArrayObject
         }
     }
 
+    public function getSnippetNameWithPackage()
+    {
+        $result =  $this->packageName . '.' . $this->snippetName;
+        if (trim( $result, '.' ) !== $result) {
+            print __ln(100,'--' ) . endl();
+            print_r( $this );
+            print __ln(100,'--' ) . endl();
+
+          //  exit;
+        }
+        return $this->packageName . '.' . $this->snippetName;
+    }
+
     public function make($expressionStr = null)
     {
+        print 'Making...';
         global $defaultConditionals;
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
-            $this->content = TokenString::$snippets[$this->snippetName]->content;
+            $this->content = TokenString::$snippets[$this->getSnippetNameWithPackage()]->content;
         }
 
         if ($expressionStr === null)
@@ -501,6 +526,8 @@ class TokenString extends ArrayObject
                     $matches = array();
                     $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
 
+                    print 'Showing matches...';
+print_r( $matches );
                     $snippetName = null;
                     $variableName = $varName;
 
@@ -530,14 +557,21 @@ class TokenString extends ArrayObject
                     $var->posStart = $posStart;
                     $var->posEnd = $posEnd;
                     $var->name = $variableName;
+                    //$var->packageName = "kjdlasjdaklsds"; // ---
                     $var->fullNameReference = $fullNameReference;
 
                     if ($hasNativeType) {
                         $var->nativeType = $snippetName;
                     }
 
-                    if (get_class($var) == CompoundVariableToken::class) {
-                        $var->snippetName = $snippetName;
+                    if (get_class($var) === CompoundVariableToken::class) {
+                        print 'SnippetName = ' . $snippetName . endl();
+                        $var->packageName = getPackageOfDataType( $snippetName );
+                        print '/**/packageName = ' . $var->packageName . endl();
+
+                        $var->snippetName = getDataTypeOfPackage( $snippetName );
+                        print '/**/snippetName = ' . $var->snippetName . endl();
+
                         $var->make();
                     }
                     $var->id = $k;
@@ -874,17 +908,25 @@ class TokenString extends ArrayObject
      *
      * @return void
      */
-    public function generateClasses( $wherePath )
+    public function generateClasses( $wherePath, $snippetsArray=null )
     {
+        $snippets = array();
+        if ($snippetsArray !== null && is_array( $snippetsArray )) {
+            $snippets = $snippetsArray;
+        }
+        else {
+            $snippets = TokenString::$snippets;
+        }
+
         print 'Generating classes for ' . $wherePath . endl();
         //print getcwd() . endl();
         $className = "";
        // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
         $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
 
-        if (is_array( TokenString::$snippets )) {
-            print 'Snippets founds ' . count( TokenString::$snippets ) . endl();
-            foreach (TokenString::$snippets as $key => $snippet) {
+        if (is_array( $snippets )) {
+            print 'Snippets founds ' . count( $snippets ) . endl();
+            foreach ($snippets as $key => $snippet) {
 
                 print 'Generating class for ' . $snippet->name . ' with key ' . $key . endl();
                 $this->snippetName = $snippet->name;

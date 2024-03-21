@@ -11,6 +11,8 @@ int main()
         "{{:variableValue:}}" << endl;
     return 0;
 }
+
+{{:(com.java.spring.SpringBootController)welcomers:}}
          ]]>      
     </snippet>
 </snippets>
