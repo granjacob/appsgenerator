@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<snippets lang="lang" package="com">
+    <snippet name="TestSnippet">
+        <![CDATA[
+            Hello world!, this is my first snippet!
+        ]]> 
+    </snippet>
+    <snippet name="SecondTest">
+        <![CDATA[
+            Grow up this! {{:(TestSnippet)var:}}
+        ]]> 
+    </snippet>
+    <snippet name="ThirdTest">
+        <![CDATA[
+            Test this third! {{:(std.beast.Prueba)var:}}
+        ]]> 
+    </snippet>
+</snippets>

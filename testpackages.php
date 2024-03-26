@@ -206,6 +206,13 @@ class SnippetsManager extends Snippet {
         $this->packages = new Package();
     }
 
+    public function getListOfPackages()
+    {
+        if (is_array( TokenString :: $snippets ))
+            return array_keys( TokenString :: $snippets );
+        //return $this->packagesNames;
+    }
+
     public  function validLanguage( $lang )
     {
         return true;
@@ -502,19 +509,17 @@ class SnippetsManager extends Snippet {
             foreach ($files as $file) {
 
                 if (!is_dir( $file )) {
-                print '++++++Processing file... ' . $file . endl(2);
                     $do = new TokenString();
                     $do->packageName = $package->name;
                     $do->snippetsXMLFile = $file;
                     $do->loadSnippets();
-                    $do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
+                    //$do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
                     //TokenString::$snippets = array();
                 }
             }
            // print endl();
         }  
         
-        print_r( TokenString::$snippets );
     }
 
     public function isValidFileExtension( $extension )
@@ -578,9 +583,9 @@ class SnippetsManager extends Snippet {
 
 $snippetsManager = new SnippetsManager();
 
-$snippetsManager->mainPath = getcwd() . _bslash() . "projects";
+$snippetsManager->mainPath = getcwd() . _bslash() . "pruebas";
 
-$snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "europa";
+$snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "titan";
 
 
 $snippetsManager->make();
@@ -588,11 +593,15 @@ $snippetsManager->make();
 $snippetsManager->scanPackages();
 $snippetsManager->loadTemplates();
 
+print_r( TokenString :: $snippets );
+print_r( $snippetsManager->getListOfPackages() );
+
+/*
 use system\europa\com\subpackage\HelloWorld;
 
 $h = new HelloWorld(); 
 $h->write();
-
+*/
 ?></xmp>
     </body>
 </html>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<snippets package="std.beast" lang="lang">
+    <snippet name="Prueba">
+        <![CDATA[
+        Template extensivo de prueba! :) 
+        ]]>
+    </snippet>
+</snippets>

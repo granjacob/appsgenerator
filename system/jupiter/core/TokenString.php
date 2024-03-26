@@ -265,6 +265,7 @@ class TokenString extends ArrayObject
                         }
 
                         $varConditionalToken = new ConditionalToken();
+                        $varConditionalToken->packageName = $this->packageName;
                         $varConditionalToken->conditionalExpression = $conditionalKey;
                         $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
                       
@@ -419,20 +420,13 @@ class TokenString extends ArrayObject
 
     public function getSnippetNameWithPackage()
     {
-        $result =  $this->packageName . '.' . $this->snippetName;
-        if (trim( $result, '.' ) !== $result) {
-            print __ln(100,'--' ) . endl();
-            print_r( $this );
-            print __ln(100,'--' ) . endl();
 
-          //  exit;
-        }
         return $this->packageName . '.' . $this->snippetName;
     }
 
     public function make($expressionStr = null)
     {
-        print 'Making...';
+  
         global $defaultConditionals;
         $jsonStructure = "{}";
 
@@ -489,6 +483,7 @@ class TokenString extends ArrayObject
                     if (substr($conditionalTokenContent, 0, $len = strlen($conditionalKey)) === $conditionalKey) {
 
                         $varConditionalToken = new ConditionalToken();
+                        $varConditionalToken->packageName = $this->packageName;
                         $varConditionalToken->conditionalExpression = $conditionalKey;
                         $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
 
@@ -526,8 +521,6 @@ class TokenString extends ArrayObject
                     $matches = array();
                     $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
 
-                    print 'Showing matches...';
-print_r( $matches );
                     $snippetName = null;
                     $variableName = $varName;
 
@@ -564,9 +557,22 @@ print_r( $matches );
                         $var->nativeType = $snippetName;
                     }
 
-                    if (get_class($var) === CompoundVariableToken::class) {
+                    if (get_class($var) === CompoundVariableToken::class) {                        
                         print 'SnippetName = ' . $snippetName . endl();
                         $var->packageName = getPackageOfDataType( $snippetName );
+                        
+                        if ($var->packageName === "" || $var->packageName === null) {
+                            print 'Es nulooooooooooooooooo';
+                            print ' With package name = ' . $this->packageName;
+
+
+                         /*   if ($snippetName === "PrintMyData") {
+                             print_r( $this );
+                                exit;
+                            }*/
+                            $var->packageName = $this->packageName;
+                        }
+
                         print '/**/packageName = ' . $var->packageName . endl();
 
                         $var->snippetName = getDataTypeOfPackage( $snippetName );
@@ -601,6 +607,7 @@ print_r( $matches );
                                     if ($qOptOpenCount === 0) {
 
                                         $optExpr = new OptionalToken();
+                                        $optExpr->packageName = $this->packageName;     // package name
                                         $optExpr->content = substr(
                                             $expressionStr,
                                             $i + strlen(OPT_DEF_OPEN),
@@ -780,7 +787,7 @@ print_r( $matches );
         }
 
         if ($fileBegins) {
-            $output .= endl() . 'class ' . $this->snippetName . ' extends GeneratorClass {' . endl();
+            $output .= endl() . 'class ' . getDataTypeOfPackage( $this->snippetName ) . ' extends GeneratorClass {' . endl();
         }
 
         if ($fileBegins) {
@@ -938,7 +945,7 @@ print_r( $matches );
                 if (!is_dir( $wherePath )) {
                     mkdir( $wherePath, 0777, true );
                 }
-                file_put_contents( $wherePath . _bslash() . camelize($this->snippetName) . ".php", $output);
+                file_put_contents( $wherePath . _bslash() . camelize(getDataTypeOfPackage($this->snippetName)) . ".php", $output);
                //print __ln(100, '%');
             }
         }
