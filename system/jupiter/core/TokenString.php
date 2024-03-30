@@ -701,6 +701,7 @@ class TokenString extends ArrayObject
 
     public function generateClass($pToken = null, $usePath=null )
     {
+
         if ($usePath !== null)
             $usePath = str_replace( getcwd(), "", $usePath );
         $output = "";
@@ -754,7 +755,8 @@ class TokenString extends ArrayObject
             foreach ($uniqueSnippets as $fileName) {
 
                 if ($fileName !== null) {
-                    $output .= 'use ' . $usePath . _bslash() . $fileName . ';';
+                    print 'usePath = ' . $usePath . endlbrk();
+                    $output .= 'use ' . trim( $usePath, '\\' ) . _bslash() . $fileName . ';';
                     //$output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
@@ -915,8 +917,11 @@ class TokenString extends ArrayObject
      *
      * @return void
      */
-    public function generateClasses( $wherePath, $snippetsArray=null )
+    public function generateClasses( $wherePath=null, $snippetsArray=null )
     {
+        if ($wherePath === null) {
+            $wherePath = $this->outputPath;
+        }
         $snippets = array();
         if ($snippetsArray !== null && is_array( $snippetsArray )) {
             $snippets = $snippetsArray;
@@ -925,27 +930,45 @@ class TokenString extends ArrayObject
             $snippets = TokenString::$snippets;
         }
 
-        print 'Generating classes for ' . $wherePath . endl();
         //print getcwd() . endl();
         $className = "";
        // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
-        $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
+    //    $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
+
+        if (!is_dir( $wherePath )) {
+            mkdir( $wherePath, 0777, true );
+        }
+
 
         if (is_array( $snippets )) {
-            print 'Snippets founds ' . count( $snippets ) . endl();
+
             foreach ($snippets as $key => $snippet) {
 
-                print 'Generating class for ' . $snippet->name . ' with key ' . $key . endl();
-                $this->snippetName = $snippet->name;
 
-                $this->namespace = trim( str_replace( getcwd(), "", $wherePath ), '\\' );
-                $this->clean();
-                $this->make();
-                $output = $this->generateClass( null, $wherePath );
-                if (!is_dir( $wherePath )) {
-                    mkdir( $wherePath, 0777, true );
+                $snippetWherePath =  
+                    $wherePath . _bslash() . 
+                    getPackageNameAsPath( $snippet->packageName )  . _bslash();
+
+
+                $snippet->snippetName = $snippet->name;
+
+                $snippet->namespace = 
+                    trim( str_replace( getcwd(), "", $snippetWherePath ), '\\' );
+
+                $snippet->clean();
+                $snippet->make();
+
+                $output = $snippet->generateClass( null, $snippetWherePath );
+
+                if (!is_dir( $snippetWherePath )) {
+                    mkdir( $snippetWherePath, 0777, true );
                 }
-                file_put_contents( $wherePath . _bslash() . camelize(getDataTypeOfPackage($this->snippetName)) . ".php", $output);
+
+
+                file_put_contents( 
+                    $snippetWherePath . 
+                    camelize(getDataTypeOfPackage($snippet->snippetName)) . ".php", $output 
+                );
                //print __ln(100, '%');
             }
         }

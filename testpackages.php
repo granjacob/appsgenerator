@@ -119,7 +119,7 @@ class Package extends ArrayObject {
 
     public function getNameAsPath()
     {
-        return str_replace( '.', _bslash(), $this->name );
+        return getPackageNameAsPath(( $this->name ));
     }
 
     protected function make()
@@ -522,6 +522,11 @@ class SnippetsManager extends Snippet {
         
     }
 
+    public function loadAndGenerateClasses()
+    {
+        $this->generateClasses( $this->outputPath  );                
+    }
+
     public function isValidFileExtension( $extension )
     {
         return $extension === 'xml';
@@ -593,8 +598,11 @@ $snippetsManager->make();
 $snippetsManager->scanPackages();
 $snippetsManager->loadTemplates();
 
-print_r( TokenString :: $snippets );
-print_r( $snippetsManager->getListOfPackages() );
+$snippetsManager->loadAndGenerateClasses();
+
+
+//print_r( TokenString :: $snippets );
+//print_r( $snippetsManager->getListOfPackages() );
 
 /*
 use system\europa\com\subpackage\HelloWorld;

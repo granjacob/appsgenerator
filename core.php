@@ -226,6 +226,12 @@ function getDataTypeOfPackage( $dataTypeWithPackage )
 }
 
 
+function getPackageNameAsPath( $name )
+{
+    return str_replace( '.', _bslash(), $name );
+}
+
+
 $defaultConditionals = array(
     'notlast',
     'notfirst',
