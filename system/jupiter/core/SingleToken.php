@@ -17,4 +17,15 @@ class SingleToken extends TokenString
         $this->value = $this->content;
     }
 
+    public static function analyze( &$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken )
+    {
+        $singleToken = $singleToken . $expressionStr[$i];
+
+        if (($i == strlen($expressionStr) - 1) && strlen($singleToken) > 0) {
+            $token->addSingleToken($token->tokens, $singleToken );
+        }
+
+    }
+
+
 }

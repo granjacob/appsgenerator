@@ -44,7 +44,7 @@ return $this;
 
 	$this->validateData();
 
-print "Test this third! {$this->(std.beast.Prueba)var}\n";
+print "Test this third! {$this->(std.beast.Prueba)var}}\n";
 }
 
  } 

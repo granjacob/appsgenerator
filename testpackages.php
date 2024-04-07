@@ -509,7 +509,7 @@ class SnippetsManager extends Snippet {
             foreach ($files as $file) {
 
                 if (!is_dir( $file )) {
-                    $do = new TokenString();
+                    $do = new Snippet();
                     $do->packageName = $package->name;
                     $do->snippetsXMLFile = $file;
                     $do->loadSnippets();

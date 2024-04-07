@@ -7,8 +7,13 @@ use DOMDocument;
 use ArrayObject;
 
 
-class TokenString extends ArrayObject
+abstract class TokenString extends ArrayObject
 {
+
+    public abstract static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken );
+
+
+    public static int $nextId = 0;
 
     public $packageName;
 
@@ -65,7 +70,7 @@ class TokenString extends ArrayObject
         $xml->load($filename);
 
 
-        $snippetsTag =  $xml->getElementsByTagName('snippets');
+        $snippetsTag = $xml->getElementsByTagName('snippets');
         //print 'Welcome...';
         $packageName = $snippetsTag[0]->getAttribute('package') . endl();
 
@@ -74,9 +79,9 @@ class TokenString extends ArrayObject
         if ($snippets->length > 0) {
             foreach ($snippets as $snippet) {
                 $newSnippet = new Snippet();
-                $newSnippet->name =  $snippet->getAttribute('name');
-                $newSnippet->snippetName =  $snippet->getAttribute('name');
-                $newSnippet->packageName = trim( $packageName ) ;
+                $newSnippet->name = $snippet->getAttribute('name');
+                $newSnippet->snippetName = $snippet->getAttribute('name');
+                $newSnippet->packageName = trim($packageName);
                 $newSnippet->content = trim($snippet->nodeValue);
                 TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
             }
@@ -117,12 +122,19 @@ class TokenString extends ArrayObject
         return $var;
     }
 
-    public function addSingleToken(&$tokensArray, &$content, &$id)
+    public static function getNextId()
+    {
+        TokenString :: $nextId++;
+        return TokenString :: $nextId;        
+    }
+
+    public function addSingleToken(&$tokensArray, &$content )
     {
         if (strlen($content) > 0) {
             $newSingleToken = new SingleToken($content);
-            $newSingleToken->id = $id;
-            $id++;
+            $newSingleToken->id = TokenString :: getNextId();
+            //$id++;
+            
             array_push($tokensArray, $newSingleToken);
         }
         $content = "";
@@ -131,7 +143,7 @@ class TokenString extends ArrayObject
     public function isValidDigitForVariableName($chr)
     {
         $validCharacters = array('_', '-', '.');
-        if (ctype_alnum($chr) || in_array( $chr, $validCharacters ))
+        if (ctype_alnum($chr) || in_array($chr, $validCharacters))
             return true;
         return false;
     }
@@ -186,7 +198,7 @@ class TokenString extends ArrayObject
                     foreach ($collected as $variableCollected) {
                         if (in_array($variableCollected->name, $addedVariables) && $distinct !== false) {
                             continue;
-                        } 
+                        }
                         array_push($addedVariables, $variableCollected->name);
                         array_push($variables, $variableCollected);
                     }
@@ -268,7 +280,7 @@ class TokenString extends ArrayObject
                         $varConditionalToken->packageName = $this->packageName;
                         $varConditionalToken->conditionalExpression = $conditionalKey;
                         $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
-                      
+
                         $hasConditional = true;
                         break;
                     }
@@ -426,7 +438,7 @@ class TokenString extends ArrayObject
 
     public function make($expressionStr = null)
     {
-  
+
         global $defaultConditionals;
         $jsonStructure = "{}";
 
@@ -453,204 +465,11 @@ class TokenString extends ArrayObject
         for ($i = 0; $i < strlen($expressionStr); $i++) {
 
             $addSingleToken = false;
-
-            $evalExpr_varDefOpen = $this->catchDefExpr($expressionStr, $i, VAR_DEF_OPEN);
-            $evalExpr_optDefOpen = $this->catchDefExpr($expressionStr, $i, OPT_DEF_OPEN);
-            $evalExpr_varDefClose = $this->catchDefExpr($expressionStr, $i, VAR_DEF_CLOSE);
-            $evalExpr_optDefClose = $this->catchDefExpr($expressionStr, $i, OPT_DEF_CLOSE);
-
-            $evalExpr_varDefClose = $this->catchDefExpr($expressionStr, $i, VAR_DEF_CLOSE);
-            $evalExpr_optDefClose = $this->catchDefExpr($expressionStr, $i, OPT_DEF_CLOSE);
-
-            $evalExpr_condDefOpen = $this->catchDefExpr($expressionStr, $i, COND_DEF_OPEN);
-            $evalExpr_condDefClose = $this->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE);
-
-            if ($evalExpr_varDefOpen === COND_DEF_OPEN) {
-                $i += strlen(COND_DEF_OPEN);
-                $conditionalTokenContent = "";
-
-                while (
-                    (($evalExpr_condDefClose = $this->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE)) !== COND_DEF_CLOSE) &&
-                    $i < strlen($expressionStr)
-                ) {
-                    $conditionalTokenContent .= $expressionStr[$i];
-                    $i++;
-                }
-
-                $conditionalKey = "";
-
-                foreach ($defaultConditionals as $conditionalKey) {
-                    if (substr($conditionalTokenContent, 0, $len = strlen($conditionalKey)) === $conditionalKey) {
-
-                        $varConditionalToken = new ConditionalToken();
-                        $varConditionalToken->packageName = $this->packageName;
-                        $varConditionalToken->conditionalExpression = $conditionalKey;
-                        $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
-
-                        $varConditionalToken->make($varConditionalToken->content);
-
-
-                        array_push($this->tokens, $varConditionalToken);
-
-
-                        break;
-                    }
-                }
-
-                $i += strlen(COND_DEF_CLOSE) - 1;
-            } else
-                if ($evalExpr_varDefOpen === VAR_DEF_OPEN) {
-
-                    $posStart = $i;
-
-                    $posEnd = strpos(
-                        $expressionStr,
-                        VAR_DEF_CLOSE,
-                        $i
-                    ) + strlen(VAR_DEF_CLOSE);
-
-                    $varName = substr(
-                        $expressionStr,
-                        $posStart + strlen(VAR_DEF_OPEN),
-                        $posEnd - $posStart - strlen(VAR_DEF_CLOSE) - strlen(VAR_DEF_CLOSE)
-                    );
-                    $fullNameReference = VAR_DEF_OPEN . $varName . VAR_DEF_CLOSE;
-                    $exprClass = VariableToken::class;
-
-
-                    $matches = array();
-                    $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
-
-                    $snippetName = null;
-                    $variableName = $varName;
-
-                    if (is_array($matches[1]) && count($matches[1]) == 1)
-                        $snippetName = $matches[1][0];
-                    if (is_array($matches[2]) && count($matches[2]) == 1) {
-                        $variableName = $matches[2][0];
-                    } else {
-                        $variableName = $varName;
-                    }
-
-
-                    $nativeTypes = array( 'int', 'string', 'Date' );
-
-                    if ($hasNativeType = in_array( $snippetName, $nativeTypes )) {
-                        $exprClass = VariableToken::class;
-                    }
-
-                    //TokenString::$snippets[$this->snippetName]->addVariableName($variableName);
-                    else 
-                    if ($snippetName !== null && $variableName !== null) {
-                        $exprClass = CompoundVariableToken::class;
-                    }
-
-
-                    $var = new $exprClass();
-                    $var->posStart = $posStart;
-                    $var->posEnd = $posEnd;
-                    $var->name = $variableName;
-                    //$var->packageName = "kjdlasjdaklsds"; // ---
-                    $var->fullNameReference = $fullNameReference;
-
-                    if ($hasNativeType) {
-                        $var->nativeType = $snippetName;
-                    }
-
-                    if (get_class($var) === CompoundVariableToken::class) {                        
-                        print 'SnippetName = ' . $snippetName . endl();
-                        $var->packageName = getPackageOfDataType( $snippetName );
-                        
-                        if ($var->packageName === "" || $var->packageName === null) {
-                            print 'Es nulooooooooooooooooo';
-                            print ' With package name = ' . $this->packageName;
-
-
-                         /*   if ($snippetName === "PrintMyData") {
-                             print_r( $this );
-                                exit;
-                            }*/
-                            $var->packageName = $this->packageName;
-                        }
-
-                        print '/**/packageName = ' . $var->packageName . endl();
-
-                        $var->snippetName = getDataTypeOfPackage( $snippetName );
-                        print '/**/snippetName = ' . $var->snippetName . endl();
-
-                        $var->make();
-                    }
-                    $var->id = $k;
-
-
-                    $i = $posEnd - 1;
-
-                    $k++;
-
-                    $addSingleToken = true;
-                    $this->addSingleToken($this->tokens, $singleToken, $k);
-                    array_push($this->tokens, $var);
-                } else
-                    if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                        $qOptOpenCount = 0;
-                        for ($j = $i; $j < strlen($expressionStr); $j++) {
-                            $evalExpr_optDefClose = $this->catchDefExpr($expressionStr, $j, OPT_DEF_CLOSE);
-                            $evalExpr_optDefOpen = $this->catchDefExpr($expressionStr, $j, OPT_DEF_OPEN);
-                            if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
-                                $qOptOpenCount++;
-                                $j += strlen(OPT_DEF_OPEN) - 1;
-                            } else
-                                if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
-
-                                    $qOptOpenCount--;
-
-                                    if ($qOptOpenCount === 0) {
-
-                                        $optExpr = new OptionalToken();
-                                        $optExpr->packageName = $this->packageName;     // package name
-                                        $optExpr->content = substr(
-                                            $expressionStr,
-                                            $i + strlen(OPT_DEF_OPEN),
-                                            $j - $i - strlen(OPT_DEF_CLOSE)
-                                        );
-                                        $optExpr->posStart = $i;
-                                        $optExpr->posEnd = $j + strlen(OPT_DEF_CLOSE) - 1;
-
-                                        $k++;
-                                        $optExpr->make($optExpr->content);
-                                        $addSingleToken = true;
-
-                                        $this->addSingleToken($this->tokens, $singleToken, $k);
-
-                                        $variables = $optExpr->collectVariablesSameLevel(null, CompoundVariableToken::class, CompoundVariableToken::class);
-
-                                        $conditionalExpression = "";
-                                        foreach ($variables as $variable) {
-                                            $conditionalExpression .=
-                                                ' ($this->' . $variable->name . ' !== null && ' .
-                                                '$this->' . $variable->name . '->count() > 0) &&';
-                                        }
-
-                                        $optExpr->conditionalExpression = str_replace("&&", "&&\n", trim($conditionalExpression, "& "));
-
-                                        array_push($this->tokens, $optExpr);
-                                        $j += strlen(OPT_DEF_CLOSE) - 1;
-                                        break;
-                                    }
-
-                                    $j += strlen(OPT_DEF_CLOSE) - 1;
-                                }
-                        }
-                        $i = $j;
-                    } else {
-                        $singleToken = $singleToken . $expressionStr[$i];
-                    }
-
-
-
-            if (($i == strlen($expressionStr) - 1) && strlen($singleToken) > 0) {
-                $this->addSingleToken($this->tokens, $singleToken, $k);
-            }
+            
+            ConditionalToken :: analyze($this, $expressionStr, $i,  $addSingleToken,  $singleToken ); 
+            VariableToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
+            OptionalToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );
+            SingleToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
         }
     }
 
@@ -696,14 +515,41 @@ class TokenString extends ArrayObject
     }
 
 
+    public function genereateClassUsageCode( &$pToken, &$output, &$variables )
+    {
+        if ($pToken === null )
+        {
+            $pToken = $this;
+        }
+        
+        $output .= endl() . "/* ####################### " . $pToken->snippetName . " : USAGE EXAMPLE ####################### " . endl();
+
+        $output .= endl() . _tab() . '$var' . $pToken->snippetName . ' = new ' . $pToken->snippetName . '();' . endl();
+
+        foreach ($variables as $var) {
+            $output .= endl();
+
+            $sampleData = $pToken->snippetName . '_' . $var->name . '_EXAMPLE';
+
+            if ($var->snippetName !== null) {
+                $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
+                $output .= _tab() . '$var' . $pToken->snippetName . '->add' . camelize($var->name) . 'Item( $var' . camelize($var->name) . 'Item );' . endl();
+            } else {
+                $output .= _tab() . '$var' . $pToken->snippetName . '->set' . camelize($var->name) . '("' . $sampleData . '");' . endl();
+            }
+        }
+
+        $output .= endl() . _tab() . '$var' . $pToken->snippetName . '->write();' . endl();
+
+        $output .= endl() . "    ####################### USAGE EXAMPLE ####################### **/ " . endl();       
+    }
 
 
-
-    public function generateClass($pToken = null, $usePath=null )
+    public function generateClass($pToken = null, $usePath = null)
     {
 
         if ($usePath !== null)
-            $usePath = str_replace( getcwd(), "", $usePath );
+            $usePath = str_replace(getcwd(), "", $usePath);
         $output = "";
 
         $fileBegins = $pToken === null;
@@ -714,7 +560,7 @@ class TokenString extends ArrayObject
 
 
         if ($fileBegins) {
-            $output .=  PHP_FILE_OPEN . endl(2);
+            $output .= PHP_FILE_OPEN . endl(2);
 
             $output .= 'namespace ' . $pToken->namespace . ';';
             //$output .= 'require_once( "' . $fileName . '.php" );';
@@ -726,7 +572,7 @@ class TokenString extends ArrayObject
 
         }
 
-        
+
 
         $variables = array();
 
@@ -756,7 +602,7 @@ class TokenString extends ArrayObject
 
                 if ($fileName !== null) {
                     print 'usePath = ' . $usePath . endlbrk();
-                    $output .= 'use ' . trim( $usePath, '\\' ) . _bslash() . $fileName . ';';
+                    $output .= 'use ' . trim($usePath, '\\') . _bslash() . $fileName . ';';
                     //$output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
@@ -765,31 +611,14 @@ class TokenString extends ArrayObject
 
         // comment with usage example
         if ($fileBegins) {
-            $output .= endl() . "/* ####################### " . $this->snippetName . " : USAGE EXAMPLE ####################### " . endl();
 
-            $output .= endl() . _tab() . '$var' . $this->snippetName . ' = new ' . $this->snippetName . '();' . endl();
+            $this->genereateClassUsageCode( $pToken, $output, $variables );
 
-            foreach ($variables as $var) {
-                $output .= endl();
-
-                $sampleData = $this->snippetName . '_' . $var->name . '_EXAMPLE';
-
-                if ($var->snippetName !== null) {
-                    $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
-                    $output .= _tab() . '$var' . $this->snippetName . '->add' . camelize($var->name) . 'Item( $var' . camelize($var->name) . 'Item );' . endl();
-                } else {
-                    $output .= _tab() . '$var' . $this->snippetName . '->set' . camelize($var->name) . '("' . $sampleData . '");' . endl();
-                }
-            }
-
-            $output .= endl() . _tab() . '$var' . $this->snippetName . '->write();' . endl();
-
-            $output .= endl() . "    ####################### USAGE EXAMPLE ####################### **/ " . endl();
 
         }
 
         if ($fileBegins) {
-            $output .= endl() . 'class ' . getDataTypeOfPackage( $this->snippetName ) . ' extends GeneratorClass {' . endl();
+            $output .= endl() . 'class ' . getDataTypeOfPackage($this->snippetName) . ' extends GeneratorClass {' . endl();
         }
 
         if ($fileBegins) {
@@ -797,9 +626,9 @@ class TokenString extends ArrayObject
             // attributes of class
             foreach ($variables as $variable) {
                 $output .= endl() . _tab() .
-                    'protected ' . ($variable->nativeType !== null ? ' ' . $variable->nativeType . ' ' : "" ) . 
+                    'protected ' . ($variable->nativeType !== null ? ' ' . $variable->nativeType . ' ' : "") .
                     ($variable->snippetName !== null ? $variable->snippetName . ' ' : '') .
-                    '$' . $variable->name . ';' . endl();                    
+                    '$' . $variable->name . ';' . endl();
             }
 
             $addedVariables = array();
@@ -868,32 +697,32 @@ class TokenString extends ArrayObject
                 $output .= 'if ($this->validateOptions("' . $conditionalExpressionIndexName . '")) { ' .
                     endl() . $token->generateClass($token) . endl() . ' }';
             } else
-            if (get_class($token) === OptionalToken::class) {
-                $output .= __print($outputStack);
-                $outputStack = "";
-                $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
-                $output .= endl() . $token->generateClass($token) . endl();
-                $output .= endl() . '}' . endl();
-            } else
-            if (get_class($token) === CompoundVariableToken::class) {
-                $output .= __print($outputStack);
-                $outputStack = "";
-                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name  . ' );' . endl();
+                if (get_class($token) === OptionalToken::class) {
+                    $output .= __print($outputStack);
+                    $outputStack = "";
+                    $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
+                    $output .= endl() . $token->generateClass($token) . endl();
+                    $output .= endl() . '}' . endl();
+                } else
+                    if (get_class($token) === CompoundVariableToken::class) {
+                        $output .= __print($outputStack);
+                        $outputStack = "";
+                        $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ' );' . endl();
 
 
-            } else
-            if (get_class($token) === SingleToken::class) {
+                    } else
+                        if (get_class($token) === SingleToken::class) {
 
-                if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
-                    $ignoreNextToken = true;
-                    $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
-                } else {
-                    $outputStack .= ($token->content);
-                }
+                            if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
+                                $ignoreNextToken = true;
+                                $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
+                            } else {
+                                $outputStack .= ($token->content);
+                            }
 
-            } else if (get_class($token) === VariableToken::class) {
-                $output .= __print('{$this->' . $token->name . '}');
-            }
+                        } else if (get_class($token) === VariableToken::class) {
+                            $output .= __print('{$this->' . $token->name . '}');
+                        }
         }
 
         if ($outputStack !== null) {
@@ -917,59 +746,59 @@ class TokenString extends ArrayObject
      *
      * @return void
      */
-    public function generateClasses( $wherePath=null, $snippetsArray=null )
+    public function generateClasses($wherePath = null, $snippetsArray = null)
     {
         if ($wherePath === null) {
             $wherePath = $this->outputPath;
         }
         $snippets = array();
-        if ($snippetsArray !== null && is_array( $snippetsArray )) {
+        if ($snippetsArray !== null && is_array($snippetsArray)) {
             $snippets = $snippetsArray;
-        }
-        else {
+        } else {
             $snippets = TokenString::$snippets;
         }
 
         //print getcwd() . endl();
         $className = "";
-       // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
-    //    $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
+        // print 'Snippets quantity ' . count(TokenString::$snippets) . endl();
+        //    $this->collectVariables(null, array(CompoundVariableToken::class), VariableToken::class);
 
-        if (!is_dir( $wherePath )) {
-            mkdir( $wherePath, 0777, true );
+        if (!is_dir($wherePath)) {
+            mkdir($wherePath, 0777, true);
         }
 
 
-        if (is_array( $snippets )) {
+        if (is_array($snippets)) {
 
             foreach ($snippets as $key => $snippet) {
 
 
-                $snippetWherePath =  
-                    $wherePath . _bslash() . 
-                    getPackageNameAsPath( $snippet->packageName )  . _bslash();
+                $snippetWherePath =
+                    $wherePath . _bslash() .
+                    getPackageNameAsPath($snippet->packageName) . _bslash();
 
 
                 $snippet->snippetName = $snippet->name;
 
-                $snippet->namespace = 
-                    trim( str_replace( getcwd(), "", $snippetWherePath ), '\\' );
+                $snippet->namespace =
+                trim(str_replace(getcwd(), "", $snippetWherePath), '\\');
 
                 $snippet->clean();
                 $snippet->make();
 
-                $output = $snippet->generateClass( null, $snippetWherePath );
+                $output = $snippet->generateClass(null, $snippetWherePath);
 
-                if (!is_dir( $snippetWherePath )) {
-                    mkdir( $snippetWherePath, 0777, true );
+                if (!is_dir($snippetWherePath)) {
+                    mkdir($snippetWherePath, 0777, true);
                 }
 
 
-                file_put_contents( 
-                    $snippetWherePath . 
-                    camelize(getDataTypeOfPackage($snippet->snippetName)) . ".php", $output 
+                file_put_contents(
+                    $snippetWherePath .
+                    camelize(getDataTypeOfPackage($snippet->snippetName)) . ".php",
+                    $output
                 );
-               //print __ln(100, '%');
+                //print __ln(100, '%');
             }
         }
     }

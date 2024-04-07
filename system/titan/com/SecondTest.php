@@ -56,7 +56,7 @@ return $this;
 print "Grow up this! \n";		
 $this->writeArrayObject( $this->var );
 
-print "\n";
+print "}\n";
 }
 
  } 

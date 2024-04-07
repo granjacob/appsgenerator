@@ -39,4 +39,14 @@ class Snippet extends TokenString
                 unset($this->variablesDefined[$varName]);
             }
         }
+        /**
+     *
+     * @param mixed $token
+     * @param mixed $expressionStr
+     * @param mixed $i
+     */
+    public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken) {
     }
+    
+   
+}

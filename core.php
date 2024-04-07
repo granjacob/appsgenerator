@@ -105,6 +105,11 @@ function camelize($str)
     return $finalStr;
 }
 
+function catchDefExpr($expressionStr, $offset, $def)
+{
+    return substr($expressionStr, $offset, strlen($def));
+}
+
 function camelizeAsVariableName($str)
 {
     $temp = camelize($str);
