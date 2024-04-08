@@ -5,4 +5,16 @@
         Template extensivo de prueba! :) 
         ]]>
     </snippet>
+
+    <snippet name="Prueba1">
+        <![CDATA[
+       1111111 Template extensivo de prueba! :) ;)
+        ]]>
+    </snippet>
+
+    <snippet name="Prueba2">
+        <![CDATA[
+       2222222 Template extensivo de prueba! :) :) :)
+        ]]>
+    </snippet>
 </snippets>

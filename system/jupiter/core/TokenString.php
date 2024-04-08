@@ -59,7 +59,7 @@ abstract class TokenString extends ArrayObject
         return substr($expressionStr, $offset, strlen($def));
     }
 
-    public function loadSnippets($filename = null)
+    public function  loadSnippets($filename = null)
     {
         if ($filename === null) {
             $filename = $this->snippetsXMLFile;

@@ -17,9 +17,10 @@ class VariableToken extends TokenString
 
         public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken)
         {
+            
             $evalExpr_varDefOpen = catchDefExpr($expressionStr, $i, VAR_DEF_OPEN);
             if ($result = ($evalExpr_varDefOpen === VAR_DEF_OPEN)) {
-
+                print 'Processing ' . $token->name . endl();
                 $posStart = $i;
 
                 $posEnd = strpos(
@@ -38,7 +39,9 @@ class VariableToken extends TokenString
 
 
                 $matches = array();
-                $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
+                $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_|\.]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
+
+                print_r( $expr ); 
 
                 $snippetName = null;
                 $variableName = $varName;
@@ -47,9 +50,9 @@ class VariableToken extends TokenString
                     $snippetName = $matches[1][0];
                 if (is_array($matches[2]) && count($matches[2]) == 1) {
                     $variableName = $matches[2][0];
-                } else {
+                } /*else {
                     $variableName = $varName;
-                }
+                }*/
 
 
                 $nativeTypes = array('int', 'string', 'Date');

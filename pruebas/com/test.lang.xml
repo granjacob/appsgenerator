@@ -1,5 +1,55 @@
 <?xml version="1.0"?>
 <snippets lang="lang" package="com">
+    <snippet name="ThirdTest">
+        <![CDATA[
+            T{{:(std.beast.Prueba)var:}}
+        ]]>
+    </snippet>
+    <snippet name="FourthTest">
+        <![CDATA[
+            Test1 {{:(std.beast.Prueba)var:}}
+            Test2 {{:(std.beast.Prueba1)varattr1:}}
+            Test2 {{:(std.beast.Prueba2)varattr2:}}
+        ]]>
+    </snippet>
+    <snippet name="QuintoTest">
+        <![CDATA[
+            Test1 {{:(std.beast.Prueba)var:}}
+            Test2 {{:(com.Prueba)varattr2:}}
+            Test3 {{:(com.Prueba)varattr3:}}
+            Test4 {{:(com.Prueba2)varattr4:}}
+
+        ]]>
+    </snippet>
+
+    <snippet name="SextoTest">
+        <![CDATA[
+            Test1 {{:(std.beast.Prueba)var:}}
+            Test2 {{:(std.beast.Prueba1)var1:}}
+            Test3 {{:(std.beast.Prueba2)var2:}}
+            Test4 {{:(com.Prueba)var3:}}
+
+        ]]>
+    </snippet>
+
+    <snippet name="SeptimoTest">
+        <![CDATA[
+            Test1 {{:(std.beast.Prueba)var:}}
+            Test2 {{:(std.beast.Prueba)var:}}
+            Test3 {{:(std.beast.Prueba)var:}}
+
+        ]]>
+    </snippet>
+
+    <snippet name="OctTest">
+        <![CDATA[
+            Test1 {{:(std.beast.Prueba)var:}}
+            Test2 {{:(std.beast.Prueba1)var:}}
+            Test3 {{:(std.beast.Prueba2)var:}}
+            Test4 {{:(com.Prueba)var:}}
+
+        ]]>
+    </snippet>
     <snippet name="TestSnippet">
         <![CDATA[
             Hello world!, this is my first snippet!
@@ -10,9 +60,16 @@
             Grow up this! {{:(TestSnippet)var:}}
         ]]> 
     </snippet>
-    <snippet name="ThirdTest">
+
+    <snippet name="Prueba2">
         <![CDATA[
-            Test this third! {{:(std.beast.Prueba)var:}}
-        ]]> 
+            Esto hace parte de la prueba2!
+        ]]>
+    </snippet>
+
+    <snippet name="Prueba">
+        <![CDATA[
+            Esta es una prueba!
+        ]]>
     </snippet>
 </snippets>

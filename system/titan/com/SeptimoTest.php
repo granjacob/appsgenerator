@@ -4,18 +4,18 @@ namespace system\titan\com;
 use system\jupiter\core\GeneratorClass;
 use system\titan\com\Prueba;
 
-/* ####################### ThirdTest : USAGE EXAMPLE ####################### 
+/* ####################### SeptimoTest : USAGE EXAMPLE ####################### 
 
-	$varThirdTest = new ThirdTest();
+	$varSeptimoTest = new SeptimoTest();
 
 	$varvar = new Prueba();
-	$varThirdTest->addVarItem( $varVarItem );
+	$varSeptimoTest->addVarItem( $varVarItem );
 
-	$varThirdTest->write();
+	$varSeptimoTest->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
-class ThirdTest extends GeneratorClass {
+class SeptimoTest extends GeneratorClass {
 
 	protected Prueba $var;
 
@@ -53,7 +53,15 @@ return $this;
 
 	$this->validateData();
 
-print "T\n";		
+print "Test1 \n";		
+$this->writeArrayObject( $this->var );
+
+print "}\n";
+print "            Test2 \n";		
+$this->writeArrayObject( $this->var );
+
+print "}\n";
+print "            Test3 \n";		
 $this->writeArrayObject( $this->var );
 
 print "}\n";
