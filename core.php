@@ -15,10 +15,28 @@ function IO_xmpString( $text )
     print "</xmp>";
 }
 
-function IO_printLine( $string=null )
+function IO_printLine( $string=null, $maxRows=0  )
 {
-    print $string. "<br/>";
+    if ($maxRows === 0)
+    {
+        print $string . endlbrk();
+    }
+    else {
+        $i = 0;
+        $k = 0;
+        while ($i < strlen( $string )) {
+            if ($k >= $maxRows && $string[$i] === ' ') {
+                print endlbrk();
+                $k = 0;
+            }
+            print $string[$i];
+            $i++;
+            $k++;
+        }
+    }
+
 }
+
 
 function IO_boldString( $string )
 {
@@ -59,6 +77,11 @@ function IO_toFunctionName( $string )
 function IO_toVariableName( $string )
 {
     return IO_toCamelCase( $string );
+}
+
+function IO_xmp_print_r( $arr )
+{
+    return '<xmp>' . print_r( $arr, true ) . '</xmp>';
 }
 
 spl_autoload_register(function ($class_name) {
@@ -269,10 +292,10 @@ function exceptions_error_handler( $exception ) {
     IO_printLine( IO_boldString("Error code: "). $exception->getCode() );
     IO_printLine();
     IO_printLine(
-        IO_boldString("Exception occurred: " ) .
+        IO_boldString("Exception occurred: " . endlbrk() ) .
         ($exception instanceof \system\exception\SystemException ?
             $exception->getExceptionMessage() :
-            $exception->getMessage())
+            $exception->getMessage()) , 100
     );
 
 }

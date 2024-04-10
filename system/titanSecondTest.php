@@ -2,22 +2,22 @@
 
 namespace system\titan\com;
 use system\jupiter\core\GeneratorClass;
-use system\titan\std\beast\Prueba;
+use system\titan\com\TestSnippet;
 
-/* ####################### ThirdTest : USAGE EXAMPLE ####################### 
+/* ####################### SecondTest : USAGE EXAMPLE ####################### 
 
-	$varThirdTest = new ThirdTest();
+	$varSecondTest = new SecondTest();
 
-	$varvar = new Prueba();
-	$varThirdTest->addVarItem( $varVarItem );
+	$varvar = new TestSnippet();
+	$varSecondTest->addVarItem( $varVarItem );
 
-	$varThirdTest->write();
+	$varSecondTest->write();
 
     ####################### USAGE EXAMPLE ####################### **/ 
 
-class ThirdTest extends GeneratorClass {
+class SecondTest extends GeneratorClass {
 
-	protected Prueba $var;
+	protected TestSnippet $var;
 
 public function __construct()
 
@@ -25,11 +25,11 @@ public function __construct()
 
 		parent :: __construct();
 
-	$this->var =  new Prueba();
+	$this->var =  new TestSnippet();
 
 }
 
-	public function setVar( Prueba $var)
+	public function setVar( TestSnippet $var)
 {
 
 		 $this->var = $var;
@@ -42,7 +42,7 @@ return $this;
 		return $this->var;
 }
 
-	public function addVarItem( Prueba $item )
+	public function addVarItem( TestSnippet $item )
 {
 
 		$this->var->append( clone $item);
@@ -53,7 +53,7 @@ return $this;
 
 	$this->validateData();
 
-print "T\n";		
+print "Grow up this! \n";		
 $this->writeArrayObject( $this->var );
 
 print "}\n";

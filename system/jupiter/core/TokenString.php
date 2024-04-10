@@ -6,12 +6,17 @@ use DOMDocument;
 
 use ArrayObject;
 
+use Exception;
+
 
 abstract class TokenString extends ArrayObject
 {
 
     public abstract static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken );
 
+
+    public $baseWherePath;
+    public $mainPackageWherePath;
 
     public static int $nextId = 0;
 
@@ -72,7 +77,7 @@ abstract class TokenString extends ArrayObject
 
         $snippetsTag = $xml->getElementsByTagName('snippets');
         //print 'Welcome...';
-        $packageName = $snippetsTag[0]->getAttribute('package') . endl();
+        $packageName = $snippetsTag[0]->getAttribute('package');
 
         $snippets = $xml->getElementsByTagName('snippet');
 
@@ -80,10 +85,23 @@ abstract class TokenString extends ArrayObject
             foreach ($snippets as $snippet) {
                 $newSnippet = new Snippet();
                 $newSnippet->name = $snippet->getAttribute('name');
+
+
                 $newSnippet->snippetName = $snippet->getAttribute('name');
                 $newSnippet->packageName = trim($packageName);
                 $newSnippet->content = trim($snippet->nodeValue);
-                TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
+
+                if (!isset( TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] )) {
+                    TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
+                }
+                else {
+                    throw new Exception(
+                        "Duplicated template names are not allowed in the same package. 
+                        Please verify the file '" . $this->snippetsXMLFile . 
+                        "' with package '" . $packageName . 
+                        "'. Template with name '" . $snippet->getAttribute('name') . "' is defined more than one time." );
+                    exit;
+                }
             }
         }
     }
@@ -466,10 +484,10 @@ abstract class TokenString extends ArrayObject
 
             $addSingleToken = false;
             
-            ConditionalToken :: analyze($this, $expressionStr, $i,  $addSingleToken,  $singleToken ); 
-            VariableToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
-            OptionalToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );
-            SingleToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
+            ConditionalToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken ); 
+            VariableToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
+            OptionalToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );
+            SingleToken ::      analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
         }
     }
 
@@ -584,13 +602,14 @@ abstract class TokenString extends ArrayObject
                     VariableToken::class
                 );
 
+              //  print IO_xmp_print_r( $variables );
         }
 
         $uniqueSnippets = array();
 
         if ($fileBegins) {
             foreach ($variables as $variable) {
-                $uniqueSnippets[$variable->snippetName] = $variable->snippetName;
+                $uniqueSnippets[$variable->packageName . ':' . $variable->snippetName] = $variable;
             }
         }
 
@@ -601,12 +620,13 @@ abstract class TokenString extends ArrayObject
             foreach ($uniqueSnippets as $fileName) {
 
                 if ($fileName !== null) {
-                    print 'usePath = ' . $usePath . endlbrk();
-                    $output .= 'use ' . trim($usePath, '\\') . _bslash() . $fileName . ';';
+                    print endlbrk() . 'usePath = ' . $usePath . endlbrk();
+                    $output .= 'use ' . trim( $usePath, '\\' ) . _bslash() . getPackageNameAsPath( $fileName->packageName ) . _bslash() . $fileName->snippetName . ';';
                     //$output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
             }
+            
         }
 
         // comment with usage example
@@ -696,33 +716,38 @@ abstract class TokenString extends ArrayObject
                 $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
                 $output .= 'if ($this->validateOptions("' . $conditionalExpressionIndexName . '")) { ' .
                     endl() . $token->generateClass($token) . endl() . ' }';
-            } else
-                if (get_class($token) === OptionalToken::class) {
-                    $output .= __print($outputStack);
-                    $outputStack = "";
-                    $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
-                    $output .= endl() . $token->generateClass($token) . endl();
-                    $output .= endl() . '}' . endl();
-                } else
-                    if (get_class($token) === CompoundVariableToken::class) {
-                        $output .= __print($outputStack);
-                        $outputStack = "";
-                        $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ' );' . endl();
+            } 
+            else
+            if (get_class($token) === OptionalToken::class) {
+                $output .= __print($outputStack);
+                $outputStack = "";
+                $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
+                $output .= endl() . $token->generateClass($token) . endl();
+                $output .= endl() . '}' . endl();
+            } 
+            else
+            if (get_class($token) === CompoundVariableToken::class) {
+                $output .= __print($outputStack);
+                $outputStack = "";
+                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ' );' . endl();
 
 
-                    } else
-                        if (get_class($token) === SingleToken::class) {
+            } 
+            else
+            if (get_class($token) === SingleToken::class) {
 
-                            if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
-                                $ignoreNextToken = true;
-                                $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
-                            } else {
-                                $outputStack .= ($token->content);
-                            }
+                if (is_object($nextToken) && get_class($nextToken) === VariableToken::class) {
+                    $ignoreNextToken = true;
+                    $outputStack .= ($token->content . '{$this->' . $nextToken->name . '}');
+                } else {
+                    $outputStack .= ($token->content);
+                }
 
-                        } else if (get_class($token) === VariableToken::class) {
-                            $output .= __print('{$this->' . $token->name . '}');
-                        }
+            } 
+            else 
+            if (get_class($token) === VariableToken::class) {
+                $output .= __print('{$this->' . $token->name . '}');
+            }
         }
 
         if ($outputStack !== null) {
@@ -771,30 +796,33 @@ abstract class TokenString extends ArrayObject
         if (is_array($snippets)) {
 
             foreach ($snippets as $key => $snippet) {
+                
 
 
-                $snippetWherePath =
-                    $wherePath . _bslash() .
-                    getPackageNameAsPath($snippet->packageName) . _bslash();
+                $snippetWherePath = $wherePath;
 
+                $snippet->baseWherePath = $wherePath;
+                $snippet->mainPackageWherePath = 
+                    $wherePath . _bslash() . getPackageNameAsPath($snippet->packageName) . _bslash(); 
+ 
 
                 $snippet->snippetName = $snippet->name;
 
                 $snippet->namespace =
-                trim(str_replace(getcwd(), "", $snippetWherePath), '\\');
+                    trim(str_replace(getcwd(), "", $snippet->mainPackageWherePath  ), '\\');
 
                 $snippet->clean();
                 $snippet->make();
 
-                $output = $snippet->generateClass(null, $snippetWherePath);
+                $output = $snippet->generateClass(null, $snippet->baseWherePath );
 
-                if (!is_dir($snippetWherePath)) {
-                    mkdir($snippetWherePath, 0777, true);
+                if (!is_dir($snippet->mainPackageWherePath)) {
+                    mkdir($snippet->mainPackageWherePath, 0777, true);
                 }
 
 
                 file_put_contents(
-                    $snippetWherePath .
+                    $snippet->mainPackageWherePath .
                     camelize(getDataTypeOfPackage($snippet->snippetName)) . ".php",
                     $output
                 );

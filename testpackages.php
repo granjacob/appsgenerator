@@ -582,7 +582,7 @@ class SnippetsManager extends Snippet {
         </style>
     </head>
     <body>
-        <xmp>
+        
 <?php
 
 
@@ -610,7 +610,7 @@ use system\europa\com\subpackage\HelloWorld;
 $h = new HelloWorld(); 
 $h->write();
 */
-?></xmp>
+?>
     </body>
 </html>
 
