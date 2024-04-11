@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<snippets lang="php" package="generator">
+    <snippet name="ClassAttribute">
+        <![CDATA[
+            {{:accessModifier:}} ${{:name:}};
+         ]]>
+    </snippet>
+    <snippet name="ClassGetter">
+        <![CDATA[
+            public function get{{:attributeName:}}()
+            {
+                return $this->{{:attributeName:}};
+            }
+         ]]>
+    </snippet>
+    <snippet name="ClassSetter">
+        <![CDATA[
+            public function set{{:attributeName:}}( ${{:attributeName:}} )
+            {
+                $this->{{:attributeName:}} = {{:attributeName:}};
+            }
+         ]]>
+    </snippet>
+    <snippet name="Class">
+        <![CDATA[
+            <?php
+
+            namespace {{:namespace:}};
+            class {{:name:}} [[extends {{:extensionClass:}}]] {
+                
+                {{:(ClassAttribute)attributes:}}
+
+                {{:(ClassGetter)attributes:}}
+
+                {{:(ClassSetter)attributes:}}
+
+            }
+
+            ?>
+        ]]>
+    </snippet>
+</snippets>

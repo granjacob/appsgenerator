@@ -256,7 +256,7 @@ function getDataTypeOfPackage( $dataTypeWithPackage )
 
 function getPackageNameAsPath( $name )
 {
-    return str_replace( '.', _bslash(), $name );
+    return str_replace( '.', _bslash(), ($name === null ? "" : $name ) );
 }
 
 

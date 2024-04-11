@@ -44,6 +44,7 @@ class PackageFile extends ArrayObject {
 
     public function isValidSigned($filename = null)
     {
+        
         if ($filename === null) {
             $filename = $this->fullPath;
         }
@@ -57,7 +58,7 @@ class PackageFile extends ArrayObject {
         catch (Exception) {
             return false;
         }
-
+        print 'filename = ' . $filename . endl();
         $snippets = $xml->getElementsByTagName('snippets');
 
         $result = false;
@@ -281,7 +282,7 @@ class SnippetsManager extends Snippet {
             
             if (!is_dir( $package->getFullPath() ))
             {
-                mkdir( $package->getFullPath() );   // creates the package for dir if not exists
+                mkdir( $package->getFullPath(), 0777, true );   // creates the package for dir if not exists
             }
             $this->packages[$package->name] = clone $package;
         }
@@ -576,8 +577,8 @@ class SnippetsManager extends Snippet {
     <head>
         <style type="text/css">
             body {
-                background-color:#660033;
-                color:#eee;
+                background-color:#aaa;
+                color:black;
             }
         </style>
     </head>
@@ -588,9 +589,9 @@ class SnippetsManager extends Snippet {
 
 $snippetsManager = new SnippetsManager();
 
-$snippetsManager->mainPath = getcwd() . _bslash() . "pruebas";
+$snippetsManager->mainPath = getcwd() . _bslash() . "ganimedes";
 
-$snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "titan";
+$snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "uranus";
 
 
 $snippetsManager->make();

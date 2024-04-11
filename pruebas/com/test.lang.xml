@@ -72,4 +72,54 @@
             Esta es una prueba!
         ]]>
     </snippet>
+
+    <!--<snippet class="Button">
+        <![CDATA[
+        <button type="button" class="{{:class_attributes:}}">{{:buttonText:}}</button>
+        ]]>
+    </snippet>
+    <snippet class="ModalButton">
+        <![CDATA[
+        <button type="button" class="{{:class_attributes:}}">{{:buttonText:}}</button>
+        ]]>
+    </snippet>-->
+    <snippet name="ModalExample">
+    <![CDATA[
+
+    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="{{:id:}}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5">{{:modalTitle:}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{:closeButtonLabel:}}}"></button>
+      </div>
+      <div class="modal-body py-0">
+        <p>{{:modalMessage:}}</p>
+      </div>
+      <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+        <button type="button" class="btn btn-lg btn-primary">{{:buttonSaveText:}}}</button>
+        <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">{{:closeButtonText:}}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    ]]>
+    
+    </snippet>
+    <snippet name="InputText">
+        <![CDATA[
+            <input type="text" name="{{:name:}}" value="{{:defaultValue:}}" id="{{:id:}}"/>
+        ]]>
+    </snippet>
+    <snippet name="ExampleForm">
+        <![CDATA[
+            <form>
+                {{:(InputText)atributo1:}}
+                {{:(InputText)atributo2:}}
+                {{:(InputText)atributo3:}}
+                {{:(InputText)atributo4:}}
+            </form>
+        ]]>
+    </snippet>
 </snippets>
