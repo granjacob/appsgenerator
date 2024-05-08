@@ -26,4 +26,5 @@ $varSecondTest->write();
 
 print 'Test 2 partially passed <%>!' . endl();
 print 'use \system\titan\com\SecondTest; \ must be removed';
+print 'Testing '
 

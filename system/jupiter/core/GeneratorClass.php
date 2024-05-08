@@ -51,14 +51,28 @@ abstract class GeneratorClass extends ArrayObject {
                 !isset($this->options[$conditionKey]);
     }
 
-    public function writeArrayObject( &$object )
+    public function writeArrayObject( &$object, $writeAsClass )
     {
         if ($object !== null) {
+
+            $temp = new $writeAsClass();
+
+
 			$keys = array_keys((array)$object);
+
 			foreach ($object as $key => $item) {
-				$item->options = $this->getOptionsArray($keys, $key, $item);
-				$item->write();
+
+                $itemKeys = get_object_vars( $item );
+
+                foreach ($itemKeys as $key => $attr) {
+                    if (property_exists( $temp, $key ))
+                        $temp->$key = $item->$key;
+                }
+                $temp->write();
+
 			}
+
+
 		}
     }
 

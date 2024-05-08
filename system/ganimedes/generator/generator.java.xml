@@ -1,8 +1,47 @@
 <?xml version="1.0"?>
 <snippets lang="java" package="generator">
-    <snippet name="Great">
-    <![CDATA[
-           sss
+    <snippet name="ClassAttribute">
+        <![CDATA[
+            {{:(AttributeAnnotation)attributeAnnotations:}}
+            {{:accessModifier:}} {{:dataType:}} ${{:name:}};
+         ]]>
+    </snippet>
+    <snippet name="ClassGetter">
+        <![CDATA[
+            public {{:dataType:}} get{{:attributeName:}}()
+            {
+                return $this->{{:attributeName:}};
+            }
+         ]]>
+    </snippet>
+    <snippet name="ClassSetter">
+        <![CDATA[
+            public {{:dataType:}} set{{:attributeName:}}( ${{:attributeName:}} )
+            {
+                $this->{{:attributeName:}} = {{:attributeName:}};
+            }
+         ]]>
+    </snippet>
+    <snippet name="ClassDef">
+        <![CDATA[
+            package {{:packageName:}};
+
+            {{:(Import)imports:}}
+
+            {{:(ClassAnnotation)classAnnotations:}}
+            class {{:name:}} [[extends {{:extensionClass:}}]] [[implements {{:interfaces:}}]] {
+
+                {{:(ClassAttribute)attributes:}}
+
+                {{:(ClassGetter)attributes:}}
+
+                {{:(ClassSetter)attributes:}}
+
+                {{:(Controller)controllers:}}
+
+                {{:(Service)services:}}
+
+            }
         ]]>
     </snippet>
 </snippets>

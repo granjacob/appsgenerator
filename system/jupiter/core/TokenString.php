@@ -646,8 +646,8 @@ abstract class TokenString extends ArrayObject
             // attributes of class
             foreach ($variables as $variable) {
                 $output .= endl() . _tab() .
-                    'protected ' . ($variable->nativeType !== null ? ' ' . $variable->nativeType . ' ' : "") .
-                    ($variable->snippetName !== null ? $variable->snippetName . ' ' : '') .
+                    'public ' . /*($variable->nativeType !== null ? ' ' . $variable->nativeType . ' ' : "") .
+                    ($variable->snippetName !== null ? $variable->snippetName . ' ' : '') .*/
                     '$' . $variable->name . ';' . endl();
             }
 
@@ -729,7 +729,7 @@ abstract class TokenString extends ArrayObject
             if (get_class($token) === CompoundVariableToken::class) {
                 $output .= __print($outputStack);
                 $outputStack = "";
-                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ' );' . endl();
+                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ', ' . $token->snippetName  .  '::class );' . endl();
 
 
             } 

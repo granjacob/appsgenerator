@@ -1,6 +1,10 @@
-<?xml version"1.0"?>
-<snippets lang="java" package="generator">
-    <snippet>
-    
+<?xml version="1.0"?>
+<snippets language="java" package="generator">
+    <snippet name="ClassR">
+    <![CDATA[
+            class T {
+
+            }
+            ]]>
     </snippet>
 </snippets>

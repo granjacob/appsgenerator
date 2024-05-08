@@ -46,7 +46,7 @@ class OptionalToken extends TokenString
                             $optExpr->make($optExpr->content);
                             $addSingleToken = true;
 
-                            $token->addSingleToken($token->tokens, $singleToken, $k);
+                            $token->addSingleToken($token->tokens, $singleToken, OptionalToken :: getNextId() );
 
                             $variables = $optExpr->collectVariablesSameLevel(null, CompoundVariableToken::class, CompoundVariableToken::class);
 

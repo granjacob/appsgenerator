@@ -1,8 +1,8 @@
 <?php
 
 namespace system\titan\com;
+
 use system\jupiter\core\GeneratorClass;
-use system\titan\\;
 
 /* ####################### InputText : USAGE EXAMPLE ####################### 
 
@@ -16,9 +16,10 @@ use system\titan\\;
 
 	$varInputText->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+	####################### USAGE EXAMPLE ####################### **/
 
-class InputText extends GeneratorClass {
+class InputText extends GeneratorClass
+{
 
 	protected $name;
 
@@ -26,68 +27,67 @@ class InputText extends GeneratorClass {
 
 	protected $id;
 
-public function __construct()
+	public function __construct()
+	{
 
-{
+		parent::__construct();
 
-		parent :: __construct();
+		$this->name = null;
 
-	$this->name =  null;
+		$this->defaultValue = null;
 
-	$this->defaultValue =  null;
+		$this->id = null;
 
-	$this->id =  null;
+	}
 
-}
+	public function setName($name)
+	{
 
-	public function setName(  $name)
-{
+		$this->name = $name;
+		return $this;
+	}
 
-		 $this->name = $name;
-return $this; 
-}
+	public function setDefaultValue($defaultValue)
+	{
 
-	public function setDefaultValue(  $defaultValue)
-{
+		$this->defaultValue = $defaultValue;
+		return $this;
+	}
 
-		 $this->defaultValue = $defaultValue;
-return $this; 
-}
+	public function setId($id)
+	{
 
-	public function setId(  $id)
-{
-
-		 $this->id = $id;
-return $this; 
-}
+		$this->id = $id;
+		return $this;
+	}
 
 	public function getName()
-{
+	{
 
 		return $this->name;
-}
+	}
 
 	public function getDefaultValue()
-{
+	{
 
 		return $this->defaultValue;
-}
+	}
 
 	public function getId()
-{
+	{
 
 		return $this->id;
+	}
+
+	public function write()
+	{
+
+		$this->validateData();
+
+		print "<input type=\"text\" name=\"{$this->name}}\" value=\"{$this->defaultValue}}\" id=\"{$this->id}}\"/>\n";
+	}
+
 }
-
-	public function write() {
-
-	$this->validateData();
-
-print "<input type=\"text\" name=\"{$this->name}}\" value=\"{$this->defaultValue}}\" id=\"{$this->id}}\"/>\n";
-}
-
- } 
 
 
 ?>
-
