@@ -99,7 +99,8 @@ abstract class TokenString extends ArrayObject
                         "Duplicated template names are not allowed in the same package. 
                         Please verify the file '" . $this->snippetsXMLFile . 
                         "' with package '" . $packageName . 
-                        "'. Template with name '" . $snippet->getAttribute('name') . "' is defined more than one time." );
+                        "'. Template with name '"
+                        . $snippet->getAttribute('name') . "' is defined more than one time." );
                     exit;
                 }
             }
@@ -158,22 +159,29 @@ abstract class TokenString extends ArrayObject
         $content = "";
     }
 
-    public function isValidDigitForVariableName($chr)
-    {
-        $validCharacters = array('_', '-', '.');
-        if (ctype_alnum($chr) || in_array($chr, $validCharacters))
-            return true;
-        return false;
-    }
+    
 
     public function logSyntaxError($msg, $expressionStr, $currentIndex)
     {
         print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
-        print '<strong>Check></strong> "' . substr($expressionStr, max(0, $currentIndex - 8), min(strlen($expressionStr) - $currentIndex, 16)) . '", index: ' . $currentIndex . "<br/>\n";
+        print '<strong>Check></strong> "'
+            . substr(
+                $expressionStr,
+                max(0, $currentIndex - 8),
+                min(strlen($expressionStr) - $currentIndex, 16)
+
+            )
+            . '", index: '
+            . $currentIndex . "<br/>\n";
         exit;
     }
 
-    public function collectVariables($tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class, $sameLevel = false, $distinct = false)
+    public function collectVariables(
+        $tokenObj = null,
+        $variableTypes = array(TokenString::class),
+        $returnAsType = VariableToken::class,
+        $sameLevel = false,
+        $distinct = false )
     {
         if ($tokenObj == null)
             $tokenObj = $this;
@@ -226,219 +234,19 @@ abstract class TokenString extends ArrayObject
         return $variables;
     }
 
-    public function collectVariablesDistinct($tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class)
+    public function collectVariablesDistinct(
+        $tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class)
     {
         return $this->collectVariables($tokenObj, $variableTypes, $returnAsType, false, true);
     }
 
-    public function collectVariablesSameLevel($tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class)
+    public function collectVariablesSameLevel(
+        $tokenObj = null, $variableTypes = array(TokenString::class), $returnAsType = VariableToken::class)
     {
         return $this->collectVariables($tokenObj, $variableTypes, $returnAsType, true);
     }
 
-    public function validateExpression($expressionStr = null)
-    {
-        global $defaultConditionals;
-        if ($expressionStr === null)
-            $expressionStr = $this->content;
 
-        $isValid = true;
-
-        $countValidationVar = 0;
-        $countValidationType = 0;
-        $countValidationOpt = 0;
-        $currentVariableLength = 0;
-        $currentTypeLength = 0;
-
-        $currentVariableName = "";
-        $currentTypeName = "";
-
-        for ($i = 0; $i < strlen($expressionStr); $i++) {
-            $evalExpr_varDefOpen = $this->catchDefExpr($expressionStr, $i, VAR_DEF_OPEN);
-            $evalExpr_optDefOpen = $this->catchDefExpr($expressionStr, $i, OPT_DEF_OPEN);
-
-            $evalExpr_varDefClose = $this->catchDefExpr($expressionStr, $i, VAR_DEF_CLOSE);
-            $evalExpr_optDefClose = $this->catchDefExpr($expressionStr, $i, OPT_DEF_CLOSE);
-
-            $evalExpr_typeDefOpen = $this->catchDefExpr($expressionStr, $i, TYPE_DEF_OPEN);
-            $evalExpr_typeDefClose = $this->catchDefExpr($expressionStr, $i, TYPE_DEF_CLOSE);
-
-
-            $evalExpr_condDefOpen = $this->catchDefExpr($expressionStr, $i, COND_DEF_OPEN);
-            $evalExpr_condDefClose = $this->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE);
-
-
-            if ($evalExpr_condDefOpen === COND_DEF_OPEN) {
-
-                $i += strlen(COND_DEF_OPEN);
-                $conditionalTokenContent = "";
-                while (
-                    (($evalExpr_condDefClose = $this->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE)) !== COND_DEF_CLOSE) &&
-                    $i < strlen($expressionStr)
-                ) {
-                    $conditionalTokenContent .= $expressionStr[$i];
-                    $i++;
-                }
-
-                if ($evalExpr_condDefClose !== COND_DEF_CLOSE) {
-                    $this->logSyntaxError('ConditionalToken is not correctly defined.', $expressionStr, $i);
-                    return false;
-                }
-
-                $hasConditional = false;
-                $hasExpression = false;
-                foreach ($defaultConditionals as $conditionalKey) {
-                    if (substr($conditionalTokenContent, 0, $len = strlen($conditionalKey)) === $conditionalKey) {
-
-                        if ($len < $lenFinalContent = strlen($conditionalTokenContent)) {
-                            $hasExpression = true;
-                        }
-
-                        $varConditionalToken = new ConditionalToken();
-                        $varConditionalToken->packageName = $this->packageName;
-                        $varConditionalToken->conditionalExpression = $conditionalKey;
-                        $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
-
-                        $hasConditional = true;
-                        break;
-                    }
-                }
-
-                if (!$hasConditional || ($hasConditional && !$hasExpression)) {
-                    $this->logSyntaxError('ConditionalToken has not a valid conditional expression.', $expressionStr, $i);
-                    return false;
-                }
-
-
-
-                $i += strlen(COND_DEF_CLOSE) - 1;
-                continue;
-            }
-
-
-            // variable definition
-            if ($evalExpr_varDefOpen === VAR_DEF_OPEN && $countValidationVar == 0 && $countValidationType == 0) {
-                $countValidationVar++;
-                $i += strlen(VAR_DEF_OPEN) - 1;
-                continue;
-            }
-
-            // variable definition close
-            if ($evalExpr_varDefClose === VAR_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 0) {
-                if ($currentVariableLength == 0) {
-                    $this->logSyntaxError('Variable definition cannot have an empty name.', $expressionStr, $i);
-
-                    return false;   // --> variable doesn't have name
-                }
-
-                $currentVariableName = "";
-                $currentVariableLength = 0;
-                $countValidationVar--;
-                $i += strlen(VAR_DEF_CLOSE) - 1;
-                continue;
-            }
-
-
-            // type definition
-            if ($evalExpr_typeDefOpen === TYPE_DEF_OPEN && $countValidationVar == 1 && $countValidationType == 0) {
-                $countValidationType++;
-                $i += strlen(TYPE_DEF_OPEN) - 1;
-                continue;
-            }
-            if ($evalExpr_typeDefClose === TYPE_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 1) {
-                if ($currentTypeLength == 0) {
-                    $this->logSyntaxError('Type definition cannot have an empty name.', $expressionStr, $i);
-
-                    return false;   // --> variable doesn't have name
-                }
-
-                $currentTypeName = "";
-                $currentTypeLength = 0;
-                $countValidationType--;
-                $i += strlen(TYPE_DEF_CLOSE) - 1;
-                continue;
-            }
-
-            if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1 && $countValidationType == 1) {
-                $this->logSyntaxError('Variable type specified not valid.', $expressionStr, $i);
-                return false;
-            } else
-                if ($countValidationType == 1) {
-                    $currentTypeName .= $expressionStr[$i];
-                    $currentTypeLength++;
-                }
-
-            // cannot give a name to a variable incorrectly
-            if (!$this->isValidDigitForVariableName($expressionStr[$i]) && $countValidationVar == 1 && $countValidationType == 0) {
-                $this->logSyntaxError('Variable name not valid.', $expressionStr, $i);
-                return false;
-            } else
-                if ($countValidationVar == 1 && $countValidationType == 0) {
-                    $currentVariableName .= $expressionStr[$i];
-
-                    $currentVariableLength++;
-                }
-
-            // optional section definition
-            if ($evalExpr_optDefOpen === OPT_DEF_OPEN && $countValidationVar == 0) {
-                $countValidationOpt++;
-                $i += strlen(OPT_DEF_OPEN) - 1;
-                continue;
-            }
-
-            // fail optional section definition inside a variable
-            if ($evalExpr_optDefOpen === OPT_DEF_OPEN && $countValidationVar == 1) {
-                $this->logSyntaxError('Cannot open an optional definition (' . OPT_DEF_OPEN . ') inside a variable.', $expressionStr, $i);
-
-                return false;
-            }
-
-            // fail
-            if ($evalExpr_optDefClose === OPT_DEF_CLOSE && $countValidationOpt > 0 && $countValidationVar == 0) {
-                $countValidationOpt--;
-                $i += strlen(OPT_DEF_CLOSE) - 1;
-                continue;
-            }
-
-            if ($evalExpr_optDefClose === OPT_DEF_CLOSE && ($countValidationOpt == 0 || $countValidationVar == 1)) {
-                $this->logSyntaxError('Syntax error: Cannot close an optional section "' . OPT_DEF_CLOSE . '" without open it before.', $expressionStr, $i);
-
-                return false;
-            }
-
-        }
-
-        if (
-            $countValidationVar == 0 &&
-            $countValidationOpt == 0 &&
-            $countValidationType == 0 &&
-            $currentVariableLength == 0
-        ) {
-            return true;
-        } else {
-            if ($countValidationVar !== 0) {
-                print '<strong>Check></strong>Some variable definition is wrong.';
-                exit;
-            }
-
-
-            if ($countValidationType !== 0) {
-                print '<strong>Check></strong>Some variable type is wrong.';
-                exit;
-            }
-
-            if ($countValidationOpt !== 0) {
-                print '<strong>Check></strong>Some optional expression is not correctly defined.';
-                exit;
-            }
-
-        }
-
-        //print $countValidationVar . " : " . $countValidationOpt . " : " . $currentVariableLength . "<br/>";
-
-        return false;
-
-    }
 
     public function clean()
     {
@@ -467,7 +275,7 @@ abstract class TokenString extends ArrayObject
         if ($expressionStr === null)
             $expressionStr = $this->content;
 
-        if (!$this->validateExpression($expressionStr)) {
+        if (!TokenStringValidator :: validateExpression($expressionStr)) {
             return false;
         }
 
@@ -484,10 +292,10 @@ abstract class TokenString extends ArrayObject
 
             $addSingleToken = false;
             
-            ConditionalToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken ); 
-            VariableToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
-            OptionalToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );
-            SingleToken ::      analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );            
+            if (ConditionalToken :: analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken )) continue;
+            if (VariableToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken )) continue;
+            if (OptionalToken ::    analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken )) continue;
+            SingleToken ::      analyze( $this, $expressionStr, $i,  $addSingleToken,  $singleToken );
         }
     }
 
@@ -540,9 +348,16 @@ abstract class TokenString extends ArrayObject
             $pToken = $this;
         }
         
-        $output .= endl() . "/* ####################### " . $pToken->snippetName . " : USAGE EXAMPLE ####################### " . endl();
+        $output .= endl()
+            . "/* ####################### "
+            . $pToken->snippetName
+            . " : USAGE EXAMPLE ####################### "
+            . endl();
 
-        $output .= endl() . _tab() . '$var' . $pToken->snippetName . ' = new ' . $pToken->snippetName . '();' . endl();
+        $output .= endl() . _tab()
+            . '$var' . $pToken->snippetName . ' = new '
+            . $pToken->snippetName . '();'
+            . endl();
 
         foreach ($variables as $var) {
             $output .= endl();
@@ -550,10 +365,22 @@ abstract class TokenString extends ArrayObject
             $sampleData = $pToken->snippetName . '_' . $var->name . '_EXAMPLE';
 
             if ($var->snippetName !== null) {
-                $output .= _tab() . '$var' . $var->name . ' = new ' . $var->snippetName . '();' . endl();
-                $output .= _tab() . '$var' . $pToken->snippetName . '->add' . camelize($var->name) . 'Item( $var' . camelize($var->name) . 'Item );' . endl();
+                $output .= _tab()
+                    . '$var' . $var->name
+                    . ' = new ' . $var->snippetName . '();'
+                    . endl();
+
+                $output .= _tab()
+                    . '$var' . $pToken->snippetName
+                    . '->add' . camelize($var->name)
+                    . 'Item( $var' . camelize($var->name) . 'Item );'
+                    . endl();
+
             } else {
-                $output .= _tab() . '$var' . $pToken->snippetName . '->set' . camelize($var->name) . '("' . $sampleData . '");' . endl();
+                $output .= _tab()
+                    . '$var' . $pToken->snippetName
+                    . '->set' . camelize($var->name) . '("' . $sampleData . '");'
+                    . endl();
             }
         }
 
@@ -618,10 +445,13 @@ abstract class TokenString extends ArrayObject
         // requires
         if ($fileBegins) {
             foreach ($uniqueSnippets as $fileName) {
+                print_r( $fileName );
+                if ($fileName !== null && $fileName->snippetName !== null) {
 
-                if ($fileName !== null) {
-                    print endlbrk() . 'usePath = ' . $usePath . endlbrk();
-                    $output .= 'use ' . trim( $usePath, '\\' ) . _bslash() . getPackageNameAsPath( $fileName->packageName ) . _bslash() . $fileName->snippetName . ';';
+                    $output .= 'use '
+                        . trim( $usePath, '\\' )
+                        . _bslash() . getPackageNameAsPath( $fileName->packageName )
+                        . _bslash() . $fileName->snippetName . ';';
                     //$output .= 'require_once( "' . $fileName . '.php" );';
                     $output .= endl();
                 }
@@ -638,7 +468,9 @@ abstract class TokenString extends ArrayObject
         }
 
         if ($fileBegins) {
-            $output .= endl() . 'class ' . getDataTypeOfPackage($this->snippetName) . ' extends GeneratorClass {' . endl();
+            $output .= endl()
+                . 'class ' . getDataTypeOfPackage($this->snippetName)
+                . ' extends GeneratorClass {' . endl();
         }
 
         if ($fileBegins) {
@@ -660,7 +492,13 @@ abstract class TokenString extends ArrayObject
             $output .= endl() . _tab(2) . 'parent :: __construct();' . endl();
 
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . '$this->' . $variable->name . ' = ' . ($variable->snippetName !== null ? ' new ' . $variable->snippetName . '()' : ' null') . ';' . endl();
+                $output .= endl() . _tab()
+                    . '$this->' . $variable->name . ' = '
+                    . ($variable->snippetName !== null ?
+                        ' new ' . $variable->snippetName . '()' :
+                        ' null'
+                    )
+                    . ';' . endl();
             }
 
             $output .= endl() . '}' . endl();
@@ -668,19 +506,40 @@ abstract class TokenString extends ArrayObject
 
             // setters
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function set' . camelize($variable->name) . '( ' . $variable->snippetName . ' $' . $variable->name . ')' . endl() . '{' . endl();
-                $output .= endl() . _tab(2) . ' $this->' . $variable->name . ' = $' . $variable->name . ';' . endl() . 'return $this; ' . endl() . '}' . endl();
+                $output .= endl() . _tab()
+                    . 'public function set' . camelize($variable->name) . '( '
+                    . $variable->snippetName . ' $' . $variable->name . ')'
+                    . endl() . '{' . endl();
+
+                $output .= endl() . _tab(2)
+                    . ' $this->' . $variable->name . ' = $'
+                    . $variable->name . ';' . endl()
+                    . 'return $this; '
+                    . endl() . '}' . endl();
             }
             // getters
             foreach ($variables as $variable) {
-                $output .= endl() . _tab() . 'public function get' . camelize($variable->name) . '()' . endl() . '{' . endl();
-                $output .= endl() . _tab(2) . 'return $this->' . $variable->name . ';' . endl() . '}' . endl();
+                $output .= endl() . _tab()
+                    . 'public function get' . camelize($variable->name) . '()'
+                    . endl() . '{' . endl();
+
+                $output .= endl() . _tab(2)
+                    . 'return $this->' . $variable->name . ';'
+                    . endl() . '}' . endl();
             }
             // adders
             foreach ($variables as $variable) {
                 if ($variable->snippetName !== null) {
-                    $output .= endl() . _tab() . 'public function add' . camelize($variable->name) . 'Item( ' . $variable->snippetName . ' $item )' . endl() . '{' . endl();
-                    $output .= endl() . _tab(2) . '$this->' . $variable->name . '->append( clone $item);' . endl() . 'return $this; ' . endl() . '}' . endl();
+                    $output .= endl() . _tab()
+                        . 'public function add' . camelize($variable->name)
+                        . 'Item( ' . $variable->snippetName . ' $item )'
+                        . endl() . '{' . endl();
+
+                    $output .= endl() . _tab(2)
+                        . '$this->' . $variable->name . '->append( clone $item);'
+                        . endl()
+                        . 'return $this; '
+                        . endl() . '}' . endl();
                 }
             }
 
@@ -729,7 +588,10 @@ abstract class TokenString extends ArrayObject
             if (get_class($token) === CompoundVariableToken::class) {
                 $output .= __print($outputStack);
                 $outputStack = "";
-                $output .= _tab(2) . endl() . '$this->writeArrayObject( $this->' . $token->name . ', ' . $token->snippetName  .  '::class );' . endl();
+                $output .= _tab(2) . endl()
+                    . '$this->writeArrayObject( $this->'
+                    . $token->name . ', ' . $token->snippetName
+                    .  '::class );' . endl();
 
 
             } 

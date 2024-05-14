@@ -1,5 +1,6 @@
 <?php
 
+
 namespace system\jupiter\core;
 
 
@@ -29,3 +30,4 @@ class SingleToken extends TokenString
 
 
 }
+

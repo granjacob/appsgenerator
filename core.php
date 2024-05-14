@@ -164,6 +164,30 @@ function endlbrk($times = 1)
     return endl( $times ) . htmlbrk( $times  );
 }
 
+function logSyntaxError($msg, $expressionStr, $currentIndex)
+{
+    print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
+    print '<strong>Check></strong> "'
+        . substr(
+            $expressionStr,
+            max(0, $currentIndex - 8),
+            min(strlen($expressionStr) - $currentIndex, 16)
+
+        )
+        . '", index: '
+        . $currentIndex . "<br/>\n";
+    exit;
+}
+
+
+function isValidDigitForVariableName($chr)
+{
+    $validCharacters = array('_', '-', '.');
+    if (ctype_alnum($chr) || in_array($chr, $validCharacters))
+        return true;
+    return false;
+}
+
 
 
 function __print($str)

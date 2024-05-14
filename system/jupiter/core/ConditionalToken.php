@@ -10,7 +10,12 @@ class ConditionalToken extends OptionalToken
         parent::__construct();
     }
 
-    public static function analyze( &$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken )
+    public static function analyze(
+        &$token,
+        $expressionStr,
+        &$i,
+        bool &$addSingleToken,
+        string &$singleToken )
     {
         global $defaultConditionals;
 
@@ -22,7 +27,8 @@ class ConditionalToken extends OptionalToken
             $conditionalTokenContent = "";
 
             while (
-                (($evalExpr_condDefClose = $token->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE)) !== COND_DEF_CLOSE) &&
+                (($evalExpr_condDefClose =
+                        $token->catchDefExpr($expressionStr, $i, COND_DEF_CLOSE)) !== COND_DEF_CLOSE) &&
                 $i < strlen($expressionStr)
             ) {
                 $conditionalTokenContent .= $expressionStr[$i];
@@ -37,7 +43,8 @@ class ConditionalToken extends OptionalToken
                     $varConditionalToken = new ConditionalToken();
                     $varConditionalToken->packageName = $token->packageName;
                     $varConditionalToken->conditionalExpression = $conditionalKey;
-                    $varConditionalToken->content = substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
+                    $varConditionalToken->content =
+                        substr($conditionalTokenContent, $len, strlen($conditionalTokenContent) - $len);
 
                     $varConditionalToken->make($varConditionalToken->content);
 

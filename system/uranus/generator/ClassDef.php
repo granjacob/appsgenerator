@@ -2,7 +2,6 @@
 
 namespace system\uranus\generator;
 use system\jupiter\core\GeneratorClass;
-use system\uranus\\;
 use system\uranus\generator\ClassAttribute;
 
 /* ####################### ClassDef : USAGE EXAMPLE ####################### 
@@ -113,32 +112,31 @@ return $this;
 
 print "<?php\n";
 print "\n";
-print "            namespace {$this->namespace}};\n";
-print "\n";
-print "            class {$this->name}} \n";
+print "            namespace {$this->namespace};\n";
+print "            class {$this->name} \n";
 if () {
 
 
-print "extends {$this->extensionClass}}\n";
+print "extends {$this->extensionClass}\n";
 
 }
 
-print "] {\n";
+print " {\n";
 print "                \n";
 print "                \n";		
 $this->writeArrayObject( $this->attributes, ClassAttribute::class );
 
-print "}\n";
+print "\n";
 print "\n";
 print "                \n";		
 $this->writeArrayObject( $this->attributes, ClassGetter::class );
 
-print "}\n";
+print "\n";
 print "\n";
 print "                \n";		
 $this->writeArrayObject( $this->attributes, ClassSetter::class );
 
-print "}\n";
+print "\n";
 print "\n";
 print "            }\n";
 print "\n";

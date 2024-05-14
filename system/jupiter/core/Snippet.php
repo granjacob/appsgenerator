@@ -15,11 +15,6 @@ class Snippet extends TokenString
             $this->variablesDefined = array();
         }
 
-        /*   public function cleanSnippet()
-           {
-               parent :: clean();
-               $this->variablesDefined = array();
-           }*/
 
         public function addVariableName($varName)
         {
@@ -40,13 +35,13 @@ class Snippet extends TokenString
             }
         }
         /**
-     *
-     * @param mixed $token
-     * @param mixed $expressionStr
-     * @param mixed $i
-     */
-    public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken) {
-    }
+         *
+         * @param mixed $token
+         * @param mixed $expressionStr
+         * @param mixed $i
+         */
+        public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken) {
+        }
     
    
 }

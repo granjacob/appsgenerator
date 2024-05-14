@@ -22,6 +22,7 @@ class CompoundVariableToken extends TokenString
      * @param mixed $i
      */
     public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken) {
+
     }
     
 

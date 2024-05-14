@@ -2,7 +2,6 @@
 
 namespace system\uranus\generator;
 use system\jupiter\core\GeneratorClass;
-use system\uranus\\;
 
 /* ####################### ClassAttribute : USAGE EXAMPLE ####################### 
 
@@ -65,7 +64,7 @@ return $this;
 	$this->validateData();
 
 print "{$this->accessModifier}\n";
-print "} \${$this->name}};\n";
+print " \${$this->name};\n";
 }
 
  } 

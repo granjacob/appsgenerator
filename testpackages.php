@@ -28,7 +28,7 @@ use system\jupiter\core\SnippetsManager;
 
 $snippetsManager = new SnippetsManager();
 
-$snippetsManager->mainPath = getcwd() . _bslash() . "ganimedes";
+$snippetsManager->mainPath = getcwd() .  _bslash() . "system" . _bslash() . "ganimedes";
 
 $snippetsManager->outputPath = getcwd() . _bslash() . "system" . _bslash() . "uranus";
 

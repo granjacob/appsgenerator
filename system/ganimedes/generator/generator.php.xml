@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <snippets lang="php" package="generator">
+    <snippet name="TestVariable">
+        <![CDATA[
+            before{{:accessModifier:}}after
+         ]]>
+    </snippet>
     <snippet name="ClassAttribute">
         <![CDATA[
             {{:accessModifier:}} ${{:name:}};
@@ -7,21 +12,22 @@
     </snippet>
     <snippet name="ClassGetter">
         <![CDATA[
-            public function get{{:attributeName:}}()
+            public function get{{:name:}}()
             {
-                return $this->{{:attributeName:}};
+                return $this->{{:name:}};
             }
          ]]>
     </snippet>
     <snippet name="ClassSetter">
         <![CDATA[
-            public function set{{:attributeName:}}( ${{:attributeName:}} )
+            public function set{{:name:}}( ${{:name:}} )
             {
-                $this->{{:attributeName:}} = {{:attributeName:}};
+                $this->{{:name:}} = {{:name:}};
             }
          ]]>
     </snippet>
-    <snippet name="Class">
+    <snippet name="ClassDef">
+        <Content>
         <![CDATA[
             <?php
 
@@ -38,5 +44,6 @@
 
             ?>
         ]]>
+        </Content>
     </snippet>
 </snippets>

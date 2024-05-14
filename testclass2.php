@@ -29,4 +29,14 @@ $varClassAttribute->setName("direccion");
 $varClassAttribute->setName("telefono");
 $varClass->addAttributesItem( $varClassAttribute );
 
+$varClassAttribute->setName("attributo2");
+$varClass->addAttributesItem( $varClassAttribute );
+
+$varClassAttribute->setName("attributo3");
+$varClass->addAttributesItem( $varClassAttribute );
+
+$varClassAttribute->setName("attributo4");
+$varClass->addAttributesItem( $varClassAttribute );
+
+
 $varClass->write();

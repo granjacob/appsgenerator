@@ -2,7 +2,6 @@
 
 namespace system\uranus\generator;
 use system\jupiter\core\GeneratorClass;
-use system\uranus\\;
 
 /* ####################### ClassSetter : USAGE EXAMPLE ####################### 
 
@@ -45,9 +44,9 @@ return $this;
 
 	$this->validateData();
 
-print "public function set{$this->name}}( \${$this->name}} )\n";
+print "public function set{$this->name}( \${$this->name} )\n";
 print "            {\n";
-print "                \$this->{$this->name}} = {$this->name}};\n";
+print "                \$this->{$this->name} = {$this->name};\n";
 print "            }\n";
 }
 

@@ -25,47 +25,52 @@ class OptionalToken extends TokenString
                 if ($evalExpr_optDefOpen === OPT_DEF_OPEN) {
                     $qOptOpenCount++;
                     $j += strlen(OPT_DEF_OPEN) - 1;
-                } else
-                    if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
+                }
+                else
+                if ($evalExpr_optDefClose === OPT_DEF_CLOSE) {
 
-                        $qOptOpenCount--;
+                    $qOptOpenCount--;
 
-                        if ($qOptOpenCount === 0) {
+                    if ($qOptOpenCount === 0) {
 
-                            $optExpr = new OptionalToken();
-                            $optExpr->packageName = $token->packageName;     // package name
-                            $optExpr->content = substr(
-                                $expressionStr,
-                                $i + strlen(OPT_DEF_OPEN),
-                                $j - $i - strlen(OPT_DEF_CLOSE)
-                            );
-                            $optExpr->posStart = $i;
-                            $optExpr->posEnd = $j + strlen(OPT_DEF_CLOSE) - 1;
+                        $optExpr = new OptionalToken();
+                        $optExpr->packageName = $token->packageName;     // package name
+                        $optExpr->content = substr(
+                            $expressionStr,
+                            $i + strlen(OPT_DEF_OPEN),
+                            $j - $i - strlen(OPT_DEF_CLOSE)
+                        );
+                        $optExpr->posStart = $i;
+                        $optExpr->posEnd = $j + strlen(OPT_DEF_CLOSE) - 1;
 
-                           
-                            $optExpr->make($optExpr->content);
-                            $addSingleToken = true;
 
-                            $token->addSingleToken($token->tokens, $singleToken, OptionalToken :: getNextId() );
+                        $optExpr->make($optExpr->content);
+                        $addSingleToken = true;
 
-                            $variables = $optExpr->collectVariablesSameLevel(null, CompoundVariableToken::class, CompoundVariableToken::class);
+                        $token->addSingleToken($token->tokens, $singleToken, OptionalToken :: getNextId() );
 
-                            $conditionalExpression = "";
-                            foreach ($variables as $variable) {
-                                $conditionalExpression .=
-                                    ' ($token->' . $variable->name . ' !== null && ' .
-                                    '$token->' . $variable->name . '->count() > 0) &&';
-                            }
+                        $variables = $optExpr->collectVariablesSameLevel(
+                            null,
+                            CompoundVariableToken::class,
+                            CompoundVariableToken::class );
 
-                            $optExpr->conditionalExpression = str_replace("&&", "&&\n", trim($conditionalExpression, "& "));
-
-                            array_push($token->tokens, $optExpr);
-                            $j += strlen(OPT_DEF_CLOSE) - 1;
-                            break;
+                        $conditionalExpression = "";
+                        foreach ($variables as $variable) {
+                            $conditionalExpression .=
+                                ' ($token->' . $variable->name . ' !== null && ' .
+                                '$token->' . $variable->name . '->count() > 0) &&';
                         }
 
+                        $optExpr->conditionalExpression =
+                            str_replace("&&", "&&\n", trim($conditionalExpression, "& "));
+
+                        array_push($token->tokens, $optExpr);
                         $j += strlen(OPT_DEF_CLOSE) - 1;
+                        break;
                     }
+
+                    $j += strlen(OPT_DEF_CLOSE) - 1;
+                }
             }
             $i = $j;
         }

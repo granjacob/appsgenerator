@@ -20,7 +20,6 @@ class VariableToken extends TokenString
             
             $evalExpr_varDefOpen = catchDefExpr($expressionStr, $i, VAR_DEF_OPEN);
             if ($result = ($evalExpr_varDefOpen === VAR_DEF_OPEN)) {
-                print 'Processing ' . $token->name . endl();
                 $posStart = $i;
 
                 $posEnd = strpos(
@@ -80,12 +79,9 @@ class VariableToken extends TokenString
                 }
 
                 if (get_class($var) === CompoundVariableToken::class) {
-                    print 'SnippetName = ' . $snippetName . endl();
                     $var->packageName = getPackageOfDataType($snippetName);
 
                     if ($var->packageName === "" || $var->packageName === null) {
-                        print 'Es nulooooooooooooooooo';
-                        print ' With package name = ' . $token->packageName;
 
 
                         /*   if ($snippetName === "PrintMyData") {
@@ -95,10 +91,8 @@ class VariableToken extends TokenString
                         $var->packageName = $token->packageName;
                     }
 
-                    print '/**/packageName = ' . $var->packageName . endl();
 
                     $var->snippetName = getDataTypeOfPackage($snippetName);
-                    print '/**/snippetName = ' . $var->snippetName . endl();
 
                     $var->make();
                 }
