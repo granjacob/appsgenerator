@@ -53,6 +53,7 @@ abstract class GeneratorClass extends ArrayObject {
 
     public function writeArrayObject( &$object, $writeAsClass )
     {
+        $result = "";
         if ($object !== null) {
 
             $temp = new $writeAsClass();
@@ -68,12 +69,27 @@ abstract class GeneratorClass extends ArrayObject {
                     if (property_exists( $temp, $key ))
                         $temp->$key = $item->$key;
                 }
-                $temp->write();
+                $result .= $temp->write();
 
 			}
 
 
 		}
+
+        return $result;
+    }
+
+    public function getCreateTableSQL()
+    {
+        $outputSQL = "";
+
+        $outputSQL .= "CREATE TABLE " . get_class_name( get_class( $this ) ) . "(" . endl();
+        $outputSQL .= "id int(20)" . endl();
+
+
+        $outputSQL .= ");" . endl();
+
+        return $outputSQL;
     }
 
 

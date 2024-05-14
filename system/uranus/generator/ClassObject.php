@@ -26,125 +26,125 @@ use system\uranus\generator\ClassAttribute;
 class ClassObject extends GeneratorClass
 {
 
-	protected $namespace;
+    protected $namespace;
 
-	protected $name;
+    protected $name;
 
-	protected $extensionClass;
+    protected $extensionClass;
 
-	protected ClassAttribute $attributes;
+    protected ClassAttribute $attributes;
 
-	public function __construct()
-	{
+    public function __construct()
+    {
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->namespace = null;
+        $this->namespace = null;
 
-		$this->name = null;
+        $this->name = null;
 
-		$this->extensionClass = null;
+        $this->extensionClass = null;
 
-		$this->attributes = new ClassAttribute();
+        $this->attributes = new ClassAttribute();
 
-	}
+    }
 
-	public function setNamespace($namespace)
-	{
+    public function setNamespace($namespace)
+    {
 
-		$this->namespace = $namespace;
-		return $this;
-	}
+        $this->namespace = $namespace;
+        return $this;
+    }
 
-	public function setName($name)
-	{
+    public function setName($name)
+    {
 
-		$this->name = $name;
-		return $this;
-	}
+        $this->name = $name;
+        return $this;
+    }
 
-	public function setExtensionClass($extensionClass)
-	{
+    public function setExtensionClass($extensionClass)
+    {
 
-		$this->extensionClass = $extensionClass;
-		return $this;
-	}
+        $this->extensionClass = $extensionClass;
+        return $this;
+    }
 
-	public function setAttributes(ClassAttribute $attributes)
-	{
+    public function setAttributes(ClassAttribute $attributes)
+    {
 
-		$this->attributes = $attributes;
-		return $this;
-	}
+        $this->attributes = $attributes;
+        return $this;
+    }
 
-	public function getNamespace()
-	{
+    public function getNamespace()
+    {
 
-		return $this->namespace;
-	}
+        return $this->namespace;
+    }
 
-	public function getName()
-	{
+    public function getName()
+    {
 
-		return $this->name;
-	}
+        return $this->name;
+    }
 
-	public function getExtensionClass()
-	{
+    public function getExtensionClass()
+    {
 
-		return $this->extensionClass;
-	}
+        return $this->extensionClass;
+    }
 
-	public function getAttributes()
-	{
+    public function getAttributes()
+    {
 
-		return $this->attributes;
-	}
+        return $this->attributes;
+    }
 
-	public function addAttributesItem(ClassAttribute $item)
-	{
+    public function addAttributesItem(ClassAttribute $item)
+    {
 
-		$this->attributes->append(clone $item);
-		return $this;
-	}
+        $this->attributes->append(clone $item);
+        return $this;
+    }
 
-	public function write()
-	{
+    public function write()
+    {
 
-		$this->validateData();
+        $this->validateData();
 
-		print "<?php\n";
-		print "\n";
-		print "            namespace {$this->namespace}};\n";
-		print "            class {$this->name}} \n";
-		if (false) {
+        print "<?php\n";
+        print "\n";
+        print "            namespace {$this->namespace}};\n";
+        print "            class {$this->name}} \n";
+        if (false) {
 
 
-			print "extends {$this->extensionClass}}\n";
+            print "extends {$this->extensionClass}}\n";
 
-		}
+        }
 
-		print "] {\n";
-		print "                \n";
-		print "                \n";
-		$this->writeArrayObject($this->attributes);
+        print "] {\n";
+        print "                \n";
+        print "                \n";
+        $this->writeArrayObject($this->attributes);
 
-		print "}\n";
-		print "\n";
-		print "                \n";
-		$this->writeArrayObject($this->attributes);
+        print "}\n";
+        print "\n";
+        print "                \n";
+        $this->writeArrayObject($this->attributes);
 
-		print "}\n";
-		print "\n";
-		print "                \n";
-		$this->writeArrayObject($this->attributes);
+        print "}\n";
+        print "\n";
+        print "                \n";
+        $this->writeArrayObject($this->attributes);
 
-		print "}\n";
-		print "\n";
-		print "            }\n";
-		print "\n";
-		print "            ?>\n";
-	}
+        print "}\n";
+        print "\n";
+        print "            }\n";
+        print "\n";
+        print "            ?>\n";
+    }
 
 }
 

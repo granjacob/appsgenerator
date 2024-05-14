@@ -2,6 +2,8 @@
 
 namespace system\jupiter\core;
 
+use PhpParser\Node\Expr\Variable;
+
 class OptionalToken extends TokenString
 {
 
@@ -51,14 +53,14 @@ class OptionalToken extends TokenString
 
                         $variables = $optExpr->collectVariablesSameLevel(
                             null,
-                            CompoundVariableToken::class,
+                            array( VariableToken::class, CompoundVariableToken::class ),
                             CompoundVariableToken::class );
 
                         $conditionalExpression = "";
                         foreach ($variables as $variable) {
                             $conditionalExpression .=
-                                ' ($token->' . $variable->name . ' !== null && ' .
-                                '$token->' . $variable->name . '->count() > 0) &&';
+                                ' ($this->' . $variable->name . ' !== null && ' .
+                                '$this->' . $variable->name . '->count() > 0) &&';
                         }
 
                         $optExpr->conditionalExpression =

@@ -2,7 +2,7 @@
 
 namespace system\jupiter\core;
 
-class CompoundVariableToken extends TokenString
+class CompoundVariableToken extends VariableToken
 {
 
 
@@ -15,15 +15,6 @@ class CompoundVariableToken extends TokenString
            $this->value = $this->jsonParameters[$this->name];
        }*/
 
-    /**
-     *
-     * @param mixed $token
-     * @param mixed $expressionStr
-     * @param mixed $i
-     */
-    public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken) {
 
-    }
-    
 
 }

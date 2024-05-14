@@ -49,10 +49,7 @@ class VariableToken extends TokenString
                     $snippetName = $matches[1][0];
                 if (is_array($matches[2]) && count($matches[2]) == 1) {
                     $variableName = $matches[2][0];
-                } /*else {
-                    $variableName = $varName;
-                }*/
-
+                }
 
                 $nativeTypes = array('int', 'string', 'Date');
 
@@ -82,12 +79,6 @@ class VariableToken extends TokenString
                     $var->packageName = getPackageOfDataType($snippetName);
 
                     if ($var->packageName === "" || $var->packageName === null) {
-
-
-                        /*   if ($snippetName === "PrintMyData") {
-                            print_r( $this );
-                               exit;
-                           }*/
                         $var->packageName = $token->packageName;
                     }
 

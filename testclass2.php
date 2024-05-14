@@ -39,4 +39,6 @@ $varClassAttribute->setName("attributo4");
 $varClass->addAttributesItem( $varClassAttribute );
 
 
-$varClass->write();
+//print $varClass->write();
+
+print $varClass->getCreateTableSQL();

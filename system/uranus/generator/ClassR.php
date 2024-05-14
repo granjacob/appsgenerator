@@ -1,6 +1,7 @@
 <?php
 
 namespace system\uranus\generator;
+
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### ClassR : USAGE EXAMPLE ####################### 
@@ -9,28 +10,30 @@ use system\jupiter\core\GeneratorClass;
 
 	$varClassR->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+    ####################### USAGE EXAMPLE ####################### **/
 
-class ClassR extends GeneratorClass {
-
-public function __construct()
-
+class ClassR extends GeneratorClass
 {
 
-		parent :: __construct();
+    public function __construct()
+
+    {
+
+        parent:: __construct();
+
+    }
+
+    public function write()
+    {
+
+        $this->validateData();
+
+        print "class T {\n";
+        print "\n";
+        print "            }\n";
+    }
 
 }
-
-	public function write() {
-
-	$this->validateData();
-
-print "class T {\n";
-print "\n";
-print "            }\n";
-}
-
- } 
 
 
 ?>

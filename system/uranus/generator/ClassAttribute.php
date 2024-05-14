@@ -61,11 +61,13 @@ return $this;
 
 	public function write() {
 
-	$this->validateData();
+		$output = ""; 
 
-print "{$this->accessModifier}\n";
-print " \${$this->name};\n";
-}
+		$this->validateData();
+
+$output .= "{$this->accessModifier}\n";
+$output .= " \${$this->name};\n";
+ return $output; }
 
  } 
 

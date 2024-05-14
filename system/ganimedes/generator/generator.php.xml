@@ -2,7 +2,15 @@
 <snippets lang="php" package="generator">
     <snippet name="TestVariable">
         <![CDATA[
-            before{{:accessModifier:}}after
+            before{{:accessModifier:}}
+
+            and before after
+
+            [[
+            welcome to the {{:jungle:}}
+            ]]
+
+            after
          ]]>
     </snippet>
     <snippet name="ClassAttribute">

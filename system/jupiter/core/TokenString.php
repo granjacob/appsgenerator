@@ -546,7 +546,8 @@ abstract class TokenString extends ArrayObject
 
             // main write function
             $output .= endl() . _tab() . 'public function write() {' . endl();
-            $output .= endl() . _tab() . '$this->validateData();' . endl();
+            $output .= endl() . _tab(2) . '$output = ""; ' . endl();
+            $output .= endl() . _tab(2) . '$this->validateData();' . endl();
 
         }
 
@@ -568,28 +569,30 @@ abstract class TokenString extends ArrayObject
                 $ignoreNextToken = false;
                 continue;
             }
-            if (get_class($token) === ConditionalToken::class) {
 
+            if (get_class( $token ) !== SingleToken::class && strlen( $outputStack ) > 0) {
                 $output .= __print($outputStack);
                 $outputStack = "";
+            }
+
+            if (get_class($token) === ConditionalToken::class) {
+
                 $conditionalExpressionIndexName = 'condition:' . $token->conditionalExpression;
                 $output .= 'if ($this->validateOptions("' . $conditionalExpressionIndexName . '")) { ' .
                     endl() . $token->generateClass($token) . endl() . ' }';
             } 
             else
             if (get_class($token) === OptionalToken::class) {
-                $output .= __print($outputStack);
-                $outputStack = "";
+
                 $output .= endl() . 'if (' . $token->conditionalExpression . ') {' . endl();
                 $output .= endl() . $token->generateClass($token) . endl();
                 $output .= endl() . '}' . endl();
             } 
             else
             if (get_class($token) === CompoundVariableToken::class) {
-                $output .= __print($outputStack);
-                $outputStack = "";
+
                 $output .= _tab(2) . endl()
-                    . '$this->writeArrayObject( $this->'
+                    . '$output .= $this->writeArrayObject( $this->'
                     . $token->name . ', ' . $token->snippetName
                     .  '::class );' . endl();
 
@@ -621,7 +624,7 @@ abstract class TokenString extends ArrayObject
 
 
         if ($fileBegins) {
-            $output .= endl() . '}' . endl();
+            $output .= endl() . ' return $output; }' . endl();
             $output .= endl() . ' } ' . endl();
             $output .= endl(2) . PHP_FILE_CLOSE . endl(2);
         }
@@ -658,7 +661,6 @@ abstract class TokenString extends ArrayObject
         if (is_array($snippets)) {
 
             foreach ($snippets as $key => $snippet) {
-                
 
 
                 $snippetWherePath = $wherePath;

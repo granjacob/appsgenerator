@@ -42,13 +42,15 @@ return $this;
 
 	public function write() {
 
-	$this->validateData();
+		$output = ""; 
 
-print "public function get{$this->name}()\n";
-print "            {\n";
-print "                return \$this->{$this->name};\n";
-print "            }\n";
-}
+		$this->validateData();
+
+$output .= "public function get{$this->name}()\n";
+$output .= "            {\n";
+$output .= "                return \$this->{$this->name};\n";
+$output .= "            }\n";
+ return $output; }
 
  } 
 

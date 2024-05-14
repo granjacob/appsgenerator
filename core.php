@@ -188,7 +188,11 @@ function isValidDigitForVariableName($chr)
     return false;
 }
 
-
+function get_class_name($classname)
+{
+    if ($pos = strrpos($classname, '\\')) return substr($classname, $pos + 1);
+    return $pos;
+}
 
 function __print($str)
 {
@@ -198,7 +202,7 @@ function __print($str)
     $lines = explode("\n", $str);
     foreach ($lines as $line) {
         $line = ($line);
-        $finalPrint .= endl() . 'print ' . '"' . $line . '\n";';
+        $finalPrint .= endl() . '$output .= ' . '"' . $line . '\n";';
     }
     return $finalPrint;
 }
