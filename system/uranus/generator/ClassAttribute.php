@@ -65,8 +65,8 @@ return $this;
 
 		$this->validateData();
 
-$output .= "{$this->accessModifier}\n";
-$output .= " \${$this->name};\n";
+$output .= "{$this->accessModifier}";
+$output .= " \${$this->name};";
  return $output; }
 
  } 

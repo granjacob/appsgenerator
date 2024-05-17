@@ -46,10 +46,10 @@ return $this;
 
 		$this->validateData();
 
-$output .= "public function set{$this->name}( \${$this->name} )\n";
-$output .= "            {\n";
-$output .= "                \$this->{$this->name} = {$this->name};\n";
-$output .= "            }\n";
+$output .= "public function set{$this->name}( \${$this->name} )";
+$output .= "            {";
+$output .= "                \$this->{$this->name} = \${$this->name};";
+$output .= "            }";
  return $output; }
 
  } 

@@ -1,5 +1,20 @@
 <?xml version="1.0"?>
 <snippets lang="php" package="generator">
+
+    <snippet name="ViewHtml">
+        <![CDATA[
+            {{:(ObjectView)elements:}}
+        ]]>
+    </snippet>
+    <snippet name="ObjectView">
+        <![CDATA[
+        <div>
+            <h1>{{:title:}}</h1>
+            <p>{{:description:}}</p>
+            <a href="{{:url:}}">{{:url:}}</a>
+        </div>
+        ]]>
+    </snippet>
     <snippet name="TestVariable">
         <![CDATA[
             before{{:accessModifier:}}
@@ -8,6 +23,29 @@
 
             [[
             welcome to the {{:jungle:}}
+
+                [[prueba {{:var1:}}
+
+                    [[prueba {{:var2:}}
+
+                    ]]
+
+                ]]
+
+                [[prueba {{:var3:}} {{:var4:}}
+
+                    [[prueba {{:var5:}} {{:var6:}}
+
+                        [[prueba {{:var7:}}
+
+                        ]]
+                    ]]
+
+                    [[prueba {{:var8:}}
+
+                    ]]
+
+                ]]
             ]]
 
             after
@@ -18,40 +56,73 @@
             {{:accessModifier:}} ${{:name:}};
          ]]>
     </snippet>
-    <snippet name="ClassGetter">
+    <snippet name="MethodParameter">
+        <![CDATA[
+            [[{{:dataType:}}]] ${{:name:}},
+         ]]>
+    </snippet>
+    <snippet name="ClassMethod">
+        <![CDATA[
+            public function {{:methodName:}}( [[{{:(MethodParameter)parameters:}}]])
+            {
+                {{:methodBody:}}
+            }
+         ]]>
+    </snippet>
+    <snippet name="AssocArrayValue" extends="ClassMethod">
+        <![CDATA[
+            '{{:key:}}' => '{{:value:}}',
+
+        ]]>
+    </snippet>
+    <snippet name="TableReference" extends="ClassMethod">
+        <![CDATA[
+            $this->{{:name:}} = array(
+                {{:(AssocArrayValue)values:}}
+            );
+        ]]>
+    </snippet>
+    <snippet name="ClassGetter" extends="ClassMethod">
         <![CDATA[
             public function get{{:name:}}()
             {
                 return $this->{{:name:}};
             }
-         ]]>
+        ]]>
     </snippet>
-    <snippet name="ClassSetter">
+    <snippet name="ClassSetter" extends="ClassMethod">
         <![CDATA[
             public function set{{:name:}}( ${{:name:}} )
             {
-                $this->{{:name:}} = {{:name:}};
+                $this->{{:name:}} = ${{:name:}};
             }
          ]]>
     </snippet>
     <snippet name="ClassDef">
-        <Content>
         <![CDATA[
             <?php
 
             namespace {{:namespace:}};
-            class {{:name:}} [[extends {{:extensionClass:}}]] {
-                
+            class {{:name:}} [[extends {{:extensionClass:}} [[implements {{:implementClass:}} ]] ]] {
+
+                public function __construct()
+                {
+                    parent :: __construct();
+
+                    {{:(TableReference)tableColumnsMap:}}
+                }
+
                 {{:(ClassAttribute)attributes:}}
 
                 {{:(ClassGetter)attributes:}}
 
                 {{:(ClassSetter)attributes:}}
 
+
             }
 
             ?>
         ]]>
-        </Content>
     </snippet>
+
 </snippets>

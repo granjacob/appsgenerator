@@ -12,7 +12,7 @@ class VariableToken extends TokenString
         }
         public function make($expressionStr = null)
         {
-            $this->value = $this->jsonParameters[$this->name];
+//            $this->value = $this->jsonParameters[$this->name];
         }
 
         public static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken)

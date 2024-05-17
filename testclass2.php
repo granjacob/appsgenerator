@@ -5,6 +5,8 @@ require_once( "core.php" );
 
 use system\uranus\generator\ClassDef;
 use system\uranus\generator\ClassAttribute;
+use system\uranus\generator\ObjectView;
+use system\uranus\generator\ViewHtml;
 
 $varClass = new ClassDef();
 
@@ -41,4 +43,38 @@ $varClass->addAttributesItem( $varClassAttribute );
 
 //print $varClass->write();
 
-print $varClass->getCreateTableSQL();
+//print $varClass->getCreateTableSQL();
+
+
+
+$varViewHtml = new ViewHtml();
+
+
+
+$varObjectView = new ObjectView();
+
+$varObjectView->setTitle("ObjectView_title_EXAMPLE");
+
+$varObjectView->setDescription("ObjectView_description_EXAMPLE");
+
+$varObjectView->setUrl("ObjectView_url_EXAMPLE");
+
+$varViewHtml->addElementsItem( $varObjectView );
+
+$varViewHtml->addElementsItem( $varObjectView );
+
+$varViewHtml->addElementsItem( $varObjectView );
+
+$varViewHtml->addElementsItem( $varObjectView );
+
+$varViewHtml->addElementsItem( $varObjectView );
+
+
+file_put_contents( "prueba.html", $varViewHtml->write() );
+
+
+class ObjectViewCustom extends Objectview {
+
+    public
+
+}

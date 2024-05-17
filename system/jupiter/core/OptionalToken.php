@@ -58,9 +58,12 @@ class OptionalToken extends TokenString
 
                         $conditionalExpression = "";
                         foreach ($variables as $variable) {
-                            $conditionalExpression .=
+                          /*  $conditionalExpression .=
                                 ' ($this->' . $variable->name . ' !== null && ' .
-                                '$this->' . $variable->name . '->count() > 0) &&';
+                                '$this->' . $variable->name . '->count() > 0) &&';*/
+
+                            $conditionalExpression .=
+                                '($this->verifyOptionalExpression($this->' . $variable->name . ')) &&';
                         }
 
                         $optExpr->conditionalExpression =

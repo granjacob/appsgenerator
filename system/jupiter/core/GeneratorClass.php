@@ -21,6 +21,7 @@ abstract class GeneratorClass extends ArrayObject {
 
     public function validateData()
     {
+
     }
 
     public abstract function write();
@@ -43,6 +44,22 @@ abstract class GeneratorClass extends ArrayObject {
         );
     }
 
+    public function verifyOptionalExpression( $objectOrVar )
+    {
+        if (is_array( $objectOrVar )) {
+            return ($objectOrVar !== null && count($objectOrVar) > 0);
+        }
+        else if ($objectOrVar instanceof ArrayObject) {
+            return $objectOrVar !== null && $objectOrVar->count();
+        }
+        else if (is_string( $objectOrVar )) {
+            return ($objectOrVar !== null && strlen( $objectOrVar ) > 0);
+        }
+        else {
+            return $objectOrVar !== null;
+        }
+    }
+
     public function validateOptions( $conditionKey )
     {
 
@@ -61,17 +78,22 @@ abstract class GeneratorClass extends ArrayObject {
 
 			$keys = array_keys((array)$object);
 
-			foreach ($object as $key => $item) {
+            if (is_array( $keys ) && count( $keys ) > 0) {
+                foreach ($object as $key => $item) {
 
-                $itemKeys = get_object_vars( $item );
+                    $itemKeys = get_object_vars( $item );
 
-                foreach ($itemKeys as $key => $attr) {
-                    if (property_exists( $temp, $key ))
-                        $temp->$key = $item->$key;
+                    foreach ($itemKeys as $key => $attr) {
+                        if (property_exists( $temp, $key ))
+                            $temp->$key = $item->$key;
+                    }
+                    $result .= $temp->write();
+
                 }
-                $result .= $temp->write();
-
-			}
+            }
+            else {
+                $result .= $object->write();
+            }
 
 
 		}

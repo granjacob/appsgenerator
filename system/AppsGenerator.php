@@ -8,6 +8,10 @@ use system\data\DatabaseSchema;
 use system\data\Table;
 use system\data\TableColumn;
 use system\files\PHPFile;
+use system\uranus\generator\AssocArrayValue;
+use system\uranus\generator\ClassAttribute;
+use system\uranus\generator\ClassDef;
+use system\uranus\generator\TableReference;
 
 class AppsGenerator extends Application implements IApplicationConfiguration {
     public function run()
@@ -78,47 +82,65 @@ class AppsGenerator extends Application implements IApplicationConfiguration {
 
         $outputTableString = "";
         foreach ($tables as $table) {
-            $outputTableString .= PHPFile::phpOpenTag();
 
-            $outputTableString .=
-                PHPFile::phpNamespace("system\data\mysql\information_schema");
-            $outputTableString .= PHPFile::phpDeclareClass(
-                IO_toClassName( $table->getName() ));
+            $varClassDef = new ClassDef();
+
+            $varClassDef->setNamespace("system\data\mysql\information_schema");
+            $varClassDef->setExtensionClass("MySQLBase");
+
+            $className = IO_toClassName($table->getName());
+            $varClassDef->setName($className);
+
+
+
             $getters = "";
             $setters = "";
+            $columnsMap = array();
+
+
+            $tableReferenceAttribute = new ClassAttribute();
+            $tableReferenceAttribute->setAccessModifier("private");
+            $tableReferenceAttribute->setName( "tableReference" );
+
+            $tableReference = new TableReference();
+            $tableReference->setName( $tableReferenceAttribute->getName() );
+//            $tableReference->setValues( $columnsMap );
+
             foreach ($table->getColumns() as $attribute) {
-                $interface .= "";
-                $outputTableString .= PHPFile :: phpPrivateAttribute(
-                    IO_toFunctionName( $attribute->getName() ) );
 
-                $setGetVariable = IO_toVariableName( $attribute->getName() );
-                $getters .= PHPFile::phpPublicMethod(
-                    IO_toMethodName(
-                        "get_" . $attribute->getName() ),
-                        array(),
-                        array(
-                        PHPFile::returnSomething(
-                            PHPFile::thisRef( $setGetVariable )
-                             ) )
-                );
+                $varClassAttribute = new ClassAttribute();
 
-                $setters .= PHPFile::phpPublicMethod(
-                    IO_toMethodName(
-                        "set_" . $attribute->getName() ),
-                    array( $setGetVariable  ),
-                    array(
-                        PHPFile::assign(
-                        PHPFile::thisRef($setGetVariable), $setGetVariable)
-                    )
-                );
+                $varClassAttribute->setAccessModifier("private");
+
+                $finalAttributeName = IO_toVariableName( $attribute->getName() );
+                $varClassAttribute->setName( $finalAttributeName );
+
+                //$columnsMap[$attribute->getName()] = $finalAttributeName;
+
+                $assocValue = new AssocArrayValue();
+                $assocValue->setKey($attribute->getName());
+                $assocValue->setValue($finalAttributeName);
+
+                $tableReference->addValuesItem( $assocValue );
+                $varClassDef->addAttributesItem( $varClassAttribute );
+
             }
-            $outputTableString .= PHPFile::phpDeclareConstructor();
-            $outputTableString .= $getters;
-            $outputTableString .= $setters;
-            $outputTableString .= PHPFile::phpEndClassDeclaration();
-            $outputTableString .= PHPFile::phpCloseTag();
 
-            IO_xmpString( $outputTableString );
+
+            $varClassDef->setTableColumnsMap( $tableReference );
+
+
+
+            $outputPath = getcwd() . _bslash() . "system" . _bslash() .
+                                    "data" . _bslash() .
+                                    "mysql" . _bslash() .
+                                    "information_schema";
+
+            file_put_contents(
+                $outputPath . _bslash() . $className . ".php",
+                $varClassDef->write()
+            );
+
         }
 
         IO_print_r( $databaseSchema );

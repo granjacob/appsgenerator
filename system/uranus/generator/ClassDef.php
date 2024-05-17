@@ -1,8 +1,8 @@
 <?php
 
 namespace system\uranus\generator;
-
 use system\jupiter\core\GeneratorClass;
+use system\uranus\generator\TableReference;
 use system\uranus\generator\ClassAttribute;
 
 /* ####################### ClassDef : USAGE EXAMPLE ####################### 
@@ -15,142 +15,203 @@ use system\uranus\generator\ClassAttribute;
 
 	$varClassDef->setExtensionClass("ClassDef_extensionClass_EXAMPLE");
 
+	$varClassDef->setImplementClass("ClassDef_implementClass_EXAMPLE");
+
+	$vartableColumnsMap = new TableReference();
+	$varClassDef->addTableColumnsMapItem( $varTableColumnsMapItem );
+
 	$varattributes = new ClassAttribute();
 	$varClassDef->addAttributesItem( $varAttributesItem );
 
 	$varClassDef->write();
 
-    ####################### USAGE EXAMPLE ####################### **/
+    ####################### USAGE EXAMPLE ####################### **/ 
 
-class ClassDef extends GeneratorClass
+class ClassDef extends GeneratorClass {
+
+	public $namespace;
+
+	public $name;
+
+	public $extensionClass;
+
+	public $implementClass;
+
+	public $tableColumnsMap;
+
+	public $attributes;
+
+public function __construct()
+
 {
 
-    public $namespace;
+		parent :: __construct();
 
-    public $name;
+	$this->namespace =  null;
 
-    public $extensionClass;
+	$this->name =  null;
 
-    public $attributes;
+	$this->extensionClass =  null;
 
-    public function __construct()
+	$this->implementClass =  null;
 
-    {
+	$this->tableColumnsMap =  new TableReference();
 
-        parent:: __construct();
-
-        $this->namespace = null;
-
-        $this->name = null;
-
-        $this->extensionClass = null;
-
-        $this->attributes = new ClassAttribute();
-
-    }
-
-    public function setNamespace($namespace)
-    {
-
-        $this->namespace = $namespace;
-        return $this;
-    }
-
-    public function setName($name)
-    {
-
-        $this->name = $name;
-        return $this;
-    }
-
-    public function setExtensionClass($extensionClass)
-    {
-
-        $this->extensionClass = $extensionClass;
-        return $this;
-    }
-
-    public function setAttributes(ClassAttribute $attributes)
-    {
-
-        $this->attributes = $attributes;
-        return $this;
-    }
-
-    public function getNamespace()
-    {
-
-        return $this->namespace;
-    }
-
-    public function getName()
-    {
-
-        return $this->name;
-    }
-
-    public function getExtensionClass()
-    {
-
-        return $this->extensionClass;
-    }
-
-    public function getAttributes()
-    {
-
-        return $this->attributes;
-    }
-
-    public function addAttributesItem(ClassAttribute $item)
-    {
-
-        $this->attributes->append(clone $item);
-        return $this;
-    }
-
-    public function write()
-    {
-
-        $output = "";
-
-        $this->validateData();
-
-        $output .= "<?php\n";
-        $output .= "\n";
-        $output .= "            namespace {$this->namespace};\n";
-        $output .= "            class {$this->name} \n";
-        if (($this->extensionClass !== null &&
-            $this->extensionClass->count() > 0)) {
-
-
-            $output .= "extends {$this->extensionClass}\n";
-
-        }
-
-        $output .= " {\n";
-        $output .= "                \n";
-        $output .= "                \n";
-        $output .= $this->writeArrayObject($this->attributes, ClassAttribute::class);
-
-        $output .= "\n";
-        $output .= "\n";
-        $output .= "                \n";
-        $output .= $this->writeArrayObject($this->attributes, ClassGetter::class);
-
-        $output .= "\n";
-        $output .= "\n";
-        $output .= "                \n";
-        $output .= $this->writeArrayObject($this->attributes, ClassSetter::class);
-
-        $output .= "\n";
-        $output .= "\n";
-        $output .= "            }\n";
-        $output .= "\n";
-        $output .= "            ?>\n";
-        return $output;
-    }
+	$this->attributes =  new ClassAttribute();
 
 }
+
+	public function setNamespace(  $namespace)
+{
+
+		 $this->namespace = $namespace;
+return $this; 
+}
+
+	public function setName(  $name)
+{
+
+		 $this->name = $name;
+return $this; 
+}
+
+	public function setExtensionClass(  $extensionClass)
+{
+
+		 $this->extensionClass = $extensionClass;
+return $this; 
+}
+
+	public function setImplementClass(  $implementClass)
+{
+
+		 $this->implementClass = $implementClass;
+return $this; 
+}
+
+	public function setTableColumnsMap( TableReference $tableColumnsMap)
+{
+
+		 $this->tableColumnsMap = $tableColumnsMap;
+return $this; 
+}
+
+	public function setAttributes( ClassAttribute $attributes)
+{
+
+		 $this->attributes = $attributes;
+return $this; 
+}
+
+	public function getNamespace()
+{
+
+		return $this->namespace;
+}
+
+	public function getName()
+{
+
+		return $this->name;
+}
+
+	public function getExtensionClass()
+{
+
+		return $this->extensionClass;
+}
+
+	public function getImplementClass()
+{
+
+		return $this->implementClass;
+}
+
+	public function getTableColumnsMap()
+{
+
+		return $this->tableColumnsMap;
+}
+
+	public function getAttributes()
+{
+
+		return $this->attributes;
+}
+
+	public function addTableColumnsMapItem( TableReference $item )
+{
+
+		$this->tableColumnsMap->append( clone $item);
+return $this; 
+}
+
+	public function addAttributesItem( ClassAttribute $item )
+{
+
+		$this->attributes->append( clone $item);
+return $this; 
+}
+
+	public function write() {
+
+		$output = ""; 
+
+		$this->validateData();
+
+$output .= "<?php";
+$output .= "";
+$output .= "            namespace {$this->namespace};";
+$output .= "            class {$this->name} ";
+if (($this->verifyOptionalExpression($this->extensionClass))) {
+
+
+$output .= "extends {$this->extensionClass} ";
+if (($this->verifyOptionalExpression($this->implementClass))) {
+
+
+$output .= "implements {$this->implementClass}";
+
+}
+
+$output .= "";
+
+}
+
+$output .= " {";
+$output .= "";
+$output .= "                public function __construct()";
+$output .= "                {";
+$output .= "                    parent :: __construct();";
+$output .= "";
+$output .= "                    ";		
+$output .= $this->writeArrayObject( $this->tableColumnsMap, TableReference::class );
+
+$output .= "";
+$output .= "                }";
+$output .= "";
+$output .= "                ";		
+$output .= $this->writeArrayObject( $this->attributes, ClassAttribute::class );
+
+$output .= "";
+$output .= "";
+$output .= "                ";		
+$output .= $this->writeArrayObject( $this->attributes, ClassGetter::class );
+
+$output .= "";
+$output .= "";
+$output .= "                ";		
+$output .= $this->writeArrayObject( $this->attributes, ClassSetter::class );
+
+$output .= "";
+$output .= "";
+$output .= "";
+$output .= "            }";
+$output .= "";
+$output .= "            ?>";
+ return $output; }
+
+ } 
 
 
 ?>

@@ -198,11 +198,11 @@ function __print($str)
 {
 
     $finalPrint = "";
-    $str = str_replace("\r", "", str_replace("\"", "\\\"", $str));
+   // $str = str_replace("\r", "", str_replace("\"", "\\\"", $str));
     $lines = explode("\n", $str);
     foreach ($lines as $line) {
         $line = ($line);
-        $finalPrint .= endl() . '$output .= ' . '"' . $line . '\n";';
+        $finalPrint .= endl() . '$output .= ' . '"' . $line . '";';
     }
     return $finalPrint;
 }
