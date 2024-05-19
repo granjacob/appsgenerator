@@ -1,6 +1,7 @@
 <?php
 
 namespace system\uranus\generator;
+
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### AssocArrayValue : USAGE EXAMPLE ####################### 
@@ -13,62 +14,65 @@ use system\jupiter\core\GeneratorClass;
 
 	$varAssocArrayValue->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+    ####################### USAGE EXAMPLE ####################### **/
 
-class AssocArrayValue extends GeneratorClass {
-
-	public $key;
-
-	public $value;
-
-public function __construct()
-
+class AssocArrayValue extends GeneratorClass
 {
 
-		parent :: __construct();
+    public $key;
 
-	$this->key =  null;
+    public $value;
 
-	$this->value =  null;
+    public function __construct()
+
+    {
+
+        parent:: __construct();
+
+        $this->key = null;
+
+        $this->value = null;
+
+    }
+
+    public function setKey($key)
+    {
+
+        $this->key = $key;
+        return $this;
+    }
+
+    public function setValue($value)
+    {
+
+        $this->value = $value;
+        return $this;
+    }
+
+    public function getKey()
+    {
+
+        return $this->key;
+    }
+
+    public function getValue()
+    {
+
+        return $this->value;
+    }
+
+    public function write()
+    {
+
+        $output = "";
+
+        $this->validateData();
+
+        $output .= "'{$this->key}' => '{$this->value}',";
+        return $output;
+    }
 
 }
-
-	public function setKey(  $key)
-{
-
-		 $this->key = $key;
-return $this; 
-}
-
-	public function setValue(  $value)
-{
-
-		 $this->value = $value;
-return $this; 
-}
-
-	public function getKey()
-{
-
-		return $this->key;
-}
-
-	public function getValue()
-{
-
-		return $this->value;
-}
-
-	public function write() {
-
-		$output = ""; 
-
-		$this->validateData();
-
-$output .= "'{$this->key}' => '{$this->value}',";
- return $output; }
-
- } 
 
 
 ?>

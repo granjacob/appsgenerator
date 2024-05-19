@@ -218,7 +218,7 @@ class SnippetsManager extends Snippet {
      */
     public function make( $expressionStr=null )
     {
-        $package = new Package();
+    /*    $package = new Package();
         $package->basePath = $this->mainPath;
         $package->setName(
             "com.java.project.controllers.interfaces"
@@ -269,7 +269,7 @@ class SnippetsManager extends Snippet {
         $package->setName(
             "com.ibm.infraestructure.replica"
         );
-        $this->addPackage( $package );
+        $this->addPackage( $package );*/
 
     }
 
@@ -279,6 +279,119 @@ class SnippetsManager extends Snippet {
             $package->scanFiles();
         }
     }*/
+
+
+    public function scanTemplates()
+    {
+
+
+        $xml = new DOMDocument();
+
+        $xml->load($filename);
+
+
+        $snippetsTag = $xml->getElementsByTagName('snippets');
+        //print 'Welcome...';
+        $packageName = $snippetsTag[0]->getAttribute('package');
+
+        $snippets = $xml->getElementsByTagName('snippet');
+
+
+
+
+
+        $packagesAnalysis = array();
+
+        $allPackageFolders = rglob($this->mainPath . _bslash() . "*");
+
+        foreach ($allPackageFolders as $path) {
+
+            if (!is_dir( $path )) {
+
+
+
+
+                $pathinfo = pathinfo( $path );
+
+                $xml = new DOMDocument();
+
+
+
+                $parts = explode( ".", $pathinfo['filename'] );
+
+                $indextemplate = md5( $pathinfo['dirname'] );
+                if (!isset( $packagesAnalysis[$indextemplate] )) {
+                    $packagesAnalysis[$indextemplate] = array();
+                }
+
+                if (is_array( $parts ) && count(  $parts ) == 2) {  // must be filename.language
+                    $language = $parts[1];
+                    if (!isset( $packagesAnalysis[$indextemplate] [$language] )) {
+                        $packagesAnalysis[$indextemplate] [$language] = 0;
+                    }
+
+                    $packagesAnalysis[$indextemplate] [$language]++;
+                }
+
+                $name = $parts[0];
+                print $path . endl();
+
+            }
+
+        }
+
+        return $packagesAnalysis;
+    }
+
+
+    public function scanLanguages()
+    {
+        $packagesAnalysis = array();
+
+        $allPackageFolders = rglob($this->mainPath . _bslash() . "*");
+
+        foreach ($allPackageFolders as $path) {
+
+            if (!is_dir( $path )) {
+
+                $pathinfo = pathinfo( $path );
+
+                $parts = explode( ".", $pathinfo['filename'] );
+
+                $indextemplate = md5( $pathinfo['dirname'] );
+                if (!isset( $packagesAnalysis[$indextemplate] )) {
+                    $packagesAnalysis[$indextemplate] = array();
+                }
+
+                if (is_array( $parts ) && count(  $parts ) == 2) {  // must be filename.language
+                    $language = $parts[1];
+                    if (!isset( $packagesAnalysis[$indextemplate] [$language] )) {
+                        $packagesAnalysis[$indextemplate] [$language] = 0;
+                    }
+
+                    $packagesAnalysis[$indextemplate] [$language]++;
+                }
+
+                $name = $parts[0];
+                print $path . endl();
+
+            }
+
+        }
+
+        return $packagesAnalysis;
+    }
+
+    public function validateLanguages()
+    {
+        $packageAnalysis = $this->scanLanguages();
+        $totalCount = count( reset( $packageAnalysis ) );
+        foreach ($packageAnalysis as $key => $value) {
+            if ($totalCount != count( $value ))
+                return false;
+        }
+        return true;
+    }
 
     public function scanPackages()
     {

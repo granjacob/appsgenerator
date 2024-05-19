@@ -1,6 +1,7 @@
 <?php
 
 namespace system\uranus\generator;
+
 use system\jupiter\core\GeneratorClass;
 use system\uranus\generator\AssocArrayValue;
 
@@ -15,74 +16,77 @@ use system\uranus\generator\AssocArrayValue;
 
 	$varTableReference->write();
 
-    ####################### USAGE EXAMPLE ####################### **/ 
+    ####################### USAGE EXAMPLE ####################### **/
 
-class TableReference extends GeneratorClass {
-
-	public $name;
-
-	public $values;
-
-public function __construct()
-
+class TableReference extends GeneratorClass
 {
 
-		parent :: __construct();
+    public $name;
 
-	$this->name =  null;
+    public $values;
 
-	$this->values =  new AssocArrayValue();
+    public function __construct()
+
+    {
+
+        parent:: __construct();
+
+        $this->name = null;
+
+        $this->values = new AssocArrayValue();
+
+    }
+
+    public function setName($name)
+    {
+
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setValues(AssocArrayValue $values)
+    {
+
+        $this->values = $values;
+        return $this;
+    }
+
+    public function getName()
+    {
+
+        return $this->name;
+    }
+
+    public function getValues()
+    {
+
+        return $this->values;
+    }
+
+    public function addValuesItem(AssocArrayValue $item)
+    {
+
+        $this->values->append(clone $item);
+        return $this;
+    }
+
+    public function write()
+    {
+
+        $output = "";
+
+        $this->validateData();
+
+        $output .= "\$this->{$this->name} = array(";
+        $output .= "                ";
+        $output .= $this->writeArrayObject($this->values, AssocArrayValue::class);
+
+        $output .= "";
+        $output .= "            );";
+        return $output;
+    }
 
 }
-
-	public function setName(  $name)
-{
-
-		 $this->name = $name;
-return $this; 
-}
-
-	public function setValues( AssocArrayValue $values)
-{
-
-		 $this->values = $values;
-return $this; 
-}
-
-	public function getName()
-{
-
-		return $this->name;
-}
-
-	public function getValues()
-{
-
-		return $this->values;
-}
-
-	public function addValuesItem( AssocArrayValue $item )
-{
-
-		$this->values->append( clone $item);
-return $this; 
-}
-
-	public function write() {
-
-		$output = ""; 
-
-		$this->validateData();
-
-$output .= "\$this->{$this->name} = array(";
-$output .= "                ";		
-$output .= $this->writeArrayObject( $this->values, AssocArrayValue::class );
-
-$output .= "";
-$output .= "            );";
- return $output; }
-
- } 
 
 
 ?>

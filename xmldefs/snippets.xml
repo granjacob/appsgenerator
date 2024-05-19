@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<snippets lang="java" package="package"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="snippets.xsd">
+    <snippet name="WelcomeToTheJungle">
+        <![CDATA[
+            How are you!
+        ]]>
+    </snippet>
+</snippets>

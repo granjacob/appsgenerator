@@ -64,11 +64,74 @@ abstract class TokenString extends ArrayObject
         return substr($expressionStr, $offset, strlen($def));
     }
 
+    public function isXMLFile( $filename )
+    {
+        $pathinfo = pathinffo( $filename );
+        if ($pathinfo['extension'] == "xml") {
+            return true;
+        }
+        return false;
+    }
+
+    public function isConeFile( $filename )
+    {
+        $pathinfo = pathinffo( $filename );
+        if ($pathinfo['extension'] == "cone") {
+            return true;
+        }
+        return false;
+    }
+
+    public function isConeFileContentValid( &$content )
+    {
+        return false;
+    }
+
+    public function parseConeFileAsSnippet( &$fileContent )
+    {
+
+    }
+
+    public function parseXMLFileAsSnippets( &$fileContent )
+    {
+
+    }
+
     public function  loadSnippets($filename = null)
     {
         if ($filename === null) {
             $filename = $this->snippetsXMLFile;
         }
+
+        $snippets = null;
+
+        if ($this->isXMLFile( $filename )) {
+            $fileContent = file_get_contents( $filename );
+            if ($this->isXMLFileContentValid( $fileContent )) {
+                $xml = new DOMDocument();
+
+                $xml->load($filename);
+
+
+                $snippetsTag = $xml->getElementsByTagName('snippets');
+                //print 'Welcome...';
+                $packageName = $snippetsTag[0]->getAttribute('package');
+
+                $snippets = $xml->getElementsByTagName('snippet');
+            }
+        }
+        else
+        if ($this->isConeFile( $filename )) {
+            $fileContent = file_get_contents( $filename );
+            if ($this->isConeFileContentValid( $fileContent )) {
+                $this->parseConeFileAsSnippet( $fileContent );
+            }
+        }
+        else {
+            throw new Exception("Wrong file!");
+        }
+
+
 
         $xml = new DOMDocument();
 

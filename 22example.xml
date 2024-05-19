@@ -1,0 +1,46 @@
+<Software>
+	<EntitySet>
+		<Entity name="Session">
+			<Attributes>
+				<Attribute name="authorizationToken"></Attribute>
+				<Attribute name="id"></Attribute>
+				<Attribute name="userId"></Attribute>
+			</Attributes>
+		</Entity>
+		<Entity name="User">
+			<Attribute name="id"></Attribute>
+			<Attribute name="username"></Attribute>
+			<Attribute name="password"></Attribute>
+		</Entity>
+		<Entity name="Persona">
+			<Attributes>
+				<Attribute name="nombre"></Attribute>
+				<Attribute name="direccion"></Attribute>
+				<Attribute name="telefono"></Attribute>
+				<Attribute name="apellidos"></Attribute>
+				<Attribute name="id"></Attribute>
+			</Attributes>
+		</Entity>
+		<Entity name="Empleado" extends="Persona">
+			<Attributes>
+				<Attribute name="cedula"></Attribute>
+			</Attributes>
+			<FunctionalitySet>
+				<Functionality name="contratar">
+				</Functionality>
+			</FunctionalitySet>
+		</Entity>
+	</EntitySet>
+	<FunctionalitySet>
+		<Functionality name="LoginUsers">
+		</Functionality>
+	</FunctionalitySet>
+	<ComponentSet>
+		<Component name="FrontEnd"></Component>
+		<Component name="BackEnd"></Component>
+		<Component name="Database"></Component>
+	</ComponentSet>
+</Software>
+<Software>
+	<
+</Software>
