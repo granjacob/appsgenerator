@@ -97,6 +97,11 @@ abstract class TokenString extends ArrayObject
 
     }
 
+    public function isXMLFileContentValid( $filename )
+    {
+
+    }
+
     public function  loadSnippets($filename = null)
     {
         if ($filename === null) {
@@ -106,19 +111,27 @@ abstract class TokenString extends ArrayObject
         $snippets = null;
 
         if ($this->isXMLFile( $filename )) {
-            $fileContent = file_get_contents( $filename );
-            if ($this->isXMLFileContentValid( $fileContent )) {
-                $xml = new DOMDocument();
-
-                $xml->load($filename);
 
 
-                $snippetsTag = $xml->getElementsByTagName('snippets');
-                //print 'Welcome...';
-                $packageName = $snippetsTag[0]->getAttribute('package');
+            $xml = new DOMDocument();
 
-                $snippets = $xml->getElementsByTagName('snippet');
+            $xml->load($filename);
+            if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') ||
+                !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
+                throw new Exception('Not valid!');
             }
+            else {
+                print 'Valid for template.';
+            }
+
+            exit;
+
+            $snippetsTag = $xml->getElementsByTagName('snippets');
+            //print 'Welcome...';
+            $packageName = $snippetsTag[0]->getAttribute('package');
+
+            $snippets = $xml->getElementsByTagName('snippet');
+
         }
         else
         if ($this->isConeFile( $filename )) {

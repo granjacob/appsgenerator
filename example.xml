@@ -1,9 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<snippet name="example" package="one" language="php">
-    <![CDATA[
-    sss
-    ]]>
-</snippet>
-
-
-
+<?xml version="1.0"?>
+<example>
+    <child_string>This is an example.</child_string>
+    <child_integer>33</child_integer>
+</example>

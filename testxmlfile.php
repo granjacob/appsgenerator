@@ -1,18 +1,10 @@
 <?php
 
-libxml_use_internal_errors(TRUE);
+require_once( "core.php" );
 
-$xml = new DOMDocument();
-$xml->validateOnParse = true;
-$xml->load( "shiporder.xml" );
-if ($xml->validate()) {
-    print 'is is valid...';
+$dom = new DOMDocument;
+$dom->load('snippets.xml');
+if ($dom->validate()) {
+    echo "This document is valid!\n";
 }
-else {
-    print 'Not valid!';
-}
-
-var_dump(libxml_get_errors());
-
-
 ?>
