@@ -30,10 +30,10 @@ class TemplateFileValidator {
 
     public static function isSeedFileValidSigned( $filenamePath, $baseWorkingPath )
     {
-        $defaultSeedFileExtension = ".seed";
+        $defaultSeedFileExtension = "seed";
 
         $filenamePath = str_replace( '/', "\\", $filenamePath );
-        $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\";
+        $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\" );
 
         // $baseWorkingPath mas be in the first path of the $filenamePath
 
@@ -53,6 +53,8 @@ class TemplateFileValidator {
 
         $template = "com.java.src.impl.Template:java\nlinea2";
 
+        $template = str_replace( "\r", "", file_get_contents( $filenamePath ) );
+
         $parts = explode( "\n", $template );
 
         $firstline = $parts[0];
@@ -65,11 +67,11 @@ class TemplateFileValidator {
         $packagePlusTemplateName = $partsFirstline[0]; // Pptn
         $partsPptn = explode( ".", $packagePlusTemplateName );
 
-        if ($partsPptn < 2)
+        if (count( $partsPptn ) < 2)
             return false;
 
         $indexTemplateName = count( $partsPptn ) - 1;
-        $templateName = $partsPptn[$indexTemplateName];
+        $templateName = $partsPptn[$indexTemplateName]; // from file
         unset( $partsPptn[$indexTemplateName] );
 
         $packageAsPath = implode( _bslash(), $partsPptn );
@@ -78,11 +80,24 @@ class TemplateFileValidator {
 
         $pathinfo = pathinfo( $filenamePath );
 
-        $packagePathExpected =
-            str_replace( $pathinfo['basename'], "",
-                trim( str_replace( $baseWorkingPath, "", $filenamePath ), "\\" ) );
+        $filenamePath = IO_ltrim_string( $filenamePath, $baseWorkingPath, 1 );
+        $packagePathExpected = trim( IO_rtrim_string( $filenamePath, $pathinfo['basename'], 1 ), _bslash() );
 
-        return count( $parts ) > 0 && ($packageAsPath === $packagePathExpected);
+        $filenameParts = explode( ".", $pathinfo['filename'] );
+
+        if (count( $filenameParts ) !== 2)
+            return false;
+
+        $templateNameExpected = $filenameParts[0];
+        $languageExpected = $filenameParts[1];
+
+        return  (count( $parts ) > 1) &&
+                ($packageAsPath === $packagePathExpected) &&
+                ($language === $languageExpected) &&
+                ($templateName === $templateNameExpected) &&
+                (strlen( $templateName ) > 0) &&
+                (strlen( $language ) > 0) &&
+                ($defaultSeedFileExtension === $pathinfo['extension']);
 
 
         // firstline should be:
@@ -98,7 +113,7 @@ class TemplateFileValidator {
 
     public static function isMultiTemplateFileValidSigned( &$xml )
     {
-        $pathinfo = pathinffo( $filename );
+        $pathinfo = pathinfo( $filename );
 
         $baseFilename = $pathinfo['filename'];
 
