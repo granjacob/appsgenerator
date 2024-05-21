@@ -28,8 +28,16 @@ class TemplateFileValidator {
         return $xml->schemaValidate( "xmldefs\snippet.xsd" );
     }
 
-    public static function isSeedFileValidSigned( $filenamePath )
+    public static function isSeedFileValidSigned( $filenamePath, $baseWorkingPath )
     {
+        $defaultSeedFileExtension = ".seed";
+
+        $filenamePath = str_replace( '/', "\\", $filenamePath );
+        $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\";
+
+        // $baseWorkingPath mas be in the first path of the $filenamePath
+
+
 
         // Seed file must be named as:
         // /a/b/c/Template.java.seed
@@ -41,11 +49,41 @@ class TemplateFileValidator {
         // java=java
         // seed
 
-        $template = file_get_contents( $filenamePath );
+        //$template = file_get_contents( $filenamePath );
+
+        $template = "com.java.src.impl.Template:java\nlinea2";
 
         $parts = explode( "\n", $template );
 
         $firstline = $parts[0];
+
+        $partsFirstline = explode( ":", $firstline );
+
+        if (count( $partsFirstline ) !== 2)
+            return false;
+
+        $packagePlusTemplateName = $partsFirstline[0]; // Pptn
+        $partsPptn = explode( ".", $packagePlusTemplateName );
+
+        if ($partsPptn < 2)
+            return false;
+
+        $indexTemplateName = count( $partsPptn ) - 1;
+        $templateName = $partsPptn[$indexTemplateName];
+        unset( $partsPptn[$indexTemplateName] );
+
+        $packageAsPath = implode( _bslash(), $partsPptn );
+
+        $language = $partsFirstline[1];
+
+        $pathinfo = pathinfo( $filenamePath );
+
+        $packagePathExpected =
+            str_replace( $pathinfo['basename'], "",
+                trim( str_replace( $baseWorkingPath, "", $filenamePath ), "\\" ) );
+
+        return count( $parts ) > 0 && ($packageAsPath === $packagePathExpected);
+
 
         // firstline should be:
         // package.Template:language
@@ -54,7 +92,7 @@ class TemplateFileValidator {
         // language = before extension
         // extension = .seed
 
-        return false;
+
     }
 
 

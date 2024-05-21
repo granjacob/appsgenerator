@@ -1,6 +1,46 @@
 <?php
 
 
+// $times = 0 means ALL
+function IO_rtrim_string( $str, $strToRemove, $times=0 )
+{
+    $times = abs( $times );
+    $i = 1;
+    while (substr( $str, strlen( $strToRemove ) * -1) === $strToRemove)
+    {
+        $str = substr( $str, 0, strlen( $strToRemove ) * -1);
+        if ($i === $times && $times !== 0)
+            break;
+        $i++;
+    }
+    return $str;
+}
+
+
+function IO_ltrim_string( $str, $strToRemove, $times=0 )
+{
+    $times = abs( $times );
+    $i = 1;
+    while (substr( $str, 0, strlen( $strToRemove ) ) === $strToRemove)
+    {
+        $str = substr( $str, strlen( $strToRemove ), strlen( $str ) - strlen( $strToRemove )  );
+        if ($i === $times && $times !== 0)
+            break;
+        $i++;
+    }
+    return $str;
+}
+
+
+function IO_trim_string( $str, $strToRemove, $times=0 )
+{
+    $times = abs( $times );
+    $rtrimresult = IO_rtrim_string( $str, $strToRemove, $times );
+    return IO_ltrim_string( $rtrimresult, $strToRemove, $times );
+}
+
+
+
 function IO_print_r( $object )
 {
     print "<xmp>";

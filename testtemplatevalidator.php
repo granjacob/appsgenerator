@@ -17,7 +17,9 @@ else {
 }
 //TemplateFileValidator :: isValidTemplateFile( $filename );
 
-if (TemplateFileValidator :: isSeedFileValidSigned( $filename )) {
+if (TemplateFileValidator :: isSeedFileValidSigned(
+    "D:\\Windows\\com\\java\\src\\impl\\Template.java.seed",
+    "D:\\Windows\\")) {
     print 'is valid signed...';
 }
 else {
