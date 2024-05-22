@@ -2,6 +2,7 @@
 
 namespace system\jupiter\core;
 
+use Codeception\Util\Template;
 use DOMDocument;
 
 use ArrayObject;
@@ -73,21 +74,13 @@ abstract class TokenString extends ArrayObject
         return false;
     }
 
-    public function isConeFile( $filename )
-    {
-        $pathinfo = pathinffo( $filename );
-        if ($pathinfo['extension'] == "cone") {
-            return true;
-        }
-        return false;
-    }
 
     public function isConeFileContentValid( &$content )
     {
         return false;
     }
 
-    public function parseConeFileAsSnippet( &$fileContent )
+    public function parseSeedFileAsSnippet( &$fileContent )
     {
 
     }
@@ -100,6 +93,22 @@ abstract class TokenString extends ArrayObject
     public function isXMLFileContentValid( $filename )
     {
 
+    }
+
+    public function addSnippet( Snippet $newSnippet )
+    {
+        if (!isset( TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] )) {
+            TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
+        }
+        else {
+            throw new Exception(
+                "Duplicated template names are not allowed in the same package. 
+                        Please verify the file '" . $this->snippetsXMLFile .
+                "' with package '" . $newSnippet->packageName .
+                "'. Template with name '"
+                . $newSnippet->name . "' is defined more than one time." );
+            exit;
+        }
     }
 
     public function  loadSnippets($filename = null)
@@ -118,69 +127,47 @@ abstract class TokenString extends ArrayObject
             $xml->load($filename);
             if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') ||
                 !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
-                throw new Exception('Not valid!');
-            }
-            else {
-                print 'Valid for template.';
+                throw new Exception( "The XML template file '" . $filename .
+                    "' is wrong defined.");
             }
 
-            exit;
-
-            $snippetsTag = $xml->getElementsByTagName('snippets');
-            //print 'Welcome...';
-            $packageName = $snippetsTag[0]->getAttribute('package');
+            if (!TemplateFileValidator::isXMLFileValidSigned(
+                $xml, $filename, $this->mainPackageWherePath )) {
+                throw new Exception(
+                    "The XML template file '" . $filename .
+                    "' is not valid signed.");
+            }
 
             $snippets = $xml->getElementsByTagName('snippet');
 
+            if ($snippets->length > 0) {
+                foreach ($snippets as $snippet) {
+                    $newSnippet = new Snippet();
+                    $newSnippet->name = $snippet->getAttribute('name');
+
+
+                    $newSnippet->snippetName = $snippet->getAttribute('name');
+                    $newSnippet->packageName = trim($packageName);
+                    $newSnippet->content = trim($snippet->nodeValue);
+
+                    $this->addSnippet( $newSnippet );
+
+                }
+            }
+
         }
         else
-        if ($this->isConeFile( $filename )) {
-            $fileContent = file_get_contents( $filename );
-            if ($this->isConeFileContentValid( $fileContent )) {
-                $this->parseConeFileAsSnippet( $fileContent );
+        if (TemplateFileValidator :: isSeedFile( $filename )) {
+            if (TemplateFileValidator :: isSeedFileValidSigned( $filename, $this->mainPackageWherePath )) {
+                $seedFile = new SeedFile( $filename, $this->mainPackageWherePath );
+                $snippet = $seedFile->getAsSnippet();
+                $this->addSnippet( $snippet );
             }
         }
         else {
             throw new Exception("Wrong file!");
         }
 
-
-
-        $xml = new DOMDocument();
-
-        $xml->load($filename);
-
-
-        $snippetsTag = $xml->getElementsByTagName('snippets');
-        //print 'Welcome...';
-        $packageName = $snippetsTag[0]->getAttribute('package');
-
-        $snippets = $xml->getElementsByTagName('snippet');
-
-        if ($snippets->length > 0) {
-            foreach ($snippets as $snippet) {
-                $newSnippet = new Snippet();
-                $newSnippet->name = $snippet->getAttribute('name');
-
-
-                $newSnippet->snippetName = $snippet->getAttribute('name');
-                $newSnippet->packageName = trim($packageName);
-                $newSnippet->content = trim($snippet->nodeValue);
-
-                if (!isset( TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] )) {
-                    TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
-                }
-                else {
-                    throw new Exception(
-                        "Duplicated template names are not allowed in the same package. 
-                        Please verify the file '" . $this->snippetsXMLFile . 
-                        "' with package '" . $packageName . 
-                        "'. Template with name '"
-                        . $snippet->getAttribute('name') . "' is defined more than one time." );
-                    exit;
-                }
-            }
-        }
     }
 
 

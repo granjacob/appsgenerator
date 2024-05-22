@@ -4,6 +4,8 @@ require_once( "core.php" );
 
 
 use \system\jupiter\core\TemplateFileValidator;
+use \system\jupiter\core\SeedFile;
+
 
 //$filename = getcwd() . _bslash() . "xmldefs" . _bslash() . "snippets.xml";
 $baseWorkingPath = getcwd() . _bslash() . "samplepackages" . _bslash();
@@ -25,6 +27,12 @@ if (TemplateFileValidator :: isSeedFileValidSigned(
 else {
     print 'not valiwwwd...';
 };
+
+
+$seedFile = new SeedFile( $filename, $baseWorkingPath );
+
+
+print_r( $seedFile->getAsSnippet() );
 
 
 

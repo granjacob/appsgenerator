@@ -28,7 +28,24 @@ class TemplateFileValidator {
         return $xml->schemaValidate( "xmldefs\snippet.xsd" );
     }
 
-    public static function isSeedFileValidSigned( $filenamePath, $baseWorkingPath )
+    public static function isXMLFileValidSigned(
+        &$xml, $filenamePath, $baseWorkingPath, $signature=null )
+    {
+        return false;
+        // multitemplate
+        // package = path, language = .lang
+        // <snippets package="{packageName}" lang="{lang}">
+
+        // singletemplate
+        // package = path, language = .lang, name = filename
+        // <snippet package="{package}" language="{language}" name="{name}">
+       // $snippetsTag = $xml->getElementsByTagName('snippets');
+        //print 'Welcome...';
+        //$packageName = $snippetsTag[0]->getAttribute('package');
+
+    }
+
+    public static function isSeedFileValidSigned( $filenamePath, $baseWorkingPath, $signature=null )
     {
         $defaultSeedFileExtension = "seed";
 
@@ -36,8 +53,6 @@ class TemplateFileValidator {
         $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\" );
 
         // $baseWorkingPath mas be in the first path of the $filenamePath
-
-
 
         // Seed file must be named as:
         // /a/b/c/Template.java.seed
@@ -49,13 +64,15 @@ class TemplateFileValidator {
         // java=java
         // seed
 
-        //$template = file_get_contents( $filenamePath );
+        // if signature is present validates only the signature not the content of the file
 
-        $template = "com.java.src.impl.Template:java\nlinea2";
+        $fileContent = null;
+        if ($signature == null)
+            $fileContent = str_replace( "\r", "", file_get_contents( $filenamePath ) );
+        else
+            $fileContent = $signature;
 
-        $template = str_replace( "\r", "", file_get_contents( $filenamePath ) );
-
-        $parts = explode( "\n", $template );
+        $parts = explode( "\n", $fileContent );
 
         $firstline = $parts[0];
 
@@ -91,7 +108,7 @@ class TemplateFileValidator {
         $templateNameExpected = $filenameParts[0];
         $languageExpected = $filenameParts[1];
 
-        return  (count( $parts ) > 1) &&
+        return  (count( $parts ) > 1 || ($signature != null && count( $parts ) === 1)) &&
                 ($packageAsPath === $packagePathExpected) &&
                 ($language === $languageExpected) &&
                 ($templateName === $templateNameExpected) &&
@@ -182,7 +199,7 @@ class TemplateFileValidator {
                 }
             }
             else
-            if (self::isConeFile( $filename )) {
+            if (self::isSeedFile( $filename )) {
                 return self::isSeedFileValidSigned( $filename );
             }
         }
