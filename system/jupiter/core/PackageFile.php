@@ -3,6 +3,7 @@
 namespace system\jupiter\core;
 
 use ArrayObject;
+use Codeception\Util\Template;
 use DOMDocument;
 use Exception;
 
@@ -21,6 +22,8 @@ class PackageFile extends ArrayObject {
     public $packageName;
 
     public $language;
+
+    public $templateName;
 
     public function getFullFilename()
     {
@@ -43,10 +46,16 @@ class PackageFile extends ArrayObject {
 
     public function isValidSigned($filename = null)
     {
-
         if ($filename === null) {
             $filename = $this->fullPath;
         }
+
+        $xml = null;
+
+        return TemplateFileValidator::isValidSigned(
+            $xml, $filename, $this->basePath );
+/*
+
 
         $xml = new DOMDocument();
 
@@ -68,7 +77,7 @@ class PackageFile extends ArrayObject {
             $snippet->getAttribute('language') === $this->language));
 
         }
-        return $result;
+        return $result;*/
 
     }
 

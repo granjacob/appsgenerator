@@ -28,11 +28,25 @@ else {
     print 'not valiwwwd...';
 };
 
+$xml = new DOMDocument();
+$xml->load( $filename );
 
-$seedFile = new SeedFile( $filename, $baseWorkingPath );
+if (TemplateFileValidator :: isXMLFileValidSigned(
+    $xml,
+    $filename,
+    $baseWorkingPath)) {
+    print 'is valid signed...';
+}
+else {
+    print 'not valiwwwd...';
+};
 
 
-print_r( $seedFile->getAsSnippet() );
+
+//$seedFile = new SeedFile( $filename, $baseWorkingPath );
+
+
+//print_r( $seedFile->getAsSnippet() );
 
 
 

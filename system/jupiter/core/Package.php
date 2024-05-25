@@ -101,7 +101,7 @@ class Package extends ArrayObject {
                         throw new Exception("Bad signature on file
                         <strong>{$newFile->filename}.xml</strong>, not a valid file for templates definition.
                         The file must be signed with the package '{$newFile->packageName}'
-                         and language '{$newFile->language}'");
+                         and language '{$newFile->language}' and if ");
                     }
 
                     // is a file

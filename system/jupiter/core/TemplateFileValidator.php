@@ -28,9 +28,68 @@ class TemplateFileValidator {
         return $xml->schemaValidate( "xmldefs\snippet.xsd" );
     }
 
+    public static function isValidSigned( &$xml, $filenamePath, $baseWorkingPath, $signature=null  )
+    {
+        return
+            TemplateFileValidator::isXMLFileValidSigned( $xml, $filenamePath, $baseWorkingPath ) ||
+            TemplateFileValidator::isSeedFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
+    }
+
     public static function isXMLFileValidSigned(
         &$xml, $filenamePath, $baseWorkingPath, $signature=null )
     {
+        if ($xml === null && file_exists( $filenamePath )) {
+            $xml = new DOMDocument();
+            $xml->load( $filenamePath );
+        }
+        else {
+            throw new Exception ("File doesn't exists '" . $filenamePath . "'");
+            exit;
+        }
+        $defaultSeedFileExtension = "seed";
+
+        $filenamePath = str_replace( '/', "\\", $filenamePath );
+        $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\" );
+
+
+        $pathinfo = pathinfo( $filenamePath );
+
+        $filenamePath = IO_ltrim_string( $filenamePath, $baseWorkingPath, 1 );
+        $packagePathExpected = trim( IO_rtrim_string( $filenamePath, $pathinfo['basename'], 1 ), _bslash() );
+
+        $filenameParts = explode( ".", $pathinfo['filename'] );
+
+        if (count( $filenameParts ) !== 2)
+            return false;
+
+        $templateNameExpected = $filenameParts[0];
+        $languageExpected = $filenameParts[1];
+        $packageExpected = str_replace( _bslash(), '.', $packagePathExpected );
+
+
+
+        $packageName = null;
+        $language = null;
+
+        $snippetsTag = $xml->getElementsByTagName('snippets');
+        $snippets = $xml->getElementsByTagName('snippet');
+
+        if (count( $snippetsTag ) === 0) {
+            $packageName = $snippets[0]->getAttribute('package');
+            $language = $snippets[0]->getAttribute('language');
+            $templateName = $snippets[0]->getAttribute('name');
+            return $packageName === $packageExpected &&
+                    $language === $languageExpected &&
+                    $templateName === $templateNameExpected;
+        }
+        else {
+            $packageName = $snippetsTag[0]->getAttribute('package');
+            $language = $snippetsTag[0]->getAttribute('language');
+            return $packageName === $packageExpected &&
+                $language === $languageExpected;
+        }
+
+
         return false;
         // multitemplate
         // package = path, language = .lang

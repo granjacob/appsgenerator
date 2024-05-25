@@ -138,7 +138,20 @@ abstract class TokenString extends ArrayObject
                     "' is not valid signed.");
             }
 
+            $snippets = null;
+            $packageName = null;
+
+            $snippetsTag = $xml->getElementsByTagName('snippets');
             $snippets = $xml->getElementsByTagName('snippet');
+
+
+            if (count( $snippetsTag ) === 0) {
+                $packageName = $snippets[0]->getAttribute('package');
+            }
+            else {
+                $packageName = $snippetsTag[0]->getAttribute('package');
+            }
+
 
             if ($snippets->length > 0) {
                 foreach ($snippets as $snippet) {
