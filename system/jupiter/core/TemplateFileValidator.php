@@ -30,22 +30,24 @@ class TemplateFileValidator {
 
     public static function isValidSigned( &$xml, $filenamePath, $baseWorkingPath, $signature=null  )
     {
-        return
-            TemplateFileValidator::isXMLFileValidSigned( $xml, $filenamePath, $baseWorkingPath ) ||
-            TemplateFileValidator::isSeedFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
+        if ($xml != null || TemplateFileValidator::isXMLFile( $filenamePath ))
+            return TemplateFileValidator::isXMLFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
+        return TemplateFileValidator::isSeedFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
     }
 
     public static function isXMLFileValidSigned(
         &$xml, $filenamePath, $baseWorkingPath, $signature=null )
     {
-        if ($xml === null && file_exists( $filenamePath )) {
-            $xml = new DOMDocument();
-            $xml->load( $filenamePath );
-        }
-        else {
+        if (!file_exists( $filenamePath )) {
             throw new Exception ("File doesn't exists '" . $filenamePath . "'");
             exit;
         }
+
+        if ($xml === null) {
+            $xml = new DOMDocument();
+            $xml->load( $filenamePath );
+        }
+
         $defaultSeedFileExtension = "seed";
 
         $filenamePath = str_replace( '/', "\\", $filenamePath );

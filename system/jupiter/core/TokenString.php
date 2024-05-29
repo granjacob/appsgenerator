@@ -65,15 +65,6 @@ abstract class TokenString extends ArrayObject
         return substr($expressionStr, $offset, strlen($def));
     }
 
-    public function isXMLFile( $filename )
-    {
-        $pathinfo = pathinffo( $filename );
-        if ($pathinfo['extension'] == "xml") {
-            return true;
-        }
-        return false;
-    }
-
 
     public function isConeFileContentValid( &$content )
     {
@@ -119,13 +110,14 @@ abstract class TokenString extends ArrayObject
 
         $snippets = null;
 
-        if ($this->isXMLFile( $filename )) {
+        if (TemplateFileValidator :: isXMLFile( $filename )) {
 
 
             $xml = new DOMDocument();
 
             $xml->load($filename);
-            if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') ||
+            print 'Analyzing ' . $filename . '<br/>';
+            if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') &&
                 !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
                 throw new Exception( "The XML template file '" . $filename .
                     "' is wrong defined.");

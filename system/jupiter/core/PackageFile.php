@@ -53,7 +53,11 @@ class PackageFile extends ArrayObject {
         $xml = null;
 
         return TemplateFileValidator::isValidSigned(
-            $xml, $filename, $this->basePath );
+            $xml, $filename,
+            IO_rtrim_string(
+                $this->basePath,
+                $this->getPackageNameAsPath( $this->packageName ),
+                1 ) );
 /*
 
 

@@ -1,3 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<snippet package="generator.sample" language="java">
+<snippet name="index" package="generator.sample" language="java">
+
 </snippet>

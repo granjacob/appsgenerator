@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<snippets lang="java" package="generator">
+<snippets language="java" package="generator">
  <!--   <snippet name="TestVariable">
         <![CDATA[
             before{{:accessModifier:}}after

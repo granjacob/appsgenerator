@@ -355,6 +355,9 @@ function rglob($pattern, $flags = 0) {
 
 
 function exceptions_error_handler( $exception ) {
+    IO_printLine();
+    IO_printLine();
+
     IO_printLine( IO_boldString("File: ") . $exception->getFile() );
     IO_printLine( IO_boldString("Line: ") . $exception->getLine() );
     IO_printLine( IO_boldString("Error code: "). $exception->getCode() );
@@ -365,6 +368,8 @@ function exceptions_error_handler( $exception ) {
             $exception->getExceptionMessage() :
             $exception->getMessage()) , 100
     );
+    IO_printLine();
+    IO_printLine();
 
 }
 
