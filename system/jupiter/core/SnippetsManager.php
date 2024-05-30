@@ -281,7 +281,7 @@ class SnippetsManager extends Snippet {
     }*/
 
 
-    public function scanTemplates()
+  /*  public function scanTemplates()
     {
 
 
@@ -341,7 +341,7 @@ class SnippetsManager extends Snippet {
         }
 
         return $packagesAnalysis;
-    }
+    }*/
 
 
     public function scanLanguages()
@@ -402,16 +402,6 @@ class SnippetsManager extends Snippet {
 
         foreach ($allPackageFolders as $path) {
 
-                $extensionIsValid = false;
-
-                $pathinfo = pathinfo( $path );
-
-                if (isset(  $pathinfo['extension'] )) {
-                    $filenameForScan = $pathinfo['filename'] . '.'  . $pathinfo['extension'];
-
-                    $extensionIsValid = $this->isValidFileExtension( $pathinfo['extension'] );
-                }
-
 
                 $packageTemp = $this->getPackageNameFromPath( $path );
 
@@ -439,12 +429,17 @@ class SnippetsManager extends Snippet {
     {
         foreach ($this->packages as $keyPackage => $package) {
             $files = glob( $package->getFullPath() . _bslash() . '*' );
+
             foreach ($files as $file) {
+
+                $pathinfo = pathinfo( $file );
 
                 if (!is_dir( $file )) {
                     $do = new Snippet();
                     $do->packageName = $package->name;
                     $do->snippetsXMLFile = $file;
+                    $do->baseWherePath = $pathinfo['dirname'];
+
                     $do->loadSnippets();
                     //$do->generateClasses( $this->outputPath . _bslash() . $package->getNameAsPath() );
                     //TokenString::$snippets = array();
@@ -462,7 +457,7 @@ class SnippetsManager extends Snippet {
 
     public function isValidFileExtension( $extension )
     {
-        return $extension === 'xml';
+        return $extension === 'xml' || $extension === 'seed';
     }
 
     public function getPackageNameFromPath( $path )

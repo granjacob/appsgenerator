@@ -116,15 +116,21 @@ abstract class TokenString extends ArrayObject
             $xml = new DOMDocument();
 
             $xml->load($filename);
-            print 'Analyzing ' . $filename . '<br/>';
+            
             if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') &&
                 !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
                 throw new Exception( "The XML template file '" . $filename .
                     "' is wrong defined.");
             }
 
+
             if (!TemplateFileValidator::isXMLFileValidSigned(
-                $xml, $filename, $this->mainPackageWherePath )) {
+                $xml, $filename,
+                IO_rtrim_string(
+                    $this->baseWherePath,
+                    getPackageNameAsPath( $this->packageName ),
+                    1 )
+                 )) {
                 throw new Exception(
                     "The XML template file '" . $filename .
                     "' is not valid signed.");

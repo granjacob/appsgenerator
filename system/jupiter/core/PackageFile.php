@@ -36,10 +36,6 @@ class PackageFile extends ArrayObject {
     }
 
 
-    public function getPackageNameAsPath()
-    {
-        return str_replace( '.', _bslash(), $this->packageName );
-    }
 
 
 
@@ -56,7 +52,7 @@ class PackageFile extends ArrayObject {
             $xml, $filename,
             IO_rtrim_string(
                 $this->basePath,
-                $this->getPackageNameAsPath( $this->packageName ),
+                getPackageNameAsPath( $this->packageName ),
                 1 ) );
 /*
 
