@@ -1,7 +1,6 @@
 <?php
 
 namespace system\uranus\generator;
-
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### ClassAttribute : USAGE EXAMPLE ####################### 
@@ -14,66 +13,63 @@ use system\jupiter\core\GeneratorClass;
 
 	$varClassAttribute->write();
 
-    ####################### USAGE EXAMPLE ####################### **/
+    ####################### USAGE EXAMPLE ####################### **/ 
 
-class ClassAttribute extends GeneratorClass
+class ClassAttribute extends GeneratorClass {
+
+	public $accessModifier;
+
+	public $name;
+
+public function __construct()
+
 {
 
-    public $accessModifier;
+		parent :: __construct();
 
-    public $name;
+	$this->accessModifier =  null;
 
-    public function __construct()
-
-    {
-
-        parent:: __construct();
-
-        $this->accessModifier = null;
-
-        $this->name = null;
-
-    }
-
-    public function setAccessModifier($accessModifier)
-    {
-
-        $this->accessModifier = $accessModifier;
-        return $this;
-    }
-
-    public function setName($name)
-    {
-
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getAccessModifier()
-    {
-
-        return $this->accessModifier;
-    }
-
-    public function getName()
-    {
-
-        return $this->name;
-    }
-
-    public function write()
-    {
-
-        $output = "";
-
-        $this->validateData();
-
-        $output .= "{$this->accessModifier}";
-        $output .= " \${$this->name};";
-        return $output;
-    }
+	$this->name =  null;
 
 }
+
+	public function setAccessModifier(  $accessModifier)
+{
+
+		 $this->accessModifier = $accessModifier;
+return $this; 
+}
+
+	public function setName(  $name)
+{
+
+		 $this->name = $name;
+return $this; 
+}
+
+	public function getAccessModifier()
+{
+
+		return $this->accessModifier;
+}
+
+	public function getName()
+{
+
+		return $this->name;
+}
+
+	public function write() {
+
+		$output = ""; 
+
+		$this->validateData();
+
+$output .= "{$this->accessModifier}";
+$output .= " \${$this->name};";
+ return $output; }
+
+ } 
 
 
 ?>

@@ -116,7 +116,7 @@ abstract class TokenString extends ArrayObject
             $xml = new DOMDocument();
 
             $xml->load($filename);
-            
+            print 'Analyzing ' . $filename . '<br/>';
             if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') &&
                 !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
                 throw new Exception( "The XML template file '" . $filename .

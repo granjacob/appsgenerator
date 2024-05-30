@@ -1,7 +1,6 @@
 <?php
 
 namespace system\uranus\generator;
-
 use system\jupiter\core\GeneratorClass;
 
 /* ####################### ClassGetter : USAGE EXAMPLE ####################### 
@@ -12,51 +11,48 @@ use system\jupiter\core\GeneratorClass;
 
 	$varClassGetter->write();
 
-    ####################### USAGE EXAMPLE ####################### **/
+    ####################### USAGE EXAMPLE ####################### **/ 
 
-class ClassGetter extends GeneratorClass
+class ClassGetter extends GeneratorClass {
+
+	public $name;
+
+public function __construct()
+
 {
 
-    public $name;
+		parent :: __construct();
 
-    public function __construct()
-
-    {
-
-        parent:: __construct();
-
-        $this->name = null;
-
-    }
-
-    public function setName($name)
-    {
-
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getName()
-    {
-
-        return $this->name;
-    }
-
-    public function write()
-    {
-
-        $output = "";
-
-        $this->validateData();
-
-        $output .= "public function get{$this->name}()";
-        $output .= "            {";
-        $output .= "                return \$this->{$this->name};";
-        $output .= "            }";
-        return $output;
-    }
+	$this->name =  null;
 
 }
+
+	public function setName(  $name)
+{
+
+		 $this->name = $name;
+return $this; 
+}
+
+	public function getName()
+{
+
+		return $this->name;
+}
+
+	public function write() {
+
+		$output = ""; 
+
+		$this->validateData();
+
+$output .= "public function get{$this->name}()";
+$output .= "            {";
+$output .= "                return \$this->{$this->name};";
+$output .= "            }";
+ return $output; }
+
+ } 
 
 
 ?>
