@@ -27,7 +27,7 @@ public function __construct()
 
 		$this->validateData();
 
-$output .= "";
+$output .= "Welcome!";
  return $output; }
 
  } 

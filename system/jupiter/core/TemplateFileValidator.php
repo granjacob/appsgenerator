@@ -12,10 +12,7 @@ class TemplateFileValidator {
     public static function isXMLFile( $filename )
     {
         $pathinfo = pathinfo( $filename );
-        if ($pathinfo['extension'] === "xml") {
-            return true;
-        }
-        return false;
+        return $pathinfo['extension'] === "xml";
     }
 
     public static function isMultiTemplateFile( &$xml )
@@ -32,7 +29,7 @@ class TemplateFileValidator {
     {
         if ($xml != null || TemplateFileValidator::isXMLFile( $filenamePath ))
             return TemplateFileValidator::isXMLFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
-        return TemplateFileValidator::isSeedFileValidSigned( $xml, $filenamePath, $baseWorkingPath );
+        return TemplateFileValidator::isSeedFileValidSigned( $filenamePath, $baseWorkingPath );
     }
 
     public static function isXMLFileValidSigned(
@@ -111,8 +108,10 @@ class TemplateFileValidator {
         $defaultSeedFileExtension = "seed";
 
         $filenamePath = str_replace( '/', "\\", $filenamePath );
-        $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\" );
-
+        if ($baseWorkingPath !== null)
+            $baseWorkingPath = trim( str_replace( '/', "\\", $baseWorkingPath ), "\\" );
+        else
+            $baseWorkingPath = "";
         // $baseWorkingPath mas be in the first path of the $filenamePath
 
         // Seed file must be named as:
@@ -243,44 +242,11 @@ class TemplateFileValidator {
     public static function isValidTemplateFile($filename = null)
     {
 
-        $xml = new DOMDocument();
-
-        try {
-
-            if (self::isXMLFile( $filename )) {
-                $xml->load($filename);
-
-                if (self::isMultiTemplateFile( $xml ))
-                {
-                    $result = self::isMultiTemplateFileValidSigned( $xml );
-                }
-                else
-                if (self::isSingleTemplateFile( $xml )) {
-                    return self::isSingleTemplateFileValidSigned( $xml );
-                }
-            }
-            else
-            if (self::isSeedFile( $filename )) {
-                return self::isSeedFileValidSigned( $filename );
-            }
+        if (self::isXMLFile( $filename ) || self::isSeedFile( $filename )) {
+            return true;
         }
 
-        catch (Exception) {
-            return false;
-        }
-    /*    print 'filename = ' . $filename . endl();
-        $snippets = $xml->getElementsByTagName('snippets');
-
-        $result = false;
-        foreach ($snippets as $snippet) {
-
-            $result = ($snippet->getAttribute('package')  === $this->packageName &&
-                ($snippet->getAttribute('lang') === $this->language ||
-                    $snippet->getAttribute('language') === $this->language));
-
-        }
-        return $result;*/
-
+        return false;
     }
 }
 

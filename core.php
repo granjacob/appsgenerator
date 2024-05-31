@@ -59,14 +59,14 @@ function IO_printLine( $string=null, $maxRows=0  )
 {
     if ($maxRows === 0)
     {
-        print $string . endlbrk();
+        print $string . endl();
     }
     else {
         $i = 0;
         $k = 0;
         while ($i < strlen( $string )) {
             if ($k >= $maxRows && $string[$i] === ' ') {
-                print endlbrk();
+                print endl();
                 $k = 0;
             }
             print $string[$i];

@@ -40,7 +40,6 @@ class VariableToken extends TokenString
                 $matches = array();
                 $expr = preg_match_all("/\(([a-z|A-Z|0-9|\-|\_|\.]*)\)([a-z|A-Z|0-9|\-|\_]*)/", $varName, $matches);
 
-                print_r( $expr ); 
 
                 $snippetName = null;
                 $variableName = $varName;

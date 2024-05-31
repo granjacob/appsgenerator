@@ -74,7 +74,7 @@ class Package extends ArrayObject {
                     $newFile->filename = $pathinfo['filename'];
                     $newFile->filenameExtension = $pathinfo['extension'];
 
-                    if (strtolower( $newFile->filenameExtension ) !== "xml") {
+                    if (!TemplateFileValidator::isValidTemplateFile( $path )) {
                         throw new Exception("Non XML file found with name
                         '{$newFile->filename}.{$newFile->filenameExtension}'
                         .Templates must be defined on XML files only.");
@@ -99,7 +99,7 @@ class Package extends ArrayObject {
                     }
                     else {
                         throw new Exception("Bad signature on file
-                        <strong>{$newFile->filename}.xml</strong>, not a valid file for templates definition.
+                        <strong>{$path}</strong>, not a valid file for templates definition.
                         The file must be signed with the package '{$newFile->packageName}'
                          and language '{$newFile->language}' and if ");
                     }

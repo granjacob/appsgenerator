@@ -110,15 +110,16 @@ abstract class TokenString extends ArrayObject
 
         $snippets = null;
 
+        IO_printLine( 'Analyzing ' . $filename );
+
         if (TemplateFileValidator :: isXMLFile( $filename )) {
 
 
             $xml = new DOMDocument();
 
             $xml->load($filename);
-            print 'Analyzing ' . $filename . '<br/>';
-            if (!$xml->schemaValidate( 'xmldefs\snippets.xsd') &&
-                !$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
+            if (!@$xml->schemaValidate( 'xmldefs\snippets.xsd') &&
+                !@$xml->schemaValidate( 'xmldefs\snippet.xsd')) {
                 throw new Exception( "The XML template file '" . $filename .
                     "' is wrong defined.");
             }
@@ -519,7 +520,6 @@ abstract class TokenString extends ArrayObject
         // requires
         if ($fileBegins) {
             foreach ($uniqueSnippets as $fileName) {
-                print_r( $fileName );
                 if ($fileName !== null && $fileName->snippetName !== null) {
 
                     $output .= 'use '
