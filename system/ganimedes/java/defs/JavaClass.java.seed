@@ -1,0 +1,13 @@
+java.defs.JavaClass:java
+{{:accessModifier:}} class {{:ClassName:}} [[extends {{:parentClass:}}]] [[implements {{:implementsClassList:}}]]
+{
+    {{:(ClassAttribute)attributes:}}
+
+    {{:(JavaConstructor)constructor:}}
+
+    {{:(JavaMethod)methods:}}s
+
+    {{:(GetterMethod)attributes:}}
+
+    {{:(SetterMethod)attributes:}}
+}

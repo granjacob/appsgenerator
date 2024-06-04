@@ -88,8 +88,8 @@ abstract class TokenString extends ArrayObject
 
     public function addSnippet( Snippet $newSnippet )
     {
-        if (!isset( TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] )) {
-            TokenString::$snippets[$newSnippet->getSnippetNameWithPackage()] = $newSnippet;
+        if (!isset( TokenString::$snippets[$newSnippet->getSnippetKey()] )) {
+            TokenString::$snippets[$newSnippet->getSnippetKey()] = $newSnippet;
         }
         else {
             throw new Exception(
@@ -157,7 +157,7 @@ abstract class TokenString extends ArrayObject
                     $newSnippet = new Snippet();
                     $newSnippet->name = $snippet->getAttribute('name');
 
-
+                    $newSnippet->language = $this->language;
                     $newSnippet->snippetName = $snippet->getAttribute('name');
                     $newSnippet->packageName = trim($packageName);
                     $newSnippet->content = trim($snippet->nodeValue);
@@ -170,9 +170,16 @@ abstract class TokenString extends ArrayObject
         }
         else
         if (TemplateFileValidator :: isSeedFile( $filename )) {
-            if (TemplateFileValidator :: isSeedFileValidSigned( $filename, $this->mainPackageWherePath )) {
-                $seedFile = new SeedFile( $filename, $this->mainPackageWherePath );
+
+            $baseWorkingPath = IO_rtrim_string(
+                $this->baseWherePath,
+                getPackageNameAsPath( $this->packageName ),
+                1 );
+
+            if (TemplateFileValidator :: isSeedFileValidSigned( $filename, $baseWorkingPath )) {
+                $seedFile = new SeedFile( $filename, $baseWorkingPath );
                 $snippet = $seedFile->getAsSnippet();
+                $snippet->language = $this->language;
                 $this->addSnippet( $snippet );
             }
         }
@@ -337,6 +344,14 @@ abstract class TokenString extends ArrayObject
         return $this->packageName . '.' . $this->snippetName;
     }
 
+
+
+    public function getSnippetKey()
+    {
+
+        return $this->getSnippetNameWithPackage() . ':' . $this->language;
+    }
+
     public function make($expressionStr = null)
     {
 
@@ -344,7 +359,7 @@ abstract class TokenString extends ArrayObject
         $jsonStructure = "{}";
 
         if ($this->snippetName != null) {
-            $this->content = TokenString::$snippets[$this->getSnippetNameWithPackage()]->content;
+            $this->content = TokenString::$snippets[$this->getSnippetKey()]->content;
         }
 
         if ($expressionStr === null)
@@ -741,7 +756,11 @@ abstract class TokenString extends ArrayObject
 
                 $snippet->baseWherePath = $wherePath;
                 $snippet->mainPackageWherePath = 
-                    $wherePath . _bslash() . getPackageNameAsPath($snippet->packageName) . _bslash(); 
+                    $wherePath . _bslash()
+                                . $snippet->language
+                                . _bslash()
+                                . getPackageNameAsPath($snippet->packageName)
+                                . _bslash();
  
 
                 $snippet->snippetName = $snippet->name;

@@ -1,0 +1,50 @@
+org.springframework.service.ServiceImplementation:java
+package {{:serviceImplementationPackage:}};
+
+import {{:EntityPackage:}};
+import {{:RepositoryPackage:}};
+
+// Importing required classes
+[[{{:(Import)imports:}}]]
+
+// Annotation
+@Service
+
+// Class
+public class {{:EntityName:}}ServiceImpl
+    implements {{:EntityName:}}Service {
+
+    @Autowired
+    private {{:EntityName:}}Repository {{:EntityName:}}Repository;
+
+    // Save operation
+    @Override
+    public {{:EntityName:}} save{{:EntityName:}}({{:EntityName:}} {{:EntityName:}})
+    {
+        return {{:EntityName:}}Repository.save({{:EntityName:}});
+    }
+
+    // Read operation
+    @Override
+    public List<{{:EntityName:}}> fetch{{:EntityName:}}List()
+    {
+        return (List<{{:EntityName:}}>)
+            {{:EntityName:}}Repository.findAll();
+    }
+
+    // Update operation
+    @Override
+    public {{:EntityName:}}
+    update{{:EntityName:}}({{:EntityName:}} {{:EntityName:}},
+                     Long {{:EntityName:}}Id)
+    {
+        return null;
+    }
+
+    // Delete operation
+    @Override
+    public void delete{{:EntityName:}}ById(Long {{:EntityName:}}Id)
+    {
+        {{:EntityName:}}Repository.deleteById(d{{:EntityName:}}Id);
+    }
+}

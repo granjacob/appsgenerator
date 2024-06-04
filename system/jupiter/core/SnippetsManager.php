@@ -2,6 +2,7 @@
 
 namespace system\jupiter\core;
 
+use Codeception\Util\Template;
 use system\jupiter\core\Package;
 
 class SnippetsManager extends Snippet {
@@ -434,8 +435,14 @@ class SnippetsManager extends Snippet {
 
                 $pathinfo = pathinfo( $file );
 
+
                 if (!is_dir( $file )) {
+
+                    $language = TemplateFileValidator :: getLanguageFromFilename( $pathinfo );
+
+
                     $do = new Snippet();
+                    $do->language = $language;
                     $do->packageName = $package->name;
                     $do->snippetsXMLFile = $file;
                     $do->baseWherePath = $pathinfo['dirname'];
@@ -480,19 +487,4 @@ class SnippetsManager extends Snippet {
         return strtolower( $result );
     }
 
-    public function getPackageNameFromPath2( $path )
-    {
-        $pathinfo = pathinfo( $path );
-
-        $result = null;
-        if (isset( $pathinfo['extension'])) {
-            return $path;
-        }
-        else {
-            $result = str_replace( $this->mainPath, "", $path );
-            $result = ( str_replace( _bslash(), '.', trim( $result, _bslash() ) ) );
-        }
-
-        return $result;
-    }
 }

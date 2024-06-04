@@ -1,0 +1,26 @@
+org.springframework.service.ServiceInterface:java
+// Java Program to Demonstrate DepartmentService File
+
+// Importing required package to code fragment
+package {{:servicePackage:}};
+
+import {{:EntityPackage:}};
+// Importing required classes
+[[{{:(Import)imports:}}]]
+
+// Interface
+public interface {{:EntityName:}}Service {
+
+    // Save operation
+    {{:EntityName:}} save{{:EntityName:}}({{:EntityName:}} department);
+
+    // Read operation
+    List<{{:EntityName:}}> fetch{{:EntityName:}}List();
+
+    // Update operation
+    {{:EntityName:}} updateDepartment({{:EntityName:}} department,
+                                Long departmentId);
+
+    // Delete operation
+    void deleteDepartmentById(Long departmentId);
+}

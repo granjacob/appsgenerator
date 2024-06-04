@@ -1,0 +1,7 @@
+java.defs.JavaMethod:java
+{{:(JavaAnnotation)annotations:}}
+{{:accessModifier:}} [[{{:static:}}]] {{:returnType:}} {{:methodName:}}( [[{{:(MethodParameter)parameters:}}]])
+    [[throws {{:(ClassList)exceptionsList:}}]]
+{
+    {{:methodBody:}}
+}

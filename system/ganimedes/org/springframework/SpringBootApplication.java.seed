@@ -1,0 +1,14 @@
+org.springframework.SpringBootApplication:java
+package {{:packageName:}};
+
+{{:(Import)imports:}}
+
+{{:(Annotation)annotations:}}
+public class {{:className:}} {
+
+  public static void main(String[] args) {
+    {{:className:}}.run({{:className:}}.class, args);
+  }
+
+  {{:(JavaMethod)otherMethods:}}
+}

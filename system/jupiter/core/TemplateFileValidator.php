@@ -103,6 +103,22 @@ class TemplateFileValidator {
 
     }
 
+    public static function getLanguageFromFilename( $filenamePath_or_PathInfo )
+    {
+        if (is_array( $filenamePath_or_PathInfo ) && isset( $filenamePath_or_PathInfo['filename'] )) {
+            $parts = explode( ".", $filenamePath_or_PathInfo['filename'] );
+            if (count( $parts ) === 2)
+                return $parts[1];
+        }
+        else if (is_array( $$filenamePath_or_PathInfo ) && !isset( $filenamePath_or_PathInfo['filename'] )) {
+            return null;
+        }
+        else {
+            return self::getLanguageFromFilename( pathinfo( $filenamePath_or_PathInfo ) );
+        }
+        return null;
+    }
+
     public static function isSeedFileValidSigned( $filenamePath, $baseWorkingPath, $signature=null )
     {
         $defaultSeedFileExtension = "seed";
@@ -202,28 +218,6 @@ class TemplateFileValidator {
 
     }
 
-/*
-    public static function isValidXMLFile( $filename  )
-    {
-        $xml = new DOMDocument();
-        $xml->load($filename);
-
-        if (!$xml->schemaValidate( "xmldefs\snippets.xsd" ))
-        {
-            return false;   // not valid multitemplate file
-        }
-        else {
-            return self :: isMultiTemplateFileValidSigned( $xml );
-        }
-
-        if (!$xml->schemaValidate( "xmldefs\snippet.xsd" )) {
-            return false;
-        }
-        else {
-
-        }
-        return true;
-    }*/
 
     public static function isSeedFile( $filename )
     {
