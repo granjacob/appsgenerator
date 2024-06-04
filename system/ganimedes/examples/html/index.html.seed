@@ -1,0 +1,13 @@
+examples.html.index:html
+<!doctype html>
+<html>
+    {{:(CSSImport)cssImports:}}
+    {{:(JavascriptImport)jsImports:}}
+    {{:(StylesheetImport)stylesheets:}}
+    <head>
+        {{:(HelloWorld)helloWorldScript:}}
+    </head>
+    <body>
+        {{:body:}}
+    </body>
+</html>

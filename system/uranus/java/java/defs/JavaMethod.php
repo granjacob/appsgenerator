@@ -3,7 +3,6 @@
 namespace system\uranus\java\java\defs;
 use system\jupiter\core\GeneratorClass;
 use system\uranus\java\defs\JavaAnnotation;
-use system\uranus\java\defs\AccessModifier;
 use system\uranus\java\defs\MethodParameter;
 use system\uranus\java\defs\ClassList;
 
@@ -14,8 +13,7 @@ use system\uranus\java\defs\ClassList;
 	$varannotations = new JavaAnnotation();
 	$varJavaMethod->addAnnotationsItem( $varAnnotationsItem );
 
-	$varaccessModifier = new AccessModifier();
-	$varJavaMethod->addAccessModifierItem( $varAccessModifierItem );
+	$varJavaMethod->setAccessModifier("JavaMethod_accessModifier_EXAMPLE");
 
 	$varJavaMethod->setStatic("JavaMethod_static_EXAMPLE");
 
@@ -61,7 +59,7 @@ public function __construct()
 
 	$this->annotations =  new JavaAnnotation();
 
-	$this->accessModifier =  new AccessModifier();
+	$this->accessModifier =  null;
 
 	$this->static =  null;
 
@@ -84,7 +82,7 @@ public function __construct()
 return $this; 
 }
 
-	public function setAccessModifier( AccessModifier $accessModifier)
+	public function setAccessModifier(  $accessModifier)
 {
 
 		 $this->accessModifier = $accessModifier;
@@ -188,13 +186,6 @@ return $this;
 return $this; 
 }
 
-	public function addAccessModifierItem( AccessModifier $item )
-{
-
-		$this->accessModifier->append( clone $item);
-return $this; 
-}
-
 	public function addParametersItem( MethodParameter $item )
 {
 
@@ -218,10 +209,7 @@ return $this;
 $output .= $this->writeArrayObject( $this->annotations, JavaAnnotation::class );
 
 $output .= "";
-$output .= "";		
-$output .= $this->writeArrayObject( $this->accessModifier, AccessModifier::class );
-
-$output .= " ";
+$output .= "{$this->accessModifier} ";
 if (($this->verifyOptionalExpression($this->static))) {
 
 
