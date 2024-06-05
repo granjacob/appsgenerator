@@ -1,0 +1,6 @@
+examples.html.table.TableHeader:html
+<thead {{:(HTMLTagAttribute)attributes:}}>
+    <tr  {{:(HTMLTagAttribute)attributes:}}>
+        {{:(TableColumn)columns:}}
+    </tr>
+</thead>

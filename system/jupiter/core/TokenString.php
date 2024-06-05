@@ -15,6 +15,7 @@ abstract class TokenString extends ArrayObject
 
     public abstract static function analyze(&$token, $expressionStr, &$i, bool &$addSingleToken, string &$singleToken );
 
+    public $filename;
 
     public $baseWherePath;
     public $mainPackageWherePath;
@@ -155,6 +156,7 @@ abstract class TokenString extends ArrayObject
             if ($snippets->length > 0) {
                 foreach ($snippets as $snippet) {
                     $newSnippet = new Snippet();
+                    $newSnippet->filename = $filename;
                     $newSnippet->name = $snippet->getAttribute('name');
 
                     $newSnippet->language = $this->language;
@@ -180,6 +182,7 @@ abstract class TokenString extends ArrayObject
                 $seedFile = new SeedFile( $filename, $baseWorkingPath );
                 $snippet = $seedFile->getAsSnippet();
                 $snippet->language = $this->language;
+                $snippet->filename = $filename;
                 $this->addSnippet( $snippet );
             }
         }
@@ -365,7 +368,7 @@ abstract class TokenString extends ArrayObject
         if ($expressionStr === null)
             $expressionStr = $this->content;
 
-        if (!TokenStringValidator :: validateExpression($expressionStr)) {
+        if (!TokenStringValidator :: validateExpression($expressionStr, $this->filename )) {
             return false;
         }
 

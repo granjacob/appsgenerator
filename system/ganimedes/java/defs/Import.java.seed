@@ -1,2 +1,5 @@
 java.defs.Import:java
 import {{:packageName:}};
+{{:(VALVOA)item:}}
+Otras cositas aqui...
+{{:(cpp.examples.HelloWorld)prueba:}}

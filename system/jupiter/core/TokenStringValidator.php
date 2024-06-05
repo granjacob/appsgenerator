@@ -7,7 +7,7 @@ use system\jupiter\core\ConditionalToken;
 class TokenStringValidator {
 
 
-    public static function validateExpression($expressionStr = null)
+    public static function validateExpression($expressionStr = null, $whichFile=null)
     {
         global $defaultConditionals;
 
@@ -49,7 +49,7 @@ class TokenStringValidator {
                 }
 
                 if ($evalExpr_condDefClose !== COND_DEF_CLOSE) {
-                    logSyntaxError('ConditionalToken is not correctly defined.', $expressionStr, $i);
+                    logSyntaxError('ConditionalToken is not correctly defined.', $expressionStr, $i, $whichFile);
                     return false;
                 }
 
@@ -70,7 +70,7 @@ class TokenStringValidator {
                 if (!$hasConditional || ($hasConditional && !$hasExpression)) {
                     logSyntaxError(
                         'ConditionalToken has not a valid conditional expression.',
-                        $expressionStr, $i
+                        $expressionStr, $i, $whichFile
                     );
                     return false;
                 }
@@ -92,7 +92,7 @@ class TokenStringValidator {
             // variable definition close
             if ($evalExpr_varDefClose === VAR_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 0) {
                 if ($currentVariableLength == 0) {
-                    logSyntaxError('Variable definition cannot have an empty name.', $expressionStr, $i);
+                    logSyntaxError('Variable definition cannot have an empty name.', $expressionStr, $i, $whichFile);
 
                     return false;   // --> variable doesn't have name
                 }
@@ -112,7 +112,7 @@ class TokenStringValidator {
             }
             if ($evalExpr_typeDefClose === TYPE_DEF_CLOSE && $countValidationVar == 1 && $countValidationType == 1) {
                 if ($currentTypeLength == 0) {
-                    logSyntaxError('Type definition cannot have an empty name.', $expressionStr, $i);
+                    logSyntaxError('Type definition cannot have an empty name.', $expressionStr, $i, $whichFile);
 
                     return false;   // --> variable doesn't have name
                 }
@@ -127,7 +127,7 @@ class TokenStringValidator {
                 $countValidationVar == 1 &&
                 $countValidationType == 1) {
 
-                logSyntaxError('Variable type specified not valid.', $expressionStr, $i);
+                logSyntaxError('Variable type specified not valid.', $expressionStr, $i, $whichFile);
 
                 return false;
             } else
@@ -140,7 +140,7 @@ class TokenStringValidator {
                 $countValidationVar == 1 &&
                 $countValidationType == 0) {
 
-                logSyntaxError('Variable name not valid.', $expressionStr, $i);
+                logSyntaxError('Variable name not valid.', $expressionStr, $i, $whichFile);
 
                 return false;
             } else
@@ -160,7 +160,7 @@ class TokenStringValidator {
                 logSyntaxError(
                     'Cannot open an optional definition (' . OPT_DEF_OPEN . ') inside a variable.',
                     $expressionStr,
-                    $i
+                    $i, $whichFile
                 );
 
                 return false;
@@ -177,7 +177,7 @@ class TokenStringValidator {
                 logSyntaxError(
                     'Syntax error: Cannot close an optional section "'
                     . OPT_DEF_CLOSE . '" without open it before.',
-                    $expressionStr, $i
+                    $expressionStr, $i, $whichFile
                 );
 
                 return false;
@@ -193,19 +193,20 @@ class TokenStringValidator {
         ) {
             return true;
         } else {
+            print '<strong>File></strong> ' . $whichFile . endlbrk();
             if ($countValidationVar !== 0) {
-                print '<strong>Check></strong>Some variable definition is wrong.';
+                print '<strong>Check></strong> Some variable definition is wrong.';
                 exit;
             }
 
 
             if ($countValidationType !== 0) {
-                print '<strong>Check></strong>Some variable type is wrong.';
+                print '<strong>Check></strong> Some variable type is wrong.';
                 exit;
             }
 
             if ($countValidationOpt !== 0) {
-                print '<strong>Check></strong>Some optional expression is not correctly defined.';
+                print '<strong>Check></strong> Some optional expression is not correctly defined.';
                 exit;
             }
 

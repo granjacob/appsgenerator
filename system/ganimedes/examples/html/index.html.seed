@@ -6,8 +6,9 @@ examples.html.index:html
     {{:(StylesheetImport)stylesheets:}}
     <head>
         {{:(HelloWorld)helloWorldScript:}}
+        {{:(CSSBlock)cssScripts:}}
     </head>
     <body>
-        {{:body:}}
+        {{:(HTMLBody)body:}}
     </body>
 </html>

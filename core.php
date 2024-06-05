@@ -204,8 +204,10 @@ function endlbrk($times = 1)
     return endl( $times ) . htmlbrk( $times  );
 }
 
-function logSyntaxError($msg, $expressionStr, $currentIndex)
+function logSyntaxError($msg, $expressionStr, $currentIndex, $whichFile=null)
 {
+    print endl();
+    IO_printLine( ($whichFile === null ? 'Not available.' : $whichFile)  );
     print '<strong>Syntax error:</strong> ' . $msg . "<br/>\n";
     print '<strong>Check></strong> "'
         . substr(

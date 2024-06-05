@@ -1,0 +1,23 @@
+examples.html.Sample:html
+<html>
+  <head>
+    <title>{{:title:}}</title>
+  </head>
+  <body>
+    <h1>{{:title:}}</h1>
+    <p>
+      <a href="{{:urlHref:}}">La pagina de de contribucion de freeCodeCamp</a> te muestra como y donde puedes
+      contribuir a la comunidad y al crecimiento de freeCodeCamp.
+    </p>
+
+
+
+
+    {{:(AImage)image:}}
+
+
+
+
+
+  </body>
+</html>

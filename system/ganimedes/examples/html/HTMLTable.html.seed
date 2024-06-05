@@ -1,0 +1,6 @@
+examples.html.HTMLTable:html
+<table  {{:(HTMLTagAttribute)tableAttributes:}}>
+    {{:(TableHeader)headers:}}
+    {{:(TableBody)bodys:}}
+    {{:(TableFooter)footers:}}
+</table>

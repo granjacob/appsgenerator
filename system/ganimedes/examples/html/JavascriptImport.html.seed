@@ -1,0 +1,2 @@
+examples.html.JavascriptImport:html
+<script [[type={{:("text/javascript")type:}}]] [[src="{{:sourceFilename:}}"]] [[language={{:("javascript")language:}}]]></script>

@@ -1,0 +1,4 @@
+examples.html.AImage:html
+<a href="{{:imageLink:}}">
+      <img itemprop="image" style="height: {{:height:}};" src="{{:imageSrc:}}" alt="{{:imageAlt:}}">
+    </a>
